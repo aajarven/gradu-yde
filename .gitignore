@@ -5,3 +5,5 @@ test*
 *.log
 *.synctex.gz
 *.toc
+*.bak
+.nfs*
