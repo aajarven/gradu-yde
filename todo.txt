@@ -1,0 +1,21 @@
+- hubble flow:
+   - few examples
+   - yhteenvetoplotti
+   - 
+
+- velocity dispersion
+   - good, neljä plottia erikseen hyvä
+
+- anisotropy mollweide
+   - multiple plots (9?) with different volumes
+   - absolute velocities too (see filaments etc)
+
+- grouping
+   - no need to repeat mollweide for multiple simulations
+   - show same volume with multiple eps and ms
+   - eps and ms in one 3d plot
+
+Meeting after these:
+H0 and r0 distributions, their correlation?
+LG mass vs r0 where LG mass is either MW+A or everything within r0
+thesis outline, lisää otsikoita ja muutaman kappaleen kuvauksia what goes int
