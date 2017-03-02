@@ -213,7 +213,7 @@
   \def\today{\number\day.\number\month.\number\year}}
 \newcommand{\level}[1]{\gdef\@level{#1}}
 \level{}
-\newcommand{\prof}[1]{\gdef\@prof{#1}}
+\newcommand{\prof}[2]{\gdef\@prof{#1\\&#2}}
 \newcommand{\address}[1]{\gdef\@address{#1}}
 \newcommand{\censors}[3]{\gdef\@censor{#1\\&#2\\&#3}}
 \newcommand{\quoting}[1]{\gdef\@quoting{#1}}
