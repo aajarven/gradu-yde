@@ -16,6 +16,6 @@
    - eps and ms in one 3d plot
 
 Meeting after these:
-H0 and r0 distributions, their correlation?
-LG mass vs r0 where LG mass is either MW+A or everything within r0
-thesis outline, lisää otsikoita ja muutaman kappaleen kuvauksia what goes int
+[X] H0 and r0 distributions, their correlation?
+[X] LG mass vs r0 where LG mass is either MW+A or everything within r0
+[X] thesis outline, lisää otsikoita ja muutaman kappaleen kuvauksia what goes int
