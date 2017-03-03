@@ -15,7 +15,37 @@
    - show same volume with multiple eps and ms
    - eps and ms in one 3d plot
 
+- include error bars on new plots (H0 vs r0, LG mass cs r0)
+
 Meeting after these:
 [X] H0 and r0 distributions, their correlation?
 [X] LG mass vs r0 where LG mass is either MW+A or everything within r0
 [X] thesis outline, lisää otsikoita ja muutaman kappaleen kuvauksia what goes int
+
+[ ] refine table of contents, 2*theory and 2*results
+
+Simulation has same parameters as EAGLE
+800 Mpc volume used
+schaye 2015 paper
+DM-only parts: Volker-Springer Gadget and Gadget 2 papers 1999 and 2005 or something, gravity part is more interesting than SPH
+Zooms can use multiple meshes, only one is used here
+gravitational softening
+
+analysis techniques:
+- fucking everything, starting from fitting lines and going out to clustering and stuff like that
+
+include subfind description, thesis of iannuzzi
+merger trees
+
+Fattahi paper introduction contains interesting theorythingies
+
+Hubble flow coldness/hotness
+
+Li, yang, masses for the LG and the MW
+
+2. structure formation, sigma8, integrating tophat
+combine 2 and 3 to have one theory chapter
+statistical analysis thingies
+
+For meeting:
+- 
