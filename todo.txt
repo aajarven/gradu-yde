@@ -28,3 +28,4 @@ For meeting:
 
 Open questions:
 - Split between theory and actual work does not seem to be very strict in Antti's and Nata's works: for example GADGET is described in sect 6 and FoF in sect 4. How strict should I be?
+- ApJ tms viittaustyyli
