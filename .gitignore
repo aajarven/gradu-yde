@@ -6,4 +6,6 @@ test*
 *.synctex.gz
 *.toc
 *.bak
+*.bbl
+*.blg
 .nfs*

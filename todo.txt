@@ -20,11 +20,9 @@
 Meeting after these:
 [X] H0 and r0 distributions, their correlation?
 [X] LG mass vs r0 where LG mass is either MW+A or everything within r0
-[X] thesis outline, lisää otsikoita ja muutaman kappaleen kuvauksia what goes int
-[X] refine table of contents, 2*theory and 2*results
+
+- citation style either from ApJ or another journal
 
 For meeting:
 -
 
-Open questions:
-- Split between theory and actual work does not seem to be very strict in Antti's and Nata's works: for example GADGET is described in sect 6 and FoF in sect 4. How strict should I be?
