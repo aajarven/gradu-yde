@@ -10,7 +10,7 @@
 %\usepackage{tikz} % For making vector graphics (hard to learn but powerful)
 %\usepackage{wrapfig} % For nice text-wrapping figures (use at own discretion)
 \usepackage{amsmath, amssymb} % For better math
-\usepackage[round]{natbib} % For bibliography
+\usepackage[square,sort,colon]{natbib} % For bibliography
 \usepackage[footnotesize,bf]{caption} % For more control over figure captions
 \fussy % Probably not needed but you never know...
 
@@ -138,17 +138,17 @@ What is, where seen, what means, how to measure, hotness/coldness
 Plot: observations with fitted hubble flow
 
 
-\section{Mathematical and statistical methods}
+\chapter{Mathematical and statistical methods}
 Precision of the used equipment limits accuracy of all data gathered from physical experiments, simulations or observations. Therefore the results are affected by the measurement process and the results have to be presented as estimates with some error, magnitude of which is affected by both number of data points and accuracy of the measurement equipment. \citep{bohm2010introduction}
 
 Estimating errors for measured quantities offers a way to test hypotheses and compare different experiments\citep{bohm2010introduction}. This is done using different statistical methods, a few of which are covered here. Methods used in this work are shortly introduced in the following sections.
 
-\subsection{Regression Analysis}
+\section{Regression Analysis}
 line fitting and other trivial things
 
-\subsection{Error analysis}
+\section{Error analysis}
 
-\subsection{Goodness of fit testing}
+\section{Goodness of fit testing}
 A common situation in scientific research is that one has to compare a sample to either a model or another sample in order to derive a conclusion from the dataset. In statistics, this is known as hypothesis testing. For example, this can mean testing hypotheses like ''these two variables are not correlated'' or ''this sample is from a population with a mean of 1.0''. \citep{wall2003practical} Next paragraphs shortly introduce the basic concept of hypothesis testing and methods that can used to test the hypothesis ''these two samples are drawn from the same distribution''.
 
 Typically the process of hypothesis testing begins with forming of null hypothesis $H_0$ that is formatted such that the aim for the next steps is to either reject it or deduce that it cannot be rejected with a chosen significance level. Negation of the null hypothesis is often called research hypothesis or alternative hypothesis and denoted as $H_1$. For example, this can lead to $H_0$ ''this dataset is sampled from a normal distribution'' and $H_1$ ''this dataset is not sampled from a normal distribution''. Choosing the hypotheses in this manner is done because often the research hypothesis is difficult to define otherwise. \citep{bohm2010introduction, wall2003practical}
@@ -156,7 +156,7 @@ Typically the process of hypothesis testing begins with forming of null hypothes
 After setting the hypotheses one must choose an appropriate test statistic. Ideally this is chosen such that the difference between cases $H_0$ and $H_1$ is as large as possible. Then one must choose 
 the significance level $\alpha$ which corresponds to the probability of rejecting $H_0$ in the case where $H_0$ actually is true. This fixes the critical region i.e. the values of test statistic that lead to the rejection of the $H_0$. \citep{bohm2010introduction, wall2003practical}
 
-It is crucial not to look at the test results before choosing $\alpha$ in order to avoid intentional or unintentional fiddling with the data or shifting the goalposts. Only after these steps should the test statistic be calculated. If the test statistic falls within the critical region, $H_0$ should be rejected and otherwise stated that $H_0$ cannot be rejected at this significance level. \citep{bohm2010introduction, wall2003practical}
+It is crucial not to look at the test results before choosing $\alpha$ in order to avoid intentional or unintentional fiddling with the data or changing the criterion of acceptance or rejectance to give desired results. Only after these steps should the test statistic be calculated. If the test statistic falls within the critical region, $H_0$ should be rejected and otherwise stated that $H_0$ cannot be rejected at this significance level. \citep{bohm2010introduction, wall2003practical}
 
 This kind of probability based decision making is always prone to error. It is easy to see that $\alpha$ corresponds to the chance of $H_0$ being rejected when it is true. This is known as error of the first kind. However, this is not the only kind of error possible. It might also occur that $H_0$ is false but it does not get rejected, which is known as error of the second kind. \citep{bohm2010introduction}
 
@@ -165,9 +165,18 @@ Despite statistical tests having a binary outcome ''$H_0$ rejected'' or ''$H_0$ 
 % mietippä tätä otsikkoa vielä
 \subsection{Comparing two samples drawn from unknown distributions}
 
-A common question in multiple fields of science is whether two or more samples are drawn from the same distribution. This can occur for example when comparing effectiveness of two procedures, determining if instrument has changed over time or whether observed data is compatible with simulations. There are multiple two-sample tests that can address this kind of questions, e.g. $\chi^2$ test and Kolmogorov-Smirnov test. \citep{bohm2010introduction}
+A common question in multiple fields of science is whether two or more samples are drawn from the same distribution. This can occur for example when comparing effectiveness of two procedures, determining if instrument has changed over time or whether observed data is compatible with simulations. There are multiple two-sample tests that can address this kind of questions, e.g. $\chi^2$, Kolmogorov-Smirnov, Cram\'er-von Mises and Anderson-Darling tests. \citep{bohm2010introduction, feigelson2012modern}
 
-[describe at least ks in detail here, preferably with a nice picture]
+All of these compare empirical distribution functions of the samples except the $\chi^2$, which uses binned or categorical data and compares numbers of samples in different categories. [kerro tässä tai muualla edf:stä. ehkä kuva edf:stä? esim parille normaalijakaumalle, tophatille ja poissonille tms?]. In addition to comparing two samples, these tests can be used as one-sample tests to determine whether it is expected that the sample is from a particular distribution. Some precautions %TODO: feigelssonin rajoitukset KS:lle ja muille, kerro tarkemmin tuolla mutta hinttaa jo tässä olemassaolosta
+\citep{feigelson2012modern}
+
+For astronomers the most well-known of these tests is the Kolmogorov-Smirnov test, which is also known as the KS test. Test statistic is calculated based on empirical distribution functions $\hat{F}_1$ and $\hat{F}_2$ derived from two samples and the test statistic
+\begin{equation}
+	D = \sup_{x} |\hat{F}_1(x) - \hat{F}_2(x)|
+\end{equation}
+uses the maximum vertical distance of the e.d.f's as shown in [ehdottomasti kuva tähän]. \citep{feigelson2012modern, bohm2010introduction}
+
+
 
 
 \section{Cluster Analysis}
@@ -200,55 +209,55 @@ criteria, how many found, what are like (some plots maybe? distributions of mass
 \section{Local Anisotropy of the Hubble Flow}
 Hopefully there's something at least mildly interesting to report when I get to look at the new data
 
-%\subsection{Hubble Flow Fitting}
-
-\begin{figure}
-   \centering
-   \includegraphics[width=\textwidth]{kuvat/hubbleflow.png}
-   \caption{Radial velocities of haloes as a function of distance. Best fit to Hubble flow shown with solid line. Nearby points ignored when fitting shown in gray.}\label{fig:hubbleflow}
-\end{figure}
-
-\begin{figure}
-   \centering
-   \includegraphics[width=\textwidth]{kuvat/hubbleflow-colour.png}
-   \caption{Hubble flow with colours depicting angular disstance from line connecting Milky Way and Andromeda counterparts in simulation.}\label{fig:hubbleflow-colour}
-\end{figure}
-
-\begin{figure}
-   \centering
-   \includegraphics[width=\textwidth]{kuvat/velocitydispersion.png}
-   \caption{Velocity dispersion of Hubble flow.}\label{fig:velocitydispersion}
-\end{figure}
-
-\begin{figure}
-   \centering
-   \includegraphics[width=\textwidth]{kuvat/anisotropy-aligned.png}
-   \caption{Haloes with distances between 2 and 5 Mpc as seen from Mily Way counterpart in simulation. Colours depict deviations from best linear Hubble flow fit ignoring haloes up to 2 Mpc away, blue end meaning haloes coming closer faster than expected and redder colours moving away.}\label{fig:anisotropymap}
-\end{figure}
-
-\begin{figure}
-   \centering
-   \includegraphics[width=\textwidth]{kuvat/clustering-ms5eps2.png}
-   \caption{Dark matter haloes with distances from 2 to 5 Mpc grouped to clusters using DBSCAN clustering algorithm. Parameters used for this plot were ms=5 and eps=2.}\label{fig:clustering}
-\end{figure}
-
-\begin{figure}
-   \centering
-   \includegraphics[width=\textwidth]{kuvat/eps-02.png}
-   \caption{Median number of clusters found with constant eps on different minsamples.}\label{fig:epseffect}
-\end{figure}
-
-\begin{figure}
-   \centering
-   \includegraphics[width=\textwidth]{kuvat/ms-5.png}
-   \caption{Mean number of clusters found with constant ms on different eps.}\label{fig:mseffect}
-\end{figure}
-
-\begin{figure}
-   \centering
-   \includegraphics[width=\textwidth]{kuvat/diststd-113.png}
-   \caption{Standard deviation of velocities within cluster as a function of distance.}\label{fig:diststd}
-\end{figure}
+\subsection{Hubble Flow Fitting}
+%
+%\begin{figure}
+%   \centering
+%   \includegraphics[width=\textwidth]{kuvat/hubbleflow.png}
+%   \caption{Radial velocities of haloes as a function of distance. Best fit to Hubble flow shown with solid line. Nearby points ignored when fitting shown in gray.}\label{fig:hubbleflow}
+%\end{figure}
+%
+%\begin{figure}
+%   \centering
+%   \includegraphics[width=\textwidth]{kuvat/hubbleflow-colour.png}
+%   \caption{Hubble flow with colours depicting angular disstance from line connecting Milky Way and Andromeda counterparts in simulation.}\label{fig:hubbleflow-colour}
+%\end{figure}
+%
+%\begin{figure}
+%   \centering
+%   \includegraphics[width=\textwidth]{kuvat/velocitydispersion.png}
+%   \caption{Velocity dispersion of Hubble flow.}\label{fig:velocitydispersion}
+%\end{figure}
+%
+%\begin{figure}
+%   \centering
+%   \includegraphics[width=\textwidth]{kuvat/anisotropy-aligned.png}
+%   \caption{Haloes with distances between 2 and 5 Mpc as seen from Mily Way counterpart in simulation. Colours depict deviations from best linear Hubble flow fit ignoring haloes up to 2 Mpc away, blue end meaning haloes coming closer faster than expected and redder colours moving away.}\label{fig:anisotropymap}
+%\end{figure}
+%
+%\begin{figure}
+%   \centering
+%   \includegraphics[width=\textwidth]{kuvat/clustering-ms5eps2.png}
+%   \caption{Dark matter haloes with distances from 2 to 5 Mpc grouped to clusters using DBSCAN clustering algorithm. Parameters used for this plot were ms=5 and eps=2.}\label{fig:clustering}
+%\end{figure}
+%
+%\begin{figure}
+%   \centering
+%   \includegraphics[width=\textwidth]{kuvat/eps-02.png}
+%   \caption{Median number of clusters found with constant eps on different minsamples.}\label{fig:epseffect}
+%\end{figure}
+%
+%\begin{figure}
+%   \centering
+%   \includegraphics[width=\textwidth]{kuvat/ms-5.png}
+%   \caption{Mean number of clusters found with constant ms on different eps.}\label{fig:mseffect}
+%\end{figure}
+%
+%\begin{figure}
+%   \centering
+%   \includegraphics[width=\textwidth]{kuvat/diststd-113.png}
+%   \caption{Standard deviation of velocities within cluster as a function of distance.}\label{fig:diststd}
+%\end{figure}
 
 \section{Statistical Estimate of the Local Group Mass}
 Analysis similar to Fattahi et al 2016 paper
@@ -275,7 +284,7 @@ Analysis similar to Fattahi et al 2016 paper
 
 \clearpage
 \addcontentsline{toc}{chapter}{Bibliography} % This lines adds the bibliography to the ToC
-\bibliographystyle{plain}
+\bibliographystyle{plainnat}
 \bibliography{lahteet}
 
 
