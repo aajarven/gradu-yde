@@ -9,3 +9,4 @@ test*
 *.bbl
 *.blg
 .nfs*
+*.fuse_hidden*
