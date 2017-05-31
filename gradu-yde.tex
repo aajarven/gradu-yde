@@ -170,6 +170,13 @@ A common question in multiple fields of science is whether two or more samples a
 All of these compare empirical distribution functions of the samples except the $\chi^2$, which uses binned or categorical data and compares numbers of samples in different categories. [kerro tässä tai muualla edf:stä. ehkä kuva edf:stä? esim parille normaalijakaumalle, tophatille ja poissonille tms?]. In addition to comparing two samples, these tests can be used as one-sample tests to determine whether it is expected that the sample is from a particular distribution. However, some restrictions apply when using the one-sample variants. %TODO: feigelssonin rajoitukset KS:lle ja muille, kerro tarkemmin tuolla mutta hinttaa jo tässä olemassaolosta
 \citep{feigelson2012modern}
 
+\begin{figure}
+   \centering
+   \includegraphics[width=\textwidth]{kuvat/edf.png}
+   \caption{Empirical distribution function for four random samples drawn from different normal distributions.}
+   \label{fig:edf}
+\end{figure}
+
 For astronomers the most well-known of these tests is the Kolmogorov-Smirnov test, which is also known as the KS test. Test statistic is calculated based on empirical distribution functions $\hat{F}_1$ and $\hat{F}_2$ derived from two samples and the test statistic
 \begin{equation}
 	D = \sup_{x} |\hat{F}_1(x) - \hat{F}_2(x)|
