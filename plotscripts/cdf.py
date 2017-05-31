@@ -72,7 +72,7 @@ rc('font', **{'family':'serif','serif':['Palatino']})
 rc('text', usetex=True)
 
 F = pylab.gcf()
-F.set_size_inches(5.90666, 8)
+F.set_size_inches(5.9, 6)
 
 #plt.show()
 plt.savefig('../kuvat/cdf.png')
