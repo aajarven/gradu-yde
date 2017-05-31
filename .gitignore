@@ -10,3 +10,4 @@ test*
 *.blg
 .nfs*
 *.fuse_hidden*
+*.swp
