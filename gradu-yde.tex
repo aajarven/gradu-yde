@@ -167,7 +167,24 @@ Despite statistical tests having a binary outcome ''$H_0$ rejected'' or ''$H_0$ 
 
 A common question in multiple fields of science is whether two or more samples are drawn from the same distribution. This can occur for example when comparing effectiveness of two procedures, determining if instrument has changed over time or whether observed data is compatible with simulations. There are multiple two-sample tests that can address this kind of questions, e.g. $\chi^2$, Kolmogorov-Smirnov, Cram\'er-von Mises and Anderson-Darling tests. \citep{bohm2010introduction, feigelson2012modern}
 
-All of these compare empirical distribution functions of the samples except the $\chi^2$, which uses binned or categorical data and compares numbers of samples in different categories. [kerro tässä tai muualla edf:stä. ehkä kuva edf:stä? esim parille normaalijakaumalle, tophatille ja poissonille tms?]. In addition to comparing two samples, these tests can be used as one-sample tests to determine whether it is expected that the sample is from a particular distribution. However, some restrictions apply when using the one-sample variants. %TODO: feigelssonin rajoitukset KS:lle ja muille, kerro tarkemmin tuolla mutta hinttaa jo tässä olemassaolosta
+Out of these,the  $\chi^2$ test uses categorical data, for example ''number of data points between values 1.5 and 1.6'' or ''number of galaxies that are active'', and compares numbers of samples in different categories whereas the others compare empirical distribution functions (EDF) of the datasets. \cite{feigelson2012modern}
+
+%TODO
+TODO: mietippä pitäisikö seuraavat kappaleet siirtää ja jos niin minne
+
+To understand EDF, one must first be familiar with probability density function (PDF) and cumulative distribution function (CDF). As the name suggests, PDF is a function the value of which at some point $x$ represents the likelihood that the value of the random variable would equal $x$. Naturally for continuous functions the probability of drawing any single value from the distribution is zero, so these values should be interpreted as depicting relative likelihood of different values. For example if $\mathrm{PDF}(a)=0.3$ and $\mathrm{PDF}(b)=0.6$ we can say that drawing value $a$ is twice as likely as drawing value $b$. \citep{htk}
+
+Another way to use the PDF is to integrate it over semi closed interval from negative infinity to some value $a$ to obtain CDF, which gives the probability of a random value drawn from the distribution having value that is smaller than $a$. %TODO jatka tähän
+
+
+\begin{figure}
+   \centering
+   \includegraphics[width=0.8\textwidth]{kuvat/cdf.png}
+   \caption{Cumulative distribution function for three random samples drawn from different distributions, two of which are normal and one is uniform.}
+   \label{fig:cdf}
+\end{figure}
+
+In addition to comparing two samples, these tests can be used as one-sample tests to determine whether it is expected that the sample is from a particular distribution. However, some restrictions apply when using the one-sample variants.
 \citep{feigelson2012modern}
 
 \begin{figure}
@@ -181,7 +198,7 @@ For astronomers the most well-known of these tests is the Kolmogorov-Smirnov tes
 \begin{equation}
 	D = \sup_{x} |\hat{F}_1(x) - \hat{F}_2(x)|
 \end{equation}
-uses the maximum vertical distance of the e.d.f's as shown in [ehdottomasti kuva tähän]. \citep{feigelson2012modern, bohm2010introduction}
+uses the maximum vertical distance of the e.d.f's as shown in [ehdottomasti kuva tähän]. \citep{feigelson2012modern, bohm2010introduction} %TODO feigelssonin rajoitukset KS:lle ja muille, kerro tarkemmin tuolla mutta hinttaa jo tässä olemassaolosta
 
 
 
