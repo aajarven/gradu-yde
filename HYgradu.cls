@@ -96,7 +96,8 @@
   \else
     \geometry{top=3.0cm, left=4.3cm, right=1.7cm,
               textwidth=15cm, textheight=23cm,
-              headheight=0.5cm, headsep=0.5cm}%
+              headheight=0.5cm, headsep=0.5cm,
+              marginparwidth=3cm, marginparsep=3mm}%
   \fi
 }
 \defaultsettings
