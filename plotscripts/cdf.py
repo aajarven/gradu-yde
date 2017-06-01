@@ -15,7 +15,7 @@ def uniformPDF(x, minX, maxX):
     return [(xx>minX and xx<maxX)/(maxX*1.0-minX*1.0) for xx in x]
 
 
-random.seed(715517)
+np.random.seed(715517)
 
 N = 100000
 normalNumbers = np.random.normal(16.0, 2.0, N)
@@ -43,18 +43,18 @@ ax1.plot(normalNumbers, percentage, label='$\mu$=16.0, $\sigma$=2.0',
 		 linewidth=2.0)
 ax1.plot(normalNumbersWide, percentage, label='$\mu$=15.0, $\sigma$=4.0',
 		 linewidth=2.0)
-ax1.plot(uniform, percentage, label='uniform\ndistribution',
+ax1.plot(uniform, percentage, label='uniform',
 		 linewidth=2.0)
-ax1.set_ylabel('CDF')
+ax1.set_ylabel('CDF \enspace (\%)')
 
 pdf1 = normPDF(normalNumbers, 16, 2)
 pdf2 = normPDF(normalNumbersWide, 15, 4)
 uniform = np.insert(uniform, len(uniform)-1, 25)
 uniform = np.insert(uniform, 0, 5)
 pdf3 = uniformPDF(uniform, 5, 25)
-ax2.plot(normalNumbers, pdf1, linewidth=2.0)
-ax2.plot(normalNumbersWide, pdf2, linewidth=2.0)
-ax2.plot(uniform, pdf3, linewidth=2.0)
+ax2.plot(normalNumbers, pdf1, linewidth=2.0, label='$\mu$=16.0, $\sigma$=2.0')
+ax2.plot(normalNumbersWide, pdf2, linewidth=2.0, label='$\mu$=15.0, $\sigma$=4.0')
+ax2.plot(uniform, pdf3, linewidth=2.0, label='uniform')
 ax2.set_ylabel('PDF')
 ax2.set_ylim([0, .22])
 
@@ -63,16 +63,16 @@ lastTickLabel = ax2.get_yticklabels()
 lastTickLabel = lastTickLabel[len(lastTickLabel)-1]
 plt.setp(lastTickLabel, visible=False)
 
-plt.xlabel('values')
+plt.xlabel('x')
 #ax1.ylabel('CDF')
 ax1.legend(loc=0)
-plt.xlim([0, 30])
+plt.xlim([2, 28])
 
 rc('font', **{'family':'serif','serif':['Palatino']})
 rc('text', usetex=True)
 
 F = pylab.gcf()
-F.set_size_inches(5.9, 6)
+F.set_size_inches(5.9, 5)
 
 #plt.show()
-plt.savefig('../kuvat/cdf.png')
+plt.savefig('../kuvat/cdf.png', bbox_inches='tight')

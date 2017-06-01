@@ -7,67 +7,62 @@ import math
 import pylab
 import random
 
-random.seed(715517)
+def CDFifyXData(array):
+	array = np.repeat(array, 2)
+	array = np.delete(array, len(array)-1)
+	return array
 
-N = 150
-normalNumbers = np.random.normal(10.0, 2.0, N)
-normalNumbersLow = np.random.normal(5.0, 2.0, N)
-normalNumbersWide = np.random.normal(10.0, 4.0, N)
-normalNumbersWide2 = np.random.normal(10.0, 4.0, N)
 
-biggest = max(max(max(np.amax(normalNumbers), np.amax(normalNumbersLow)),
-        np.amax(normalNumbersWide)), np.amax(normalNumbersWide2))
+np.random.seed(71551)
+
+N = 35
+normalNumbers = np.random.normal(16.0, 2.0, N)
+normalNumbersWide = np.random.normal(15.0, 4.0, N)
+normalNumbersWide2 = np.random.normal(15.0, 4.0, N)
+uniform = np.random.uniform(5.0, 25.0, N)
+
+biggest = max(max(max(np.amax(normalNumbers), np.amax(normalNumbersWide)),
+			  np.amax(uniform)), np.amax(normalNumbersWide2))
 
 percentage = np.arange(0, 100, 100.0/N)
 percentage = np.append(percentage, 100)
-
-f, (ax1, ax2) = plt.subplots(2, 1, sharex=True)
-f.subplots_adjust(hspace=0)
-
-bins = np.arange(-2, biggest+1, 1.5)
-ax2.hist(normalNumbers, bins, histtype='step', stacked=True, fill=False,
-        linewidth=2.0)
-ax2.hist(normalNumbersLow, bins, histtype='step', stacked=True, fill=False,
-        linewidth=2.0)
-ax2.hist(normalNumbersWide, bins, histtype='step', stacked=True, fill=False,
-        linewidth=2.0)
-ax2.hist(normalNumbersWide2, bins, histtype='step', stacked=True, fill=False,
-        linewidth=2.0)
-
-# hide topmost ticklabel on lower plot
-lastTickLabel = ax2.get_yticklabels()
-lastTickLabel = lastTickLabel[len(lastTickLabel)-1]
-plt.setp(lastTickLabel, visible=False)
+percentage = np.repeat(percentage, 2)
+percentage = np.delete(percentage, 0)
 
 normalNumbers.sort()
-normalNumbersLow.sort()
 normalNumbersWide.sort()
 normalNumbersWide2.sort()
+uniform.sort()
 
 normalNumbers = np.append(normalNumbers, biggest)
-normalNumbersLow = np.append(normalNumbersLow, biggest)
 normalNumbersWide = np.append(normalNumbersWide, biggest)
 normalNumbersWide2 = np.append(normalNumbersWide2, biggest)
+uniform = np.append(uniform, biggest)
 
-ax1.plot(normalNumbers, percentage, label='$\mu$=10.0, $\sigma$=2.0',
+normalNumbers = CDFifyXData(normalNumbers)
+normalNumbersWide = CDFifyXData(normalNumbersWide)
+uniform = CDFifyXData(uniform)
+normalNumbersWide2 = CDFifyXData(normalNumbersWide2)
+
+plt.plot(normalNumbers, percentage, label='$\mu$=16.0, $\sigma$=2.0',
 		 linewidth=2.0)
-ax1.plot(normalNumbersLow, percentage, label='$\mu$=5.0, $\sigma$=2.0',
+plt.plot(normalNumbersWide, percentage, label='$\mu$=15.0, $\sigma$=4.0',
 		 linewidth=2.0)
-ax1.plot(normalNumbersWide, percentage, label='$\mu$=10.0, $\sigma$=4.0',
-		 linewidth=2.0)
-ax1.plot(normalNumbersWide2, percentage, label='$\mu$=10.0, $\sigma$=4.0',
+plt.plot(normalNumbersWide2, percentage, label='$\mu$=15.0, $\sigma$=4.0',
+		 linewidth=2.0, color='c')
+plt.plot(uniform, percentage, label='uniform',
 		 linewidth=2.0)
 
-plt.xlabel('values')
-#ax1.ylabel('CDF')
-ax1.legend(loc=0)
-plt.xlim([-2, math.ceil(biggest)])
+plt.xlabel('x')
+plt.ylabel('EDF \enspace (\%)')
+plt.legend(loc=0)
+plt.xlim([2, 28])
 
 rc('font', **{'family':'serif','serif':['Palatino']})
 rc('text', usetex=True)
 
 F = pylab.gcf()
-F.set_size_inches(5.90666, 8)
+F.set_size_inches(5.9, 3.2)
 
 #plt.show()
-plt.savefig('../kuvat/edf.png')
+plt.savefig('../kuvat/edf.png', bbox_inches='tight')
