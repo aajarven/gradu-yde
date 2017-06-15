@@ -166,14 +166,12 @@ Plot: observations with fitted hubble flow
 \chapter{Mathematical and statistical methods}
 Precision of the used equipment limits accuracy of all data gathered from physical experiments, simulations or observations. Therefore the results are affected by the measurement process and the results have to be presented as estimates with some error, magnitude of which is affected by both number of data points and accuracy of the measurement equipment. \citep{bohm2010introduction}
 
-Estimating errors for measured quantities offers a way to test hypotheses and compare different experiments\citep{bohm2010introduction}. This is done using different statistical methods, a few of which are covered here. Methods used in this work are shortly introduced in the following sections.
+Estimating errors for measured quantities offers a way to test hypotheses and compare different experiments\citep{bohm2010introduction}. This is done using different statistical methods, a few of which are covered here. Methods used in this work are shortly introduced in the following sections together with basic statistical concepts that are necessary to understand the methods.
 
-\section{Regression Analysis}
-line fitting and other trivial things
+\section{Statistical Background}
+täällä tarvittavat esitiedot ja önnönnöö, listaa mm. mitä aiot kertoa kunhan tiedät itsekään
 
-\section{Error analysis}
-
-\section{Goodness of fit testing}
+\subsection{Hypothesis testing and p-values}
 A common situation in scientific research is that one has to compare a sample to either a model or another sample in order to derive a conclusion from the dataset. In statistics, this is known as hypothesis testing. For example, this can mean testing hypotheses like ''these two variables are not correlated'' or ''this sample is from a population with a mean of 1.0''. \citep{wall2003practical} Next paragraphs shortly introduce the basic concept of hypothesis testing and methods that can used to test the hypothesis ''these two samples are drawn from the same distribution''.
 
 Typically the process of hypothesis testing begins with forming of null hypothesis $H_0$ that is formatted such that the aim for the next steps is to either reject it or deduce that it cannot be rejected with a chosen significance level. Negation of the null hypothesis is often called research hypothesis or alternative hypothesis and denoted as $H_1$. For example, this can lead to $H_0$ ''this dataset is sampled from a normal distribution'' and $H_1$ ''this dataset is not sampled from a normal distribution''. Choosing the hypotheses in this manner is done because often the research hypothesis is difficult to define otherwise. \citep{bohm2010introduction, wall2003practical}
@@ -187,19 +185,12 @@ This kind of probability based decision making is always prone to error. It is e
 
 Despite statistical tests having a binary outcome ''$H_0$ rejected'' or ''$H_0$ not rejected'', a continuous output is often desired. This is what p-values are used for. The name p-value hints towards probability, but despite it's name p-value is not equal to the probability that the null hypothesis is true. These p-values are functions of test statistic and the p-value for a certain value $t_{obs}$ of test statistic gives the probability that under the condition that $H_0$ is true, the value of a test statistics for a randomly drawn sample is at least as extreme as $t_{obs}$. Therefore if p-value is smaller than $\alpha$, $H_0$ is to be rejected. \citep{bohm2010introduction}
 
-\reversemarginpar %TODO
-\marginnote{\footnotesize{TODO: oispa parempi otsikko}}[1.5cm]
-\subsection{Comparing two samples drawn from unknown distributions}
-A common question in multiple fields of science is whether two or more samples are drawn from the same distribution. This can occur for example when comparing effectiveness of two procedures, determining if instrument has changed over time or whether observed data is compatible with simulations. There are multiple two-sample tests that can address this kind of questions, e.g. $\chi^2$, Kolmogorov-Smirnov, Cram\'er-von Mises and Anderson-Darling tests. \citep{bohm2010introduction, feigelson2012modern}
-
-In addition to comparing two samples, these tests can be used as one-sample tests to determine whether it is expected that the sample is from a particular distribution. However, some restrictions apply when using the one-sample variants. \citep{feigelson2012modern}
-
-Out of these,the  $\chi^2$ test uses categorical data, for example ''number of data points between values 1.5 and 1.6'' or ''number of galaxies that are active'', and compares numbers of samples in different categories whereas the others compare empirical distribution functions (EDF) of the datasets. \cite{feigelson2012modern}
-
+\subsection{Distribution functions}
+%To understand EDF, one must first be familiar with probability density function (PDF) and cumulative distribution function (CDF).
 %TODO
-\reversemarginpar
-\marginnote{\footnotesize{TODO: mietippä pitäisikö seuraavat kappaleet siirtää ja jos niin minne vai pitäisikö ehkä poistaa kokonaan}}
-To understand EDF, one must first be familiar with probability density function (PDF) and cumulative distribution function (CDF). As the name suggests, PDF is a function the value of which at some point $x$ represents the likelihood that the value of the random variable would equal $x$. This is often denoted $f(x)$. Naturally for continuous functions the probability of drawing any single value from the distribution is zero, so these values should be interpreted as depicting relative likelihood of different values. For example if $f(a)=0.3$ and $f(b)=0.6$ we can say that drawing value $a$ is twice as likely as drawing value $b$. \citep{htk}
+[insert lyhyt aloituskappale here]
+
+As the name suggests, PDF is a function the value of which at some point $x$ represents the likelihood that the value of the random variable would equal $x$. This is often denoted $f(x)$. Naturally for continuous functions the probability of drawing any single value from the distribution is zero, so these values should be interpreted as depicting relative likelihood of different values. For example if $f(a)=0.3$ and $f(b)=0.6$ we can say that drawing value $a$ is twice as likely as drawing value $b$. \citep{htk}
 
 Another way to use the PDF is to integrate it over semi closed interval from negative infinity to some value $a$ to obtain CDF, often denoted with $F(x)$:
 \begin{equation}
@@ -230,6 +221,25 @@ Due to EDF being a result of random sampling, it may deviate from the underlying
    \caption{Empirical distribution function for four random samples (N=35) drawn from same distributions as in figure \ref{fig:cdf}.}
    \label{fig:edf}
 \end{figure}
+
+
+\section{Regression Analysis}
+line fitting and other trivial things
+
+\section{Error analysis}
+
+\section{Goodness of fit testing}
+%TODO
+nyt tarvitsen uuden aloituskappaleen
+
+\reversemarginpar
+\marginnote{\footnotesize{TODO: oispa parempi otsikko}}[1.5cm]
+\subsection{Comparing two samples drawn from unknown distributions}
+A common question in multiple fields of science is whether two or more samples are drawn from the same distribution. This can occur for example when comparing effectiveness of two procedures, determining if instrument has changed over time or whether observed data is compatible with simulations. There are multiple two-sample tests that can address this kind of questions, e.g. $\chi^2$, Kolmogorov-Smirnov, Cram\'er-von Mises and Anderson-Darling tests. \citep{bohm2010introduction, feigelson2012modern}
+
+In addition to comparing two samples, these tests can be used as one-sample tests to determine whether it is expected that the sample is from a particular distribution. However, some restrictions apply when using the one-sample variants. \citep{feigelson2012modern}
+
+Out of these,the  $\chi^2$ test uses categorical data, for example ''number of data points between values 1.5 and 1.6'' or ''number of galaxies that are active'', and compares numbers of samples in different categories whereas the others compare empirical distribution functions (EDF) of the datasets. \cite{feigelson2012modern}
 
 For astronomers the most well-known of these tests is the Kolmogorov-Smirnov test, which is also known as the KS test. Test statistic is calculated based on empirical distribution functions $\hat{F}_1$ and $\hat{F}_2$ derived from two samples and the test statistic
 \begin{equation}
