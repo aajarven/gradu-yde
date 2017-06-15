@@ -164,6 +164,8 @@ Plot: observations with fitted hubble flow
 
 
 \chapter{Mathematical and statistical methods}
+\reversemarginpar
+\marginnote{\footnotesize{TODO: tämä ei sovi tänne yksinään/ muutoksitta}}
 Precision of the used equipment limits accuracy of all data gathered from physical experiments, simulations or observations. Therefore the results are affected by the measurement process and the results have to be presented as estimates with some error, magnitude of which is affected by both number of data points and accuracy of the measurement equipment. \citep{bohm2010introduction}
 
 Estimating errors for measured quantities offers a way to test hypotheses and compare different experiments\citep{bohm2010introduction}. This is done using different statistical methods, a few of which are covered here. Methods used in this work are shortly introduced in the following sections together with basic statistical concepts that are necessary to understand the methods.
@@ -211,7 +213,7 @@ Both PDF and CDF both apply to whole population or the set of all possible outco
 \end{equation}
 where $I$ is the indicator function, value of which is 1 if the condition in brackets is true, otherwise 0. \citep{feigelson2012modern}
 
-Due to EDF being a result of random sampling, it may deviate from the underlying CDF considerably as can be seen by comparing CDFs in figure \ref{fig:cdf} and corresponding EDFs in figure \ref{fig:edf}. Latter figure also has another EDF corresponding to the green curve in the first figure to illustrate the differences that can arise from random sampling. This randomness also makes determining whether two samples are drawn from same distribution difficult. 
+Due to EDF being a result of random sampling, it may deviate from the underlying CDF considerably as can be seen by comparing CDFs in figure \ref{fig:cdf} and corresponding EDFs in figure \ref{fig:edf}. Latter figure also has EDFs corresponding to two random samples drawn from the distribution of the green curve in the first figure to illustrate the differences that can arise from random sampling. This randomness also makes determining whether two samples are drawn from same distribution difficult.
 
 %TODO mieti miten näytät CDF ja EDF relevanssin, lähestyvät toisiaan kun n kasvaa, mites plottihommat?
 
@@ -228,19 +230,19 @@ line fitting and other trivial things
 
 \section{Error analysis}
 
-\section{Goodness of fit testing}
-%TODO
-nyt tarvitsen uuden aloituskappaleen
+%\section{Goodness of fit testing}
+%nyt tarvitsen uuden aloituskappaleen
 
 \reversemarginpar
-\marginnote{\footnotesize{TODO: oispa parempi otsikko}}[1.5cm]
-\subsection{Comparing two samples drawn from unknown distributions}
+\marginnote{\footnotesize{TODO: oispa parempi otsikko. mieti, onko tämä muutenkaan hyvä nyt kun on siirretty yksi otsikkotaso ylöspäin}}[2cm]
+\section{Comparing two samples drawn from unknown distributions}
 A common question in multiple fields of science is whether two or more samples are drawn from the same distribution. This can occur for example when comparing effectiveness of two procedures, determining if instrument has changed over time or whether observed data is compatible with simulations. There are multiple two-sample tests that can address this kind of questions, e.g. $\chi^2$, Kolmogorov-Smirnov, Cram\'er-von Mises and Anderson-Darling tests. \citep{bohm2010introduction, feigelson2012modern}
 
 In addition to comparing two samples, these tests can be used as one-sample tests to determine whether it is expected that the sample is from a particular distribution. However, some restrictions apply when using the one-sample variants. \citep{feigelson2012modern}
 
 Out of these,the  $\chi^2$ test uses categorical data, for example ''number of data points between values 1.5 and 1.6'' or ''number of galaxies that are active'', and compares numbers of samples in different categories whereas the others compare empirical distribution functions (EDF) of the datasets. \cite{feigelson2012modern}
 
+\subsection{Kolmogorov-Smirnov test}
 For astronomers the most well-known of these tests is the Kolmogorov-Smirnov test, which is also known as the KS test. Test statistic is calculated based on empirical distribution functions $\hat{F}_1$ and $\hat{F}_2$ derived from two samples and the test statistic
 \begin{equation}
 	D = \sup_{x} |\hat{F}_1(x) - \hat{F}_2(x)|
