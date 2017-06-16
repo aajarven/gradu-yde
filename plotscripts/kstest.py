@@ -12,6 +12,7 @@ def CDFifyXData(array):
 	array = np.delete(array, len(array)-1)
 	return array
 
+
 # find biggest difference between curves
 def biggestDifference(data1X, data2X, y):
 	bigDiff = 0 
@@ -20,6 +21,7 @@ def biggestDifference(data1X, data2X, y):
 	bigDiffHighY = 0
 	index1 = 0
 	index2 = 0
+	
 	while index1 < len(data1X)-1 and index2 < len(data2X)-1:
 		if data1X[index1] < data2X[index2]:
 			index1 = index1 + 1
@@ -32,12 +34,9 @@ def biggestDifference(data1X, data2X, y):
 
 		if abs(y[index1]-y[index2]) > bigDiff:
 			bigDiff = abs(y[index1]-y[index2])
-			bigDiffX = min(data1X[index1+mod1],
-				  data2X[index2+mod2])
-			bigDiffLowY = min(y[index1+mod1],
-					 y[index2+mod2])
-			bigDiffHighY = max(y[index1+mod1],
-					  y[index2+mod2])
+			bigDiffX = min(data1X[index1], data2X[index2])
+			bigDiffLowY = min(y[index1], y[index2])
+			bigDiffHighY = max(y[index1], y[index2])
 	
 	return (bigDiffX, bigDiffLowY, bigDiffHighY)
 
@@ -48,20 +47,22 @@ normalNumbers = np.random.normal(16.0, 2.0, N)
 normalNumbersWide = np.random.normal(15.0, 4.0, N)
 normalNumbersWide2 = np.random.normal(15.0, 4.0, N)
 
-biggest = max(max(np.amax(normalNumbers), np.amax(normalNumbersWide)),
-			  np.amax(normalNumbersWide2))
-
-percentage = np.arange(0, 100, 100.0/N)
-percentage = np.append(percentage, 100)
-percentage = np.repeat(percentage, 2)
-percentage = np.delete(percentage, 0)
-
 normalNumbers.sort()
 normalNumbersWide.sort()
 normalNumbersWide2.sort()
 
-ksNormalWide = biggestDifference(normalNumbers, normalNumbersWide, percentage)
-ksWideWide = biggestDifference(normalNumbersWide, normalNumbersWide2, percentage)
+biggest = max(max(np.amax(normalNumbers), np.amax(normalNumbersWide)),
+			  np.amax(normalNumbersWide2))
+
+percentage = np.arange(0, 100, 100.0/N)
+
+(ksNormalWideX, ksNormalWideYLow, ksNormalWideYHigh) = biggestDifference(
+	normalNumbers, normalNumbersWide, percentage)
+(ksWideWideX, ksWideWideYLow, ksWideWideYHigh) = biggestDifference(normalNumbersWide, normalNumbersWide2, percentage)
+
+percentage = np.append(percentage, 100)
+percentage = np.repeat(percentage, 2)
+percentage = np.delete(percentage, 0)
 
 normalNumbers = np.append(normalNumbers, biggest)
 normalNumbersWide = np.append(normalNumbersWide, biggest)
@@ -77,9 +78,14 @@ plt.plot(normalNumbersWide, percentage, label='$\mu$=15.0, $\sigma$=4.0',
 		 linewidth=2.0)
 plt.plot(normalNumbersWide2, percentage, label='$\mu$=15.0, $\sigma$=4.0',
 		 linewidth=2.0, color='c')
+
+axes = plt.gca()
 yLimits = axes.get_ylim()
-plt.axvline(x=ksNormalWide[0], ymin=ksNormalWide[1]/(yLimits[1]-yLimits[0]),
-			ymax=ksNormalWide[2]/(yLimits[1]-yLimits[0]), color='k',
+plt.axvline(x=ksNormalWideX, ymin=ksNormalWideYLow/(yLimits[1]-yLimits[0]),
+			ymax=ksNormalWideYHigh/(yLimits[1]-yLimits[0]), color='m',
+			linewidth=2)
+plt.axvline(x=ksWideWideX, ymin=ksWideWideYLow/(yLimits[1]-yLimits[0]),
+			ymax=ksWideWideYHigh/(yLimits[1]-yLimits[0]), color='m',
 			linewidth=2)
 
 plt.xlabel('x')
@@ -93,5 +99,4 @@ rc('text', usetex=True)
 F = pylab.gcf()
 F.set_size_inches(5.9, 3.2)
 
-plt.show()
-#plt.savefig('../kuvat/kstest.png', bbox_inches='tight')
+plt.savefig('../kuvat/kstest.png', bbox_inches='tight')
