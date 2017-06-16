@@ -73,9 +73,9 @@ normalNumbersWide = CDFifyXData(normalNumbersWide)
 normalNumbersWide2 = CDFifyXData(normalNumbersWide2)
 
 plt.plot(normalNumbers, percentage, label='$\mu$=16.0, $\sigma$=2.0',
-		 linewidth=2.0)
+		 linewidth=2.0, color='g')
 plt.plot(normalNumbersWide, percentage, label='$\mu$=15.0, $\sigma$=4.0',
-		 linewidth=2.0)
+		 linewidth=2.0, color='b')
 plt.plot(normalNumbersWide2, percentage, label='$\mu$=15.0, $\sigma$=4.0',
 		 linewidth=2.0, color='c')
 
