@@ -6,6 +6,7 @@ from matplotlib import rc
 import math
 import pylab
 import random
+from scipy import stats
 
 def CDFifyXData(array):
 	array = np.repeat(array, 2)
@@ -46,6 +47,16 @@ N = 35
 normalNumbers = np.random.normal(16.0, 2.0, N)
 normalNumbersWide = np.random.normal(15.0, 4.0, N)
 normalNumbersWide2 = np.random.normal(15.0, 4.0, N)
+
+(D1, pval1) = stats.ks_2samp(normalNumbers, normalNumbersWide)
+(D2, pval2) = stats.ks_2samp(normalNumbersWide, normalNumbersWide2)
+print("Normal vs Wide")
+print("D:\t"+str(D1))
+print("p:\t"+str(pval1))
+print("Wide vs wide2")
+print("D:\t"+str(D2))
+print("p:\t"+str(pval2))
+
 
 normalNumbers.sort()
 normalNumbersWide.sort()
