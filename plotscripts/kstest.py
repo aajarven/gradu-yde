@@ -41,7 +41,7 @@ def biggestDifference(data1X, data2X, y):
 	
 	return (bigDiffX, bigDiffLowY, bigDiffHighY)
 
-np.random.seed(71551)
+np.random.seed(100)
 
 N = 35
 normalNumbers = np.random.normal(16.0, 2.0, N)
