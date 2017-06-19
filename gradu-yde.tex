@@ -176,9 +176,9 @@ täällä tarvittavat esitiedot ja önnönnöö, listaa mm. mitä aiot kertoa ku
 \subsection{Hypothesis testing and p-values}
 A common situation in scientific research is that one has to compare a sample to either a model or another sample in order to derive a conclusion from the dataset. In statistics, this is known as hypothesis testing. For example, this can mean testing hypotheses like ''these two variables are not correlated'' or ''this sample is from a population with a mean of 1.0''. \citep{wall2003practical} Next paragraphs shortly introduce the basic concept of hypothesis testing and methods that can used to test the hypothesis ''these two samples are drawn from the same distribution''.
 
-Typically the process of hypothesis testing begins with forming of null hypothesis $H_0$ that is formatted such that the aim for the next steps is to either reject it or deduce that it cannot be rejected with a chosen significance level. Negation of the null hypothesis is often called research hypothesis or alternative hypothesis and denoted as $H_1$. For example, this can lead to $H_0$ ''this dataset is sampled from a normal distribution'' and $H_1$ ''this dataset is not sampled from a normal distribution''. Choosing the hypotheses in this manner is done because often the research hypothesis is difficult to define otherwise. \citep{bohm2010introduction, wall2003practical}
+Typically the process of hypothesis testing begins with forming of null hypothesis $H_0$ that is formatted such that the aim for the next steps is to either reject it or deduce that it cannot be rejected with a chosen significance level. Negation of the null hypothesis is often called research hypothesis or alternative hypothesis and denoted as $H_1$. For example, this can lead to $H_0$ ''this dataset is sampled from a normal distribution'' and $H_1$ ''this dataset is not sampled from a normal distribution''. Choosing the hypothesis in this manner is done because often the research hypothesis is difficult to define otherwise. \citep{bohm2010introduction, wall2003practical}
 
-After setting the hypotheses one must choose an appropriate test statistic. Ideally this is chosen such that the difference between cases $H_0$ and $H_1$ is as large as possible. Then one must choose 
+After setting the hypothesis one must choose an appropriate test statistic. Ideally this is chosen such that the difference between cases $H_0$ and $H_1$ is as large as possible. Then one must choose 
 the significance level $\alpha$ which corresponds to the probability of rejecting $H_0$ in the case where $H_0$ actually is true. This fixes the critical region i.e. the values of test statistic that lead to the rejection of the $H_0$. \citep{bohm2010introduction, wall2003practical}
 
 It is crucial not to look at the test results before choosing $\alpha$ in order to avoid intentional or unintentional fiddling with the data or changing the criterion of acceptance or rejectance to give desired results. Only after these steps should the test statistic be calculated. If the test statistic falls within the critical region, $H_0$ should be rejected and otherwise stated that $H_0$ cannot be rejected at this significance level. \citep{bohm2010introduction, wall2003practical}
@@ -243,26 +243,35 @@ In addition to comparing two samples, these tests can be used as one-sample test
 Out of these,the  $\chi^2$ test uses categorical data, for example ''number of data points between values 1.5 and 1.6'' or ''number of galaxies that are active'', and compares numbers of samples in different categories whereas the others compare empirical distribution functions (EDF) of the datasets. \cite{feigelson2012modern}
 
 \subsection{Kolmogorov-Smirnov test}
-For astronomers the most well-known of these tests is the Kolmogorov-Smirnov test, which is also known as the KS test. Test statistic is calculated based on empirical distribution functions $\hat{F}_1$ and $\hat{F}_2$ derived from two samples and the test statistic
+For astronomers one of the most well-known of these tests is the Kolmogorov-Smirnov test, also known as the KS test. It is computationally inexpensive to calculate, easy to understand and does not require binning of data. It is also nonparametric test i.e. the data does not have to be drawn from a particular distribution. In astrophysical context this is often important because astrophysical models often do not fix a specific statistical distribution for observables and it is common to carry out calculations with logarithms of observables, after which the originally possibly normally distributed residuals  will no longer follow normal distribution. \cite{feigelson2012modern}
+
+The test can be used as either one-sample or two-sample test, both of which are very similar. For two-sample variate the test statistic for KS test is calculated based on empirical distribution functions $\hat{F}_1$ and $\hat{F}_2$ derived from two samples and the test statistic
 \begin{equation}
 	D = \sup_{x} |\hat{F}_1(x) - \hat{F}_2(x)|
 \end{equation}
-uses the maximum vertical distance of the e.d.f's as shown in [ehdottomasti kuva tähän]. \citep{feigelson2012modern, bohm2010introduction} %TODO feigelssonin rajoitukset KS:lle ja muille, kerro tarkemmin tuolla mutta hinttaa jo tässä olemassaolosta
-
-Normal vs Wide\\
-D:	0.342857142857\\
-p:	0.0243813915426\\
-Wide vs wide2\\
-D:	0.171428571429\\
-p:	0.640282055014
+uses the maximum vertical distance of the e.d.f's. This test statistic is then used to determine the p-value and thus decide whether the null hypothesis can be rejected. For one-sample variate the procedure is similar, but EDF $\hat{F}_2$ is substituted with the CDF that corresponds to the null hypothesis. \citep{feigelson2012modern, bohm2010introduction} %TODO feigelssonin rajoitukset KS:lle ja muille, kerro tarkemmin tuolla mutta hinttaa jo tässä olemassaolosta
 
 \begin{figure}
    \centering
    \includegraphics[width=0.9\textwidth]{kuvat/kstest.png}
    \caption{KS test parameter values (magenta vertical lines) shown graphically for three samples from figure \ref{fig:edf}.}
-   \label{fig:edf}
+   \label{fig:ks} 
 \end{figure}
 
+\begin{figure}
+   \centering
+   \includegraphics[width=0.9\textwidth]{kuvat/kstest-error.png}
+   \caption{KS test ran on another pair of samples drawn from blue and green distributions in figure \ref{fig:cdf}.}
+   \label{fig:ks-error} 
+\end{figure}
+
+As an example, let's consider two pairs of samples from figure \ref{fig:edf}: green and blue (two samples drawn from different normal distributions) and blue and cyan (two samples drawn from same normal distribution). We can formulate the test and null hypotheses for both pairs as $H_0$=''the two samples are drawn from the same distribution'' and $H_1$=''the two samples are not drawn from the same distribution'' and choose a significance level of for example $\alpha=0.05$ or $\alpha=0.01$.
+
+The test statistic is then calculated and for these samples we get $D=0.51$ for the green-blue pair and $D=0.20$ for the blue-cyan pair. Test statistics are illustrated in figure \ref{fig:ks} where the test statistics $D$ are shown as vertical magenta lines. These values of $D$ correspond to p-values $9.9\times 10^{-5}$ and $0.44$ respectively, which means that the null hypothesis ''green and blue samples are drawn from the same distribution'' is rejected at both 0.05 and 0.01 significance levels but the null hypothesis ''blue and cyan samples are drawn from the same distribution'' cannot be rejected.
+
+In this case the KS test resulted in result that matches the actual distributions from which the samples are drawn from. Using a different sample might have resulted in different conclusion, for example one shown in figure \ref{fig:ks-error} results in $D=0.17$ that corresponds to p-value of $0.64$ i.e. null hypothesis could not have been rejected using $\alpha$ specified earlier.
+
+%TODO aasinsilloita siihen, että sensitiivi keskelle eikä niinkään reunoihin ja kerro rajoituksista. ehkä kerro rajoituksista jo aiemmin?
 
 \section{Cluster Analysis}
 DBSCAN
