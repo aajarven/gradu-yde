@@ -242,10 +242,17 @@ In addition to comparing two samples, these tests can be used as one-sample test
 
 Out of these,the  $\chi^2$ test uses categorical data, for example ''number of data points between values 1.5 and 1.6'' or ''number of galaxies that are active'', and compares numbers of samples in different categories whereas the others compare empirical distribution functions (EDF) of the datasets. \cite{feigelson2012modern}
 
-\subsection{Kolmogorov-Smirnov test}
-For astronomers one of the most well-known of these tests is the Kolmogorov-Smirnov test, also known as the KS test. It is computationally inexpensive to calculate, easy to understand and does not require binning of data. It is also nonparametric test i.e. the data does not have to be drawn from a particular distribution. In astrophysical context this is often important because astrophysical models often do not fix a specific statistical distribution for observables and it is common to carry out calculations with logarithms of observables, after which the originally possibly normally distributed residuals  will no longer follow normal distribution. \cite{feigelson2012modern}
 
-The test can be used as either one-sample or two-sample test, both of which are very similar. For two-sample variate the test statistic for KS test is calculated based on empirical distribution functions $\hat{F}_1$ and $\hat{F}_2$ derived from two samples and the test statistic
+\subsection{$\chi^2$ test}
+
+
+
+\subsection{Kolmogorov-Smirnov test}
+For astronomers one of the most well-known of these tests is the Kolmogorov-Smirnov test, also known as the KS test. It is computationally inexpensive to calculate, easy to understand and does not require binning of data. It is also nonparametric test i.e. the data does not have to be drawn from a particular distribution. \cite{feigelson2012modern}
+
+In astrophysical context this is often important because astrophysical models often do not fix a specific statistical distribution for observables and it is common to carry out calculations with logarithms of observables, after which the originally possibly normally distributed residuals  will no longer follow normal distribution. When using the KS test, the values on the x-axis can be freely reparametrized: for example using $2x$ or $\log x$ on x-axis will result in same value of the test statistic as using $x$. \cite{feigelson2012modern, press2007numerical}
+
+The test can be used as either one-sample or two-sample test, both of which are very similar. For two-sample variate the test statistic for the KS test is calculated based on empirical distribution functions $\hat{F}_1$ and $\hat{F}_2$ derived from two samples and the test statistic
 \begin{equation}
 	D = \sup_{x} |\hat{F}_1(x) - \hat{F}_2(x)|
 \end{equation}
@@ -258,6 +265,10 @@ uses the maximum vertical distance of the e.d.f's. This test statistic is then u
    \label{fig:ks} 
 \end{figure}
 
+As an example, let's consider two pairs of samples from figure \ref{fig:edf}: green and blue (two samples drawn from different normal distributions) and blue and cyan (two samples drawn from same normal distribution). We can formulate the test and null hypotheses for both pairs as $H_0$=''the two samples are drawn from the same distribution'' and $H_1$=''the two samples are not drawn from the same distribution'' and choose a significance level of for example $\alpha=0.05$ or $\alpha=0.01$.
+
+The test statistic is then calculated and for these samples we get $D=0.51$ for the green-blue pair and $D=0.20$ for the blue-cyan pair. Test statistics are illustrated in figure \ref{fig:ks} where the test statistics $D$ are shown as vertical magenta lines. These values of $D$ correspond to p-values $9.9\times 10^{-5}$ and $0.44$ respectively, which means that the null hypothesis ''green and blue samples are drawn from the same distribution'' is rejected at both 0.05 and 0.01 significance levels but the null hypothesis ''blue and cyan samples are drawn from the same distribution'' cannot be rejected.
+
 \begin{figure}
    \centering
    \includegraphics[width=0.9\textwidth]{kuvat/kstest-error.png}
@@ -265,13 +276,16 @@ uses the maximum vertical distance of the e.d.f's. This test statistic is then u
    \label{fig:ks-error} 
 \end{figure}
 
-As an example, let's consider two pairs of samples from figure \ref{fig:edf}: green and blue (two samples drawn from different normal distributions) and blue and cyan (two samples drawn from same normal distribution). We can formulate the test and null hypotheses for both pairs as $H_0$=''the two samples are drawn from the same distribution'' and $H_1$=''the two samples are not drawn from the same distribution'' and choose a significance level of for example $\alpha=0.05$ or $\alpha=0.01$.
+In this case the KS test produced result that matches the actual distributions from which the samples are drawn from. Using a different sample might have resulted in different conclusion, for example one shown in figure \ref{fig:ks-error} results in $D=0.17$ that corresponds to p-value of $0.64$ i.e. null hypothesis could not have been rejected using $\alpha$ specified earlier. In a similar manner there can be cases where two samples from one distribution are erroneously determined not to come from the same distribution if the samples differ from each other enough due to random effects.
 
-The test statistic is then calculated and for these samples we get $D=0.51$ for the green-blue pair and $D=0.20$ for the blue-cyan pair. Test statistics are illustrated in figure \ref{fig:ks} where the test statistics $D$ are shown as vertical magenta lines. These values of $D$ correspond to p-values $9.9\times 10^{-5}$ and $0.44$ respectively, which means that the null hypothesis ''green and blue samples are drawn from the same distribution'' is rejected at both 0.05 and 0.01 significance levels but the null hypothesis ''blue and cyan samples are drawn from the same distribution'' cannot be rejected.
+The latter example case also illustrates one major shortcoming of the KS test: it is not very sensitive to small-scale differences near the tails of the distribution. For example in figure \ref{fig:ks-error} the blue sample goes much further left, but because EDF is always zero at the lowest allowed value and one at the highest one the vertical distances near the tails are small and the test is most sensitive to differences near the median value of the distribution. On the other hand, the test performs quite well when the samples differ globally or have different means. \cite{feigelson2012modern}
 
-In this case the KS test resulted in result that matches the actual distributions from which the samples are drawn from. Using a different sample might have resulted in different conclusion, for example one shown in figure \ref{fig:ks-error} results in $D=0.17$ that corresponds to p-value of $0.64$ i.e. null hypothesis could not have been rejected using $\alpha$ specified earlier.
+The KS test is also subject to some limitations and it is important to be aware of them in order to avoid misusing it. First of all, the KS test is not distribution free if the model parameters, e.g. mean and standard deviation for normal distribution, are estimated from the dataset that is tested. Thus the tabulated critical values can be used only if model parameters are determined from some other source such as a simulation, theoretical model or another dataset. \cite{feigelson2012modern}
 
-%TODO aasinsilloita siihen, että sensitiivi keskelle eikä niinkään reunoihin ja kerro rajoituksista. ehkä kerro rajoituksista jo aiemmin?
+The KS test can also be applied only to one dimensional data. %TODO jatka tähän \cite{press2007numerical}
+
+% mutlidimensionaaleista http://articles.adsabs.harvard.edu/cgi-bin/nph-iarticle_query?1987MNRAS.225..155F&defaultprint=YES&filetype=.pdf ja http://articles.adsabs.harvard.edu/cgi-bin/nph-iarticle_query?1983MNRAS.202..615P&defaultprint=YES&filetype=.pdf
+
 
 \section{Cluster Analysis}
 DBSCAN
