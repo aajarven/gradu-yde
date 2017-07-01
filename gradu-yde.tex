@@ -242,11 +242,50 @@ In addition to comparing two samples, these tests can be used as one-sample test
 
 
 \subsection{$\chi^2$ test}
-Atronomical data often involves classifying objects into categories such as ''stars with exoplanets'' and ''stars without exoplanets'' or ''O-type stars'', ''B-type stars'' and ''A-type stars''. A good tool for analyzing such categorical data is $\chi^2$ test. It can be used both to determine whether a sample can be drawn from a certain distribution and to test whether two samples can originate from a single distribution. \cite{feigelson2012modern, corder2014nonparametric}
+Atronomical data often involves classifying objects into categories such as ''stars with exoplanets'' and ''stars without exoplanets'' or spectral classes of stars. A good tool for analyzing such categorical data is $\chi^2$ test. It can be used both to determine whether a sample can be drawn from a certain distribution and to test whether two samples can originate from a single distribution. \cite{feigelson2012modern, corder2014nonparametric}
 
+For one-sample test, the $\chi^2$ test uses the number of measurements in each bin together with a theoretical estimate calculated from the null hypothesis. For example if one has observed exoplanets and tabulated the number of planet-hosting stars of different spectral class as is shown in table \ref{tab:exoplanets} and wants 
+to test the observations against null hypothesis 
+\reversemarginpar
+\marginnote{\footnotesize{Mieti onko esimerkki tarpeeksi hyvä, p-arvosta tulee ridikulöösin pieni}}
+''Distribution of stellar classes for exoplanet-hosting stars is equal to that of main sequence stars in solar neighbourhood as given by \citet{ledrew2001real}'' using significance level $\alpha$~=~0.01, the first step would be to calculate the expected observation counts for each bin according to the null hypothesis. \cite{corder2014nonparametric}
 
+\begin{table}
+	\centering
+	\begin{tabular}{p{2cm}|p{4cm}}
+		Stellar class & Number of observed planetary systems \\ \hline
+		A & 350 \\
+		F & 1 400 \\
+		G & 1 300 \\
+		K & 20 000
+	\end{tabular}
+	\caption{Example of categorical data.}
+	\label{tab:exoplanets}
+\end{table}
 
-For two-sample test, the test statistic $\chi$ is calculated 
+\begin{table}
+	\centering
+	\begin{tabular}{ l | l | l }
+		Stellar class & Observations ($f_o$)& Theory ($f_e$) \\ \hline
+		A & 350 & 597 \\
+		F & 1 400 & 2 986 \\
+		G & 1 300 & 7 524 \\
+		K & 20 000 & 11943 \\ \hline
+		total & 23 050 & 23 050
+	\end{tabular}
+	\caption{Data of table \ref{tab:exoplanets} together with expected values if null hypothesis was true.}
+	\label{tab:exoplanets-null}
+\end{table}
+
+Table \ref{tab:exoplanets-null} contains these expected counts ($f_e$) together with the observations ($f_o$). These observed and expected values are then used to calculate the $\chi^2$ test statistic, defined as
+\begin{equation}
+	\chi^2 = \sum_i \frac{(f_o - f_e)^2}{f_e}.
+\end{equation}
+In this case, the one gets $\chi^2 \approx 11529$. TODO: vapausaste, on merkittävä, johonkin vapausasteista ylipäänsä (numerical methods) %TODO
+
+For two-sample test, the test statistic $\chi$ is calculated
+
+Disclaimer: testejä muitakin, tämä pearsonin, rajoitukset käytölle
 
 \subsection{Kolmogorov-Smirnov test}
 For astronomers one of the most well-known of these tests is the Kolmogorov-Smirnov test, also known as the KS test. It is computationally inexpensive to calculate, easy to understand and does not require binning of data. It is also nonparametric test i.e. the data does not have to be drawn from a particular distribution. \cite{feigelson2012modern}
