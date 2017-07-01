@@ -238,14 +238,15 @@ line fitting and other trivial things
 \section{Comparing two samples drawn from unknown distributions}
 A common question in multiple fields of science is whether two or more samples are drawn from the same distribution. This can occur for example when comparing effectiveness of two procedures, determining if instrument has changed over time or whether observed data is compatible with simulations. There are multiple two-sample tests that can address this kind of questions, e.g. $\chi^2$, Kolmogorov-Smirnov, Cram\'er-von Mises and Anderson-Darling tests. \citep{bohm2010introduction, feigelson2012modern}
 
-In addition to comparing two samples, these tests can be used as one-sample tests to determine whether it is expected that the sample is from a particular distribution. However, some restrictions apply when using the one-sample variants. \citep{feigelson2012modern}
-
-Out of these,the  $\chi^2$ test uses categorical data, for example ''number of data points between values 1.5 and 1.6'' or ''number of galaxies that are active'', and compares numbers of samples in different categories whereas the others compare empirical distribution functions (EDF) of the datasets. \cite{feigelson2012modern}
+In addition to comparing two samples, these tests can be used as one-sample tests to determine whether it is expected that the sample is from a particular distribution. However, some restrictions apply when using the one-sample variants. Some of these tests use categorical data, for example ''number of galaxies that are active'' or ''number of data points between values 1.5 and 1.6'' and compares numbers of samples in different categories, whereas the others are applied to numerical data and compare empirical distribution functions (EDF) of the datasets. \citep{feigelson2012modern}
 
 
 \subsection{$\chi^2$ test}
+Atronomical data often involves classifying objects into categories such as ''stars with exoplanets'' and ''stars without exoplanets'' or ''O-type stars'', ''B-type stars'' and ''A-type stars''. A good tool for analyzing such categorical data is $\chi^2$ test. It can be used both to determine whether a sample can be drawn from a certain distribution and to test whether two samples can originate from a single distribution. \cite{feigelson2012modern, corder2014nonparametric}
 
 
+
+For two-sample test, the test statistic $\chi$ is calculated 
 
 \subsection{Kolmogorov-Smirnov test}
 For astronomers one of the most well-known of these tests is the Kolmogorov-Smirnov test, also known as the KS test. It is computationally inexpensive to calculate, easy to understand and does not require binning of data. It is also nonparametric test i.e. the data does not have to be drawn from a particular distribution. \cite{feigelson2012modern}
