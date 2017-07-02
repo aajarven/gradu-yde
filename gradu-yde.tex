@@ -248,16 +248,16 @@ For one-sample test, the $\chi^2$ test uses the number of measurements in each b
 to test the observations against null hypothesis 
 \reversemarginpar
 \marginnote{\footnotesize{Mieti onko esimerkki tarpeeksi hyvä, p-arvosta tulee ridikulöösin pieni}}
-''Distribution of stellar classes for exoplanet-hosting stars is equal to that of main sequence stars in solar neighbourhood as given by \citet{ledrew2001real}'' using significance level $\alpha$~=~0.01, the first step would be to calculate the expected observation counts for each bin according to the null hypothesis. \cite{corder2014nonparametric}
+''Distribution of stellar classes for observed exoplanet-hosting stars is equal to that of main sequence stars in solar neighbourhood as given by \citet{ledrew2001real}'' using significance level $\alpha=0.01$, the first step would be to calculate the expected observation counts for each bin according to the null hypothesis. \cite{corder2014nonparametric}
 
 \begin{table}
 	\centering
 	\begin{tabular}{p{2cm}|p{4cm}}
 		Stellar class & Number of observed planetary systems \\ \hline
-		A & 350 \\
-		F & 1 400 \\
-		G & 1 300 \\
-		K & 20 000
+		A & 6 \\
+		F & 38 \\
+		G & 39 \\
+		K & 134
 	\end{tabular}
 	\caption{Example of categorical data.}
 	\label{tab:exoplanets}
@@ -267,11 +267,11 @@ to test the observations against null hypothesis
 	\centering
 	\begin{tabular}{ l | l | l }
 		Stellar class & Observations ($f_o$)& Theory ($f_e$) \\ \hline
-		A & 350 & 597 \\
-		F & 1 400 & 2 986 \\
-		G & 1 300 & 7 524 \\
-		K & 20 000 & 11943 \\ \hline
-		total & 23 050 & 23 050
+		A & 6 & 6 \\
+		F & 38 & 28 \\
+		G & 39 & 71 \\
+		K & 134 & 112 \\ \hline
+		total & 217 & 217
 	\end{tabular}
 	\caption{Data of table \ref{tab:exoplanets} together with expected values if null hypothesis was true.}
 	\label{tab:exoplanets-null}
@@ -281,11 +281,27 @@ Table \ref{tab:exoplanets-null} contains these expected counts ($f_e$) together 
 \begin{equation}
 	\chi^2 = \sum_i \frac{(f_o - f_e)^2}{f_e}.
 \end{equation}
-In this case, the one gets $\chi^2 \approx 11529$. TODO: vapausaste, on merkittävä, johonkin vapausasteista ylipäänsä (numerical methods) %TODO
+In this case, the one gets $\chi^2 \approx 23.6$. The data has four bins, so the degree of freedom is $4-1=3$. Next one can compare the calculated $\chi^2$ value to a tabulated critical value for our significance level $\alpha=0.01$. These tabulated values can be widely found in statistics textbooks and books specifically dedicated to statistical tables. \cite{corder2014nonparametric}
 
-For two-sample test, the test statistic $\chi$ is calculated
+In this case according to \citet{corder2014nonparametric} the critical value is 11.34, which means that one can reject the null hypothesis and conclude that at 1\% significance level the distribution of stellar classes for observed exoplanet-hosting stars is not equal to that of main sequence stars in solar neighbourhood. This of course can either be due to exoplanets being more numerous around some stellar classes than others or arise from some observational effect such as the observer observing more of the later type stars and thus arbitrarily skewing the distribution of the exoplanet finds.
 
-Disclaimer: testejä muitakin, tämä pearsonin, rajoitukset käytölle
+The $\chi^2$ test can also be used to test for independence of two or more samples. The data is again tabulated and the $\chi^2$ test statistic is calculated as
+\begin{equation}
+	\chi^2 = \sum_i \sum_j \frac{(f_{oij}-f_{eij})^2}{f_{eij}}
+\end{equation}
+where $f_{oij}$ denotes the observed frequency in cell $(i, j)$ and $f_{eij}$ is the expected frequency for that cell. The expected frequency can be calculated from  using the following formula
+\begin{equation}
+	f_{eij} = \frac{R_i C_i}{N}
+\end{equation}
+where $R_i$ is the number of samples in row $i$, $C_j$ is the number of samples in column $j$ and $N$ is the total sample size. \citep{corder2014nonparametric}
+
+According to \citet{corder2014nonparametric}, the degrees of freedom is $(R-1)(C-1)$ where R is the number of rows and C is the number of columns in tabulated data. Nonetheless, the way of collecting data can affect the degrees of freedom in both one-sample and multi-sample cases. For example, if the one-sample model is not renormalized to fit the total number of observed events or in two-sample case the sample sizes differ the degrees of freedom equal to number of bins $N_b$ instead of $N_b-1$. \cite{press2007numerical}.
+
+Before performing $\chi^2$ test on a dataset, it is important to confirm that the data meets the assumptions for $\chi^2$ test. First of all, the data has to consist of counts i.e. not for example percentages or fractions. The counts should also be independent of each other and there has to be enough of them, generally $>50$ is sufficient. Bins should be chosen such that all bins have at least five counts according to the null hypothesis. If the last condition is not met, some bins can be combined when approppriate. \citep{bock2010stats, htk}
+
+The method described above is sometimes referred to as Pearson's $\chi^2$ test due to existence of other tests where $\chi^2$ distribution is used. In some special cases such as with small $2 \times 2$ contingency tables and when expected cell counts are small, other variants such as the Yates's $\chi^2$ test or the Fisher exact test should be used instead. \citep{corder2014nonparametric}
+
+
 
 \subsection{Kolmogorov-Smirnov test}
 For astronomers one of the most well-known of these tests is the Kolmogorov-Smirnov test, also known as the KS test. It is computationally inexpensive to calculate, easy to understand and does not require binning of data. It is also nonparametric test i.e. the data does not have to be drawn from a particular distribution. \cite{feigelson2012modern}
@@ -322,7 +338,7 @@ The latter example case also illustrates one major shortcoming of the KS test: i
 
 The KS test is also subject to some limitations and it is important to be aware of them in order to avoid misusing it. First of all, the KS test is not distribution free if the model parameters, e.g. mean and standard deviation for normal distribution, are estimated from the dataset that is tested. Thus the tabulated critical values can be used only if model parameters are determined from some other source such as a simulation, theoretical model or another dataset. \cite{feigelson2012modern}
 
-Another severe limitation of KS test is that it is only applicable to one-dimensional data. If the dataset has two or more dimensions, there is no unique way of ordering the points to plot EDF and therefore if KS test is used, it is no longer distribution free. Some variants that can handle two or more dimensions have been invented, such as ones by \citet{peacock1983twodimensional} and \citet{fasano1987multidimensional}, but the authors do not provide formal proof of validity of these tests. Despite this, the authors claim that Monte Carlo simulations suggest that the methods work adequatly well for most applications. \cite{press2007numerical}
+Another severe limitation of KS test is that it is only applicable to one-dimensional data. If the dataset has two or more dimensions, there is no unique way of ordering the points to plot EDF and therefore if KS test is used, it is no longer distribution free. Some variants that can handle two or more dimensions have been invented, such as ones by \citet{peacock1983twodimensional} and \citet{fasano1987multidimensional}, but the authors do not provide formal proof of validity of these tests. Despite this, the authors claim that Monte Carlo simulations suggest that the methods work adequately well for most applications. \cite{press2007numerical}
 
 % mutlidimensionaaleista http://articles.adsabs.harvard.edu/cgi-bin/nph-iarticle_query?1987MNRAS.225..155F&defaultprint=YES&filetype=.pdf ja http://articles.adsabs.harvard.edu/cgi-bin/nph-iarticle_query?1983MNRAS.202..615P&defaultprint=YES&filetype=.pdf
 
