@@ -355,6 +355,29 @@ Another severe limitation of KS test is that it is only applicable to one-dimens
 % mutlidimensionaaleista http://articles.adsabs.harvard.edu/cgi-bin/nph-iarticle_query?1987MNRAS.225..155F&defaultprint=YES&filetype=.pdf ja http://articles.adsabs.harvard.edu/cgi-bin/nph-iarticle_query?1983MNRAS.202..615P&defaultprint=YES&filetype=.pdf
 
 
+\subsection{Other tests based on EDFs}
+\reversemarginpar
+\marginnote{\footnotesize{ehkä vähän lyhyenpuoleisia kappaleita}}
+Unsatisfactory sensitivity of KS test motivates the use of other more complex tests. Such tests are for example the Cram\'er-von Mises test (CvM) and Anderson-Darling (AD) test, both of which have their strengths. Similar to KS test, both of these can be used as one-sample or two-sample variants.  \citep{bohm2010introduction, feigelson2012modern}
+
+First of these tests integrates over the squared difference between the EDF of the sample and CDF from the model or two EDFs in case of two-sample test. The test statistic $W^2$ for one-sample case can be expressed formally as
+\begin{equation}
+	W^2 = \int_{-\infty}^{\infty}[\hat F_1(x) - F_0(x)]^2\ dF_0(x)
+\end{equation}
+For two-sample version, the theoretical CDF $F_0$ has to be replaced with another empirical distribution function $\hat F_2$. \citep{bohm2010introduction, feigelson2012modern}
+
+Due to integration, CvM test is able to differentiate distributions based on both local and global differences, which causes it to often perform better than the KS test. Similar to KS test, the CvM test also suffers from EDFs or an EDF and a CDF being equal at the ends of the data range, which again makes the test less sensitive to differences near the tails of the distribution. \citep{feigelson2012modern}
+
+In order to achieve constant sensitivity over the whole range of values, the statistic has to be weighted according to the proximity of the ends of the distribution. The AD test does this with its test statistic defined as
+\begin{equation}
+	A^2 = N \int_{-\infty}^{\infty} \frac{[\hat F_1(x) - F_0(x)]^2}{F_0(x)[1-F_0(x)]}\ dF_0(x)
+\end{equation}
+where $N$ is the number of data points in sample. This weighing makes the test more powerful than the KS and CvM tests in many cases. \citep{bohm2010introduction, feigelson2012modern}
+
+\reversemarginpar
+\marginnote{\footnotesize{hnnngh}}
+Also other more specific tests exist, such as the Kuiper test which is well suited for cyclic measurements. The test should always be chosen to match the dataset such that it best differentiates between the null and research hypotheses. \citep{bohm2010introduction, feigelson2012modern}
+
 \section{Cluster Analysis}
 DBSCAN
 
