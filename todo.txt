@@ -26,3 +26,15 @@ Meeting after these:
 For meeting:
 -
 
+
+5.1 introduction, selection
+5.2 zeroth order stuff
+   hubble flow, local H0, zero-point, H0 within shells, is this consistent with what went into the simulation, number of subhaloes within some radius, kinematics of LGs
+HUOM JÄRJESTYS
+5.4 anisotropies
+   H0 as a function of different things, esim suunta
+   clustering: relation of number of groups and linking length, relevanssi keskimääräiseen etäisyyteen, laske ehkä sufrace densities, groups with massive members, hubble flow and zero points measurements for unbound and clustered haloes (ehkä myös ne clusterist joissa massive halo erikseen)
+5.3 scatter
+   isotropic + random motions, anisotropy alone (tietty aina scatter myös)
+5.5 LG mass
+   arvioi massaa edellä esitettyjen perusteella: principal component analysis
