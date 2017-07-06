@@ -11,3 +11,4 @@ test*
 .nfs*
 *.fuse_hidden*
 *.swp
+kuvat/all
