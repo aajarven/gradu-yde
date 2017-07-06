@@ -94,4 +94,4 @@ rc('text', usetex=True)
 F = pylab.gcf()
 F.set_size_inches(5.9, 3.2)
 
-plt.savefig('../kuvat/kstest-error.png', bbox_inches='tight')
+plt.savefig('../../kuvat/kstest-error.png', bbox_inches='tight')

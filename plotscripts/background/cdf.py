@@ -77,4 +77,4 @@ F = pylab.gcf()
 F.set_size_inches(5.9, 5)
 
 #plt.show()
-plt.savefig('../kuvat/cdf.png', bbox_inches='tight')
+plt.savefig('../../kuvat/cdf.png', bbox_inches='tight')
