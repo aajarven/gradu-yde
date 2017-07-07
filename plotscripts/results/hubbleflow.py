@@ -119,7 +119,7 @@ if __name__ == "__main__":
 		
 
 		if simIndex == 1:
-			ax.set_ylabel('velocity (km/s)')
+			ax.set_ylabel('Radial velocity (km/s)')
 			ax.yaxis.set_minor_formatter(FormatStrFormatter("%3d"))
 			
 		else:
