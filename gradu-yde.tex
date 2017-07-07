@@ -13,6 +13,9 @@
 \usepackage[sort,colon]{natbib} % For bibliography
 \usepackage[bf]{caption} % For more control over figure captions
 \usepackage{marginnote} % margin notes for myself
+%\usepackage{svg} % vector graphics
+\usepackage{graphicx}
+\graphicspath{{kuvat/}}
 
 % titlesec and fix for no numbering on titlesec 2.10.2
 \usepackage{titlesec}
@@ -428,60 +431,25 @@ criteria, how many found, what are like (some plots maybe? distributions of mass
 \section{Hubble Flow Measurements}
 HF, local $H_0$, $H_0$ within shells, zero-point, are previous consistent with what went into the simulation
 
+\begin{figure}
+    \centering
+    \def\svgwidth{\columnwidth}
+    \input{kuvat/hubblediagrams.pdf_tex}
+    \caption{Hubble Flows around Milky Way in two simulations.}\label{fig:hubblediagrams}
+\end{figure}
+
+%\begin{figure}
+%   \centering
+%   \includesvg{kuvat/hubblediagrams.svg}
+%   %\includegraphics[width=\textwidth]{kuvat/hubblediagrams}
+%   \caption{.}\label{fig:hubbleflow}
+%\end{figure}
+
 \section{Anisotropy of Hubble flow}
 huom obs nb: isotropy + randomness or anisotropy? esittele konsepti. plots: see notebook last pages
 
 \section{Statistical Estimate of the Local Group Mass}
 Analysis similar to Fattahi et al 2016 paper
-
-%
-%\begin{figure}
-%   \centering
-%   \includegraphics[width=\textwidth]{kuvat/hubbleflow.png}
-%   \caption{Radial velocities of haloes as a function of distance. Best fit to Hubble flow shown with solid line. Nearby points ignored when fitting shown in gray.}\label{fig:hubbleflow}
-%\end{figure}
-%
-%\begin{figure}
-%   \centering
-%   \includegraphics[width=\textwidth]{kuvat/hubbleflow-colour.png}
-%   \caption{Hubble flow with colours depicting angular disstance from line connecting Milky Way and Andromeda counterparts in simulation.}\label{fig:hubbleflow-colour}
-%\end{figure}
-%
-%\begin{figure}
-%   \centering
-%   \includegraphics[width=\textwidth]{kuvat/velocitydispersion.png}
-%   \caption{Velocity dispersion of Hubble flow.}\label{fig:velocitydispersion}
-%\end{figure}
-%
-%\begin{figure}
-%   \centering
-%   \includegraphics[width=\textwidth]{kuvat/anisotropy-aligned.png}
-%   \caption{Haloes with distances between 2 and 5 Mpc as seen from Mily Way counterpart in simulation. Colours depict deviations from best linear Hubble flow fit ignoring haloes up to 2 Mpc away, blue end meaning haloes coming closer faster than expected and redder colours moving away.}\label{fig:anisotropymap}
-%\end{figure}
-%
-%\begin{figure}
-%   \centering
-%   \includegraphics[width=\textwidth]{kuvat/clustering-ms5eps2.png}
-%   \caption{Dark matter haloes with distances from 2 to 5 Mpc grouped to clusters using DBSCAN clustering algorithm. Parameters used for this plot were ms=5 and eps=2.}\label{fig:clustering}
-%\end{figure}
-%
-%\begin{figure}
-%   \centering
-%   \includegraphics[width=\textwidth]{kuvat/eps-02.png}
-%   \caption{Median number of clusters found with constant eps on different minsamples.}\label{fig:epseffect}
-%\end{figure}
-%
-%\begin{figure}
-%   \centering
-%   \includegraphics[width=\textwidth]{kuvat/ms-5.png}
-%   \caption{Mean number of clusters found with constant ms on different eps.}\label{fig:mseffect}
-%\end{figure}
-%
-%\begin{figure}
-%   \centering
-%   \includegraphics[width=\textwidth]{kuvat/diststd-113.png}
-%   \caption{Standard deviation of velocities within cluster as a function of distance.}\label{fig:diststd}
-%\end{figure}
 
 
 %\chapter{SIBELIUS project}
