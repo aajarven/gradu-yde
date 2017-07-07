@@ -10,6 +10,9 @@ from math import sqrt
 import matplotlib.pyplot as plt
 import matplotlib.colors as col
 from matplotlib import rc
+from matplotlib.ticker import FixedLocator
+from matplotlib.ticker import FormatStrFormatter
+from matplotlib.ticker import NullFormatter
 from mpl_toolkits.mplot3d import Axes3D
 import heapq
 import math
@@ -25,13 +28,21 @@ import pylab
 
 if __name__ == "__main__":
 
-	inputs = "../input/hyvat-fullpath.txt"
-	saveloc = "../../kuvat/all/hubbleflows/"
+	inputs = [
+		"/scratch/sawala/milkomedia_ii/milkomedia_193_DMO/groups_008_z000p000/",
+		"/scratch/sawala/milkomedia_ii/milkomedia_168_DMO/groups_008_z000p000/"
+	]
+	saveloc = "../../kuvat/hubblediagrams.svg"
 
-	f = open(inputs, 'r')
 	simIndex = 0
-	for dirname in f.readlines():
-		dirname = dirname.strip()
+	f, axes = plt.subplots(1, 2)
+
+	f = plt.figure()
+	bigaxis = f.add_subplot(111)    # The big subplot
+	ax1 = f.add_subplot(121)
+	ax2 = f.add_subplot(122)
+
+	for (dirname, ax) in zip(inputs, [ax1, ax2]):
 		simIndex = simIndex + 1
 
 		vel = filereader.readAllFiles(dirname, "Subhalo/Velocity", 3)
@@ -89,20 +100,46 @@ if __name__ == "__main__":
 		colours = np.zeros((len(vel), 4))
 		colours[:, 3] = 1
 
-		plt.scatter(dist[dist<closestContDistance],
+		ax.scatter(dist[dist<closestContDistance],
 			  speed[dist<closestContDistance],
-			  color=colours[dist<closestContDistance], s=4)
+			  color=colours[dist<closestContDistance], s=1)
 
-		axes = plt.gca()
-		axes.set_xlim([0,closestContDistance])
+		ax.set_xlim([0,closestContDistance])
+		ax.set_ylim([-700, 900])
 		
-		plt.xlabel('distance (Mpc)')
-		plt.ylabel('velocity (km/s)')
+		ax.tick_params(which="major", length=6)
+		ax.tick_params(which="minor", length=3.5)
+		ax.xaxis.set_ticks([])
+		ax.xaxis.set_minor_locator(FixedLocator(range(0, 6, 1)))
+		ax.xaxis.set_minor_formatter(FormatStrFormatter("%3d"))
+		ax.yaxis.set_ticks([0])
+		minorticks = range(-800, 1000, 200)
+		minorticks.remove(0)
+		ax.yaxis.set_minor_locator(FixedLocator(minorticks))
+		
 
-		rc('font', **{'family':'serif','serif':['Palatino']})
-		rc('text', usetex=True)
+		if simIndex == 1:
+			ax.set_ylabel('velocity (km/s)')
+			ax.yaxis.set_minor_formatter(FormatStrFormatter("%3d"))
+			
+		else:
+			ax.tick_params(labelleft=False)  
+			ax.yaxis.set_minor_formatter(NullFormatter())
 
-		F = pylab.gcf()
-		F.set_size_inches(5.9, 5)
+	bigaxis.spines['top'].set_color('none')
+	bigaxis.spines['bottom'].set_color('none')
+	bigaxis.spines['left'].set_color('none')
+	bigaxis.spines['right'].set_color('none')
+	bigaxis.tick_params(labelcolor='w', top='off', bottom='off', left='off',
+				right='off')
+	bigaxis.set_xlabel("Distance from MW centre (Mpc)")
 
-		plt.savefig(saveloc+"hubbleflow-"+str(simIndex)+".svg")
+	rc('font', **{'family':'serif','serif':['Palatino']})
+	rc('text', usetex=True)
+
+	plt.tight_layout()
+	plt.subplots_adjust(wspace=0)
+	
+	f.set_size_inches(5.9, 3)
+
+	plt.savefig(saveloc)
