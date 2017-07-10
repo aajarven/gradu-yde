@@ -5,17 +5,14 @@ from __future__ import print_function
 import sys
 sys.path.insert(0, '/scratch/aajarven/plotscripts/')
 
-import clustering
-import clusterAnalysis
 import filereader
 import LGfinder
-from optparse import OptionParser
 import physUtils
+from scipy.stats import linregress
 from sibeliusConstants import *
-from transitiondistance import findBestHubbleflow
 import matplotlib.pyplot as plt
 import numpy as np
-import sys
+from matplotlib import rc
 
 
 if __name__ == "__main__":
@@ -100,14 +97,22 @@ if __name__ == "__main__":
 				continue
 
 			mask = np.array([d > limit[0] and d < limit[1] for d in distances])
-			fit = np.polyfit(distances[mask], radvel[mask], 1)
-			H0[sim, index] = fit[0]
-			zeros[sim, index] = -fit[1]/fit[0]
+#			fit = np.polyfit(distances[mask], radvel[mask], 1)
+			k, b, r_value, p_value, std_err = linregress(distances[mask],
+													  radvel[mask])
+			H0[sim, index] = k 
+			zeros[sim, index] = -b/k
 
 
 	##### plotting #####
 	print(limits)
 	print(np.nanmean(H0, axis=0))
 	centers = [(l[0]+l[1])/2 for l in limits]
-	plt.plot(centers, np.nanmean(H0, axis=0))
+	plt.plot(centers, np.nanmean(H0, axis=0), linewidth=2.0, color='k')
+	plt.xlabel("Distance of bin centre from LG centre (Mpc)")
+	plt.ylabel("Mean H0 when fitted using haloes in bin")	
+	rc('font', **{'family':'serif','serif':['Palatino']})
+	rc('text', usetex=True)
+	plt.tight_layout()
+	
 	plt.savefig(saveloc)
