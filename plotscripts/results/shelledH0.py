@@ -11,6 +11,7 @@ import physUtils
 from scipy.stats import linregress
 from sibeliusConstants import *
 import matplotlib.pyplot as plt
+import math
 import numpy as np
 from matplotlib import rc
 
@@ -22,6 +23,8 @@ if __name__ == "__main__":
 	lines =  sum(1 for line in open(inputfile))
 	limits = [[d, d+2.0] for d in np.arange(0.0, 8.0, 0.1)]
 	H0 = np.full((lines, len(limits)), np.nan)
+	H0min = np.full((lines, len(limits)), np.nan)
+	H0max = np.full((lines, len(limits)), np.nan)
 	zeros = np.full((lines, len(limits)), np.nan)
 
 	f = open(inputfile, 'r')
@@ -103,12 +106,41 @@ if __name__ == "__main__":
 			H0[sim, index] = k 
 			zeros[sim, index] = -b/k
 
+			# http://mathworld.wolfram.com/LeastSquaresFitting.html
+			meanx = np.mean(distances[mask])
+			ssxx = 0
+			for x in distances[mask]:
+				ssxx += (x - meanx)**2
+			
+			meany = np.mean(radvel[mask])
+			ssyy = 0
+			for y in radvel[mask]:
+				ssyy += (y - meany)**2
+			
+			ssxy = 0
+			for x, y in zip(distances[mask], radvel[mask]):
+				ssxy += (x - meanx)*(y - meany)
+			s = math.sqrt((ssyy - k*ssxy)/(np.sum(mask)-2))
+			
+			# standard errors
+			SEk = s/math.sqrt(ssxx)
+			SEa = s*math.sqrt(1/np.sum(mask)+meanx**2/ssxx)
+
+			H0max[sim, index] = k + SEk
+			H0min[sim, index] = k - SEk
+
+
 
 	##### plotting #####
-	print(limits)
-	print(np.nanmean(H0, axis=0))
+#	print(limits)
+#	print(np.nanmean(H0, axis=0))
+
+	print(np.nanmean(H0max, axis=0) - np.nanmean(H0min, axis=0))
+
 	centers = [(l[0]+l[1])/2 for l in limits]
 	plt.plot(centers, np.nanmean(H0, axis=0), linewidth=2.0, color='k')
+	plt.plot(centers, np.nanmean(H0max, axis=0), linewidth=2.0, color='0.75')
+	plt.plot(centers, np.nanmean(H0min, axis=0), linewidth=2.0, color='0.75')
 	plt.xlabel("Distance of bin centre from LG centre (Mpc)")
 	plt.ylabel("Mean H0 when fitted using haloes in bin")	
 	rc('font', **{'family':'serif','serif':['Palatino']})
