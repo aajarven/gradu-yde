@@ -449,12 +449,22 @@ Figure \ref{fig:hubblefit} shows haloes included and excluded in fitting, how is
     \caption{HF slope: 86.9929348817}\label{fig:hubblefit}
 \end{figure}
 
-%\begin{figure}
-%   \centering
-%   \includesvg{kuvat/hubblediagrams.svg}
-%   %\includegraphics[width=\textwidth]{kuvat/hubblediagrams}
-%   \caption{.}\label{fig:hubbleflow}
-%\end{figure}
+Figure \ref{fig:shelledH0} shows H0 at different radii. First bump is clear, latter ones not, H0>67.7 km/s, why. First ones have ~350 samples, last ones only seven, remember to explain standard error. Figure \ref{fig:zeros} has bigger bins and shows zero points. Think whether both should use samy plot type and which is better (line vs boxplot). If boxplot stays, change colours to all-black? At least explain what is what in plot.
+
+\begin{figure}
+    \centering
+    \def\svgwidth{\columnwidth}
+    \input{kuvat/zeros.pdf_tex}
+    \caption{Mean H0 in different 2 Mpc bins, grey curves show standard error.}\label{fig:shelledH0}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \def\svgwidth{\columnwidth}
+    \input{kuvat/shelledH0.pdf_tex}
+    \caption{HF zero point in different 4 Mpc bins.}\label{fig:zeros}
+\end{figure}
+
 
 \section{Anisotropy of Hubble flow}
 isotropy + randomness or anisotropy? esittele konsepti. plots: see notebook last pages
