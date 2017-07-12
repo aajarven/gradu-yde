@@ -106,7 +106,8 @@ if __name__ == "__main__":
 													  radvel[mask])
 			H0[sim, index] = k 
 			zeros[sim, index] = -b/k
-
+	
+	# standard errors
 	for i in range(len(limits)):
 		data = H0[:, i]
 		data = data[~np.isnan(data)]
@@ -114,15 +115,22 @@ if __name__ == "__main__":
 		H0min[0, i] = np.nanmean(data) - sem
 		H0max[0, i] = np.nanmean(data) + sem
 
-	##### plotting #####
 	centers = [(l[0]+l[1])/2 for l in limits]
+	
+	#### plotting #####
+	fig = plt.figure()
+
 	plt.plot(centers, H0max.flatten(), linewidth=2.0, color='0.75')
 	plt.plot(centers, H0min.flatten(), linewidth=2.0, color='0.75')
 	plt.plot(centers, np.nanmean(H0, axis=0), linewidth=2.0, color='k')
+	
 	plt.xlabel("Distance of bin centre from LG centre (Mpc)")
 	plt.ylabel("Mean H0 when fitted using haloes in bin")	
+	
 	rc('font', **{'family':'serif','serif':['Palatino']})
 	rc('text', usetex=True)
 	plt.tight_layout()
+
+	fig.set_size_inches(5.9, 5)
 	
 	plt.savefig(saveloc)
