@@ -22,7 +22,7 @@ if __name__ == "__main__":
 	saveloc = "../../kuvat/shelledH0.svg"
 
 	lines =  sum(1 for line in open(inputfile))
-	limits = [[d, d+2.0] for d in np.arange(0.0, 8.0, 0.01)]
+	limits = [[d, d+2.0] for d in np.arange(0.0, 8.0, 0.1)]
 	H0 = np.full((lines, len(limits)), np.nan)
 	H0min = np.full((1, len(limits)), np.nan)
 	H0max = np.full((1, len(limits)), np.nan)
