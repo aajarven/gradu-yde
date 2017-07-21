@@ -16,7 +16,12 @@ import math
 import numpy as np
 from matplotlib import rc
 from matplotlib import rcParams
+from matplotlib import ticker
 
+
+def percentFormat(x, position):
+	s = str(100 * x)
+	return s + r'$\%$'
 
 if __name__ == "__main__":
 	inputfile = "../input/lgfound-fullpath.txt" 
@@ -91,42 +96,55 @@ if __name__ == "__main__":
 	rc('font', **{'family':'serif','serif':['Palatino']})
 	rc('text', usetex=True)
 	rcParams['text.latex.preamble'] = [r'\usepackage{wasysym}']
+	formatter = ticker.FuncFormatter(percentFormat)
 
-	fig, axarr = plt.subplots(3, 2)
+	fig, axarr = plt.subplots(3, 2, sharey=True)
 
 	ax = axarr[0, 0]
-	ax.hist(radvel, color='0.75')
+	weights = np.ones_like(radvel)/float(len(radvel))
+	ax.hist(radvel, weights=weights, color='0.75')
 	ax.set_xlabel("Radial velocity (km/s)")
-	ax.set_ylabel("Number of simulations")
+	ax.yaxis.set_major_formatter(formatter)
+#	ax.set_ylabel("Number of simulations")
 	
 	ax = axarr[0, 1]
-	ax.hist(tanvel, color='0.75')
+	weights = np.ones_like(tanvel)/float(len(tanvel))
+	ax.hist(tanvel, weights=weights, color='0.75')
 	ax.set_xlabel("Tangential velocity (km/s)")
-	ax.set_ylabel("Number of simulations")
+	ax.yaxis.set_major_formatter(formatter)
+#	ax.set_ylabel("Number of simulations")
 
 	ax = axarr[1, 0]
-	ax.hist(distance, color='0.75')
+	weights = np.ones_like(distance)/float(len(distance))
+	ax.hist(distance, weights=weights, color='0.75')
 	ax.set_xlabel("Distance (Mpc)")
-	ax.set_ylabel("Number of simulations")
+	ax.yaxis.set_major_formatter(formatter)
+#	ax.set_ylabel("Number of simulations")
 
 	ax = axarr[1, 1]
-	ax.hist(mass/1e12, color='0.75')
+	weights = np.ones_like(mass)/float(len(mass))
+	ax.hist(mass/1e12, weights=weights, color='0.75')
 	ax.set_xlabel(r'Combined mass ($10^{12}\ M_{\astrosun}$)',
 			   multialignment='center')
-	ax.set_ylabel("Number of simulations")
+	ax.yaxis.set_major_formatter(formatter)
+#	ax.set_ylabel("Number of simulations")
 
 	ax = axarr[2, 0]
-	ax.hist(massdifference/1e12, color='0.75')
+	weights = np.ones_like(massdifference)/float(len(massdifference))
+	ax.hist(massdifference/1e12, weights=weights, color='0.75')
 	ax.set_xlabel(r"Mass difference ($10^{12}\ M_{\astrosun}$)",
 			   multialignment='center')
-	ax.set_ylabel("Number of simulations")
+	ax.yaxis.set_major_formatter(formatter)
+#	ax.set_ylabel("Number of simulations")
 
 	ax = axarr[2, 1]
-	ax.hist(massratio, color='0.75')
+	weights = np.ones_like(massratio)/float(len(massratio))
+	ax.hist(massratio, weights=weights, color='0.75')
 	ax.set_xlabel(r"Percent of mass in the\\more massive primary",
 			   multialignment='center', linespacing=10.0)
-	ax.set_ylabel("Number of simulations")
-	
+	ax.yaxis.set_major_formatter(formatter)
+#	ax.set_ylabel("Number of simulations")
+
 	plt.tight_layout()
 
 	fig.set_size_inches(5.9, 6.5)
