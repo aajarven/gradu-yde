@@ -20,7 +20,7 @@ from matplotlib import ticker
 
 
 def percentFormat(x, position):
-	s = str(100 * x)
+	s = str(int(100 * x))
 	return s + r'$\%$'
 
 if __name__ == "__main__":
@@ -105,21 +105,22 @@ if __name__ == "__main__":
 	ax.hist(radvel, weights=weights, color='0.75')
 	ax.set_xlabel("Radial velocity (km/s)")
 	ax.yaxis.set_major_formatter(formatter)
-#	ax.set_ylabel("Number of simulations")
 	
 	ax = axarr[0, 1]
 	weights = np.ones_like(tanvel)/float(len(tanvel))
 	ax.hist(tanvel, weights=weights, color='0.75')
 	ax.set_xlabel("Tangential velocity (km/s)")
 	ax.yaxis.set_major_formatter(formatter)
-#	ax.set_ylabel("Number of simulations")
 
 	ax = axarr[1, 0]
 	weights = np.ones_like(distance)/float(len(distance))
 	ax.hist(distance, weights=weights, color='0.75')
+	majorLocator = ticker.MultipleLocator(0.1)
+	minorLocator = ticker.MultipleLocator(0.05)
+	ax.xaxis.set_major_locator(majorLocator)
+	ax.xaxis.set_minor_locator(minorLocator)
 	ax.set_xlabel("Distance (Mpc)")
 	ax.yaxis.set_major_formatter(formatter)
-#	ax.set_ylabel("Number of simulations")
 
 	ax = axarr[1, 1]
 	weights = np.ones_like(mass)/float(len(mass))
@@ -127,7 +128,7 @@ if __name__ == "__main__":
 	ax.set_xlabel(r'Combined mass ($10^{12}\ M_{\astrosun}$)',
 			   multialignment='center')
 	ax.yaxis.set_major_formatter(formatter)
-#	ax.set_ylabel("Number of simulations")
+	ax.xaxis.set_major_formatter(ticker.FormatStrFormatter('%.1f'))
 
 	ax = axarr[2, 0]
 	weights = np.ones_like(massdifference)/float(len(massdifference))
@@ -135,15 +136,23 @@ if __name__ == "__main__":
 	ax.set_xlabel(r"Mass difference ($10^{12}\ M_{\astrosun}$)",
 			   multialignment='center')
 	ax.yaxis.set_major_formatter(formatter)
-#	ax.set_ylabel("Number of simulations")
+	ax.xaxis.set_major_formatter(ticker.FormatStrFormatter('%.1f'))
+	majorLocator = ticker.MultipleLocator(1.0)
+	minorLocator = ticker.MultipleLocator(0.5)
+	ax.yaxis.set_major_formatter(formatter)
+	ax.xaxis.set_major_locator(majorLocator)
+	ax.xaxis.set_minor_locator(minorLocator)
 
 	ax = axarr[2, 1]
 	weights = np.ones_like(massratio)/float(len(massratio))
-	ax.hist(massratio, weights=weights, color='0.75')
-	ax.set_xlabel(r"Percent of mass in the\\more massive primary",
+	ax.hist(massratio*100, weights=weights, color='0.75')
+	ax.set_xlabel(r"Percent of mass in the\\less massive primary",
 			   multialignment='center', linespacing=10.0)
+	majorLocator = ticker.MultipleLocator(5)
+#	minorLocator = ticker.MultipleLocator(0.05)
 	ax.yaxis.set_major_formatter(formatter)
-#	ax.set_ylabel("Number of simulations")
+	ax.xaxis.set_major_locator(majorLocator)
+#	ax.xaxis.set_minor_locator(minorLocator)
 
 	plt.tight_layout()
 
