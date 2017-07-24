@@ -80,9 +80,11 @@ if __name__ == "__main__":
 						   pos in cop])
 		fitdata = clustering.precomputeDistances(directions)
 
+		meansep = np.mean([min(x[x>0]) for x in fitdata])
+
 		for EPSindex in range(len(EPSvalues)):
 			for MSindex in range(len(MSvalues)):
-				db = DBSCAN(eps=EPSvalues[EPSindex],
+				db = DBSCAN(eps=EPSvalues[EPSindex]*meansep,
 				min_samples=MSvalues[MSindex], metric='precomputed', ).fit(fitdata)
 				labels = db.labels_
 				clusters[EPSindex, MSindex] += len(set(labels)) - (1 if -1 in
