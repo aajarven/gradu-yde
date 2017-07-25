@@ -5,7 +5,9 @@ sys.path.insert(0, '/scratch/aajarven/plotscripts/')
 
 import clustering
 import numpy as np
+import matplotlib
 import matplotlib.pyplot as plt
+import matplotlib.colors as colors
 from matplotlib import rc
 import LGfinder 
 import filereader
@@ -16,18 +18,18 @@ from sklearn.cluster import DBSCAN
 
 if __name__ == "__main__":
 
-	inputfile = "../input/lgfound-fullpath.txt" 
+	inputfile = "../input/hyvat-fullpath.txt"
 	saveloc = "../../kuvat/clusteringParameters.svg"
 
 	simIndex = 0
 
-	samples = 100
-	minEPS = 0.5
-	maxEPS = 3.0
+	samples = 50
+	minEPS = 0.5 
+	maxEPS = 13.0
 	EPSvalues = np.arange(minEPS, maxEPS+(maxEPS-minEPS)/samples,
 					   (maxEPS-minEPS)/samples)
-	minMS = 2
-	maxMS = 20
+	minMS = 1
+	maxMS = 21
 	MSvalues = np.arange(minMS, maxMS+1)
 	clusters = np.zeros((len(EPSvalues), len(MSvalues)))
 
@@ -84,28 +86,57 @@ if __name__ == "__main__":
 
 		for EPSindex in range(len(EPSvalues)):
 			for MSindex in range(len(MSvalues)):
-				db = DBSCAN(eps=EPSvalues[EPSindex]*meansep,
-				min_samples=MSvalues[MSindex], metric='precomputed', ).fit(fitdata)
+				eps = EPSvalues[EPSindex]*meansep
+				ms = MSvalues[MSindex]
+				db = DBSCAN(eps=eps, min_samples=ms, metric='precomputed', ).fit(fitdata)
 				labels = db.labels_
 				clusters[EPSindex, MSindex] += len(set(labels)) - (1 if -1 in
 													  labels else 0)
 
 
-	meanClusters = clusters / (simIndex+1)
+
+	np.savetxt("/home/aajarven/Z-drive/duuni/extragal/gradu-yde/plotscripts/tmp-out/clusters.txt",
+			clusters)
+	meanClusters = clusters / (sim)
 
 	np.savetxt("/home/aajarven/Z-drive/duuni/extragal/gradu-yde/plotscripts/tmp-out/meanClusters.txt",
 			meanClusters)
 
-	plt.imshow(meanClusters)
+	matplotlib.rcParams['axes.unicode_minus'] = False
 
+	fig = plt.gcf()
+	ax = plt.gca()
+
+
+	pcm = ax.pcolormesh(MSvalues, EPSvalues, meanClusters,
+					 norm=colors.LogNorm(vmin=1, vmax=30), cmap='viridis')
+	cb = fig.colorbar(pcm, ax=ax, extend='both')
+	cb.ax.minorticks_on()
+
+	xticks = np.arange(np.ceil(min(MSvalues)), np.floor(max(MSvalues)), 2)
+	yticks = np.arange(np.ceil(min(EPSvalues)), np.floor(max(EPSvalues)), 1)
+
+	ax.axis([min(MSvalues), max(MSvalues), min(EPSvalues), max(EPSvalues)])
+	ax.set_xticks(xticks + 0.5*(MSvalues[1]-MSvalues[0]), minor=False)
+	ax.set_yticks(yticks + 0.5*(EPSvalues[1]-EPSvalues[0]), minor=False)
+	ax.set_xticklabels(xticks.astype(int), minor=False)
+	ax.set_yticklabels(yticks, minor=False)
+	ax.set_xlim(min(MSvalues), max(MSvalues))
+	ax.set_ylim(min(EPSvalues), max(EPSvalues))
+
+
+	ax.set_adjustable("box-forced")
+
+#	plt.imshow(meanClusters, interpolation='nearest', cmap='viridis')
+#	plt.colorbar()
 	
 
 	rc('font', **{'family':'serif','serif':['Palatino']})
-	rc('text', usetex=True)
+#	rc('text', usetex=True)
 
 	plt.tight_layout()
 
-	fig = plt.gcf()
-	fig.set_size_inches(5.9, 3)
+
+	fig.set_size_inches(4.2, 4.0)
 
 	plt.savefig(saveloc)
