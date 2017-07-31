@@ -18,8 +18,8 @@ from sklearn.cluster import DBSCAN
 
 if __name__ == "__main__":
 
-#	inputfile = "../input/lgfound-fullpath.txt"
-	inputfile = "../input/yksi-fullpath.txt"
+	inputfile = "../input/lgfound-fullpath.txt"
+#	inputfile = "../input/yksi-fullpath.txt"
 	saveloc = "../../kuvat/"
 
 	simIndex = 0
@@ -150,9 +150,9 @@ if __name__ == "__main__":
 	ax.set_ylabel(r"$\varepsilon$ (mean distances to neighbour)",
 			   multialignment='center')
 
-	plt.tight_layout(rect=[0.03, 0.03, 0.995, 0.995])
+	plt.tight_layout(rect=[0.03, 0.03, 0.999, 0.999])
 	plt.autoscale()
-	fig.set_size_inches(5.3, 3.6)
+	fig.set_size_inches(4.4, 3.2)
 
 	plt.savefig(saveloc + "clusteringParameters.svg")#, bbox_inches='tight')
 	
@@ -184,6 +184,6 @@ if __name__ == "__main__":
 			   multialignment='center')
 
 #	plt.tight_layout()
-	fig.set_size_inches(5.3, 3.6)
+	fig.set_size_inches(4.4, 3.0)
 
 	plt.savefig(saveloc + "clusterDiameter.svg", bbox_inches='tight')

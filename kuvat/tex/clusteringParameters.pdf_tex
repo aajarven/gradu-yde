@@ -36,7 +36,7 @@
   }%
   \providecommand\rotatebox[2]{#2}%
   \ifx\svgwidth\undefined%
-    \setlength{\unitlength}{348.981498bp}%
+    \setlength{\unitlength}{316.8bp}%
     \ifx\svgscale\undefined%
       \relax%
     \else%
@@ -48,7 +48,7 @@
   \global\let\svgwidth\undefined%
   \global\let\svgscale\undefined%
   \makeatother%
-  \begin{picture}(1,0.70578569)%
+  \begin{picture}(1,0.73195174)%
     \put(0,0){\includegraphics[width=\unitlength,page=1]{clusteringParameters.pdf}}%
   \end{picture}%
 \endgroup%
