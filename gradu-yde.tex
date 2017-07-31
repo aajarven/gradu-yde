@@ -495,12 +495,22 @@ Figure \ref{fig:mollweide-anisotropy} shows distribution of haloes around Milky 
 \subsection{Clustering}
 Used DBSCAN introduced in [earlier chapter], angular distances of projections on sky as seen from MW.
 
-Figure \ref{fig:clusteringparameters} shows the effect of varying minsamples and $\varepsilon$ on number of clusters found in each simulation. Regions where there are ridiculously many clusters and ones where there are one or zero, relevant region in between, some areas have similar number of clusters but do the clusters look the same, see plots that don't exist yet
+Figure \ref{fig:clusteringparameters} shows the effect of varying minsamples and $\varepsilon$ on number of clusters found in each simulation (1.5 Mpc < r < 5.0 Mpc again). Regions where there are ridiculously many clusters and ones where there are one or zero, relevant region in between, some areas have similar number of clusters but do the clusters look the same, see plots that don't exist yet
 
 \begin{figure}
     \centering
     \input{kuvat/tex/clusteringParameters.pdf_tex}
-    \caption{Mean number of clusters found for all simulations in dataset with different DBSCAN parameters. In all simulations $\varepsilon$ is scaled using the mean distance between closest neighbours. Remember to insert new plot when ready.}\label{fig:clusteringparameters}
+    \caption{Mean number of clusters found for all simulations in dataset with different DBSCAN parameters. In all simulations $\varepsilon$ is scaled using the mean distance between closest neighbours.}\label{fig:clusteringparameters}
+\end{figure}
+
+\reversemarginpar
+\marginnote{\footnotesize{TODO: mieti laitatko samaan figureen, vertaile kuitenkin, selitä vasemmanpuolimmainen pikselisarake}}
+Figure \ref{fig:clusterdiameter} shows the change in mean diameter (supremum of angular distance between haloes) in cluster when $\varepsilon$ and minsamples are varied. White areas where no clusters are found in any simulation.
+
+\begin{figure}
+    \centering
+    \input{kuvat/tex/clusterDiameter.pdf_tex}
+    \caption{Mean diameter of clusters found for all simulations in dataset with different DBSCAN parameters. In all simulations $\varepsilon$ is scaled using the mean distance between closest neighbours.}\label{fig:clusterdiameter}
 \end{figure}
 
 
