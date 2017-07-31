@@ -32,6 +32,7 @@ if __name__ == "__main__":
 	maxMS = 35
 	MSvalues = np.arange(minMS, maxMS+1)
 	clusters = np.zeros((len(EPSvalues), len(MSvalues)))
+	diameters = np.zeros((len(EPSvalues), len(MSvalues)))
 
 	f = open(inputfile, 'r')
 	sim = -1
@@ -81,6 +82,8 @@ if __name__ == "__main__":
 		directions = np.array([physUtils.sphericalCoordinates(pos - centre) for
 						   pos in cop])
 		fitdata = clustering.precomputeDistances(directions)
+		print(fitdata)
+		sys.exit()
 
 		meansep = np.mean([min(x[x>0]) for x in fitdata])
 
@@ -92,6 +95,7 @@ if __name__ == "__main__":
 				labels = db.labels_
 				clusters[EPSindex, MSindex] += len(set(labels)) - (1 if -1 in
 													  labels else 0)
+
 
 
 
