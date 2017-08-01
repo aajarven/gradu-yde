@@ -150,11 +150,11 @@ if __name__ == "__main__":
 	ax.set_ylabel(r"$\varepsilon$ (mean distances to neighbour)",
 			   multialignment='center')
 
-	plt.tight_layout(rect=[0.03, 0.03, 0.999, 0.999])
+	plt.tight_layout(rect=[0.03, 0.04, 0.99, 0.999])
 	plt.autoscale()
 	fig.set_size_inches(4.4, 3.2)
 
-	plt.savefig(saveloc + "clusteringParameters.svg")#, bbox_inches='tight')
+	plt.savefig(saveloc + "clusteringParameters-testi.svg")#, bbox_inches='tight')
 	
 	
 	# diameter plotting
@@ -183,7 +183,7 @@ if __name__ == "__main__":
 	ax.set_ylabel(r"$\varepsilon$ (mean distances to neighbour)",
 			   multialignment='center')
 
-#	plt.tight_layout()
+	plt.tight_layout(rect=[-0.03, -0.03, 1.03, 1.05])
 	fig.set_size_inches(4.4, 3.0)
 
-	plt.savefig(saveloc + "clusterDiameter.svg", bbox_inches='tight')
+	plt.savefig(saveloc + "clusterDiameter-testi.svg")#, bbox_inches='tight')
