@@ -25,7 +25,7 @@ def loopClusterPlotting(fitdata, axes, clusteringParameters, colours):
 		for l in uniqueLabels:
 			if l == -1:
 				col = 'k'
-				size = 1
+				size = 2
 			else:
 				col = colours[l]
 				size = 16
@@ -33,7 +33,7 @@ def loopClusterPlotting(fitdata, axes, clusteringParameters, colours):
 			mask = (labels == l)
 			members = directions[mask]
 			ax.scatter(members[:, 0], members[:, 1], facecolors=col,
-			  edgecolors='k', s=size)
+			  edgecolors='k', linewidth=0.9, s=size)
 			ax.grid(b=True)
 			ax.set_xticklabels([])
 			ax.set_yticklabels([])
@@ -89,10 +89,10 @@ if __name__ == "__main__":
 	rc('font', **{'family':'serif','serif':['Palatino']})
 	rc('text', usetex=True)
 
-	plt.tight_layout(rect=[-0.05, 0, 1.05, 1])
+	plt.tight_layout(rect=[-0.02, 0, 1.02, 1])
 	plt.subplots_adjust(wspace=0)
 	
-	f.set_size_inches(5.9, 5.3)
+	f.set_size_inches(5.9, 5.62)
 
 	plt.savefig(saveloc + "clusteringExamples.svg")
 
@@ -101,13 +101,14 @@ if __name__ == "__main__":
 	plt.cla()
 	plt.clf()
 
-	gs = gridspec.GridSpec(3, 2, height_ratios=[3.9, 2, 2])
+	gs = gridspec.GridSpec(3, 2, height_ratios=[3.55, 2, 2])
 	bigax = plt.subplot(gs[0, :], projection="mollweide")
 	smallax1 = plt.subplot(gs[1, 0], projection="mollweide")
 	smallax2 = plt.subplot(gs[1, 1], projection="mollweide")
 	smallax3 = plt.subplot(gs[2, 0], projection="mollweide")
 	smallax4 = plt.subplot(gs[2, 1], projection="mollweide")
 
+	colours = plt.cm.Set1(np.linspace(0, 1, 12))
 	clusteringParameters = [(10, 1.8),
 						 (10, 1.6), (10, 2.0),
 						 (8, 1.8), (12, 1.8)]
