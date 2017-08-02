@@ -73,7 +73,7 @@ if __name__ == "__main__":
 	fig.set_size_inches(5.9, 2.9)
 
 	sc = plt.scatter(directions[:,0], directions[:,1], c=radvel, 
-					 cmap=cmap, s=20)
+					 cmap=cmap, s=18)
 	matplotlib.rcParams['axes.unicode_minus'] = False
 	cb = plt.colorbar(sc, fraction=0.046, pad=0.04)
 
