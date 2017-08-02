@@ -21,7 +21,6 @@ from sklearn.cluster import DBSCAN
 if __name__ == "__main__":
 
 	inputfile = "../input/lgfound-fullpath.txt"
-#	inputfile = "../input/yksi-fullpath.txt"
 	saveloc = "../../kuvat/"
 
 	simIndex = 0
@@ -158,7 +157,7 @@ if __name__ == "__main__":
 	plt.autoscale()
 	fig.set_size_inches(4.4, 3.2)
 
-	plt.savefig(saveloc + "clusteringParameters-testi.svg")#, bbox_inches='tight')
+	plt.savefig(saveloc + "clusteringParameters.svg")
 	
 	
 	# diameter plotting
@@ -172,9 +171,6 @@ if __name__ == "__main__":
 					vmin=0, vmax=160, edgecolors='face')
 	cb = fig.colorbar(pcm, ax=ax, extend='max',
 				  label=r'Mean diameter of cluster ($^\circ$)')
-
-#	xticks = np.array([1, 5, 10, 15, 20, 25, 30, 34])
-#	yticks = np.arange(np.ceil(min(EPSvalues)), max(EPSvalues), 1)
 
 	ax.axis([min(MSvalues), max(MSvalues), min(EPSvalues), max(EPSvalues)])
 	ax.set_xticks(xticks + 0.5*(MSvalues[1]-MSvalues[0]), minor=False)
@@ -191,4 +187,4 @@ if __name__ == "__main__":
 	plt.tight_layout(rect=[-0.03, -0.03, 1.03, 1.05])
 	fig.set_size_inches(4.4, 3.0)
 
-	plt.savefig(saveloc + "clusterDiameter-testi.svg")#, bbox_inches='tight')
+	plt.savefig(saveloc + "clusterDiameter.svg")

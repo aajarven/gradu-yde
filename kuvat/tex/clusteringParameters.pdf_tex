@@ -48,7 +48,7 @@
   \global\let\svgwidth\undefined%
   \global\let\svgscale\undefined%
   \makeatother%
-  \begin{picture}(1,0.73195174)%
+  \begin{picture}(1,0.72727273)%
     \put(0,0){\includegraphics[width=\unitlength,page=1]{clusteringParameters.pdf}}%
   \end{picture}%
 \endgroup%
