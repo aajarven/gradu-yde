@@ -185,7 +185,7 @@ if __name__ == "__main__":
 					 ], ha='right', multialignment='right')
 	ax1.set_xlabel("H0 (km/s/Mpc)")
 	ax2.set_xlabel("Distance to Hubble\nflow zero point (Mpc)")
-	ax1.set_xlim([-25, 145])
+#	ax1.set_xlim([-25, 145])
 	ax2.set_xlim([-4, 4])
 
 	plt.tight_layout(rect=[0.065, 0.115, 1.0, 1.0])
