@@ -24,7 +24,7 @@ def percentFormat(x, position):
 	return s + r'$\%$'
 
 if __name__ == "__main__":
-	inputfile = "../input/lgfound-fullpath.txt" 
+	inputfile = "../input/allButDuplicates-fullpath.txt" 
 	saveloc = "../../kuvat/LGproperties.svg"
 
 	lines =  sum(1 for line in open(inputfile))
