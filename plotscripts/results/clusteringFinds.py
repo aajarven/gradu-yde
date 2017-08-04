@@ -20,7 +20,7 @@ from sklearn.cluster import DBSCAN
 
 if __name__ == "__main__":
 
-	inputfile = "../input/lgfound-fullpath.txt"
+	inputfile = "../input/allButDuplicates-fullpath.txt"
 	saveloc = "../../kuvat/"
 
 	simIndex = 0
