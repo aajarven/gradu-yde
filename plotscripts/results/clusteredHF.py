@@ -13,19 +13,25 @@ import physUtils
 from sibeliusConstants import *
 from transitiondistance import simpleFit
 import matplotlib.pyplot as plt
+from matplotlib import rc
 import numpy as np
 import sys
 
+def blackBoxplot(bp):
+	for element in ['boxes', 'whiskers', 'fliers', 'means', 'medians', 'caps']:
+		plt.setp(bp[element], color='k')
+
 
 if __name__ == "__main__":
-#	inputfile = "../input/lgfound-fullpath.txt" 
-	inputfile = "../input/hundred.txt"
+	inputfile = "../input/allButDuplicates-fullpath.txt" 
+#	inputfile = "../input/hundred.txt"
 	outputdir = "../../kuvat/"
 
 	mindist = 1.0
 	maxdist = 5.0
 	eps = 1.8
 	ms = 10
+	massThreshold = 8e11 #M_sun
 
 	allZeros = []
 	inClusterZeros = []
@@ -33,13 +39,14 @@ if __name__ == "__main__":
 	allH0s = []
 	inClusterH0s = []
 	outClusterH0s = []
-	inClusterMaxMasses = []
+	massCutH0s = []
+	massCutZeros = []
 
-	i = 0
+	simIndex = 0
 	f = open(inputfile, 'r')
 	for simdir in f.readlines():
-		print(i)
-		i += 1
+		print(simIndex)
+		simIndex += 1
 		dirname = simdir.strip()
 		staticVel = filereader.readAllFiles(dirname, "Subhalo/Velocity", 3)
 		mass = filereader.readAllFiles(dirname, "Subhalo/Mass", 1)
@@ -109,13 +116,15 @@ if __name__ == "__main__":
 
 		(H0, zero) = simpleFit(distances, radvel)
 		clusteringDB = clustering.runClustering(cop, centre, ms, eps)
-		clusterMemberMask = clusteringDB.labels_ != -1 # True for in cluster
+		labels = clusteringDB.labels_
+		uniqueLabels = set(labels)
+
+		clusterMemberMask = labels != -1 # True for in cluster
 		(inClusterH0, inClusterZero) = simpleFit(distances[clusterMemberMask],
 										   radvel[clusterMemberMask])
 		(outClusterH0, outClusterZero) = simpleFit(
 			distances[clusterMemberMask == False],
 			radvel[clusterMemberMask == False])
-		inClusterMaxMass = max(mass[clusterMemberMask])
 
 		allZeros.append(zero)
 		allH0s.append(H0)
@@ -123,38 +132,67 @@ if __name__ == "__main__":
 		inClusterH0s.append(inClusterH0)
 		outClusterZeros.append(outClusterZero)
 		outClusterH0s.append(outClusterH0)
-		inClusterMaxMasses.append(inClusterMaxMass)
 
+		# mass exclusion
+		allowedClusterNumbers = []
+		for i in uniqueLabels:
+			if max(mass[labels==i]) < massThreshold:
+				allowedClusterNumbers.append(i)
+		clusterNumberModifier = (-1 if -1 in uniqueLabels else 0)
+		print(str(len(uniqueLabels) + clusterNumberModifier) + ", "
+		+ str(len(allowedClusterNumbers) + clusterNumberModifier))
+
+		maxMassMask = np.array([label in allowedClusterNumbers for label in
+						  labels])
+		(maskedH0, maskedZero) = simpleFit(distances[maxMassMask],
+									 radvel[maxMassMask])
+		massCutH0s.append(maskedH0)
+		massCutZeros.append(maskedZero)
+
+		
 
 	##### plotting #####
 
 	allZeros = np.array(allZeros)
 	allH0s = np.array(allH0s)
 	inClusterZeros = np.array(inClusterZeros)
-	inClusterH0 = np.array(inClusterH0)
+	inClusterH0s = np.array(inClusterH0s)
 	outClusterZeros = np.array(outClusterZeros)
-	outClusterH0 = np.array(outClusterH0)
-	inClusterMaxMasses = np.array(inClusterMaxMasses)
+	outClusterH0s = np.array(outClusterH0s)
+	massCutH0s = np.array(massCutH0s)
+	massCutZeros = np.array(massCutZeros)
 
-	# masking zeropoints
-#	sanitymask = allZeros < 5.0
-#	inClusterSanitymask = inClusterZeros < 5.0
-#	outClusterSanitymask = outClusterZeros > -5.0
+	print(inClusterH0s[np.argsort(inClusterH0s)[:10]])
+	print(inClusterH0s[np.argsort(inClusterH0s)[-10:]])
+	print(inClusterZeros[np.argsort(inClusterZeros)[:10]])
+	print(inClusterZeros[np.argsort(inClusterZeros)[-10:]])
 
-	# x limits for zeropoints 
-#	xmin = min(min(np.amin(allZeros[sanitymask]),
-#				np.amin(inClusterZeros[inClusterSanitymask])),
-#			np.amin(outClusterZeros[outClusterSanitymask]))
-#	xmax = max(max(np.amax(allZeros[sanitymask]),
-#				np.amax(inClusterZeros[inClusterSanitymask])),
-#			np.amax(outClusterZeros[outClusterSanitymask]))
-#	xmin = np.floor(xmin*2.0)/2.0
-#	xmax = np.ceil(xmax*2.0)/2.0
 
-	plt.scatter(inClusterMaxMasses, inClusterH0s)
+	rc('font', **{'family':'serif','serif':['Palatino']})
+	rc('text', usetex=True)
+	params = {'text.latex.preamble' : [r'\usepackage{wasysym}']}
+	plt.rcParams.update(params)
+
+	fig, (ax1, ax2) = plt.subplots(1, 2, sharey=True)
+	bp1 = ax1.boxplot([massCutH0s, inClusterH0s, outClusterH0s, allH0s], vert=False)
+	blackBoxplot(bp1)
+	bp2 = ax2.boxplot([massCutZeros, inClusterZeros, outClusterZeros, allZeros], vert=False)
+	blackBoxplot(bp2)
+
+	ax1.set_yticklabels(["Haloes in clusters with\nall members less massive\n"
+					  r"than $8^{11}~M_{\astrosun}$",
+					  "Haloes in clusters", "Haloes outside clusters", "All haloes"
+					 ], ha='right', multialignment='right')
+	ax1.set_xlabel("H0 (km/s/Mpc)")
+	ax2.set_xlabel("Distance to Hubble\nflow zero point (Mpc)")
+	ax1.set_xlim([-25, 145])
+	ax2.set_xlim([-4, 4])
+
+	plt.tight_layout(rect=[0.065, 0.115, 1.0, 1.0])
+	fig.set_size_inches(5.9, 2.6)
+
 #	plt.xlabel("Hubble flow zero point (Mpc from LG centre)")
 #	plt.ylabel("Combined mass of Milky Way and Andromeda (Solar masses)")
 #	plt.xlim(xmin, xmax)
-#	plt.savefig(outputdir+"zeropoints.png")
-	plt.show()
+	plt.savefig(outputdir+"clusteredHFparameters.svg")
 
