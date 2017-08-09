@@ -9,6 +9,7 @@ import matplotlib
 import matplotlib.pyplot as plt
 import matplotlib.colors as colors
 from matplotlib import rc
+from matplotlib.ticker import FixedLocator
 import LGfinder 
 import filereader
 import physUtils
@@ -16,10 +17,10 @@ from sibeliusConstants import *
 from sklearn.cluster import DBSCAN
 
 
+
 if __name__ == "__main__":
 
-#	inputfile = "../input/lgfound-fullpath.txt"
-	inputfile = "../input/yksi-fullpath.txt"
+	inputfile = "../input/allButDuplicates-fullpath.txt"
 	saveloc = "../../kuvat/"
 
 	simIndex = 0
@@ -135,8 +136,9 @@ if __name__ == "__main__":
 	minorticks = pcm.norm(np.arange(1, 20, 1))
 	cb.ax.yaxis.set_ticks(minorticks, minor=True)
 
+	xticks = np.array([1, 5, 10, 15, 20, 25, 30, 34])
+	xminorticks = np.arange(1, 34, 1)+0.5
 
-	xticks = np.arange(2, max(MSvalues), 2)
 	yticks = np.arange(np.ceil(min(EPSvalues)), max(EPSvalues), 1)
 
 	ax.axis([min(MSvalues), max(MSvalues), min(EPSvalues), max(EPSvalues)])
@@ -144,17 +146,18 @@ if __name__ == "__main__":
 	ax.set_yticks(yticks + 0.5*(EPSvalues[1]-EPSvalues[0]), minor=False)
 	ax.set_xticklabels(xticks.astype(int), minor=False)
 	ax.set_yticklabels(yticks, minor=False)
+	ax.xaxis.set_minor_locator(FixedLocator(xminorticks))
 	ax.set_xlim(min(MSvalues), max(MSvalues))
 	ax.set_ylim(min(EPSvalues), max(EPSvalues))
 	ax.set_xlabel("Minsamples")
 	ax.set_ylabel(r"$\varepsilon$ (mean distances to neighbour)",
 			   multialignment='center')
 
-	plt.tight_layout(rect=[0.03, 0.03, 0.995, 0.995])
+	plt.tight_layout(rect=[0.03, 0.04, 0.99, 0.999])
 	plt.autoscale()
-	fig.set_size_inches(5.3, 3.6)
+	fig.set_size_inches(4.4, 3.2)
 
-	plt.savefig(saveloc + "clusteringParameters.svg")#, bbox_inches='tight')
+	plt.savefig(saveloc + "clusteringParameters.svg")
 	
 	
 	# diameter plotting
@@ -169,21 +172,19 @@ if __name__ == "__main__":
 	cb = fig.colorbar(pcm, ax=ax, extend='max',
 				  label=r'Mean diameter of cluster ($^\circ$)')
 
-	xticks = np.arange(2, max(MSvalues), 2)
-	yticks = np.arange(np.ceil(min(EPSvalues)), max(EPSvalues), 1)
-
 	ax.axis([min(MSvalues), max(MSvalues), min(EPSvalues), max(EPSvalues)])
 	ax.set_xticks(xticks + 0.5*(MSvalues[1]-MSvalues[0]), minor=False)
 	ax.set_yticks(yticks + 0.5*(EPSvalues[1]-EPSvalues[0]), minor=False)
 	ax.set_xticklabels(xticks.astype(int), minor=False)
 	ax.set_yticklabels(yticks, minor=False)
+	ax.xaxis.set_minor_locator(FixedLocator(xminorticks))
 	ax.set_xlim(min(MSvalues), max(MSvalues))
 	ax.set_ylim(min(EPSvalues), max(EPSvalues))
 	ax.set_xlabel("Minsamples")
 	ax.set_ylabel(r"$\varepsilon$ (mean distances to neighbour)",
 			   multialignment='center')
 
-#	plt.tight_layout()
-	fig.set_size_inches(5.3, 3.6)
+	plt.tight_layout(rect=[-0.03, -0.03, 1.03, 1.05])
+	fig.set_size_inches(4.4, 3.0)
 
-	plt.savefig(saveloc + "clusterDiameter.svg", bbox_inches='tight')
+	plt.savefig(saveloc + "clusterDiameter.svg")
