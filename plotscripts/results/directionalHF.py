@@ -207,13 +207,16 @@ if __name__ == "__main__":
 				zeros[angleIndex].append(zero)
 				h0s[angleIndex].append(H0)
 
-	angles = np.array(angles)
-
-
 	##### plotting #####
 
+	angles = np.array(angles)*180.0/np.pi
 	h0s = np.array(h0s)
 	zeros = np.array(zeros)
+
+	meanH0s = np.nanmean(h0s, axis=1)
+	meanZeros = np.nanmean(zeros, axis=1)
+	H0std = np.nanstd(h0s, axis=1, ddof=1)
+	zerostd = np.nanstd(zeros, axis=1)
 
 
 	rc('font', **{'family':'serif','serif':['Palatino']})
@@ -225,24 +228,27 @@ if __name__ == "__main__":
 	fig = plt.figure()
 
 
-	H0locations = [0, 20, 40, 60, 80, 100]
-	H0labels = ['0', '20', '40', '60', '80', '100']
+	H0locations = [0, 20, 40, 60, 80, 100, 120]
+	H0labels = ['0', '20', '40', '60', '80', '100', '120']
 	H0ticks = {loc : label for loc, label in zip(H0locations, H0labels)}
-	ax1 = fractional_polar_axes(fig, thlim=(0., 180.), rlim=(0, 100), step=(10., 20),
+	ax1 = fractional_polar_axes(fig, thlim=(0., 180.), rlim=(0, 120), step=(10., 20),
 							rlabels=H0ticks, subplot=211, thlabel=r'$\phi$',
 							rlabel=r'$H_{0}$ (km/s/Mpc)')
-	ax1.plot(angles*180.0/np.pi, np.nanmean(h0s, axis=1))
+	ax1.plot(angles, meanH0s, linewidth=2.0, color='k')
+	ax1.plot(angles, meanH0s+H0std, linewidth=2.0, color='0.5')
+	ax1.plot(angles, meanH0s-H0std, linewidth=2.0, color='0.5')
 
-	print(np.nanmean(zeros, axis=1))
 
-	zeroLocations = [0.0, 1.0, 2.0, 3.0, 4.0, 5.0]
-	zeroLabels = ['-2', '-1', '0', '1', '2', '3']
+	zeroLocations = [0.0, 2.0, 4.0, 6.0, 8.0, 10.0]
+	zeroLabels = ['-6', '-4', '-2', '0','2', '4']
 	zeroTicks = {loc : label for loc, label in zip(zeroLocations, zeroLabels)}
-	ax2 = fractional_polar_axes(fig, thlim=(0., 180.), rlim=(0.0, 5.0),
-							 step=(10, 1.0), rlabels=zeroTicks, subplot=212,
+	ax2 = fractional_polar_axes(fig, thlim=(0., 180.), rlim=(0.0, 10.0),
+							 step=(10, 2.0), rlabels=zeroTicks, subplot=212,
 							 thlabel=r'$\phi$',
 							 rlabel=r'Hubble flow zero point distance (Mpc)')
-	ax2.plot(angles*180.0/np.pi, np.nanmean(zeros, axis=1)+2.0)
+	ax2.plot(angles, meanZeros+6.0, linewidth=2.0, color='k')
+	ax2.plot(angles, meanZeros+zerostd+6.0, linewidth=2.0, color='0.5')
+	ax2.plot(angles, meanZeros-zerostd+6.0, linewidth=2.0, color='0.5')
 
 	plt.tight_layout()
 	fig.set_size_inches(5.3, 6.5)
