@@ -35,7 +35,6 @@ def fractional_polar_axes(f, thlim=(0, 180), rlim=(0, 1), step=(30, 0.25),
 
 	# scale degrees to radians:
 	tr_scale = Affine2D().scale(np.pi/180., 1.)
-	#pa = axes(polar="true") # Create a polar axis
 	pa = PolarAxes
 	tr = tr_scale + pa.PolarTransform()
 	theta_grid_locator = angle_helper.LocatorDMS((th1-th0)//thstep)
@@ -53,8 +52,8 @@ def fractional_polar_axes(f, thlim=(0, 180), rlim=(0, 1), step=(30, 0.25),
 
 	a = FloatingSubplot(f, subplot, grid_helper=grid_helper)
 	f.add_subplot(a)
+	
 	# adjust x axis (theta):
-	print(a)
 	a.axis["bottom"].set_visible(False)
 	a.axis["top"].set_axis_direction("bottom") # tick direction
 	a.axis["top"].toggle(ticklabels=ticklabels, label=bool(thlabel))
@@ -66,12 +65,14 @@ def fractional_polar_axes(f, thlim=(0, 180), rlim=(0, 1), step=(30, 0.25),
 	a.axis["left"].set_axis_direction("bottom") # tick direction
 	a.axis["right"].set_axis_direction("top") # tick direction
 	a.axis["left"].toggle(ticklabels=True, label=bool(rlabel))
+	
 	# add labels:
 	a.axis["top"].label.set_text(thlabel)
 	a.axis["left"].label.set_text(rlabel)
+	
 	# create a parasite axes whose transData is theta, r:
 	auxa = a.get_aux_axes(tr)
-	print(auxa)
+	
 	# make aux_ax to have a clip path as in a?:
 	auxa.patch = a.patch 
 	# this has a side effect that the patch is drawn twice, and possibly over some other
@@ -81,7 +82,6 @@ def fractional_polar_axes(f, thlim=(0, 180), rlim=(0, 1), step=(30, 0.25),
 	# add sector lines for both dimensions:
 	thticks = grid_helper.grid_info['lon_info'][0]
 	rticks = grid_helper.grid_info['lat_info'][0]
-	print(grid_helper.grid_info['lat_info'])
 	for th in thticks[1:-1]: # all but the first and last
 		auxa.plot([th, th], [r0, r1], ':', c='grey', zorder=-1, lw=0.5)
 		for ri, r in enumerate(rticks):
@@ -95,49 +95,6 @@ def fractional_polar_axes(f, thlim=(0, 180), rlim=(0, 1), step=(30, 0.25),
 							   transform=auxa.transData._b, zorder=-1))
 
 	return auxa
-
-
-
-#import mpl_toolkits.axisartist.floating_axes as floating_axes
-#from matplotlib.projections import PolarAxes
-#from mpl_toolkits.axisartist import angle_helper
-#from mpl_toolkits.axisartist.grid_finder import MaxNLocator, DictFormatter
-#
-## https://stackoverflow.com/a/44190325 + https://stackoverflow.com/a/32235971
-#def setup_axes(fig, rect, maxR):
-	#	tr = PolarAxes.PolarTransform() 
-	#
-	#	theta0, theta1 = 0, np.pi
-	#	r0, r1 = 0, maxR
-	#
-	#	theta_grid_locator = angle_helper.LocatorDMS(np.pi/4)
-	#	r_grid_locator = MaxNLocator(5)
-	#
-	#	grid_helper = floating_axes.GridHelperCurveLinear(
-	#		tr, extremes=(theta0, theta1, r0, r1),
-	#		grid_locator1=theta_grid_locator, grid_locator2=r_grid_locator)
-	#
-	#	ax1 = floating_axes.FloatingSubplot(fig, rect, grid_helper=grid_helper)
-	#	fig.add_subplot(ax1)
-	#
-	#	# adjust axis
-	#	ax1.axis["left"].set_axis_direction("bottom")
-	#	ax1.axis["right"].set_axis_direction("top")
-	#	ax1.axis["bottom"].set_visible(False)
-	#	ax1.axis["top"].set_axis_direction("bottom")
-	#	ax1.axis["top"].toggle(ticklabels=True, label=True)
-	#	ax1.axis["top"].major_ticklabels.set_axis_direction("top")
-	#	ax1.axis["top"].label.set_axis_direction("top")
-	#	#    ax1.axis["left"].label.set_text(r"z")
-	#	#    ax1.axis["top"].label.set_text(r"RA")
-	#
-	#	# create a parasite axes whose transData in RA, cz
-	#	aux_ax = ax1.get_aux_axes(tr)
-	#
-	#	aux_ax.patch = ax1.patch  
-	#	ax1.patch.zorder = 0.9  
-	#
-	#	return ax1, aux_ax
 
 
 if __name__ == "__main__":
@@ -267,11 +224,6 @@ if __name__ == "__main__":
 
 	fig = plt.figure()
 
-#	r_locs = [0, .25, .5, .75, 1]
-#	r_labels = ['5', '10', '15', '20', '25']
-#	r_ticks = {loc : label for loc, label in zip(r_locs, r_labels)}
-#	a1 = fractional_polar_axes(fig, thlim=(-90, 90),step=(10, 0.2),
-#							theta_offset=90, rlabels = r_ticks)
 
 	H0locations = [0, 20, 40, 60, 80, 100]
 	H0labels = ['0', '20', '40', '60', '80', '100']
@@ -292,31 +244,8 @@ if __name__ == "__main__":
 							 rlabel=r'Hubble flow zero point distance (Mpc)')
 	ax2.plot(angles*180.0/np.pi, np.nanmean(zeros, axis=1)+2.0)
 
-#	fig, (ax1, ax2) = plt.subplots(1, 2, subplot_kw=dict(projection='polar'))
-
-#	fig = plt.figure()
-#	ax1, aux_ax1 = setup_axes(fig, 211, 90)
-#	ax1.axis["left"].label.set_text(r"$H_0$ (km/s/Mpc)")
-#	ax1.axis["top"].label.set_text(r"$\phi$")
-#
-#	aux_ax1.plot(angles, np.nanmean(h0s, axis=1))
-#
-#	ax2, aux_ax2 = setup_axes(fig, 212, 2.5)
-#	aux_ax2.plot(angles, np.nanmean(zeros, axis=1))
-#	ax2.axis["left"].label.set_text(r"$H_0$ (km/s/Mpc)")
-#	ax2.axis["top"].label.set_text(r"$\phi$")
-
-#	print(h0s)
-#	print(np.nanmean(h0s, axis=1))
-#	ax1.plot(angles, np.nanmean(h0s, axis=1))
-#	ax2.plot(angles, np.nanmean(zeros, axis=1))
-#	ax2.set_xlim([0, np.pi])
-
 	plt.tight_layout()
 	fig.set_size_inches(5.3, 6.5)
 
-#	plt.xlabel("Hubble flow zero point (Mpc from LG centre)")
-#	plt.ylabel("Combined mass of Milky Way and Andromeda (Solar masses)")
-#	plt.xlim(xmin, xmax)
-plt.savefig(outputdir+"directionalHF.svg")
+	plt.savefig(outputdir+"directionalHF.svg")
 
