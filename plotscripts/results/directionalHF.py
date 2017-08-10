@@ -98,8 +98,8 @@ def fractional_polar_axes(f, thlim=(0, 180), rlim=(0, 1), step=(30, 0.25),
 
 
 if __name__ == "__main__":
-	#	inputfile = "../input/allButDuplicates-fullpath.txt" 
-	inputfile = "../input/hundred.txt"
+	inputfile = "../input/allButDuplicates-fullpath.txt" 
+#	inputfile = "../input/hundred.txt"
 	outputdir = "../../kuvat/"
 
 	mindist = 1.0
@@ -107,7 +107,7 @@ if __name__ == "__main__":
 	eps = 1.8
 	ms = 10
 
-	binlimits = np.linspace(0.0, np.pi, 19)
+	binlimits = np.linspace(0.0, np.pi, 7)
 	angles = []
 	zeros = []
 	h0s = []
@@ -237,12 +237,14 @@ if __name__ == "__main__":
 	ax1.plot(angles, meanH0s, linewidth=2.0, color='k')
 	ax1.plot(angles, meanH0s+H0std, linewidth=2.0, color='0.5')
 	ax1.plot(angles, meanH0s-H0std, linewidth=2.0, color='0.5')
+#	for h0row in h0s.T:
+#		ax1.scatter(angles, h0row)
 
 
-	zeroLocations = [0.0, 2.0, 4.0, 6.0, 8.0, 10.0]
-	zeroLabels = ['-6', '-4', '-2', '0','2', '4']
+	zeroLocations = [0.0, 2.0, 4.0, 6.0, 8.0, 10.0, 12.0]
+	zeroLabels = ['-6', '-4', '-2', '0','2', '4', '6']
 	zeroTicks = {loc : label for loc, label in zip(zeroLocations, zeroLabels)}
-	ax2 = fractional_polar_axes(fig, thlim=(0., 180.), rlim=(0.0, 10.0),
+	ax2 = fractional_polar_axes(fig, thlim=(0., 180.), rlim=(0.0, 12.0),
 							 step=(10, 2.0), rlabels=zeroTicks, subplot=212,
 							 thlabel=r'$\phi$',
 							 rlabel=r'Hubble flow zero point distance (Mpc)')
