@@ -107,14 +107,19 @@ if __name__ == "__main__":
 	eps = 1.8
 	ms = 10
 
-	binlimits = np.linspace(0.0, np.pi, 7)
+	onAxisH0 = []
+	offAxisH0 = []
+	plotBinLimits = np.linspace(0.0, np.pi, 10)
 	angles = []
 	zeros = []
 	h0s = []
-	for i in range(len(binlimits)-1):
-		angles.append((binlimits[i]+binlimits[i+1])/2.0)
+	for i in range(len(plotBinLimits)-1):
+		angles.append((plotBinLimits[i]+plotBinLimits[i+1])/2.0)
 		h0s.append([])
 		zeros.append([])
+
+	excludedBins = 0
+	excludedSims = 0
 
 	simIndex = 0
 	f = open(inputfile, 'r')
@@ -164,6 +169,7 @@ if __name__ == "__main__":
 		closestContDist = physUtils.findClosestDistance(MWcop,
 												  contaminatedPositions)
 		if closestContDist < maxdist:
+			excludedSims += 1
 			continue
 
 		LGvector = cop[andromedaIndex] - cop[MWindex]
@@ -192,26 +198,41 @@ if __name__ == "__main__":
 
 
 		##### extracting interesting data starts #####
-		for angleIndex in range(len(binlimits)-1):
-			angleMask = np.array([direction < binlimits[angleIndex+1] and
-						 direction >= binlimits[angleIndex] for direction in
+		for angleIndex in range(len(plotBinLimits)-1):
+			angleMask = np.array([direction < plotBinLimits[angleIndex+1] and
+						 direction >= plotBinLimits[angleIndex] for direction in
 						 directions])
-			#			print("[" + str(binlimits[angleIndex]) + ", " +
-			#		 str(binlimits[angleIndex+1]) + "]:\t" + str(np.sum(angleMask)) )
+			#			print("[" + str(plotBinLimits[angleIndex]) + ", " +
+			#		 str(plotBinLimits[angleIndex+1]) + "]:\t" + str(np.sum(angleMask)) )
 
 			if np.sum(angleMask) < 10:
 				zeros[angleIndex].append(np.nan)
 				h0s[angleIndex].append(np.nan)
+				excludedBins += 1
 			else:
 				(H0, zero) = simpleFit(distances[angleMask], radvel[angleMask])
 				zeros[angleIndex].append(zero)
 				h0s[angleIndex].append(H0)
+
+		# on and off-axis measurements
+		onAxisMask = np.array([angle < np.pi/4.0 or angle > np.pi*3.0/4.0 for
+						 angle in directions])
+		onAxisH0.append(simpleFit(distances[onAxisMask], radvel[onAxisMask])[0])
+		offAxisMask = np.logical_not(onAxisMask)
+		offAxisH0.append(simpleFit(distances[offAxisMask],
+							 radvel[offAxisMask])[0])
+
+	print("Total sims excluded: "+str(excludedSims))
+	print("Total bins excluded: "+str(excludedBins))
+
 
 	##### plotting #####
 
 	angles = np.array(angles)*180.0/np.pi
 	h0s = np.array(h0s)
 	zeros = np.array(zeros)
+	onAxisH0 = np.array(onAxisH0)
+	offAxisH0 = np.array(offAxisH0)
 
 	meanH0s = np.nanmean(h0s, axis=1)
 	meanZeros = np.nanmean(zeros, axis=1)
@@ -231,12 +252,15 @@ if __name__ == "__main__":
 	H0locations = [0, 20, 40, 60, 80, 100, 120]
 	H0labels = ['0', '20', '40', '60', '80', '100', '120']
 	H0ticks = {loc : label for loc, label in zip(H0locations, H0labels)}
-	ax1 = fractional_polar_axes(fig, thlim=(0., 180.), rlim=(0, 120), step=(10., 20),
-							rlabels=H0ticks, subplot=211, thlabel=r'$\phi$',
-							rlabel=r'$H_{0}$ (km/s/Mpc)')
-	ax1.plot(angles, meanH0s, linewidth=2.0, color='k')
-	ax1.plot(angles, meanH0s+H0std, linewidth=2.0, color='0.5')
-	ax1.plot(angles, meanH0s-H0std, linewidth=2.0, color='0.5')
+	ax1 = fractional_polar_axes(fig, thlim=(0., 180.), rlim=(0, 120),
+							 step=(10.0, 20), rlabels=H0ticks, subplot=211,
+							 thlabel=r'$\phi$',	rlabel=r'$H_{0}$ (km/s/Mpc)')
+#	ax1.scatter(angles, meanH0s)
+	ax1.errorbar(angles, meanH0s, yerr=H0std, fmt='o', ecolor='k', capsize=0,
+			  color='k')
+#	ax1.plot(angles, meanH0s, linewidth=2.0, color='k')
+#	ax1.plot(angles, meanH0s+H0std, linewidth=2.0, color='0.5')
+#	ax1.plot(angles, meanH0s-H0std, linewidth=2.0, color='0.5')
 #	for h0row in h0s.T:
 #		ax1.scatter(angles, h0row)
 
@@ -245,15 +269,32 @@ if __name__ == "__main__":
 	zeroLabels = ['-6', '-4', '-2', '0','2', '4', '6']
 	zeroTicks = {loc : label for loc, label in zip(zeroLocations, zeroLabels)}
 	ax2 = fractional_polar_axes(fig, thlim=(0., 180.), rlim=(0.0, 12.0),
-							 step=(10, 2.0), rlabels=zeroTicks, subplot=212,
+							 step=(10.0, 2.0), rlabels=zeroTicks, subplot=212,
 							 thlabel=r'$\phi$',
 							 rlabel=r'Hubble flow zero point distance (Mpc)')
-	ax2.plot(angles, meanZeros+6.0, linewidth=2.0, color='k')
-	ax2.plot(angles, meanZeros+zerostd+6.0, linewidth=2.0, color='0.5')
-	ax2.plot(angles, meanZeros-zerostd+6.0, linewidth=2.0, color='0.5')
+#	ax1.scatter(angles, meanZeros)
+	ax2.errorbar(angles, meanZeros+6.0, xerr=0, yerr=zerostd, fmt='o',
+			  ecolor='k', color='k', capsize=0)
+#	ax2.plot(angles, meanZeros+6.0, linewidth=2.0, color='k')
+#	ax2.plot(angles, meanZeros+zerostd+6.0, linewidth=2.0, color='0.5')
+#	ax2.plot(angles, meanZeros-zerostd+6.0, linewidth=2.0, color='0.5')
 
 	plt.tight_layout()
 	fig.set_size_inches(5.3, 6.5)
 
 	plt.savefig(outputdir+"directionalHF.svg")
 
+	## off vs on axis
+	plt.cla()
+	plt.clf()
+	
+	ratio = onAxisH0/offAxisH0
+#	print(ratio)
+#	print(np.count_nonzero(ratio>1.0))
+#	print(np.count_nonzero(ratio<1.0))
+
+	plt.hist(np.log10(ratio))
+	plt.xlabel(r"$H_{0,onAxis}/H_{0,offAxis}$")
+
+	plt.tight_layout()
+	plt.savefig(outputdir+"directionalHF-ratios.svg")
