@@ -11,6 +11,7 @@ import filereader
 import LGfinder
 from optparse import OptionParser
 import physUtils
+from sklearn.utils import resample
 from sibeliusConstants import *
 from transitiondistance import simpleFit
 import matplotlib.pyplot as plt
@@ -289,12 +290,22 @@ if __name__ == "__main__":
 	plt.clf()
 	
 	ratio = onAxisH0/offAxisH0
-#	print(ratio)
+	print("median: " + str(np.median(ratio)))
 #	print(np.count_nonzero(ratio>1.0))
 #	print(np.count_nonzero(ratio<1.0))
 
-	plt.hist(np.log10(ratio))
+	plt.hist(ratio)
 	plt.xlabel(r"$H_{0,onAxis}/H_{0,offAxis}$")
 
 	plt.tight_layout()
 	plt.savefig(outputdir+"directionalHF-ratios.svg")
+
+
+	## bootstrapping ##
+	bootstrapRatios = np.zeros(5000)
+	for i in range(len(bootstrapRatios)):
+		bootstrapRatios[i] = np.median(resample(ratio))
+	print("5th percentile of bootstrapped median: " +
+		str(np.percentile(bootstrapRatios, 5.0)))
+	print("95th percentile of bootstrapped median: " +
+	   str(np.percentile(bootstrapRatios, 95.0)))
