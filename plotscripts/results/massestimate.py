@@ -256,11 +256,12 @@ if __name__ == "__main__":
 												 y_train.ravel(), cv=kf_3,
 												 scoring='mean_squared_error').mean()
 		mse.append(score)
-	plt.plot(np.array(mse))
+	print(mse)
+	print(np.arange(1, len(mse)+1))
+	plt.plot(np.arange(1, len(mse)+1), np.array(mse))
 	plt.xlabel('Number of principal components in regression')
 	plt.ylabel('MSE')
-	plt.xlim(xmin=-1);
-	plt.show()
+	plt.savefig(outputdir + "PCA-3foldMSE-LinearRegression.svg")
 
 	plt.cla()
 	plt.clf()
@@ -277,9 +278,7 @@ if __name__ == "__main__":
 		mse.append(-score)
 	
 	# Plot results
-	plt.plot(np.arange(1, 9), np.array(mse))
+	plt.plot(np.arange(1, len(mse)+1), np.array(mse))
 	plt.xlabel('Number of principal components in regression')
 	plt.ylabel('MSE')
-	plt.title('Salary')
-	plt.xlim(xmin=-1)
-	plt.show()
+	plt.savefig(outputdir + "PCA-3foldMSE-PLSRegression.svg")
