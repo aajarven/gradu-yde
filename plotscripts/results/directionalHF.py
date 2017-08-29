@@ -1,6 +1,7 @@
 # -*- coding:utf-8 -*-
 
 from __future__ import print_function
+from __future__ import division
 import sys
 sys.path.insert(0, '/scratch/aajarven/plotscripts/')
 
@@ -10,6 +11,7 @@ import filereader
 import LGfinder
 from optparse import OptionParser
 import physUtils
+from sklearn.utils import resample
 from sibeliusConstants import *
 from transitiondistance import simpleFit
 import matplotlib.pyplot as plt
@@ -17,10 +19,88 @@ from matplotlib import rc
 import numpy as np
 import sys
 
+from matplotlib.transforms import Affine2D
+from matplotlib.projections import PolarAxes
+from mpl_toolkits.axisartist import angle_helper
+from mpl_toolkits.axisartist.grid_finder import MaxNLocator, DictFormatter
+from mpl_toolkits.axisartist.floating_axes import GridHelperCurveLinear, FloatingSubplot
+
+# https://stackoverflow.com/a/32235971
+def fractional_polar_axes(f, thlim=(0, 180), rlim=(0, 1), step=(30, 0.25),
+						  thlabel='theta', rlabel='r', ticklabels=True, rlabels = None, subplot=111):
+	'''Return polar axes that adhere to desired theta (in deg) and r limits. steps for theta
+	and r are really just hints for the locators.'''
+	th0, th1 = thlim # deg
+	r0, r1 = rlim
+	thstep, rstep = step
+
+	# scale degrees to radians:
+	tr_scale = Affine2D().scale(np.pi/180., 1.)
+	pa = PolarAxes
+	tr = tr_scale + pa.PolarTransform()
+	theta_grid_locator = angle_helper.LocatorDMS((th1-th0)//thstep)
+	r_grid_locator = MaxNLocator((r1-r0)//rstep)
+	theta_tick_formatter = angle_helper.FormatterDMS()
+	if rlabels:
+		rlabels = DictFormatter(rlabels)
+
+	grid_helper = GridHelperCurveLinear(tr,
+									 extremes=(th0, th1, r0, r1),
+									 grid_locator1=theta_grid_locator,
+									 grid_locator2=r_grid_locator,
+									 tick_formatter1=theta_tick_formatter,
+									 tick_formatter2=rlabels)
+
+	a = FloatingSubplot(f, subplot, grid_helper=grid_helper)
+	f.add_subplot(a)
+	
+	# adjust x axis (theta):
+	a.axis["bottom"].set_visible(False)
+	a.axis["top"].set_axis_direction("bottom") # tick direction
+	a.axis["top"].toggle(ticklabels=ticklabels, label=bool(thlabel))
+	a.axis["top"].major_ticklabels.set_axis_direction("top")
+	a.axis["top"].label.set_axis_direction("top")
+	a.axis["top"].major_ticklabels.set_pad(10)
+
+	# adjust y axis (r):
+	a.axis["left"].set_axis_direction("bottom") # tick direction
+	a.axis["right"].set_axis_direction("top") # tick direction
+	a.axis["left"].toggle(ticklabels=True, label=bool(rlabel))
+	
+	# add labels:
+	a.axis["top"].label.set_text(thlabel)
+	a.axis["left"].label.set_text(rlabel)
+	
+	# create a parasite axes whose transData is theta, r:
+	auxa = a.get_aux_axes(tr)
+	
+	# make aux_ax to have a clip path as in a?:
+	auxa.patch = a.patch 
+	# this has a side effect that the patch is drawn twice, and possibly over some other
+	# artists. So, we decrease the zorder a bit to prevent this:
+	a.patch.zorder = -2
+
+	# add sector lines for both dimensions:
+	thticks = grid_helper.grid_info['lon_info'][0]
+	rticks = grid_helper.grid_info['lat_info'][0]
+	for th in thticks[1:-1]: # all but the first and last
+		auxa.plot([th, th], [r0, r1], ':', c='grey', zorder=-1, lw=0.5)
+		for ri, r in enumerate(rticks):
+			# plot first r line as axes border in solid black only if it  isn't at r=0
+			if ri == 0 and r != 0:
+				ls, lw, color = 'solid', 1, 'black'
+			else:
+				ls, lw, color = 'dashed', 0.5, 'grey'
+				# From http://stackoverflow.com/a/19828753/2020363
+				auxa.add_artist(plt.Circle([0, 0], radius=r, ls=ls, lw=lw, color=color, fill=False,
+							   transform=auxa.transData._b, zorder=-1))
+
+	return auxa
+
 
 if __name__ == "__main__":
-#	inputfile = "../input/allButDuplicates-fullpath.txt" 
-	inputfile = "../input/hundred.txt"
+	inputfile = "../input/allButDuplicates-fullpath.txt" 
+#	inputfile = "../input/hundred.txt"
 	outputdir = "../../kuvat/"
 
 	mindist = 1.0
@@ -28,14 +108,19 @@ if __name__ == "__main__":
 	eps = 1.8
 	ms = 10
 
-	binlimits = np.linspace(0.0, np.pi, 19)
+	onAxisH0 = []
+	offAxisH0 = []
+	plotBinLimits = np.linspace(0.0, np.pi, 10)
 	angles = []
 	zeros = []
 	h0s = []
-	for i in range(len(binlimits)-1):
-		angles.append((binlimits[i]+binlimits[i+1])/2.0)
+	for i in range(len(plotBinLimits)-1):
+		angles.append((plotBinLimits[i]+plotBinLimits[i+1])/2.0)
 		h0s.append([])
 		zeros.append([])
+
+	excludedBins = 0
+	excludedSims = 0
 
 	simIndex = 0
 	f = open(inputfile, 'r')
@@ -47,14 +132,14 @@ if __name__ == "__main__":
 		mass = filereader.readAllFiles(dirname, "Subhalo/Mass", 1)
 		fullCOP = filereader.readAllFiles(dirname, "Subhalo/CentreOfPotential", 3)
 		FoFcontamination = filereader.readAllFiles(dirname, "FOF/ContaminationCount",
-												   1)
+											 1)
 		groupNumbers = filereader.readAllFiles(dirname, "Subhalo/GroupNumber", 1)
 
 		fullCOP = fullCOP/h0 # to Mpc
 
 		# creation of mask with True if there is no contamination in Subhalo
 		contaminationMask = np.asarray([FoFcontamination[int(group)-1]<1 for group in
-										  groupNumbers])
+								  groupNumbers])
 
 		# save contaminated haloes for finding closest one
 		contaminatedPositions = fullCOP[contaminationMask==False, :]
@@ -64,12 +149,12 @@ if __name__ == "__main__":
 		mass = mass[contaminationMask]
 		cop = fullCOP[contaminationMask, :]
 		groupNumbers = groupNumbers[contaminationMask]
-		
+
 		# to physical units
 		mass = mass/h0*1e10 # to M_☉
-		
+
 		LGs = LGfinder.findLocalGroup(staticVel, mass, cop, quiet=True,
-									  outputAll=True)
+								outputAll=True)
 		unmaskedLGs = LGfinder.maskedToUnmasked(LGs, cop, fullCOP)
 		bestLGindex = LGfinder.chooseClosestToCentre(unmaskedLGs, contaminationMask, fullCOP)
 		LG = LGs[bestLGindex]
@@ -83,77 +168,144 @@ if __name__ == "__main__":
 
 		MWcop = cop[MWindex]
 		closestContDist = physUtils.findClosestDistance(MWcop,
-														contaminatedPositions)
+												  contaminatedPositions)
 		if closestContDist < maxdist:
+			excludedSims += 1
 			continue
-		
+
 		LGvector = cop[andromedaIndex] - cop[MWindex]
-		
+
 		centreVel = staticVel[MWindex]
 		distances = np.array([physUtils.distance(MWcop, c) for c in
-												 cop])
+						cop])
 		vel = physUtils.addExpansion(staticVel, cop, MWcop)
-	
+
 		LGrelVel = vel[LG[0]] - vel[LG[1]]
 		LGrelVelComponents = physUtils.velocityComponents(LGrelVel, cop[LG[1]]-cop[LG[0]])
 		LGdistance = physUtils.distance(cop[LG[0]], cop[LG[1]])
 
 		mask = np.array([d < maxdist and d > mindist for d in
-							distances])
+				   distances])
 		cop = cop[mask]
 		vel = vel[mask]
 		distances = distances[mask]
 
 		radvel = np.array([physUtils.velocityComponents(vel[j] - centreVel,
-														cop[j] - MWcop)[0]
-						   for j in range(len(vel))])
+												  cop[j] - MWcop)[0]
+					 for j in range(len(vel))])
 
 		directions = np.array([physUtils.angleBetween(LGvector, pos-MWcop) for pos in
 						 cop])
-	
+
 
 		##### extracting interesting data starts #####
-		for angleIndex in range(len(binlimits)-1):
-			angleMask = np.array([direction < binlimits[angleIndex+1] and
-						 direction >= binlimits[angleIndex] for direction in
+		for angleIndex in range(len(plotBinLimits)-1):
+			angleMask = np.array([direction < plotBinLimits[angleIndex+1] and
+						 direction >= plotBinLimits[angleIndex] for direction in
 						 directions])
-			print("[" + str(binlimits[angleIndex]) + ", " +
-		 str(binlimits[angleIndex+1]) + "]:\t" + str(np.sum(angleMask)) )
-			
+			#			print("[" + str(plotBinLimits[angleIndex]) + ", " +
+			#		 str(plotBinLimits[angleIndex+1]) + "]:\t" + str(np.sum(angleMask)) )
+
 			if np.sum(angleMask) < 10:
 				zeros[angleIndex].append(np.nan)
 				h0s[angleIndex].append(np.nan)
+				excludedBins += 1
 			else:
 				(H0, zero) = simpleFit(distances[angleMask], radvel[angleMask])
 				zeros[angleIndex].append(zero)
 				h0s[angleIndex].append(H0)
 
+		# on and off-axis measurements
+		onAxisMask = np.array([angle < np.pi/4.0 or angle > np.pi*3.0/4.0 for
+						 angle in directions])
+		onAxisH0.append(simpleFit(distances[onAxisMask], radvel[onAxisMask])[0])
+		offAxisMask = np.logical_not(onAxisMask)
+		offAxisH0.append(simpleFit(distances[offAxisMask],
+							 radvel[offAxisMask])[0])
 
+	print("Total sims excluded: "+str(excludedSims))
+	print("Total bins excluded: "+str(excludedBins))
 
 
 	##### plotting #####
 
+	angles = np.array(angles)*180.0/np.pi
 	h0s = np.array(h0s)
 	zeros = np.array(zeros)
-	
+	onAxisH0 = np.array(onAxisH0)
+	offAxisH0 = np.array(offAxisH0)
+
+	meanH0s = np.nanmean(h0s, axis=1)
+	meanZeros = np.nanmean(zeros, axis=1)
+	H0std = np.nanstd(h0s, axis=1, ddof=1)
+	zerostd = np.nanstd(zeros, axis=1)
+
 
 	rc('font', **{'family':'serif','serif':['Palatino']})
 	rc('text', usetex=True)
 	params = {'text.latex.preamble' : [r'\usepackage{wasysym}']}
 	plt.rcParams.update(params)
 
-	fig, (ax1, ax2) = plt.subplots(1, 2, subplot_kw=dict(projection='polar'))
 
-	print(h0s)
-	print(np.nanmean(h0s, axis=1))
-	ax1.plot(angles, np.nanmean(h0s, axis=1))
-	ax2.plot(angles, np.nanmean(zeros, axis=1))
+	fig = plt.figure()
 
-#	plt.tight_layout()
-	fig.set_size_inches(5.9, 2.6)
 
-#	plt.xlabel("Hubble flow zero point (Mpc from LG centre)")
-#	plt.ylabel("Combined mass of Milky Way and Andromeda (Solar masses)")
-#	plt.xlim(xmin, xmax)
+	H0locations = [0, 20, 40, 60, 80, 100, 120]
+	H0labels = ['0', '20', '40', '60', '80', '100', '120']
+	H0ticks = {loc : label for loc, label in zip(H0locations, H0labels)}
+	ax1 = fractional_polar_axes(fig, thlim=(0., 180.), rlim=(0, 120),
+							 step=(10.0, 20), rlabels=H0ticks, subplot=211,
+							 thlabel=r'$\phi$',	rlabel=r'$H_{0}$ (km/s/Mpc)')
+#	ax1.scatter(angles, meanH0s)
+	ax1.errorbar(angles, meanH0s, yerr=H0std, fmt='o', ecolor='k', capsize=0,
+			  color='k')
+#	ax1.plot(angles, meanH0s, linewidth=2.0, color='k')
+#	ax1.plot(angles, meanH0s+H0std, linewidth=2.0, color='0.5')
+#	ax1.plot(angles, meanH0s-H0std, linewidth=2.0, color='0.5')
+#	for h0row in h0s.T:
+#		ax1.scatter(angles, h0row)
+
+
+	zeroLocations = [0.0, 2.0, 4.0, 6.0, 8.0, 10.0, 12.0]
+	zeroLabels = ['-6', '-4', '-2', '0','2', '4', '6']
+	zeroTicks = {loc : label for loc, label in zip(zeroLocations, zeroLabels)}
+	ax2 = fractional_polar_axes(fig, thlim=(0., 180.), rlim=(0.0, 12.0),
+							 step=(10.0, 2.0), rlabels=zeroTicks, subplot=212,
+							 thlabel=r'$\phi$',
+							 rlabel=r'Hubble flow zero point distance (Mpc)')
+#	ax1.scatter(angles, meanZeros)
+	ax2.errorbar(angles, meanZeros+6.0, xerr=0, yerr=zerostd, fmt='o',
+			  ecolor='k', color='k', capsize=0)
+#	ax2.plot(angles, meanZeros+6.0, linewidth=2.0, color='k')
+#	ax2.plot(angles, meanZeros+zerostd+6.0, linewidth=2.0, color='0.5')
+#	ax2.plot(angles, meanZeros-zerostd+6.0, linewidth=2.0, color='0.5')
+
+	plt.tight_layout()
+	fig.set_size_inches(5.3, 6.5)
+
 	plt.savefig(outputdir+"directionalHF.svg")
 
+	## off vs on axis
+	plt.cla()
+	plt.clf()
+	
+	ratio = onAxisH0/offAxisH0
+	print("median: " + str(np.median(ratio)))
+#	print(np.count_nonzero(ratio>1.0))
+#	print(np.count_nonzero(ratio<1.0))
+
+	plt.hist(ratio)
+	plt.xlabel(r"$H_{0,onAxis}/H_{0,offAxis}$")
+
+	plt.tight_layout()
+	plt.savefig(outputdir+"directionalHF-ratios.svg")
+
+
+	## bootstrapping ##
+	bootstrapRatios = np.zeros(5000)
+	for i in range(len(bootstrapRatios)):
+		bootstrapRatios[i] = np.median(resample(ratio))
+	print("5th percentile of bootstrapped median: " +
+		str(np.percentile(bootstrapRatios, 5.0)))
+	print("95th percentile of bootstrapped median: " +
+	   str(np.percentile(bootstrapRatios, 95.0)))
