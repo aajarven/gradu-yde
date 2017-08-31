@@ -48,12 +48,12 @@ def rotate(refX, refY, x, y):
 	return (xPrime, yPrime)
 
 
-np.random.seed(71771)
+np.random.seed(717717)
 
 N=30
 
 x = np.arange(0, 2, 2.0/(N))
-y = np.arange(0, 1.5, 1.5/(N))
+y = np.arange(0, 1.5, 1.5/(N))+0.25
 xDeviations = np.random.normal(0.0, 0.3, N)
 yDeviations = np.random.normal(0.0, 0.3, N)
 
@@ -68,7 +68,7 @@ xCenter = np.mean(x)
 yCenter = np.mean(y)
 
 ax1.scatter(xCenter, yCenter, marker='x', color='r', s=60)
-aesthetics(ax1, -1.0, 2.5, -1.0, 2.0, '$x$', '$y$', 'Original data',
+aesthetics(ax1, -1.0, 2.5, -0.5, 2.5, '$x$', '$y$', 'Original data',
 		   yLabelOffset=-0.1)
 x = x - xCenter
 y = y - yCenter
@@ -82,11 +82,16 @@ pca=PCA(n_components=1)
 xy_pca=pca.fit_transform(xy)
 xy_n=pca.inverse_transform(xy_pca)
 
-ax2.plot(xy_n[:,0], xy_n[:,1], color='k')
+components = pca.components_
+
+lineStart = components[0] * -2.0 / components[0, 0]
+lineEnd = components[0] * 1.5 / components[0, 0]
+ax2.plot([lineStart[0], lineEnd[0]], [lineStart[1], lineEnd[1]], color='k')
 
 (rotatedX, rotatedY) = rotate(xy_n[0, 1], xy_n[0, 1], x, y)
-transformedXY = pca.transform(xy)
-ax3.scatter(transformedXY[:,0], transformedXY[:,1], marker='.', edgecolor='k', facecolor='k')
+(transformedX, transformedY) = rotate(components[0, 0], components[0, 1], x,
+									  y)
+ax3.scatter(transformedX, transformedY, marker='.', edgecolor='k', facecolor='k')
 aesthetics(ax3, -1.5, 1.5, -1.0, 1.0, r'$PC_{1}$', '~$PC_{2}$',
 		   'Principal components', xLabelOffset=-0.15, yLabelOffset=-0.1)
 
