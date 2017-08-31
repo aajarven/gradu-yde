@@ -92,7 +92,7 @@ ax2.plot([lineStart[0], lineEnd[0]], [lineStart[1], lineEnd[1]], color='k')
 (transformedX, transformedY) = rotate(components[0, 0], components[0, 1], x,
 									  y)
 ax3.scatter(transformedX, transformedY, marker='.', edgecolor='k', facecolor='k')
-aesthetics(ax3, -1.5, 1.5, -1.0, 1.0, r'$PC_{1}$', '~$PC_{2}$',
+aesthetics(ax3, -2.0, 1.5, -1.5, 1.5, r'$PC_{1}$', '~$PC_{2}$',
 		   'Principal components', xLabelOffset=-0.15, yLabelOffset=-0.1)
 
 pylab.gcf().set_size_inches(4.0, 8.0)
