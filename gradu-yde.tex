@@ -215,7 +215,7 @@ A common situation in scientific research is that one has to compare a sample of
 Typically the process of hypothesis testing begins with forming of a null hypothesis $H_0$ that is formatted such that the aim for the next steps is to either reject it or deduce that it cannot be rejected with a chosen significance level. Negation of the null hypothesis is often called research hypothesis or alternative hypothesis and denoted as $H_1$. For example, this can lead to $H_0$ ''this dataset is sampled from a normal distribution'' and $H_1$ ''this dataset is not sampled from a normal distribution''. Choosing the hypothesis in this manner is done because often the research hypothesis is difficult to define otherwise. \citep{bohm2010introduction, wall2003practical}
 
 After setting the hypothesis one must choose an appropriate test statistic. Ideally this is chosen such that the difference between cases $H_0$ and $H_1$ is as large as possible. Then one must choose 
-the significance level $\alpha$ which corresponds to the probability of rejecting $H_0$ in the case where $H_0$ actually is true. This fixes the critical region i.e. the values of test statistic that lead to the rejection of the $H_0$. \citep{bohm2010introduction, wall2003practical}
+the significance level $\alpha$ which corresponds to the probability of rejecting $H_0$ in the case where $H_0$ actually is true. This fixes the critical region i.e.\ the values of test statistic that lead to the rejection of the $H_0$. \citep{bohm2010introduction, wall2003practical}
 
 \reversemarginpar
 \marginnote{\footnotesize{miten $\alpha$ valitaan, millaiset arvot ovat tyypillisiä? miten $\alpha$ -> critical value -> rejection/no rejection. otoskoko = N mukaan tänne}}
@@ -282,11 +282,13 @@ Ordinary least squares: mitä, miksi ongelmallinen -> total (orthogonal?) least 
 
 
 \section{Principal Component Analysis}
-Principal component analysis (PCA) is a statistical procedure first introdueced by \citet{pearson1901lines} to aid physical, statistical and biological investigations where fitting a line or a plane to n-dimensional dataset is desired. This approach also solves the problem of sometimes arbitrary choice of dividing the data to dependent and independent variables introduced in section 4.2.something. %TODO
+\reversemarginpar
+\marginnote{\footnotesize{orthogonal vs uncorrelated}}
+Principal component analysis (PCA) is a statistical procedure first introdueced by \citet{pearson1901lines} to aid physical, statistical and biological investigations where fitting a line or a plane to n-dimensional dataset is desired. When performing PCA, one transforms a data set to new set of uncorrelated variables i.e.\ ones represented by orthogonal basis vectors. These variables are called principal components (PCs) \citep{jolliffe2002principal}. This approach also solves the problem of sometimes arbitrary choice of dividing the data to dependent and independent variables introduced in section 4.2.something \citet{pearson1901lines}. 
 
 \reversemarginpar
 \marginnote{\footnotesize{not sure if kannattaa kuvaille proseduuria erityisen tarkkaan, selityksestä tulee pitkällinen jos aikoo aloittaa keskimääräisen tähtitieteilijän lähtötasolta, ehkä vain ohjaa lähteeseen}}
-PCA can be used to both reduce and interpret data \citep{johnson1988applied}. Often PCA alone does not produce the desired result, but instead its output is used as a starting point for other analysis methods such as factor analysis or multiple regression. These applications are introduced in the following subsections together with a short description of performing PCA and interpreting its results.
+PCA can be used to both reduce and interpret data \citep{johnson1988applied}. Often PCA alone does not produce the desired result, but instead PCs are used as a starting point for other analysis methods such as factor analysis or multiple regression \citep{johnson1988applied}. These applications are introduced in the following subsections together with a short description of performing PCA and interpreting its results. In addition to  these applications, PCA is also used in image compression, face recognition and other fields \citep{smith2002tutorial}.
 
 \subsection{Extracting Principal Components}
 \begin{figure}
@@ -295,7 +297,17 @@ PCA can be used to both reduce and interpret data \citep{johnson1988applied}. Of
     \caption{.}\label{fig:pca-illustrated}
 \end{figure}
 
-In order to understand the process of obtaining principal components of a data set let us follow the procedure on a two-dimensional data shown in the top panel of figure \ref{fig:pca-illustrated} with black dots. 
+In order to understand the process of obtaining principal components of a data set let us follow the procedure on a two-dimensional data shown in the top panel of figure \ref{fig:pca-illustrated} with black dots. First step of finding the PCs is do locate the centroid of the dataset i.e.\ the mean of the data along every axis \citep{smith2002tutorial}. This is marked with a red x in the top panel of figure \ref{fig:pca-illustrated}.
+
+\reversemarginpar
+\marginnote{\footnotesize{jos päädyt puhumaan eigenvektoreista tai kovarianssimatriiseista, selitä ne täällä}}
+The best-fit line and therefore the PCs always pass through the centroid of the system \citep{pearson1901lines}, so subtracting the location of the centroid from the data is a natural next step, as is done in the middle panel of the figure \ref{fig:pca-illustrated}. Now the first PC can be located by finding the line passing through the origin with maximum variance of the projected data points \citep{jolliffe2002principal}, shown with a black line in the middle panel of figure \ref{fig:pca-illustrated}. PCs are always orthogonal and intersect at the origin, so in the two-dimensional example case the second and final PC is fully determined and the data set can be represented using the PCs as is shown in the bottom panel of the figure \ref{fig:pca-illustrated}.
+
+Had the data set had more than two dimensions, the second PC would have been chosen such that it and the first PC are orthogonal and that variance along the PC is again maximised \citep{jolliffe2002principal}. This can be repeated for each dimension of the data set or, if dimensionality reduction is desired, only for a smaller number of dimensions.
+
+Often this level of understanding is enough to successfully apply PCA to a problem, because PCA has ready-made implementations for many programming languages such as prcomp for R %TODO soossi
+and sklearn.decomposition.PCA in scikit-learn library \citep{scikit-learn} for Python. If a more mathematical approach is desired, \citet{smith2002tutorial} explains PCA together with covariance matrices, eigenvectors and eigenvalues required to understand the process very clearly. \citet{jolliffe2002principal} also includes a very thorough description of PCA.
+
 
 \subsection{Applications in Factor Analysis}
 
@@ -373,7 +385,7 @@ where $R_i$ is the number of samples in row $i$, $C_j$ is the number of samples 
 
 According to \citet{corder2014nonparametric}, the degrees of freedom is $(R-1)(C-1)$ where R is the number of rows and C is the number of columns in tabulated data. This is true in many if not most cases, but the way of collecting data can affect the degrees of freedom in both one-sample and multi-sample cases. For example, if the one-sample model is not renormalized to fit the total number of observed events or in two-sample case the sample sizes differ the degrees of freedom equal to number of bins $N_b$ instead of $N_b-1$. \citep{press2007numerical}.
 
-Before performing $\chi^2$ test on a dataset, it is important to confirm that the data meets the assumptions for $\chi^2$ test. First of all, the data has to consist of counts i.e. not for example percentages or fractions. These counts should be independent of each other and there has to be enough of them, generally $>50$ is sufficient. Bins should also be chosen such that all bins have at least five counts according to the null hypothesis. If the last condition is not met, one can can consider combining bins. \citep{bock2010stats, htk}
+Before performing $\chi^2$ test on a dataset, it is important to confirm that the data meets the assumptions for $\chi^2$ test. First of all, the data has to consist of counts i.e.\ not for example percentages or fractions. These counts should be independent of each other and there has to be enough of them, generally $>50$ is sufficient. Bins should also be chosen such that all bins have at least five counts according to the null hypothesis. If the last condition is not met, one can can consider combining bins. \citep{bock2010stats, htk}
 
 \reversemarginpar
 \marginnote{\footnotesize{TODO: ei hyvä, pearsonista olisi hyvä sanoa jo ehkä alussa, ehkä vähän pidempi tuosta mitä muita vaihtoehtoja on -osasta}}
@@ -382,7 +394,7 @@ The method described above is sometimes referred to as Pearson's $\chi^2$ test d
 
 
 \subsection{Kolmogorov-Smirnov test}
-For astronomers one of the most well-known statistical test is the Kolmogorov-Smirnov test, also known as the KS test. It is computationally inexpensive to calculate, easy to understand and does not require binning of data. It is also a nonparametric test i.e. the data does not have to be drawn from a particular distribution. \citep{feigelson2012modern}
+For astronomers one of the most well-known statistical test is the Kolmogorov-Smirnov test, also known as the KS test. It is computationally inexpensive to calculate, easy to understand and does not require binning of data. It is also a nonparametric test i.e.\ the data does not have to be drawn from a particular distribution. \citep{feigelson2012modern}
 
 In the astrophysical context this is often important because astrophysical models usually do not fix a specific statistical distribution for observables and it is common to carry out calculations with logarithms of observables, after which the originally possibly normally distributed residuals  will no longer follow a normal distribution. When using the KS test, the values on the x-axis can be freely reparametrized: for example using $2x$ or $\log x$ on x-axis will result in same value of the test statistic as using just $x$. \citep{feigelson2012modern, press2007numerical}
 
@@ -399,7 +411,7 @@ uses the maximum vertical distance of the EDFs. This test statistic is then used
    \label{fig:ks} 
 \end{figure}
 
-As an example, let's consider two pairs of samples from figure \ref{fig:edf}: green and blue (two samples drawn from different normal distributions) and blue and cyan (two samples drawn from same normal distribution). We can formulate the test and null hypotheses for both pairs as $H_0$=''the two samples are drawn from the same distribution'' and $H_1$=''the two samples are not drawn from the same distribution'' and choose a significance level of for example $\alpha=0.05$ or $\alpha=0.01$.
+As an example, let us consider two pairs of samples from figure \ref{fig:edf}: green and blue (two samples drawn from different normal distributions) and blue and cyan (two samples drawn from same normal distribution). We can formulate the test and null hypotheses for both pairs as $H_0$=''the two samples are drawn from the same distribution'' and $H_1$=''the two samples are not drawn from the same distribution'' and choose a significance level of for example $\alpha=0.05$ or $\alpha=0.01$.
 
 \reversemarginpar
 \marginnote{\footnotesize{mistä p-value saadaan, kerro taas aiemmin (tai täällä)}}
@@ -412,7 +424,7 @@ The test statistic is then calculated and for these samples we get $D=0.51$ for 
    \label{fig:ks-error} 
 \end{figure}
 
-In this case the KS test produced result that matches the actual distributions from which the samples were drawn. Using a different random realization might have resulted in a different conclusion, for example one shown in figure \ref{fig:ks-error} results in $D=0.17$ that corresponds to a p-value of $0.64$ i.e. null hypothesis could not have been rejected using the $\alpha$ specified earlier. In a similar manner there can be cases where two samples from one distribution are erroneously determined not to come from the same distribution if the samples differ from each other enough due to random effects.
+In this case the KS test produced result that matches the actual distributions from which the samples were drawn. Using a different random realization might have resulted in a different conclusion, for example one shown in figure \ref{fig:ks-error} results in $D=0.17$ that corresponds to a p-value of $0.64$ i.e.\ null hypothesis could not have been rejected using the $\alpha$ specified earlier. In a similar manner there can be cases where two samples from one distribution are erroneously determined not to come from the same distribution if the samples differ from each other enough due to random effects.
 
 The latter example case also illustrates one major shortcoming of the KS test: it is not very sensitive to small-scale differences near the tails of the distribution. For example in figure \ref{fig:ks-error} the blue sample goes much further left, but because EDF is always zero at the lowest allowed value and one at the highest one the vertical distances near the tails are small and the test is most sensitive to differences near the median value of the distribution. On the other hand, the test performs quite well when the samples differ globally or have different means. \citep{feigelson2012modern}
 
