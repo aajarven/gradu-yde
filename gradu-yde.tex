@@ -16,6 +16,7 @@
 %\usepackage{svg} % vector graphics
 \usepackage{graphicx}
 \graphicspath{{kuvat/tex/}}
+\usepackage{wasysym}
 
 % titlesec and fix for no numbering on titlesec 2.10.2
 \usepackage{titlesec}
@@ -301,7 +302,11 @@ In order to understand the process of obtaining principal components of a data s
 
 \reversemarginpar
 \marginnote{\footnotesize{jos päädyt puhumaan eigenvektoreista tai kovarianssimatriiseista, selitä ne täällä}}
-The best-fit line and therefore the PCs always pass through the centroid of the system \citep{pearson1901lines}, so subtracting the location of the centroid from the data is a natural next step, as is done in the middle panel of the figure \ref{fig:pca-illustrated}. Now the first PC can be located by finding the line passing through the origin with maximum variance of the projected data points \citep{jolliffe2002principal}, shown with a black line in the middle panel of figure \ref{fig:pca-illustrated}. PCs are always orthogonal and intersect at the origin, so in the two-dimensional example case the second and final PC is fully determined and the data set can be represented using the PCs as is shown in the bottom panel of the figure \ref{fig:pca-illustrated}.
+The best-fit line and therefore the PCs always pass through the centroid of the system \citep{pearson1901lines}, so subtracting the location of the centroid from the data is a natural next step, as is done in the middle panel of the figure \ref{fig:pca-illustrated}. If the variables have different units, each variable should be scaled to have equal standard deviations \citep{james2013introduction}.
+
+Unless this scaling is done, choice of units can arbitrarily skew the principal components, which is easy to see when considering for example a case where one has distances to galaxies in megaparsecs and their masses in units of $10^{12}\ M_{\astrosun}$, both of which might result in standard deviations being of the order of unity and PCA might yield principal components that are not dominated by neither variable alone. Now, say another astronomer has a similar data set, but distances are given in meters. In this case, most of the variation is in the distances, so distances will also dominate the PCs. If all variables are measured in same units, scaling can be omitted in some cases \citep{james2013introduction}.
+
+Now the first PC can be located by finding the line passing through the origin with maximum variance of the projected data points \citep{jolliffe2002principal}, shown with a black line in the middle panel of figure \ref{fig:pca-illustrated}. PCs are always orthogonal and intersect at the origin, so in the two-dimensional example case the second and final PC is fully determined and the data set can be represented using the PCs as is shown in the bottom panel of the figure \ref{fig:pca-illustrated}.
 
 Had the data set had more than two dimensions, the second PC would have been chosen such that it and the first PC are orthogonal and that variance along the PC is again maximised \citep{jolliffe2002principal}. This can be repeated for each dimension of the data set or, if dimensionality reduction is desired, only for a smaller number of dimensions.
 
