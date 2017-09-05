@@ -289,7 +289,7 @@ Principal component analysis (PCA) is a statistical procedure first introdueced 
 
 \reversemarginpar
 \marginnote{\footnotesize{not sure if kannattaa kuvaille proseduuria erityisen tarkkaan, selityksestä tulee pitkällinen jos aikoo aloittaa keskimääräisen tähtitieteilijän lähtötasolta, ehkä vain ohjaa lähteeseen}}
-PCA can be used to both reduce and interpret data \citep{johnson1988applied}. Often PCA alone does not produce the desired result, but instead PCs are used as a starting point for other analysis methods such as factor analysis or multiple regression \citep{johnson1988applied}. These applications are introduced in the following subsections together with a short description of performing PCA and interpreting its results. In addition to  these applications, PCA is also used in image compression, face recognition and other fields \citep{smith2002tutorial}.
+PCA can be used to both reduce and interpret data \citep{johnson2007applied}. Often PCA alone does not produce the desired result, but instead PCs are used as a starting point for other analysis methods such as factor analysis or multiple regression \citep{johnson2007applied}. These applications are introduced in the following subsections together with a short description of performing PCA and interpreting its results. In addition to  these applications, PCA is also used in image compression, face recognition and other fields \citep{smith2002tutorial}.
 
 \subsection{Extracting Principal Components}
 \begin{figure}
@@ -302,9 +302,9 @@ In order to understand the process of obtaining principal components of a data s
 
 \reversemarginpar
 \marginnote{\footnotesize{jos päädyt puhumaan eigenvektoreista tai kovarianssimatriiseista, selitä ne täällä}}
-The best-fit line and therefore the PCs always pass through the centroid of the system \citep{pearson1901lines}, so subtracting the location of the centroid from the data is a natural next step, as is done in the middle panel of the figure \ref{fig:pca-illustrated}. If the variables have different units, each variable should be scaled to have equal standard deviations \citep{james2013introduction}.
+The best-fit line and therefore the PCs always pass through the centroid of the system \citep{pearson1901lines}, so subtracting the location of the centroid from the data is a natural next step, as is done in the middle panel of the figure \ref{fig:pca-illustrated}. If the variables have different units, each variable should be scaled to have equal standard deviations \citep{james2013introduction} unless the linear algebra based approach with correlation matrices, as explained in e.g. \citep{jolliffe2002principal}, is used.
 
-Unless this scaling is done, choice of units can arbitrarily skew the principal components, which is easy to see when considering for example a case where one has distances to galaxies in megaparsecs and their masses in units of $10^{12}\ M_{\astrosun}$, both of which might result in standard deviations being of the order of unity and PCA might yield principal components that are not dominated by neither variable alone. Now, say another astronomer has a similar data set, but distances are given in meters. In this case, most of the variation is in the distances, so distances will also dominate the PCs. If all variables are measured in same units, scaling can be omitted in some cases \citep{james2013introduction}.
+If this scaling is not performed, choice of units can arbitrarily skew the principal components, which is easy to see when considering for example a case where one has distances to galaxies in megaparsecs and their masses in units of $10^{12}\ M_{\astrosun}$, both of which might result in standard deviations being of the order of unity and PCA might yield principal components that are not dominated by neither variable alone. Now, say another astronomer has a similar data set, but distances are given in meters. In this case, most of the variation is in the distances, so distances will also dominate the PCs. If all variables are measured in same units, scaling can be omitted in some cases \citep{james2013introduction}.
 
 Now the first PC can be located by finding the line passing through the origin with maximum variance of the projected data points \citep{jolliffe2002principal}, shown with a black line in the middle panel of figure \ref{fig:pca-illustrated}. PCs are always orthogonal and intersect at the origin, so in the two-dimensional example case the second and final PC is fully determined and the data set can be represented using the PCs as is shown in the bottom panel of the figure \ref{fig:pca-illustrated}.
 
@@ -314,7 +314,14 @@ Often this level of understanding is enough to successfully apply PCA to a probl
 
 
 \subsection{Excluding Less Interesting Principal Components}
-usein ei haluta kaikkia (visualisaatio, ymmärrys), miten päättää mitkä dumpataan
+Even though a data set has as many principal components as there are measured variables, one is often not interested in all of them as the last principal components might explain only a tiny fraction of the total variation in the data \citep{james2013introduction}. This might occur for example when PCA is used to compress, visualize or just interpret the data set at hand \citep{james2013introduction, johnson2007applied}. Unfortunately, many of the rules and methods used to determine the number of PCs to retain are largely without a formal basis or require assuming a certain distribution which is often not justifiable with the data \citep{jolliffe2002principal}. With careful consideration these methods can nevertheless aid a researcher in making informed decisions and reasoned conclusions, so some rules are introduced in this section.
+
+If the PCA is performed to aid visualizing the data set, two first PCs can be a justified choice as two is the maximum number of dimensions that are easy to visualize on two-dimensional media such as paper and the two PCs determine the best-fit plane for the data \citep{jolliffe2002principal}. The question whether the two PCs are sufficient to describe the data reasonably well of course still remains unanswered in this case. Firtunately it can be addressed using some of the following methods used in general case of determining how many PCs to retain.
+
+scree plot ja ne kaksi numeerista ainakin?
+
+maininta bootstrappingista ja siitä, että maistuu koneoppiminen?
+
 
 \subsection{Principal Component Regression}
 
