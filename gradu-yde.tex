@@ -316,9 +316,21 @@ Often this level of understanding is enough to successfully apply PCA to a probl
 \subsection{Excluding Less Interesting Principal Components}
 Even though a data set has as many principal components as there are measured variables, one is often not interested in all of them as the last principal components might explain only a tiny fraction of the total variation in the data \citep{james2013introduction}. This might occur for example when PCA is used to compress, visualize or just interpret the data set at hand \citep{james2013introduction, johnson2007applied}. Unfortunately, many of the rules and methods used to determine the number of PCs to retain are largely without a formal basis or require assuming a certain distribution which is often not justifiable with the data \citep{jolliffe2002principal}. With careful consideration these methods can nevertheless aid a researcher in making informed decisions and reasoned conclusions, so some rules are introduced in this section.
 
-If the PCA is performed to aid visualizing the data set, two first PCs can be a justified choice as two is the maximum number of dimensions that are easy to visualize on two-dimensional media such as paper and the two PCs determine the best-fit plane for the data \citep{jolliffe2002principal}. The question whether the two PCs are sufficient to describe the data reasonably well of course still remains unanswered in this case. Firtunately it can be addressed using some of the following methods used in general case of determining how many PCs to retain.
+If the PCA is performed to aid visualizing the data set, two first PCs can be a justified choice as two is the maximum number of dimensions that are easy to visualize on two-dimensional media such as paper and the two PCs determine the best-fit plane for the data \citep{jolliffe2002principal}. The question whether the two PCs are sufficient to describe the data reasonably well of course still remains unanswered in this case. Fortunately it can be addressed using some of the following methods used in general case of determining how many PCs to retain.
 
-scree plot ja ne kaksi numeerista ainakin?
+\begin{figure}
+    \centering
+    \input{kuvat/tex/scree.pdf_tex}
+    \caption{Example of a scree plot of random normally distributed data. In this case the plot has a clear elbow at fifth PC.}\label{fig:scree}
+\end{figure}
+
+One widely used technique was introduced by \citet{cattell1966scree} to be used in factor analysis, but it is also very much applicable to PCA \citep{jolliffe2002principal}. This so called Cattell scree test involves plotting the variance of the data points along each PC versus index of the PC. These plots tend to look similar to what is shown in figure \ref{fig:scree}, resembling a steep cliff with eroded material accumulated at the base, which is why these plots are known as scree plots and the nearly linear section of the plot is called the scree.
+
+When the scree plot has two clearly different areas, the steep slope corresponding to the first PCs and a more gently sloping scree for the latter PCs, locating this elbow in the plot connecting the two will give the number of PCs that should be included \citep{jolliffe2002principal}, which in case of figure \ref{fig:scree} would yield five PCs. Some sources such as \citep{cattell1966scree} suggest that in some cases the PC corresponding to the elbow should be discarded, which will result in one less PC.
+
+Unfortunately, as Cattell also acknowledges in his paper, all cases are not as easy to analyze as the one in figure \ref{fig:scree} and may prove difficult to discern for an inexperienced researcher. This problem might arise from for example noise in the linear part of the plot or scree line consisting of two separate linear segments with different slopes. In the latter case Cattell suggests using the smaller number of PCs.
+
+selitetty \% varianssista
 
 maininta bootstrappingista ja siitä, että maistuu koneoppiminen?
 
