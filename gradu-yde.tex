@@ -314,6 +314,8 @@ Often this level of understanding is enough to successfully apply PCA to a probl
 
 
 \subsection{Excluding Less Interesting Principal Components}
+\reversemarginpar
+\marginnote{\footnotesize{maininta bootstrappingista (loppuun?) ja siitä, että maistuu koneoppiminen?}}
 Even though a data set has as many principal components as there are measured variables, one is often not interested in all of them as the last principal components might explain only a tiny fraction of the total variation in the data \citep{james2013introduction}. This might occur for example when PCA is used to compress, visualize or just interpret the data set at hand \citep{james2013introduction, johnson2007applied}. Unfortunately, many of the rules and methods used to determine the number of PCs to retain are largely without a formal basis or require assuming a certain distribution which is often not justifiable with the data \citep{jolliffe2002principal}. With careful consideration these methods can nevertheless aid a researcher in making informed decisions and reasoned conclusions, so some rules are introduced in this section.
 
 If the PCA is performed to aid visualizing the data set, two first PCs can be a justified choice as two is the maximum number of dimensions that are easy to visualize on two-dimensional media such as paper and the two PCs determine the best-fit plane for the data \citep{jolliffe2002principal}. The question whether the two PCs are sufficient to describe the data reasonably well of course still remains unanswered in this case. Fortunately it can be addressed using some of the following methods used in general case of determining how many PCs to retain.
@@ -330,11 +332,11 @@ When the scree plot has two clearly different areas, the steep slope correspondi
 
 Unfortunately, as Cattell also acknowledges in his paper, all cases are not as easy to analyze as the one in figure \ref{fig:scree} and may prove difficult to discern for an inexperienced researcher. This problem might arise from for example noise in the linear part of the plot or scree line consisting of two separate linear segments with different slopes. In the latter case Cattell suggests using the smaller number of PCs.
 
+\reversemarginpar
+\marginnote{\footnotesize{joku kiva lopetuskappale tämän jälkeen}}
 Another simple method for choosing how many PCs to retain is to examine how much of the total variation in data is explained by first PCs and including components only up to a point where pre-defined percentage of the total variance is explained \citep{jolliffe2002principal}. Whereas the previous method posed a challenge in determining which PC best matches the exclusion criteria, when using this approach the problem arises from choosing the threshold for including PCs. \citet{jolliffe2002principal} suggests that often a value between 70~\% and 90~\% of the total variation is a reasonable choice, but admits that properties of the data set may justify values outside this range. Unfortunately, the suggested range is quite wide, so it is up to the researcher to determine the best number of PCs, while the criterion again acts as only an aid in the process. 
 
-selitetty \% varianssista
 
-maininta bootstrappingista ja siitä, että maistuu koneoppiminen?
 
 
 \subsection{Principal Component Regression}
