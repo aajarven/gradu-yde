@@ -31,6 +31,7 @@
 \renewcommand{\topfraction}{.75} % less single-float pages
 \renewcommand{\floatpagefraction}{.75} % less single-float pages
 
+\newcommand{\matr}[1]{\mathbf{#1}}
 
 % näillä subsubsubsection käyttöön
 %\titleclass{\subsubsubsection}{straight}[\subsection]
@@ -273,11 +274,17 @@ Due to the EDF being a result of random sampling, it may deviate from the underl
 
 
 \section{Linear Regression}
-Regression analysis is a set of statistical analysis processes that are used to estimate functional relationships between variables \citep{feigelson2012modern}. One of the models used Linear regression model 
+Regression analysis is a set of statistical analysis processes that are used to estimate functional relationships between a response variable (often denoted with $y$) and one or more predictor variables (often denoted $x$ or $x_1 \dots x_i$) \citep{feigelson2012modern}. % soossi merkinnälle
+One of the models used is linear regression model, which can be used to fit any relationship where response variable is a linear function of the model parameters \citep{montgomery2012introduction}. Widely known and used simple linear regression 
 \begin{equation}
-	y = \beta_0 + \beta_1 x_1 +\,\dots\, + \beta_p x_p + \varepsilon
+	y = \beta_0 + \beta_1 x + \varepsilon
 \end{equation}
-is one of the models used in regression analysis
+is one of the linear regression models, but also 
+
+%\begin{equation}
+%	\matr{y} = \matr{X}\matr{\beta} + \matr{\ varepsilon}
+%\end{equation}
+%where $y$ is the response variable, $x_i$ are the predictor variables
 
 %Linear Regression Analysis : Theory and Computing
 %Introduction to Linear Regression Analysis
