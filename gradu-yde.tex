@@ -274,12 +274,26 @@ Due to the EDF being a result of random sampling, it may deviate from the underl
 
 
 \section{Linear Regression}
-Regression analysis is a set of statistical analysis processes that are used to estimate functional relationships between a response variable (often denoted with $y$) and one or more predictor variables (often denoted $x$ or $x_1 \dots x_i$) \citep{feigelson2012modern}. % soossi merkinnälle
-One of the models used is linear regression model, which can be used to fit any relationship where response variable is a linear function of the model parameters \citep{montgomery2012introduction}. Widely known and used simple linear regression 
+Regression analysis is a set of statistical analysis processes that are used to estimate functional relationships between a response variable (denoted with $y$) and one or more predictor variables (denoted with $x$ in case of single predictor or $x_1 \dots x_i$ if there are multiple predictor variables) \citep{feigelson2012modern}. The models also contain $\varepsilon$ term that represents the scatter of measured points around the fit. One of the models used is linear regression model, which can be used to fit any relationship where response variable is a linear function of the model parameters \citep{montgomery2012introduction}. In addition to widely known and used simple linear regression 
 \begin{equation}
 	y = \beta_0 + \beta_1 x + \varepsilon
 \end{equation}
-is one of the linear regression models, but also 
+all models where relationship is linear in unknown parameters $\beta_i$ are linear \citep{montgomery2012introduction}. Thus for example the following are linear models
+\begin{align}
+	y &= \beta x^2 + \varepsilon \\
+	y &= \beta_0 e^x + \beta_1 \tan{x} + \varepsilon \\
+	y &= \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \varepsilon
+\end{align}
+On the other hand, all models where the relationship is not linear and therefore
+\begin{align}
+	y &= x^\beta + \varepsilon \\
+	y &= \beta_0 x + \cos{(\beta_1 x)} + \varepsilon
+\end{align}
+are nonlinear.
+
+In this section, we will cover simple linear regression, as it [tärkeä, HF yms]. Mieti, mistä muusta kerrot ja tarvitsetko väliotsikoita. Multiple regression?
+
+Simple linear regression is a 
 
 %\begin{equation}
 %	\matr{y} = \matr{X}\matr{\beta} + \matr{\ varepsilon}
