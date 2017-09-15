@@ -274,28 +274,68 @@ Due to the EDF being a result of random sampling, it may deviate from the underl
 
 
 \section{Linear Regression}
-Regression analysis is a set of statistical analysis processes that are used to estimate functional relationships between a response variable (denoted with $y$) and one or more predictor variables (denoted with $x$ in case of single predictor or $x_1 \dots x_i$ if there are multiple predictor variables) \citep{feigelson2012modern}. In this section, we will cover both simple regression where there is only one response variable and multiple linear regression where there are more than one response variables. The models also contain $\varepsilon$ term that represents the scatter of measured points around the fit. One of the models used is linear regression model, which can be used to fit any relationship where the response variable is a linear function of the model parameters \citep{montgomery2012introduction}. In addition to the widely known and used simple linear regression 
+Regression analysis is a set of statistical analysis processes that are used to estimate functional relationships between a response variable (denoted with $y$) and one or more predictor variables (denoted with $x$ in case of single predictor or $x_1 \dots x_i$ if there are multiple predictor variables) \citep{feigelson2012modern}. In this section, we will cover both simple regression where there is only one response variable and multiple linear regression where there are more than one response variables. The models also contain $\varepsilon$ term that represents the scatter of measured points around the fit. One of the models used is linear regression model, which can be used to fit any relationship where the response variable is a linear function of the model parameters \citep{montgomery2012introduction}. In addition to the widely known and used models where the relationship is a straight line, such as
 \begin{equation}
-	y = \beta_0 + \beta_1 x + \varepsilon
+	y = \beta_0 x + \varepsilon
 \end{equation}
 all models where relationship is linear in unknown parameters $\beta_i$ are linear \citep{montgomery2012introduction}. Thus for example the following are linear models
 \begin{align}
-	y &= \beta x^2 + \varepsilon \\
+	y &= \beta_0 x^2 + \varepsilon \\
 	y &= \beta_0 e^x + \beta_1 \tan{x} + \varepsilon \\
 	y &= \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \varepsilon
 \end{align}
 On the other hand, all models where the relationship is not linear and therefore
 \begin{align}
-	y &= x^\beta + \varepsilon \\
+	y &= x^\beta_0 + \varepsilon \\
 	y &= \beta_0 x + \cos{(\beta_1 x)} + \varepsilon
 \end{align}
 are nonlinear.
 
 
-\subsection{Simple regression}
-Simple linear regression is a 
+\subsection{Simple linear regression}
+\reversemarginpar
+\marginnote{\footnotesize{onko otsikko järkevä kun }}
+Simple linear regression is a model with a single predictor variable and a single response variable with a straight line relationship, i.e.
+\begin{equation}
+	y = \beta_0 + \beta_1 x + \varepsilon
+\end{equation}
+where parameter $\beta_0$ represents the $y$ axis intercept of the line and $\beta_1$ is the slope of the line \citep{montgomery2012introduction}. The parameters can be estimated using method of least squares, where such values are found for the parameters that the sum of squared differences between the data points and the fitted line is minimized \citep{montgomery2012introduction}. 
 
-\subsection{Multiple regression}
+\begin{figure}
+   \centering
+   \includegraphics[width=0.5\textwidth]{kuvat/OLS-sketch.png}
+   \caption{}
+   \label{fig:OLS}
+\end{figure}
+
+\reversemarginpar
+\marginnote{\footnotesize{toisiko jotain lisää jos olisi $\beta_1$ ja $\beta_2$ lausekkeet?}}
+The best-known method of minimizing the sum of squared error is the ordinary least-squares (OLS) estimator. The OLS method uses distances measured vertically as shown in figure \ref{fig:OLS} and thus the minimized sum is
+\begin{equation}
+	\sum_{i=1}^n (y_i - \beta_0 - \beta_1 x_i)
+\end{equation}
+where $x_1$ and $y_i$ are single values of the measured quantities \citep{feigelson2012modern}. This approach requires that the values of the predictor variable are known exactly without error and all uncertainty is in the values of the response variable \citep{feigelson2012modern}. In those situations where this assumption is not valid, results acquired using OLS may be counterintuitive. This can be seen for example in figure \ref{fig:OLSproblem} where OLS is used to calculate two linear fits: one where $x$ is used and predictor variable and $y$ as response variable and another where $y$ is the predictor and $x$ the response.
+
+\begin{figure}
+   \centering
+   \includegraphics[width=0.5\textwidth]{kuvat/OLSproblem-sketch.png}
+   \caption{}
+   \label{fig:OLSproblem}
+\end{figure}
+
+\reversemarginpar
+\marginnote{\footnotesize{Sido PCA:aan}}
+When dividing the variables to the independent variable with no error and a response variable with possible measurement error is not a justifiable choice OLS should not be used. One alternative for OLS is total least squares (TLS, also known as orthogonal least squares in some sources such as \citep{feigelson2012modern}) regression can be used instead of OLS \citep{markovsky2007overview}.  The major difference between OLS and TLS is that instead of vertical distance, the minimized squared distance is measured between a point and its projection to the fitted line, thus providing minimum of the sum of the squared orthogonal distances from the line \citep{feigelson2012modern}.
+
+\begin{figure}
+   \centering
+   \includegraphics[width=0.5\textwidth]{kuvat/TLS-sketch.png}
+   \caption{}
+   \label{fig:TLS}
+\end{figure}
+
+
+\subsection{Multiple linear regression}
 
 %\begin{equation}
 %	\matr{y} = \matr{X}\matr{\beta} + \matr{\ varepsilon}
@@ -306,7 +346,7 @@ Simple linear regression is a
 %Introduction to Linear Regression Analysis
 
 
-Ordinary least squares: mitä, miksi ongelmallinen -> total (orthogonal?) least squares (= ensimmäinen principal component kahdessa ulottuvuudessa) 
+
 
 %\subsection{Ordinary Least Squares}
 
@@ -368,7 +408,6 @@ Unfortunately, as Cattell also acknowledges in his paper, all cases are not as e
 \reversemarginpar
 \marginnote{\footnotesize{joku kiva lopetus tämän jälkeen?}}
 Another straightforward method for choosing how many PCs to retain is to examine how much of the total variation in data is explained by first PCs and including components only up to a point where pre-defined percentage of the total variance is explained \citep{jolliffe2002principal}. Whereas the previous method posed a challenge in determining which PC best matches the exclusion criteria, when using this approach the problem arises from choosing the threshold for including PCs. \citet{jolliffe2002principal} suggests that a value between 70~\% and 90~\% of the total variation is often a reasonable choice, but admits that the properties of the data set may justify values outside this range. Unfortunately, the suggested range is quite wide, so it may contain pultiple PCs and therefore it is up to the researcher to determine the best number of PCs, while the criterion again acts as only an aid in the process. 
-
 
 
 
