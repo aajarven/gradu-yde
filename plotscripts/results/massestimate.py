@@ -26,7 +26,7 @@ from sklearn.metrics import mean_squared_error
 
 
 if __name__ == "__main__":
-	inputfile =	"/home/aajarven/Z-drive/duuni/extragal/gradu-yde/plotscripts/input/allButDuplicates-fullpath.txt" 
+	inputfile =	"/home/aajarven/Z-drive/duuni/extragal/gradu-yde/plotscripts/input/upTo5Mpc-fullpath.txt"
 	outputdir = "/home/aajarven/Z-drive/duuni/extragal/gradu-yde/kuvat/"
 
 	mindist = 1.0
@@ -187,16 +187,21 @@ if __name__ == "__main__":
 
 	y = masses
 
-	x = np.column_stack((zeropoints, inClusterZeros,
-							 outClusterZeros, allDispersions,
-							 clusterDispersions, unclusteredDispersions,
-							 radialVelocities, tangentialVelocities,
-							 LGdistances))
+	data = np.array([zeropoints, inClusterZeros, outClusterZeros,
+				  allDispersions, radialVelocities, unclusteredDispersions,
+				  radialVelocities, tangentialVelocities, LGdistances]).T
+
+#	data = np.column_stack((zeropoints, inClusterZeros,
+#							 outClusterZeros, allDispersions,
+#							 clusterDispersions, unclusteredDispersions,
+#							 radialVelocities, tangentialVelocities,
+#							 LGdistances))
 
 
 	##### PCR #####
 	pca = PCA()
-	X_reduced = pca.fit_transform(scale(x))
+	data_pca = pca.fit_transform(scale(data))
+	components = pca.components_
 
 	plt.plot(np.array(range(len(pca.explained_variance_ratio_)))+1,
 		  pca.explained_variance_ratio_, linewidth=2.0)
@@ -204,8 +209,12 @@ if __name__ == "__main__":
 	plt.ylabel("Percentage of variance explained by component")
 	plt.savefig(outputdir + "PCA-variances.svg")
 
-	plt.cla()
-	plt.clf()
+	cumulativeVariance = [np.sum(pca.explained_variance_ratio_[:i+1]) for i in
+					   range(len(pca.explained_variance_ratio_)-1)]
+	print(cumulativeVariance)
+
+#	plt.cla()
+#	plt.clf()
 
 #	n = len(X_reduced)
 #	print(n)
@@ -231,54 +240,54 @@ if __name__ == "__main__":
 #	plt.cla()
 #	plt.clf()
 
-	pca2 = PCA()
-	regr = LinearRegression()
-
-	# Split into training and test sets
-	X_train, X_test , y_train, y_test = cross_validation.train_test_split(x, y,
-																		  test_size=1.0/3,
-																		  random_state=1)
-	# Scale the data
-	X_reduced_train = pca2.fit_transform(scale(X_train))
-	n = len(X_reduced_train)
-	# 3-fold CV, with shuffle
-	kf_3 = cross_validation.KFold(n, n_folds=3, shuffle=True, random_state=1)
-	mse = []
-	# Calculate MSE with only the intercept (no principal components in regression)
-	score = -1*cross_validation.cross_val_score(regr, np.ones((n,1)),
-												y_train.ravel(), cv=kf_3,
-												scoring='mean_squared_error').mean()
-	mse.append(score)
-	# Calculate MSE using CV for the 9 principle components, adding one component
-	# at the time.
-	for i in np.arange(1, 9):
-		score = -1*cross_validation.cross_val_score(regr, X_reduced_train[:,:i],
-												 y_train.ravel(), cv=kf_3,
-												 scoring='mean_squared_error').mean()
-		mse.append(score)
-	print(mse)
-	print(np.arange(1, len(mse)+1))
-	plt.plot(np.arange(1, len(mse)+1), np.array(mse))
-	plt.xlabel('Number of principal components in regression')
-	plt.ylabel('MSE')
-	plt.savefig(outputdir + "PCA-3foldMSE-LinearRegression.svg")
-
-	plt.cla()
-	plt.clf()
-
-
-	n = len(X_train)
-	kf_3 = cross_validation.KFold(n, n_folds=3, shuffle=True, random_state=1)
-	mse = []
-	for i in np.arange(1, 9):
-		pls = PLSRegression(n_components=i)
-		score = cross_validation.cross_val_score(pls, scale(X_train), y_train,
-										   cv=kf_3,
-										   scoring='mean_squared_error').mean()
-		mse.append(-score)
-	
-	# Plot results
-	plt.plot(np.arange(1, len(mse)+1), np.array(mse))
-	plt.xlabel('Number of principal components in regression')
-	plt.ylabel('MSE')
-	plt.savefig(outputdir + "PCA-3foldMSE-PLSRegression.svg")
+#	pca2 = PCA()
+#	regr = LinearRegression()
+#
+#	# Split into training and test sets
+#	X_train, X_test , y_train, y_test = cross_validation.train_test_split(x, y,
+#																		  test_size=1.0/3,
+#																		  random_state=1)
+#	# Scale the data
+#	X_reduced_train = pca2.fit_transform(scale(X_train))
+#	n = len(X_reduced_train)
+#	# 3-fold CV, with shuffle
+#	kf_3 = cross_validation.KFold(n, n_folds=3, shuffle=True, random_state=1)
+#	mse = []
+#	# Calculate MSE with only the intercept (no principal components in regression)
+#	score = -1*cross_validation.cross_val_score(regr, np.ones((n,1)),
+#												y_train.ravel(), cv=kf_3,
+#												scoring='mean_squared_error').mean()
+#	mse.append(score)
+#	# Calculate MSE using CV for the 9 principle components, adding one component
+#	# at the time.
+#	for i in np.arange(1, 9):
+#		score = -1*cross_validation.cross_val_score(regr, X_reduced_train[:,:i],
+#												 y_train.ravel(), cv=kf_3,
+#												 scoring='mean_squared_error').mean()
+#		mse.append(score)
+#	print(mse)
+#	print(np.arange(1, len(mse)+1))
+#	plt.plot(np.arange(1, len(mse)+1), np.array(mse))
+#	plt.xlabel('Number of principal components in regression')
+#	plt.ylabel('MSE')
+#	plt.savefig(outputdir + "PCA-3foldMSE-LinearRegression.svg")
+#
+#	plt.cla()
+#	plt.clf()
+#
+#
+#	n = len(X_train)
+#	kf_3 = cross_validation.KFold(n, n_folds=3, shuffle=True, random_state=1)
+#	mse = []
+#	for i in np.arange(1, 9):
+#		pls = PLSRegression(n_components=i)
+#		score = cross_validation.cross_val_score(pls, scale(X_train), y_train,
+#										   cv=kf_3,
+#										   scoring='mean_squared_error').mean()
+#		mse.append(-score)
+#	
+#	# Plot results
+#	plt.plot(np.arange(1, len(mse)+1), np.array(mse))
+#	plt.xlabel('Number of principal components in regression')
+#	plt.ylabel('MSE')
+#	plt.savefig(outputdir + "PCA-3foldMSE-PLSRegression.svg")
