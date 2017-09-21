@@ -198,34 +198,33 @@ gravitational softening
 
 
 \chapter{Mathematical and statistical methods}
-\reversemarginpar
-\marginnote{\footnotesize{TODO: merkkaa heti alkuun kenen lähestymistapaa aiot seurailla}}
 täällä tarvittavat esitiedot ja önnönnöö, listaa mm. mitä aiot kertoa kunhan tiedät itsekään
 
 \section{Statistical Background}
 \reversemarginpar
 \marginnote{\footnotesize{vähän parempi tässä kuin aiemman otsikon alla}}
-Precision of the used equipment limits accuracy of all data gathered from physical experiments, simulations or observations. Therefore the results are affected by the measurement process and the results have to be presented as estimates with some error, magnitude of which is affected by both number of data points and accuracy of the measurement equipment. \citep{bohm2010introduction}
+Precision of the used equipment limits accuracy of all data gathered from physical experiments, simulations or observations. Therefore the results are affected by the measurement process and the results have to be presented as estimates with some error, magnitude of which is affected by both number of data points and accuracy of the measurement equipment \citep{bohm2010introduction}.
 
-Estimating errors for measured quantities offers a way to test hypotheses and compare different experiments. This is done using different statistical methods, of which the most relevant for this thesis are covered here. The methods used in this work are shortly introduced in the following sections together with basic statistical concepts that are necessary to understand the methods. \citep{bohm2010introduction}
-
+Estimating errors for measured quantities offers a way to test hypotheses and compare different experiments \citep{bohm2010introduction}. This is done using different statistical methods, of which the main methods relevant for this thesis are covered here. The methods are shortly introduced in the following sections together with basic statistical concepts that are necessary to understand the methods. 
 
 
 \subsection{Hypothesis testing and p-values}
-A common situation in scientific research is that one has to compare a sample of data points to either a model or another sample in order to derive a conclusion from the dataset. In statistics, this is known as hypothesis testing. For example, this can mean testing hypotheses such as ''these two variables are not correlated'' or ''this sample is from a population with a mean of 1.0''. \citep{wall2003practical} Next paragraphs shortly introduce the basic concept of hypothesis testing and methods that can used to test the hypothesis ''these two samples are drawn from the same distribution''.
+A common situation in scientific research is that one has to compare a sample of data points to either a model or another sample in order to derive a conclusion from the dataset. In statistics, this is known as hypothesis testing. For example, this can mean testing hypotheses such as ''these two variables are not correlated'' or ''this sample is from a population with a mean of 1.0'' \citep{wall2003practical}. Next paragraphs shortly introduce the basic concept of hypothesis testing and methods that can used to test the hypothesis ''these two samples are drawn from the same distribution'' following the approach of \citep{bohm2010introduction} and \citep{wall2003practical}.
 
-Typically the process of hypothesis testing begins with forming of a null hypothesis $H_0$ that is formatted such that the aim for the next steps is to either reject it or deduce that it cannot be rejected with a chosen significance level. Negation of the null hypothesis is often called research hypothesis or alternative hypothesis and denoted as $H_1$. For example, this can lead to $H_0$ ''this dataset is sampled from a normal distribution'' and $H_1$ ''this dataset is not sampled from a normal distribution''. Choosing the hypothesis in this manner is done because often the research hypothesis is difficult to define otherwise. \citep{bohm2010introduction, wall2003practical}
+The process of hypothesis testing as described by begins with forming of a null hypothesis $H_0$ that is formatted such that the aim for the next steps is to either reject it or deduce that it cannot be rejected with a chosen significance level. Negation of the null hypothesis is often called research hypothesis or alternative hypothesis and denoted as $H_1$. For example, this can lead to $H_0$ ''this dataset is sampled from a normal distribution'' and $H_1$ ''this dataset is not sampled from a normal distribution''. Choosing the hypothesis in this manner is done because often the research hypothesis is difficult to define otherwise.
 
 After setting the hypothesis one must choose an appropriate test statistic. Ideally this is chosen such that the difference between cases $H_0$ and $H_1$ is as large as possible. Then one must choose 
-the significance level $\alpha$ which corresponds to the probability of rejecting $H_0$ in the case where $H_0$ actually is true. This fixes the critical region i.e.\ the values of test statistic that lead to the rejection of the $H_0$. \citep{bohm2010introduction, wall2003practical}
+the significance level $\alpha$ which corresponds to the probability of rejecting $H_0$ in the case where $H_0$ actually is true. This fixes the critical region i.e.\ the values of test statistic that lead to the rejection of the $H_0$. 
+
+This kind of probability based decision making is always prone to error. It is easy to see that $\alpha$ corresponds to the chance of $H_0$ being rejected when it is true. This is known as error of the first kind. However, this is not the only kind of error possible. It might also occur that $H_0$ is false but it does not get rejected, which is known as error of the second kind.
 
 \reversemarginpar
-\marginnote{\footnotesize{miten $\alpha$ valitaan, millaiset arvot ovat tyypillisiä? miten $\alpha$ -> critical value -> rejection/no rejection. otoskoko = N mukaan tänne}}
-It is crucial not to look at the test results before choosing $\alpha$ in order to avoid intentional or unintentional fiddling with the data or changing the criterion of acceptance or rejectance to give desired results. Only after these steps should the test statistic be calculated. If the test statistic falls within the critical region, $H_0$ should be rejected and otherwise stated that $H_0$ cannot be rejected at this significance level. \citep{bohm2010introduction, wall2003practical}
+\marginnote{\footnotesize{kerro mikä $\alpha$ ja N käytössä myöhemmin kunhan tiedät}}
+There is no one optimal way of choosing $\alpha$, but instead one should try to find a balance between false rejections of null hypothesis and not being able to reject null hypothesis based on the dataset even if in reality it might not be true. When sample size (often denoted $N$) is large, smaller values of $\alpha$ can often be used as decisions get more accurate when $N$ grows. For example tässä työssä $\alpha$ oli jokin ja $N$ jotain muuta.
 
-This kind of probability based decision making is always prone to error. It is easy to see that $\alpha$ corresponds to the chance of $H_0$ being rejected when it is true. This is known as error of the first kind. However, this is not the only kind of error possible. It might also occur that $H_0$ is false but it does not get rejected, which is known as error of the second kind. \citep{bohm2010introduction}
+It is crucial not to look at the test results before choosing $\alpha$ in order to avoid intentional or unintentional fiddling with the data or changing the criterion of acceptance or rejectance to give desired results. Only after these steps should the test statistic be calculated. If the test statistic falls within the critical region, $H_0$ should be rejected and otherwise stated that $H_0$ cannot be rejected at this significance level. The critical values for different test statistics are widely found in statistical textbooks and collections of statistical tables or they can be calculated using statistical or scientific libraries available for many programming languages.
 
-Despite statistical tests having a binary outcome ''$H_0$ rejected'' or ''$H_0$ not rejected'', a continuous output is often desired. This is what p-values are used for. The name p-value hints towards probability, but despite it's name p-value is not equal to the probability that the null hypothesis is true. These p-values are functions of a test statistic and the p-value for a certain value $t_{obs}$ of a test statistic gives the probability that under the condition that $H_0$ is true, the value of a test statistics for a randomly drawn sample is at least as extreme as $t_{obs}$. Therefore if p-value is smaller than $\alpha$, $H_0$ is to be rejected. \citep{bohm2010introduction}
+Despite statistical tests having a binary outcome ''$H_0$ rejected'' or ''$H_0$ not rejected'', a continuous output is often desired. This is what p-values are used for. The name p-value hints towards probability, but despite it's name p-value is not equal to the probability that the null hypothesis is true. These p-values are functions of a test statistic and the p-value for a certain value $t_{obs}$ of a test statistic gives the probability that under the condition that $H_0$ is true, the value of a test statistics for a randomly drawn sample is at least as extreme as $t_{obs}$. Therefore if p-value is smaller than $\alpha$, $H_0$ is to be rejected.
 
 \subsection{Distribution functions}
 \reversemarginpar
@@ -248,7 +247,7 @@ This gives the probability of a random value drawn from the distribution having 
 	\marginnote{\footnotesize{lisää johonkin selitys normaalijakauman parametreille}}
    \centering
    \includegraphics[width=0.9\textwidth]{kuvat/cdf.png}
-   \caption{Cumulative distribution function (top panel) for three random samples (PDFs shown in the bottom panel) drawn from different distributions, two of which are normal and one is uniform.}
+   \caption{Cumulative distribution function (top panel) for three random samples (PDFs shown in the bottom panel) drawn from different distributions, two of which are normal and one is uniform. Parameters $\mu$ and $\sigma$ of the normal distribution describe the mean and the spread of the distribution respectively, large values of $\sigma$ resulting in wide distribution.}
    \label{fig:cdf}
 
 \end{figure}
@@ -262,13 +261,13 @@ Both the PDF and the CDF apply to whole population or the set of all possible ou
 where $I$ is the indicator function, value of which is 1 if the condition in brackets is true, otherwise 0. \citep{feigelson2012modern}
 
 \reversemarginpar
-\marginnote{\footnotesize{kerro, miten sample size figuressa suhteutuu oikeaan käsiteltyyn dataan}}
-Due to the EDF being a result of random sampling, it may deviate from the underlying CDF considerably as can be seen by comparing CDFs in figure \ref{fig:cdf} and corresponding EDFs in figure \ref{fig:edf}. The latter figure also has EDFs corresponding to two random samples drawn from the distribution of the green curve in the first figure to further illustrate the differences that can arise from random sampling. This randomness also makes determining whether two samples are drawn from the same distribution difficult.
+\marginnote{\footnotesize{harkitse laittavasi jämpti arvo N:lle kun muut osat valmiita}}
+Due to the EDF being a result of random sampling, it may deviate from the underlying CDF considerably as can be seen by comparing CDFs in figure \ref{fig:cdf} and corresponding EDFs in figure \ref{fig:edf}. This example is somewhat exaggerated with its $N$=35 as the actual dataset used in this thesis has $N$>100, but reducing the sample size makes seeing the effects of random sampling easier. The latter figure also has EDFs corresponding to two random samples drawn from the distribution of the green curve in the first figure to further illustrate the differences that can arise from random sampling. This randomness also makes determining whether two samples are drawn from the same distribution difficult.
 
 \begin{figure}
    \centering
    \includegraphics[width=0.9\textwidth]{kuvat/edf.png}
-   \caption{Empirical distribution function for four random samples (N=35) drawn from the same distributions as in figure \ref{fig:cdf}. Note that both the blue and the cyan data are drawn from the same distribution.}
+   \caption{Empirical distribution function for four random samples ($N$=35) drawn from the same distributions as in figure \ref{fig:cdf}. Note that both the blue and the cyan data are drawn from the same distribution.}
    \label{fig:edf}
 \end{figure}
 
@@ -426,19 +425,22 @@ Another straightforward method for choosing how many PCs to retain is to examine
 \section{Comparing two samples drawn from unknown distributions}
 \reversemarginpar
 \marginnote{\footnotesize{TODO: oispa parempi otsikko. mieti, onko tämä muutenkaan hyvä nyt kun on siirretty yksi otsikkotaso ylöspäin}}[-3cm]
-\marginnote{\footnotesize{selitä categorical data}}[2.2cm]
-A common question in multiple fields of science is whether two or more samples are drawn from the same distribution. This can occur for example when comparing effectiveness of two procedures, determining if the instrument has changed over time or whether observed data is compatible with simulations. There are multiple two-sample tests that can address this kind of questions, e.g. $\chi^2$, Kolmogorov-Smirnov, Cram\'er-von Mises and Anderson-Darling tests. \citep{bohm2010introduction, feigelson2012modern}
+A common question in multiple fields of science is whether two or more samples are drawn from the same distribution. The most relevant methods that can be used to address this problem are introduced here following \citep{bohm2010introduction} and \citep{feigelson2012modern} apart from introducing the $\chi^2$ test which is mostly based on the approach of \citep{corder2014nonparametric}.
 
-In addition to comparing two samples, these tests can be used as one-sample tests to determine whether it is expected that the sample is from a particular distribution. However, some restrictions apply when using the one-sample variants. Some of these tests use categorical data, for example ''number of galaxies that are active'' or ''number of data points between values 1.5 and 1.6'' and compares numbers of samples in different categories, whereas the others are applied to numerical data and compare empirical distribution functions (EDF) of the datasets. \citep{feigelson2012modern}
+Questions related to comparing samples can emerge for example when comparing effectiveness of two procedures, determining if the instrument has changed over time or whether observed data is compatible with simulations. There are multiple two-sample tests that can address this kind of questions, e.g. $\chi^2$, Kolmogorov-Smirnov, Cram\'er-von Mises and Anderson-Darling tests. 
+
+In addition to comparing two samples, these tests can be used as one-sample tests to determine whether it is expected that the sample is from a particular distribution. However, some restrictions apply when using the one-sample variants. Some of these tests use categorical data, i.e. data where variables fall in pre-defined categories, and compares numbers of samples in different categories, whereas the others are applied to numerical data and compare empirical distribution functions (EDF) of the datasets.. Examples of such categories might be for example ''galaxies that are active'' or ''data points between values 1.5 and 1.6''.
 
 
 \subsection{$\chi^2$ test}
 \reversemarginpar
 \marginnote{\footnotesize{keksi paremmat esimerkit koko kappaleeseen, jotain relevanttia myöhempää tutkimusta ajatellen. katso kommentit paperista sen jälkeen, kaikkia ei täällä vielä}}
-Astronomical data often involves classifying objects into categories such as ''stars with exoplanets'' and ''stars without exoplanets'' or the spectral classes of stars. One tool for analyzing such categorical data is $\chi^2$ test. It can be used both to determine whether a sample can be drawn from a certain distribution and to test whether two samples can originate from a single distribution. \citep{feigelson2012modern, corder2014nonparametric}
+Astronomical data often involves classifying objects into categories such as ''stars with exoplanets'' and ''stars without exoplanets'' or the spectral classes of stars  \citep{feigelson2012modern}. One tool for analyzing such categorical data is $\chi^2$ test, which can be used both to determine whether a sample can be drawn from a certain distribution and to test whether two samples can originate from a single distribution. 
+
+The method described here is sometimes referred to as Pearson's $\chi^2$ test due to existence of other tests where $\chi^2$ distribution is used. In some cases, such as with small $2 \times 2$ contingency tables and when expected cell counts are small, other variants of $\chi^2$ test should be used. For example the Yates's $\chi^2$ test or the Fisher exact test work better in these cases than the $\chi^2$ test.
 
 For one-sample test, the $\chi^2$ test uses the number of measurements in each bin together with a theoretical estimate calculated from the null hypothesis. For example one might have observed exoplanets and tabulated the number of planet-hosting stars of different spectral class as is shown in table \ref{tab:exoplanets} and now wants 
-to test the observations against null hypothesis ''Distribution of stellar classes for observed exoplanet-hosting stars is equal to that of main sequence stars in solar neighbourhood as given by \citet{ledrew2001real}'' using significance level $\alpha=0.01$. The data is categorical, so now $\chi^2$ test is a justified choice. \citep{corder2014nonparametric}
+to test the observations against null hypothesis ''Distribution of stellar classes for observed exoplanet-hosting stars is equal to that of main sequence stars in solar neighbourhood as given by \citet{ledrew2001real}'' using significance level $\alpha=0.01$. The data is categorical, so now $\chi^2$ test is a justified choice.
 
 \begin{table}
 	\centering
@@ -471,11 +473,9 @@ In this case the first step would be to calculate the expected observation count
 \begin{equation}
 	\chi^2 = \sum_i \frac{(f_o - f_e)^2}{f_e}.
 \end{equation}
-\reversemarginpar
-\marginnote{\footnotesize{mistä kriittisiä arvoja voi lukea ja mistä sain omani, onhan selitetty (tässä tai) aiemmin}}
-In this case, one gets $\chi^2 \approx 23.6$. The data has four bins, so the degree of freedom is $4-1=3$. Next one can compare the calculated $\chi^2$ value to a tabulated critical value for our significance level $\alpha=0.01$. These tabulated values can be widely found in statistics textbooks and books specifically dedicated to statistical tables. \citep{corder2014nonparametric}
+With the data given above this results in $\chi^2 \approx 23.6$. The data has four bins, so the degree of freedom is $4-1=3$. Next one can compare the calculated $\chi^2$ value to a tabulated critical value for our significance level $\alpha=0.01$. These tabulated values can be widely found in statistics textbooks and books specifically dedicated to statistical tables.
 
-In this case according to \citet{corder2014nonparametric} the critical value is 11.34, which means that one can reject the null hypothesis and conclude that at 1\% significance level the distribution of stellar classes for observed exoplanet-hosting stars is not equal to that of main sequence stars in solar neighbourhood. This of course can either be due to exoplanets being more numerous around some stellar classes than others or arise from some observational effect such as the observer observing more of the later type stars and thus arbitrarily skewing the distribution of the exoplanet finds.
+In this case according to \citet{corder2014nonparametric} the critical value is 11.34, which means that as $23.6>11.34$ one can reject the null hypothesis and conclude that at 1\% significance level the distribution of stellar classes for observed exoplanet-hosting stars is not equal to that of main sequence stars in solar neighbourhood. This of course can either be due to exoplanets being more numerous around some stellar classes than others or arise from some observational effect such as the observer observing more of the later type stars and thus arbitrarily skewing the distribution of the exoplanet finds.
 
 The $\chi^2$ test can also be used to test for independence of two or more samples. The data is again tabulated and now the $\chi^2$ test statistic is calculated as
 \begin{equation}
@@ -485,28 +485,23 @@ where $f_{oij}$ denotes the observed frequency in cell $(i, j)$ and $f_{eij}$ is
 \begin{equation}
 	f_{eij} = \frac{R_i C_i}{N}
 \end{equation}
-where $R_i$ is the number of samples in row $i$, $C_j$ is the number of samples in column $j$ and $N$ is the total sample size. \citep{corder2014nonparametric}
+where $R_i$ is the number of samples in row $i$, $C_j$ is the number of samples in column $j$ and $N$ is the total sample size.
 
-According to \citet{corder2014nonparametric}, the degrees of freedom is $(R-1)(C-1)$ where R is the number of rows and C is the number of columns in tabulated data. This is true in many if not most cases, but the way of collecting data can affect the degrees of freedom in both one-sample and multi-sample cases. For example, if the one-sample model is not renormalized to fit the total number of observed events or in two-sample case the sample sizes differ the degrees of freedom equal to number of bins $N_b$ instead of $N_b-1$. \citep{press2007numerical}.
+According to \citet{corder2014nonparametric}, the degrees of freedom is $(R-1)(C-1)$ where R is the number of rows and C is the number of columns in tabulated data. This is true in many if not most cases, but the way of collecting data can affect the degrees of freedom in both one-sample and multi-sample cases, as \cite{press2007numerical} explains. For example, if the one-sample model is not renormalized to fit the total number of observed events or, in two-sample case, the sample sizes differ, the degrees of freedom equal to number of bins $N_b$ instead of $N_b-1$.
 
-Before performing $\chi^2$ test on a dataset, it is important to confirm that the data meets the assumptions for $\chi^2$ test. First of all, the data has to consist of counts i.e.\ not for example percentages or fractions. These counts should be independent of each other and there has to be enough of them, generally $>50$ is sufficient. Bins should also be chosen such that all bins have at least five counts according to the null hypothesis. If the last condition is not met, one can can consider combining bins. \citep{bock2010stats, htk}
-
-\reversemarginpar
-\marginnote{\footnotesize{TODO: ei hyvä, pearsonista olisi hyvä sanoa jo ehkä alussa, ehkä vähän pidempi tuosta mitä muita vaihtoehtoja on -osasta}}
-The method described above is sometimes referred to as Pearson's $\chi^2$ test due to existence of other tests where $\chi^2$ distribution is used. In some cases, such as with small $2 \times 2$ contingency tables and when expected cell counts are small, other variants of $\chi^2$ test should be used. For example the Yates's $\chi^2$ test or the Fisher exact test work better in these cases than the $\chi^2$ test. \citep{corder2014nonparametric}
-
+Before performing the $\chi^2$ test on a dataset, it is important to confirm that the data meets the assumptions for $\chi^2$ test, given for example in \citep{bock2010stats} and \citep{htk}. First of all, the data has to consist of counts i.e.\ not for example percentages or fractions. These counts should be independent of each other and there has to be enough of them, generally $>50$ is sufficient. Bins should also be chosen such that all bins have at least five counts according to the null hypothesis. If the last condition is not met, one can can consider combining bins. 
 
 
 \subsection{Kolmogorov-Smirnov test}
-For astronomers one of the most well-known statistical test is the Kolmogorov-Smirnov test, also known as the KS test. It is computationally inexpensive to calculate, easy to understand and does not require binning of data. It is also a nonparametric test i.e.\ the data does not have to be drawn from a particular distribution. \citep{feigelson2012modern}
+For astronomers one of the most well-known statistical test is the Kolmogorov-Smirnov test, also known as the KS test. It is computationally inexpensive to calculate, easy to understand and does not require binning of data. It is also a nonparametric test i.e.\ the data does not have to be drawn from a particular distribution.
 
-In the astrophysical context this is often important because astrophysical models usually do not fix a specific statistical distribution for observables and it is common to carry out calculations with logarithms of observables, after which the originally possibly normally distributed residuals  will no longer follow a normal distribution. When using the KS test, the values on the x-axis can be freely reparametrized: for example using $2x$ or $\log x$ on x-axis will result in same value of the test statistic as using just $x$. \citep{feigelson2012modern, press2007numerical}
+In the astrophysical context this is often important because astrophysical models usually do not fix a specific statistical distribution for observables and it is common to carry out calculations with logarithms of observables, after which the originally possibly normally distributed residuals  will no longer follow a normal distribution. When using the KS test, the values on the x-axis can be freely reparametrized: for example using $2x$ or $\log x$ on x-axis will result in same value of the test statistic as using just $x$ \citep{press2007numerical}.
 
 The test can be used as either one-sample or two-sample test, both of which are very similar. For two-sample variate the test statistic for the KS test is calculated based on empirical distribution functions $\hat{F}_1$ and $\hat{F}_2$ derived from two samples and the test statistic
 \begin{equation}
 	D = \sup_{x} |\hat{F}_1(x) - \hat{F}_2(x)|
 \end{equation}
-uses the maximum vertical distance of the EDFs. This test statistic is then used to determine the p-value and thus decide whether the null hypothesis can be rejected. For one-sample variate the procedure is similar, but EDF $\hat{F}_2$ is substituted with the CDF that corresponds to the null hypothesis. \citep{feigelson2012modern, bohm2010introduction}
+uses the maximum vertical distance of the EDFs. This test statistic is then used to determine the p-value and thus decide whether the null hypothesis can be rejected. For one-sample variate the procedure is similar, but EDF $\hat{F}_2$ is substituted with the CDF that corresponds to the null hypothesis.
 
 \begin{figure}
    \centering
@@ -519,7 +514,7 @@ As an example, let us consider two pairs of samples from figure \ref{fig:edf}: g
 
 \reversemarginpar
 \marginnote{\footnotesize{mistä p-value saadaan, kerro taas aiemmin (tai täällä)}}
-The test statistic is then calculated and for these samples we get $D=0.51$ for the green-blue pair and $D=0.20$ for the blue-cyan pair. Test statistics are illustrated in figure \ref{fig:ks} where the test statistics $D$ are shown as vertical magenta lines. These values of $D$ correspond to p-values $9.9\times 10^{-5}$ and $0.44$ respectively, which means that the null hypothesis ''green and blue samples are drawn from the same distribution'' is rejected at both 0.05 and 0.01 significance levels but the null hypothesis ''blue and cyan samples are drawn from the same distribution'' cannot be rejected.
+The test statistic is then calculated and for these samples we get $D=0.51$ for the green-blue pair and $D=0.20$ for the blue-cyan pair. Test statistics are illustrated in figure \ref{fig:ks} where the test statistics $D$ are shown as vertical magenta lines. According to Python function \texttt{scipy.stats.ks\_2samp}, these values of $D$ correspond to p-values $9.9\times 10^{-5}$ and $0.44$ respectively, which means that the null hypothesis ''green and blue samples are drawn from the same distribution'' is rejected at both 0.05 and 0.01 significance levels but the null hypothesis ''blue and cyan samples are drawn from the same distribution'' cannot be rejected.
 
 \begin{figure}
    \centering
@@ -534,9 +529,9 @@ The latter example case also illustrates one major shortcoming of the KS test: i
 
 \reversemarginpar
 \marginnote{\footnotesize{"explain better"}}[1.8cm]
-The KS test is also subject to some limitations and it is important to be aware of them in order to avoid misusing it. First of all, the KS test is not distribution free if the model parameters, e.g. mean and standard deviation for normal distribution, are estimated from the dataset that is tested. Thus the tabulated critical values can be used only if model parameters are determined from some other source such as a simulation, theoretical model or another dataset. \citep{feigelson2012modern}
+The KS test is also subject to some limitations and it is important to be aware of them in order to avoid misusing it. First of all, the KS test is not distribution free if the model parameters, e.g. mean and standard deviation for normal distribution, are estimated from the dataset that is tested. Thus the tabulated critical values can be used only if model parameters are determined from some other source such as a simulation, theoretical model or another dataset.
 
-Another severe limitation of KS test is that it is only applicable to one-dimensional data. If the dataset has two or more dimensions, there is no unique way of ordering the points to plot EDF and therefore if KS test is used, it is no longer distribution free. Some variants that can handle two or more dimensions have been invented, such as ones by \citet{peacock1983twodimensional} and \citet{fasano1987multidimensional}, but the authors do not provide formal proof of validity of these tests. Despite this, the authors claim that Monte Carlo simulations suggest that the methods work adequately well for most applications. \citep{press2007numerical}
+Another severe limitation of KS test is that it is only applicable to one-dimensional data. If the dataset has two or more dimensions, there is no unique way of ordering the points to plot EDF and therefore if KS test is used, it is no longer distribution free. Some variants that can handle two or more dimensions have been invented, such as ones by \citet{peacock1983twodimensional} and \citet{fasano1987multidimensional}, but the authors do not provide formal proof of validity of these tests. Despite this, the authors claim that Monte Carlo simulations suggest that the methods work adequately well for most applications.
 
 % mutlidimensionaaleista http://articles.adsabs.harvard.edu/cgi-bin/nph-iarticle_query?1987MNRAS.225..155F&defaultprint=YES&filetype=.pdf ja http://articles.adsabs.harvard.edu/cgi-bin/nph-iarticle_query?1983MNRAS.202..615P&defaultprint=YES&filetype=.pdf
 
@@ -544,15 +539,15 @@ Another severe limitation of KS test is that it is only applicable to one-dimens
 \subsection{Other tests based on EDFs}
 \reversemarginpar
 \marginnote{\footnotesize{ehkä vähän lyhyenpuoleisia kappaleita}}
-Unsatisfactory sensitivity of the KS test motivates the use of other more complex tests. Such tests are for example the Cram\'er-von Mises test (CvM) and Anderson-Darling (AD) test, both of which have their strengths. Similar to KS test, both of these can be used as one-sample or two-sample variants.  \citep{bohm2010introduction, feigelson2012modern}
+Unsatisfactory sensitivity of the KS test motivates the use of other more complex tests. Such tests are for example the Cram\'er-von Mises test (CvM) and Anderson-Darling (AD) test, both of which have their strengths. Similar to KS test, both of these can be used as one-sample or two-sample variants.  
 
 First of these tests integrates over the squared difference between the EDF of the sample and CDF from the model or two EDFs in case of two-sample test. The test statistic $W^2$ for one-sample case can be expressed formally as
 \begin{equation}
 	W^2 = \int_{-\infty}^{\infty}[\hat F_1(x) - F_0(x)]^2\ dF_0(x)
 \end{equation}
-For two-sample version, the theoretical CDF $F_0$ has to be replaced with another empirical distribution function $\hat F_2$. \citep{bohm2010introduction, feigelson2012modern}
+For two-sample version, the theoretical CDF $F_0$ has to be replaced with another empirical distribution function $\hat F_2$.
 
-Due to integration, the CvM test is able to differentiate distributions based on both local and global differences, which causes it to often perform better than the KS test. Similar to the KS test, the CvM test also suffers from EDFs or an EDF and a CDF being equal at the ends of the data range, which again makes the test less sensitive to differences near the tails of the distribution. \citep{feigelson2012modern}
+Due to integration, the CvM test is able to differentiate distributions based on both local and global differences, which causes it to often perform better than the KS test. Similar to the KS test, the CvM test also suffers from EDFs or an EDF and a CDF being equal at the ends of the data range, which again makes the test less sensitive to differences near the tails of the distribution. 
 
 In order to achieve constant sensitivity over the entire range of values, the statistic has to be weighted according to the proximity of the ends of the distribution. The AD test does this with its test statistic defined as
 \begin{equation}
@@ -562,7 +557,7 @@ where $N$ is the number of data points in sample. This weighing makes the test m
 
 \reversemarginpar
 \marginnote{\footnotesize{hnnngh}}
-Also other more specific tests exist, such as the Kuiper test which is well suited for cyclic measurements. The test should always be chosen to match the dataset such that it best differentiates between the null and research hypotheses. \citep{bohm2010introduction, feigelson2012modern}
+Also other more specific tests exist, such as the Kuiper test which is well suited for cyclic measurements. The test should always be chosen to match the dataset such that it best differentiates between the null and research hypotheses.
 
 \section{Cluster Analysis}
 DBSCAN
