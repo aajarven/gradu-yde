@@ -198,20 +198,79 @@ if __name__ == "__main__":
 #							 LGdistances))
 
 
-	##### PCR #####
+	##### Principal components #####
 	pca = PCA()
 	data_pca = pca.fit_transform(scale(data))
 	components = pca.components_
 
+	print("component\tzeropoints\tinClusterZeros\toutClusterZeros\t" + 
+	   "allDispersions\tclusterDispersions\tunclusteredDispersions\t" + 
+	   "radialVelocities\ttangentialVelocities\tLGdistances")
+	for i in range(len(components)):
+		print(str(i+1), end='\t')
+		for component in components[i]:
+			print("{:.6f}".format(component), end='\t')
+		print()
+	print()
+
 	plt.plot(np.array(range(len(pca.explained_variance_ratio_)))+1,
-		  pca.explained_variance_ratio_, linewidth=2.0)
+		  pca.explained_variance_ratio_*100, linewidth=2.0, color='k')
 	plt.xlabel("Number of component")
 	plt.ylabel("Percentage of variance explained by component")
 	plt.savefig(outputdir + "PCA-variances.svg")
 
-	cumulativeVariance = [np.sum(pca.explained_variance_ratio_[:i+1]) for i in
-					   range(len(pca.explained_variance_ratio_)-1)]
-	print(cumulativeVariance)
+	print("Number of PCs and cumulative variances:")
+	for i in range(len(pca.explained_variance_ratio_)-1):
+		print(str(i+1) + "\t" + str(np.sum(pca.explained_variance_ratio_[:i+1])))
+	print()
+
+	plt.cla()
+	plt.clf()
+	n = len(data_pca)
+	cv = cross_validation.KFold(n, n_folds=3, shuffle=True, random_state=1)
+	regr = LinearRegression()
+	mse = []
+
+	for i in np.arange(1, 10):
+		score = -1*cross_validation.cross_val_score(regr, data_pca[:,:i],
+											  y.ravel(), cv=cv,
+											  scoring='mean_squared_error').mean()
+		mse.append(score)
+	
+	plt.plot(np.array(range(len(mse)))+1, mse, '-o', color='k')
+	plt.xlabel('Number of principal components in regression')
+	plt.ylabel('MSE')
+	plt.savefig(outputdir + "PCA-MSE-cv3.svg")
+
+	
+	# pcr
+	plt.cla()
+	plt.clf()
+
+	pca2 = PCA()
+	data_train, data_test , y_train, y_test = cross_validation.train_test_split(data, y,
+																		  test_size=0.25,
+																		  random_state=1)
+	data_pca_train = pca2.fit_transform(scale(data_train))
+	
+	n = len(data_pca_train)
+	cv = cross_validation.KFold(n, n_folds=3, shuffle=True, random_state=1)
+
+	mse = []
+	for i in np.arange(1, 10):
+			score = -1*cross_validation.cross_val_score(regr,
+													 data_pca_train[:,:i],
+													 y_train.ravel(), cv=cv,
+													 scoring='mean_squared_error').mean()
+			mse.append(score)
+
+			plt.plot(np.array(range(len(mse)))+1, np.array(mse), '-o', color='k')
+			plt.xlabel('Number of principal components in regression')
+			plt.ylabel('MSE')
+
+	plt.savefig(outputdir + "PCR-cv3.svg")
+
+
 
 #	plt.cla()
 #	plt.clf()
