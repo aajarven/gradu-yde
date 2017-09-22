@@ -227,7 +227,7 @@ if __name__ == "__main__":
 	plt.cla()
 	plt.clf()
 	n = len(data_pca)
-	cv = cross_validation.KFold(n, n_folds=3, shuffle=True, random_state=1)
+	cv = cross_validation.KFold(n, n_folds=2, shuffle=True, random_state=1)
 	regr = LinearRegression()
 	mse = []
 
@@ -240,10 +240,10 @@ if __name__ == "__main__":
 	plt.plot(np.array(range(len(mse)))+1, mse, '-o', color='k')
 	plt.xlabel('Number of principal components in regression')
 	plt.ylabel('MSE')
-	plt.savefig(outputdir + "PCA-MSE-cv3.svg")
+	plt.savefig(outputdir + "PCA-MSE-cv2.svg")
 
 	
-	# pcr
+	# train and test
 	plt.cla()
 	plt.clf()
 
@@ -254,7 +254,7 @@ if __name__ == "__main__":
 	data_pca_train = pca2.fit_transform(scale(data_train))
 	
 	n = len(data_pca_train)
-	cv = cross_validation.KFold(n, n_folds=3, shuffle=True, random_state=1)
+	cv = cross_validation.KFold(n, n_folds=2, shuffle=True, random_state=1)
 
 	mse = []
 	for i in np.arange(1, 10):
@@ -268,4 +268,33 @@ if __name__ == "__main__":
 			plt.xlabel('Number of principal components in regression')
 			plt.ylabel('MSE')
 
-	plt.savefig(outputdir + "PCR-cv3.svg")
+	plt.savefig(outputdir + "PCA-trainresults-cv2.svg")
+	
+	data_pca_test = pca2.transform(scale(data_test))[:,:4]
+
+	# Train regression model on training data 
+	regr = LinearRegression()
+	regr.fit(data_pca_train[:,:4], y_train)
+
+	# Prediction with test data
+	pred = regr.predict(data_pca_test)
+	mse = mean_squared_error(y_test, pred)
+	print("Test data MSE with 3 PCs:" + "\t" + str(mse))
+
+
+	plt.cla()
+	plt.clf()
+
+	mse = []
+	cv = cross_validation.KFold(n, n_folds=2, shuffle=True, random_state=2)
+
+	for i in np.arange(1, 10):
+		pls = PLSRegression(n_components=i, scale=False)
+		pls.fit(scale(data_pca),y)
+		score = cross_validation.cross_val_score(pls, data_pca, y, cv=cv, scoring='mean_squared_error').mean()
+		mse.append(-score)
+
+	plt.plot(np.arange(1, 10), np.array(mse), '-o', color='k', linewidth=2.0)
+	plt.xlabel('Number of principal components in PLS regression')
+	plt.ylabel('MSE')
+	plt.savefig(outputdir + "PCR-cv2.svg")
