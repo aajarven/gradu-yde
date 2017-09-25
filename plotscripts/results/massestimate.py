@@ -27,7 +27,7 @@ from sklearn.metrics import mean_squared_error
 
 if __name__ == "__main__":
 	inputfile =	"/home/aajarven/Z-drive/duuni/extragal/gradu-yde/plotscripts/input/upTo5Mpc-fullpath.txt"
-	outputdir = "/home/aajarven/Z-drive/duuni/extragal/gradu-yde/kuvat/PCA"
+	outputdir = "/home/aajarven/Z-drive/duuni/extragal/gradu-yde/kuvat/PCA/"
 
 	mindist = 1.0
 	maxdist = 5.0
@@ -204,7 +204,7 @@ if __name__ == "__main__":
 	data_pca = pca.fit_transform(scale(data))
 	components = pca.components_
 
-	n_folds = 3
+	n_folds = 5
 
 	print("component\tzeropoints\tinClusterZeros\toutClusterZeros\t" + 
 	   "allDispersions\tclusterDispersions\tunclusteredDispersions\t" + 
@@ -255,7 +255,7 @@ if __name__ == "__main__":
 
 	pca2 = PCA()
 	data_train, data_test , y_train, y_test = cross_validation.train_test_split(data, y,
-																		  test_size=0.25,
+																		  test_size=0.5,
 																		  random_state=1)
 	data_pca_train = pca2.fit_transform(scale(data_train))
 	
