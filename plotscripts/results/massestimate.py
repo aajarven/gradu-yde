@@ -291,7 +291,7 @@ if __name__ == "__main__":
 	plt.clf()
 
 	mse = []
-	cv = cross_validation.KFold(n, n_folds=2, shuffle=True, random_state=2)
+	cv = cross_validation.KFold(n, n_folds=n_folds, shuffle=True, random_state=2)
 
 	for i in np.arange(1, 10):
 		pls = PLSRegression(n_components=i, scale=False)
@@ -302,4 +302,4 @@ if __name__ == "__main__":
 	plt.plot(np.arange(1, 10), np.array(mse), '-o', color='k', linewidth=2.0)
 	plt.xlabel('Number of principal components in PLS regression')
 	plt.ylabel('MSE')
-	plt.savefig(outputdir + "PCR-cv2.svg")
+	plt.savefig(outputdir + "PCR-cv" + str(n_folds) + ".svg")
