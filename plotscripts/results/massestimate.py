@@ -27,7 +27,7 @@ from sklearn.metrics import mean_squared_error
 
 if __name__ == "__main__":
 	inputfile =	"/home/aajarven/Z-drive/duuni/extragal/gradu-yde/plotscripts/input/upTo5Mpc-fullpath.txt"
-	outputdir = "/home/aajarven/Z-drive/duuni/extragal/gradu-yde/kuvat/"
+	outputdir = "/home/aajarven/Z-drive/duuni/extragal/gradu-yde/kuvat/PCA"
 
 	mindist = 1.0
 	maxdist = 5.0
@@ -204,7 +204,7 @@ if __name__ == "__main__":
 	data_pca = pca.fit_transform(scale(data))
 	components = pca.components_
 
-	n_folds = 2
+	n_folds = 3
 
 	print("component\tzeropoints\tinClusterZeros\toutClusterZeros\t" + 
 	   "allDispersions\tclusterDispersions\tunclusteredDispersions\t" + 
@@ -245,6 +245,7 @@ if __name__ == "__main__":
 	plt.plot(np.array(range(len(mse)))+1, mse, '-o', color='k')
 	plt.xlabel('Number of principal components in regression')
 	plt.ylabel('MSE')
+	plt.title('Mean squared error of the points from the fit')
 	plt.savefig(outputdir + "PCA-MSE-cv" + str(n_folds) + ".svg")
 
 	
@@ -259,7 +260,7 @@ if __name__ == "__main__":
 	data_pca_train = pca2.fit_transform(scale(data_train))
 	
 	n = len(data_pca_train)
-	cv = cross_validation.KFold(n, n_folds=n_folds-1, shuffle=True, random_state=1)
+	cv = cross_validation.KFold(n, n_folds=n_folds, shuffle=True, random_state=1)
 
 	# plot errors with different numbers of PCs
 	mse = []
@@ -272,20 +273,31 @@ if __name__ == "__main__":
 
 			plt.plot(np.array(range(len(mse)))+1, np.array(mse), '-o', color='k')
 			plt.xlabel('Number of principal components in regression')
+			plt.title('Mean squared error of the points in the training set' + 
+			 'from the fit')
 			plt.ylabel('MSE')
 
-	plt.savefig(outputdir + "PCA-trainresults-cv" + str(n_folds - 1) + ".svg")
+	plt.savefig(outputdir + "PCA-trainresults-cv" + str(n_folds) + ".svg")
 
+	mses = []
 	# testing, in[17]
-	data_pca_test = pca2.transform(scale(data_test))[:,:3]
-	regr = LinearRegression()
-	regr.fit(data_pca_train[:,:3], y_train)
-
 	# Prediction with test data
-	pred = regr.predict(data_pca_test)
-	mse = mean_squared_error(y_test, pred)
-	print("Test data MSE with 2 PCs:" + "\t" + str(mse))
+	for i in np.arange(1, 9):
+		data_pca_test = pca2.transform(scale(data_test))[:,:i + 1]
+		regr = LinearRegression()
+		regr.fit(data_pca_train[:,:i + 1], y_train)
+		pred = regr.predict(data_pca_test)
+		mse = mean_squared_error(y_test, pred)
+		mses.append(mse)
+		print("Test data MSE with " + str(i) + " PCs:" + "\t" + str(mse))
 
+	plt.cla()
+	plt.clf()
+	plt.plot(np.arange(1, 9), np.array(mses), '-o', color='k', linewidth=2.0)
+	plt.xlabel('Number of principal components')
+	plt.ylabel('MSE')
+	plt.title('MSE of test set values from fit to training set')
+	plt.savefig(outputdir + "PCA-testresults.svg")
 
 	plt.cla()
 	plt.clf()
@@ -302,4 +314,5 @@ if __name__ == "__main__":
 	plt.plot(np.arange(1, 10), np.array(mse), '-o', color='k', linewidth=2.0)
 	plt.xlabel('Number of principal components in PLS regression')
 	plt.ylabel('MSE')
+	plt.title('MSE of the points from the fit using PLSRegression')
 	plt.savefig(outputdir + "PCR-cv" + str(n_folds) + ".svg")
