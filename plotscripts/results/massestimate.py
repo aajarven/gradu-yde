@@ -199,9 +199,12 @@ if __name__ == "__main__":
 
 
 	##### Principal components #####
+	# https://github.com/jcrouser/islr-python/blob/master/Lab%2011%20-%20PCR%20and%20PLS%20Regression%20in%20Python.ipynb
 	pca = PCA()
 	data_pca = pca.fit_transform(scale(data))
 	components = pca.components_
+
+	n_folds = 2
 
 	print("component\tzeropoints\tinClusterZeros\toutClusterZeros\t" + 
 	   "allDispersions\tclusterDispersions\tunclusteredDispersions\t" + 
@@ -213,6 +216,7 @@ if __name__ == "__main__":
 		print()
 	print()
 
+	# Explained variance
 	plt.plot(np.array(range(len(pca.explained_variance_ratio_)))+1,
 		  pca.explained_variance_ratio_*100, linewidth=2.0, color='k')
 	plt.xlabel("Number of component")
@@ -227,10 +231,11 @@ if __name__ == "__main__":
 	plt.cla()
 	plt.clf()
 	n = len(data_pca)
-	cv = cross_validation.KFold(n, n_folds=2, shuffle=True, random_state=1)
+	cv = cross_validation.KFold(n, n_folds=n_folds, shuffle=True, random_state=1)
 	regr = LinearRegression()
 	mse = []
 
+	# MSE for different number of PCs, in[14]
 	for i in np.arange(1, 10):
 		score = -1*cross_validation.cross_val_score(regr, data_pca[:,:i],
 											  y.ravel(), cv=cv,
@@ -240,10 +245,10 @@ if __name__ == "__main__":
 	plt.plot(np.array(range(len(mse)))+1, mse, '-o', color='k')
 	plt.xlabel('Number of principal components in regression')
 	plt.ylabel('MSE')
-	plt.savefig(outputdir + "PCA-MSE-cv2.svg")
+	plt.savefig(outputdir + "PCA-MSE-cv" + str(n_folds) + ".svg")
 
 	
-	# train and test
+	# train and test sets, in[16]
 	plt.cla()
 	plt.clf()
 
@@ -254,8 +259,9 @@ if __name__ == "__main__":
 	data_pca_train = pca2.fit_transform(scale(data_train))
 	
 	n = len(data_pca_train)
-	cv = cross_validation.KFold(n, n_folds=2, shuffle=True, random_state=1)
+	cv = cross_validation.KFold(n, n_folds=n_folds-1, shuffle=True, random_state=1)
 
+	# plot errors with different numbers of PCs
 	mse = []
 	for i in np.arange(1, 10):
 			score = -1*cross_validation.cross_val_score(regr,
@@ -268,18 +274,17 @@ if __name__ == "__main__":
 			plt.xlabel('Number of principal components in regression')
 			plt.ylabel('MSE')
 
-	plt.savefig(outputdir + "PCA-trainresults-cv2.svg")
-	
-	data_pca_test = pca2.transform(scale(data_test))[:,:4]
+	plt.savefig(outputdir + "PCA-trainresults-cv" + str(n_folds - 1) + ".svg")
 
-	# Train regression model on training data 
+	# testing, in[17]
+	data_pca_test = pca2.transform(scale(data_test))[:,:3]
 	regr = LinearRegression()
-	regr.fit(data_pca_train[:,:4], y_train)
+	regr.fit(data_pca_train[:,:3], y_train)
 
 	# Prediction with test data
 	pred = regr.predict(data_pca_test)
 	mse = mean_squared_error(y_test, pred)
-	print("Test data MSE with 3 PCs:" + "\t" + str(mse))
+	print("Test data MSE with 2 PCs:" + "\t" + str(mse))
 
 
 	plt.cla()
