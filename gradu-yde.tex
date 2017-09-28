@@ -17,6 +17,10 @@
 \usepackage{graphicx}
 \graphicspath{{kuvat/tex/}}
 \usepackage{wasysym}
+\usepackage{tabularx}
+\usepackage{adjustbox}
+\usepackage{makecell}
+\usepackage{rotating}
 
 % titlesec and fix for no numbering on titlesec 2.10.2
 \usepackage{titlesec}
@@ -687,6 +691,7 @@ Figure \ref{fig:clusteredHFparameters} shows how derived values of slope and zer
 Analysis similar to Fattahi et al 2016 paper
 
 
+
 %\chapter{SIBELIUS project}
 % Simulations Beyond the Local Universe
 %
@@ -712,6 +717,31 @@ Analysis similar to Fattahi et al 2016 paper
 \bibliographystyle{plainnat}
 \bibliography{lahteet}
 
+\newpage
+\appendix
+\chapter{Principal Components}
+
+\begin{table}
+	\centering
+	\rotatebox{90}{
+	\begin{tabular}{l | l | l l l | l l l | l l l}
+      \thead{PC} & \thead{$H_0$} & \thead{HF zero} & \thead{HF zero\\(clustered)} & \thead{HF zero\\(not clustered)} & \thead{$\sigma_{radvel}$} & \thead{$\sigma_{radvel}$\\(clustered)} & \thead{$\sigma_{radvel}$\\(not clustered)} & \thead{$v_{r, LG}$} & \thead{$v_{t, LG}$} & \thead{$r_LG$}\\
+      \hline
+	\makecell{1} & \makecell{-0.386} & \makecell{-0.449} & \makecell{-0.324} & \makecell{-0.379} & \makecell{-0.393} & \makecell{-0.211} & \makecell{-0.384} & \makecell{-0.211} & \makecell{0.097} & \makecell{0.013}\\
+	\makecell{2} & \makecell{0.147} & \makecell{0.221} & \makecell{0.248} & \makecell{0.150} & \makecell{-0.064} & \makecell{-0.599} & \makecell{-0.056} & \makecell{-0.599} & \makecell{-0.103} & \makecell{0.332}\\
+	\makecell{3} & \makecell{0.287} & \makecell{0.145} & \makecell{0.186} & \makecell{0.223} & \makecell{-0.531} & \makecell{0.258} & \makecell{-0.535} & \makecell{0.258} & \makecell{0.115} & \makecell{0.313}\\
+	\makecell{4} & \makecell{0.009} & \makecell{0.020} & \makecell{-0.152} & \makecell{0.102} & \makecell{0.151} & \makecell{-0.047} & \makecell{0.136} & \makecell{-0.047} & \makecell{0.934} & \makecell{0.221}\\
+	\makecell{5} & \makecell{-0.024} & \makecell{-0.171} & \makecell{-0.273} & \makecell{-0.105} & \makecell{0.140} & \makecell{0.134} & \makecell{0.227} & \makecell{0.134} & \makecell{-0.270} & \makecell{0.840}\\
+	\makecell{6} & \makecell{0.015} & \makecell{-0.092} & \makecell{0.706} & \makecell{-0.663} & \makecell{0.049} & \makecell{0.065} & \makecell{0.072} & \makecell{0.065} & \makecell{0.147} & \makecell{0.127}\\
+	\makecell{7} & \makecell{-0.848} & \makecell{0.156} & \makecell{0.323} & \makecell{0.343} & \makecell{-0.074} & \makecell{0.071} & \makecell{0.060} & \makecell{0.071} & \makecell{-0.001} & \makecell{0.128}\\
+	\makecell{8} & \makecell{-0.162} & \makecell{0.582} & \makecell{-0.206} & \makecell{-0.315} & \makecell{0.456} & \makecell{0.024} & \makecell{-0.529} & \makecell{0.024} & \makecell{-0.018} & \makecell{0.061}\\
+	\makecell{9} & \makecell{0.041} & \makecell{-0.572} & \makecell{0.239} & \makecell{0.326} & \makecell{0.549} & \makecell{-0.008} & \makecell{-0.452} & \makecell{-0.008} & \makecell{-0.016} & \makecell{0.031}\\
+	\makecell{10} & \makecell{0.000} & \makecell{-0.000} & \makecell{0.000} & \makecell{0.000} & \makecell{-0.000} & \makecell{0.707} & \makecell{-0.000} & \makecell{-0.707} & \makecell{0.000} & \makecell{-0.000} 
+	\end{tabular}
+	}
+	\caption{component	H0s	zeropoints	inClusterZeros	outClusterZeros	allDispersions	clusterDispersions	unclusteredDispersions	radialVelocities	tangentialVelocities	LGdistances
+}\label{tab:PCs}
+\end{table}
 
 \end{document}
 
