@@ -35,6 +35,7 @@ if __name__ == "__main__":
 	ms = 10
 
 	masses = []
+	H0s = []
 	zeropoints = []
 	inClusterZeros = []
 	outClusterZeros = []
@@ -135,6 +136,7 @@ if __name__ == "__main__":
 		M_big2 = mass[LG[0]] + mass[LG[1]]
 	
 		masses.append(M_big2)
+		H0s.append(fit[0])
 		zeropoints.append(-fit[1]/fit[0])
 		inClusterZeros.append(-inClusterFit[1]/inClusterFit[0])
 		outClusterZeros.append(-outClusterFit[1]/outClusterFit[0])
@@ -152,6 +154,7 @@ if __name__ == "__main__":
 	##### finalizing data #####
 
 	masses = np.array(masses)
+	H0s = np.array(H0s)
 	zeropoints = np.array(zeropoints)
 	inClusterZeros = np.array(inClusterZeros)
 	outClusterZeros = np.array(outClusterZeros)
@@ -175,6 +178,7 @@ if __name__ == "__main__":
 					   outClusterSanitymask))
 
 	masses = masses[sanitymask]
+	H0s = H0s[sanitymask]
 	zeropoints = zeropoints[sanitymask]
 	inClusterZeros = inClusterZeros[sanitymask]
 	outClusterZeros = outClusterZeros[sanitymask]
@@ -187,7 +191,7 @@ if __name__ == "__main__":
 
 	y = masses
 
-	data = np.array([zeropoints, inClusterZeros, outClusterZeros,
+	data = np.array([H0s, zeropoints, inClusterZeros, outClusterZeros,
 				  allDispersions, radialVelocities, unclusteredDispersions,
 				  radialVelocities, tangentialVelocities, LGdistances]).T
 
@@ -204,15 +208,15 @@ if __name__ == "__main__":
 	data_pca = pca.fit_transform(scale(data))
 	components = pca.components_
 
-	n_folds = 5
+	n_folds = 10
 
-	print("component\tzeropoints\tinClusterZeros\toutClusterZeros\t" + 
+	print("component\tH0s\tzeropoints\tinClusterZeros\toutClusterZeros\t" + 
 	   "allDispersions\tclusterDispersions\tunclusteredDispersions\t" + 
 	   "radialVelocities\ttangentialVelocities\tLGdistances")
 	for i in range(len(components)):
 		print(str(i+1), end='\t')
 		for component in components[i]:
-			print("{:.6f}".format(component), end='\t')
+			print("{:.3f}".format(component), end='\t')
 		print()
 	print()
 
