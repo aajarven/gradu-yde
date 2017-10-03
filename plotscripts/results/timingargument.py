@@ -7,28 +7,68 @@ from math import sin, cos, pi
 from scipy.optimize import fsolve#, minimize
 import sys
 
-def phiFunction(phi, radvel, distance, T):
-#	return ((sin(phi)**2 - phi * sin(phi)) / ((1 + cos(phi))**2) -
-#		 radvel*1.0/distance*T)
-	return (distance*1.0/T*sin(phi)*(phi-sin(phi))/((1-cos(phi))**2)-radvel)
+"""
+Estimates the mass of a galaxy pair using timing argument.
 
+Parameters
+----------
+radvel : float
+	relative radial velocity of the galaxy pair in kpc/Gyr
+distance : float
+	distance between the galaxies (kpc)
+T : float
+	age of the universe in Gyr
+
+Returns
+-------
+float
+estimate for the combined mass of the galaxy pair in solar masses
+
+Raises
+------
+PositiveTimingVelocityException
+	when a positive velocity is given as radvel
+UnexpectedSolutionNumberException
+	when root finding algorithm finds more than one root for eccentric anomaly
+
+"""
 def timingArgumentMass(radvel, distance, T):
+	if radvel > 0:
+		print(('Radial velocity must be negative to estimate galaxy masses '
+		 'using timing argument'))
+		raise PositiveTimingVelocityException(str)
+
 	G =	4.498768e-6 # kpc^3/Gyr^2/Msun
-	
-#	phi = minimize(phiFunction, 4.0, args=(radvel, distance, T)).x
+
 	phi = fsolve(phiFunction, 4.11, args=(radvel, distance, T))
 	if len(phi) != 1:
-		logging.exception("Unexpected length (" + str(len(phi)) + ") for " + 
-					"solution vector of phi")
-		sys.exit(1)
+		print("Unexpected length (" + str(len(phi)) + ") for solution " +
+		"vector of phi")
+		raise UnexpectedSolutionNumberException()
 	phi = (phi % (2*pi))[0]
 
 	a = distance / (1-cos(phi))
-#	print("a="+str(a))
 
 	M = a**3/G*(phi-sin(phi))**2/(T**2)
-#	print("{:.2e}".format(M))
 	return M
+
+
+def phiFunction(phi, radvel, distance, T):
+	return (distance*1.0/T*sin(phi)*(phi-sin(phi))/((1-cos(phi))**2)-radvel)
+
+
+class PositiveTimingVelocityException(Exception):
+	def __init__(self, value):
+		self.value = value
+		def __str__(self):
+			return repr(self.value)
+
+class UnexpectedSolutionNumberException(Exception):
+	def __init__(self, value):
+		self.value = value
+		def __str__(self):
+			return repr(self.value)
+
 
 if __name__ == "__main__":
 	print("{:.2e}".format(timingArgumentMass(-119.0, 730.0, 20.0)))
