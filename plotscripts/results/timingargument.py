@@ -14,6 +14,8 @@ def phiFunction(phi, radvel, distance, T):
 def timingArgumentMass(radvel, distance, T):
 	G =	4.498768e-6 # kpc^3/Gyr^2/Msun
 
+	
+
 	phi2 = fsolve(phiFunction, 0, args=(radvel, distance, T))
 	if len(phi2) != 1:
 		logging.exception("Unexpected length (" + str(len(phi)) + ") for " + 
@@ -33,4 +35,4 @@ def timingArgumentMass(radvel, distance, T):
 	print("{:.2e}".format(M))
 
 if __name__ == "__main__":
-	timingArgumentMass(-125.0, 650.0, 14.0)
+	timingArgumentMass(-125.0, 650.0, 13.6)
