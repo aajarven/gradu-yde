@@ -13,3 +13,4 @@ test*
 *.swp
 kuvat/all
 kuvat/vanhat
+*.pyc
