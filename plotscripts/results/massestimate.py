@@ -13,6 +13,7 @@ from optparse import OptionParser
 #import pandas as pd
 import physUtils
 from sibeliusConstants import *
+import timingargument
 from transitiondistance import findBestHubbleflow
 import matplotlib.pyplot as plt
 import numpy as np
@@ -45,6 +46,7 @@ if __name__ == "__main__":
 	radialVelocities = []
 	tangentialVelocities = []
 	LGdistances = []
+	timingArgumentMasses = []
 
 	f = open(inputfile, 'r')
 	for simdir in f.readlines():
