@@ -155,6 +155,11 @@ if __name__ == "__main__":
 			radialVelocities.append(LGrelVelComponents[0])
 			tangentialVelocities.append(LGrelVelComponents[1])
 			LGdistances.append(LGdistance)
+			timingArgumentMass = timingargument.timingArgumentMass(-1 *
+														  LGrelVelComponents[0],
+														  LGdistance*1000.0,
+														  13.7)
+			timingArgumentMasses.append(timingArgumentMass)
 
 		##### finalizing data #####
 
@@ -169,8 +174,11 @@ if __name__ == "__main__":
 		radialVelocities = np.array(radialVelocities)
 		tangentialVelocities = np.array(tangentialVelocities)
 		LGdistances = np.array(LGdistances)
+		timingArgumentMasses = np.array(timingArgumentMasses)
+		print(len(masses))
+		print(len(timingArgumentMasses))
 
-		data = np.array([masses, H0s, zeropoints, inClusterZeros,
+		data = np.array([masses, timingArgumentMasses, H0s, zeropoints, inClusterZeros,
 				   outClusterZeros, allDispersions,  unclusteredDispersions,
 				   clusterDispersions, radialVelocities, tangentialVelocities,
 				   LGdistances]).T
@@ -178,8 +186,8 @@ if __name__ == "__main__":
 		np.savetxt(datafile, data)
 	else:
 		data = np.loadtxt(datafile)
-		result = np.hsplit(data, 11)
-		(masses, H0s, zeropoints, inClusterZeros, outClusterZeros,
+		result = np.hsplit(data, 12)
+		(masses, timingArgumentMasses, H0s, zeropoints, inClusterZeros, outClusterZeros,
    allDispersions, unclusteredDispersions, clusterDispersions,
    radialVelocities, tangentialVelocities, LGdistances) = result
 		
@@ -196,6 +204,7 @@ if __name__ == "__main__":
 					   outClusterSanitymask))
 
 	masses = masses[sanitymask]
+	timingArgumentMasses = timingArgumentMasses[sanitymask]
 	H0s = H0s[sanitymask]
 	zeropoints = zeropoints[sanitymask]
 	inClusterZeros = inClusterZeros[sanitymask]
@@ -213,12 +222,6 @@ if __name__ == "__main__":
 				  allDispersions, radialVelocities, unclusteredDispersions,
 				  radialVelocities, tangentialVelocities, LGdistances]).T
 
-#	data = np.column_stack((zeropoints, inClusterZeros,
-#							 outClusterZeros, allDispersions,
-#							 clusterDispersions, unclusteredDispersions,
-#							 radialVelocities, tangentialVelocities,
-#							 LGdistances))
-
 
 	##### Principal components #####
 	# https://github.com/jcrouser/islr-python/blob/master/Lab%2011%20-%20PCR%20and%20PLS%20Regression%20in%20Python.ipynb
@@ -227,6 +230,7 @@ if __name__ == "__main__":
 	components = pca.components_
 
 	n_folds = 10
+	random_state = 1
 
 	print("component\tH0s\tzeropoints\tinClusterZeros\toutClusterZeros\t" + 
 	   "allDispersions\tclusterDispersions\tunclusteredDispersions\t" + 
@@ -253,7 +257,7 @@ if __name__ == "__main__":
 	plt.cla()
 	plt.clf()
 	n = len(data_pca)
-	cv = cross_validation.KFold(n, n_folds=n_folds, shuffle=True, random_state=1)
+	cv = cross_validation.KFold(n, n_folds=n_folds, shuffle=True, random_state=random_state)
 	regr = LinearRegression()
 	mse = []
 
@@ -276,13 +280,23 @@ if __name__ == "__main__":
 	plt.clf()
 
 	pca2 = PCA()
-	data_train, data_test , y_train, y_test = cross_validation.train_test_split(data, y,
-																		  test_size=0.5,
-																		  random_state=1)
+	indices = np.arange(0, len(y))
+	train_indices, test_indices = cross_validation.train_test_split(indices,
+																 test_size=0.5,
+																 random_state=random_state)
+#	data_train, data_test , y_train, y_test = cross_validation.train_test_split(data, y,
+#																		  test_size=0.5,
+#																		  random_state=random_state)
+	data_train = data[train_indices]
+	data_test = data[test_indices]
+	y_train = y[train_indices]
+	y_test = y[test_indices]
+	timing_test = timingArgumentMasses[test_indices]
+
 	data_pca_train = pca2.fit_transform(scale(data_train))
 	
 	n = len(data_pca_train)
-	cv = cross_validation.KFold(n, n_folds=n_folds, shuffle=True, random_state=1)
+	cv = cross_validation.KFold(n, n_folds=n_folds, shuffle=True, random_state=random_state)
 
 	# plot errors with different numbers of PCs
 	mse = []
@@ -304,18 +318,23 @@ if __name__ == "__main__":
 	mses = []
 	# testing, in[17]
 	# Prediction with test data
-	for i in np.arange(1, 9):
-		data_pca_test = pca2.transform(scale(data_test))[:,:i + 1]
+	for i in np.arange(1, 10):
+		data_pca_test = pca2.transform(scale(data_test))[:,:i]
 		regr = LinearRegression()
-		regr.fit(data_pca_train[:,:i + 1], y_train)
+		regr.fit(data_pca_train[:,:i], y_train)
+#		print(regr.coef_)
 		pred = regr.predict(data_pca_test)
 		mse = mean_squared_error(y_test, pred)
 		mses.append(mse)
 		print("Test data MSE with " + str(i) + " PCs:" + "\t" + str(mse))
 
+	# testing timing argument performance
+	timing_mse = mean_squared_error(y_test, timing_test)
+
 	plt.cla()
 	plt.clf()
-	plt.plot(np.arange(1, 9), np.array(mses), '-o', color='k', linewidth=2.0)
+	plt.plot(np.arange(1, 10), np.array(mses), '-o', color='k', linewidth=2.0)
+	plt.plot(np.arange(1, 10), np.ones(9)*timing_mse, color='r', linewidth=2.0)
 	plt.xlabel('Number of principal components')
 	plt.ylabel('MSE')
 	plt.title('MSE of test set values from fit to training set')
