@@ -158,7 +158,7 @@ if __name__ == "__main__":
 			timingArgumentMass = timingargument.timingArgumentMass(-1 *
 														  LGrelVelComponents[0],
 														  LGdistance*1000.0,
-														  13.7)
+														  13.7, G)
 			timingArgumentMasses.append(timingArgumentMass)
 
 		##### finalizing data #####
@@ -191,6 +191,10 @@ if __name__ == "__main__":
    allDispersions, unclusteredDispersions, clusterDispersions,
    radialVelocities, tangentialVelocities, LGdistances) = result
 		
+
+	#### debug ####
+	print(time_s)
+	print(time_Gyr)
 
 	# masking zeropoints
 	allHaloesSanitymask = np.array([zeropoint < 5.0 and zeropoint > -5.0 for zeropoint
