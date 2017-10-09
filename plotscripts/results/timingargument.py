@@ -13,11 +13,13 @@ Estimates the mass of a galaxy pair using timing argument.
 Parameters
 ----------
 radvel : float
-	relative radial velocity of the galaxy pair in kpc/Gyr
+	relative radial velocity of the galaxy pair in (e.g. in kpc/Gyr)
 distance : float
-	distance between the galaxies (kpc)
+	distance between the galaxies (e.g. in kpc)
 T : float
-	age of the universe in Gyr
+	age of the universe (e.g. in Gyr)
+G : float
+	gravitational constant (e.g. in kpc³/Gyr²/M☉)
 
 Returns
 -------
@@ -32,13 +34,13 @@ UnexpectedSolutionNumberException
 	when root finding algorithm finds more than one root for eccentric anomaly
 
 """
-def timingArgumentMass(radvel, distance, T):
+def timingArgumentMass(radvel, distance, T, G):
 	if radvel > 0:
 		print(('Radial velocity must be negative to estimate galaxy masses '
 		 'using timing argument'))
 		raise PositiveTimingVelocityException(str)
 
-	G =	4.498768e-6 # kpc^3/Gyr^2/Msun
+#	G =	4.498768e-6 # kpc^3/Gyr^2/Msun
 
 	phi = fsolve(phiFunction, 4.11, args=(radvel, distance, T))
 	if len(phi) != 1:
@@ -71,4 +73,4 @@ class UnexpectedSolutionNumberException(Exception):
 
 
 if __name__ == "__main__":
-	print("{:.2e}".format(timingArgumentMass(-119.0, 730.0, 20.0)))
+	print("{:.2e}".format(timingArgumentMass(-119.0, 730.0, 20.0, 4.498768e-6)))
