@@ -158,7 +158,7 @@ if __name__ == "__main__":
 			timingArgumentMass = timingargument.timingArgumentMass(-1 *
 														  LGrelVelComponents[0],
 														  LGdistance*1000.0,
-														  13.7, G)
+														  13.815, G)
 			timingArgumentMasses.append(timingArgumentMass)
 
 		##### finalizing data #####
@@ -314,7 +314,7 @@ if __name__ == "__main__":
 			plt.plot(np.array(range(len(mse)))+1, np.array(mse), '-o', color='k')
 			plt.xlabel('Number of principal components in regression')
 			plt.title('Mean squared error of the points in the training set' + 
-			 'from the fit')
+			 ' from the fit')
 			plt.ylabel('MSE')
 
 	plt.savefig(outputdir + "PCA-trainresults-cv" + str(n_folds) + ".svg")
