@@ -9,9 +9,16 @@ import math
 import matplotlib.pyplot as plt
 import numpy as np
 from sklearn.preprocessing import scale
+from optparse import OptionParser
 import os
 
 if __name__ == "__main__":
+
+	parser = OptionParser(usage="usage: python scattermatrix.py [options]")
+	parser.add_option("--outliers", help="show plot instantly",
+					  action="store_true", default=False, dest="keepOutliers")
+	(opts, args) = parser.parse_args()
+
 	simulationfiles = ("/home/aajarven/Z-drive/duuni/extragal/gradu-yde/"
 					"plotscripts/input/upTo5Mpc-fullpath.txt")
 	datafile = ("/home/aajarven/Z-drive/duuni/extragal/gradu-yde/plotscripts/"
@@ -29,29 +36,30 @@ if __name__ == "__main__":
    allDispersions, unclusteredDispersions, clusterDispersions,
    radialVelocities, tangentialVelocities, LGdistances) = result
 
-	# masking zeropoints
-	allHaloesSanitymask = np.array([zeropoint < 5.0 and zeropoint > -5.0 for zeropoint
-					   in zeropoints])
-	inClusterSanitymask = np.array([zeropoint < 5.0 and zeropoint > -5.0 for zeropoint
-					   in inClusterZeros])
-	outClusterSanitymask = np.array([zeropoint < 5.0 and zeropoint > -5.0 for zeropoint
-					   in outClusterZeros])
-	sanitymask = np.logical_and(allHaloesSanitymask,
-							 np.logical_and(inClusterSanitymask,
-					   outClusterSanitymask))
-	# apply mask and scale (zero mean and unit variance)
-	masses = masses[sanitymask]
-	timingArgumentMasses = timingArgumentMasses[sanitymask]
-	H0s = H0s[sanitymask]
-	zeropoints = zeropoints[sanitymask]
-	inClusterZeros = inClusterZeros[sanitymask]
-	outClusterZeros = outClusterZeros[sanitymask]
-	allDispersions = allDispersions[sanitymask]
-	clusterDispersions = clusterDispersions[sanitymask]
-	unclusteredDispersions = unclusteredDispersions[sanitymask]
-	radialVelocities = radialVelocities[sanitymask]
-	tangentialVelocities = tangentialVelocities[sanitymask]
-	LGdistances = LGdistances[sanitymask]
+
+	if opts.keepOutliers == False:
+		allHaloesSanitymask = np.array([zeropoint < 3.0 and zeropoint > -3.0 for zeropoint
+						   in zeropoints])
+		inClusterSanitymask = np.array([zeropoint < 4.0 and zeropoint > -5.0 for zeropoint
+						   in inClusterZeros])
+		outClusterSanitymask = np.array([zeropoint < 4.0 and zeropoint > -1.0 for zeropoint
+						   in outClusterZeros])
+		sanitymask = np.logical_and(allHaloesSanitymask,
+								 np.logical_and(inClusterSanitymask,
+						   outClusterSanitymask))
+		# apply mask
+		masses = masses[sanitymask]
+		timingArgumentMasses = timingArgumentMasses[sanitymask]
+		H0s = H0s[sanitymask]
+		zeropoints = zeropoints[sanitymask]
+		inClusterZeros = inClusterZeros[sanitymask]
+		outClusterZeros = outClusterZeros[sanitymask]
+		allDispersions = allDispersions[sanitymask]
+		clusterDispersions = clusterDispersions[sanitymask]
+		unclusteredDispersions = unclusteredDispersions[sanitymask]
+		radialVelocities = radialVelocities[sanitymask]
+		tangentialVelocities = tangentialVelocities[sanitymask]
+		LGdistances = LGdistances[sanitymask]
 
 
 	plotdata = [(masses*1e-12, 'LG mass'), (timingArgumentMasses*1e-12, 'mass from TA'),
@@ -74,8 +82,6 @@ if __name__ == "__main__":
 			smallestMin = min(plotdata[i][0])
 		if biggestMax < max(plotdata[i][0]):
 			biggestMax = max(plotdata[i][0])
-#		print(str(min(plotdata[i][0])) + "\t" + str(max(plotdata[i][0])))
-#	print(str(smallestMin) + "\t" + str(biggestMax))
 
 	# making the scatter matrix
 	fig, axes = plt.subplots(nrows=len(plotdata), ncols=len(plotdata),
@@ -97,26 +103,20 @@ if __name__ == "__main__":
 			   math.ceil(max(plotdata[row][0])))
 			ax.xaxis.set_ticklabels([])
 			ax.yaxis.set_ticklabels([])
-#			print(str(col) + ", " + str(row))
 
 			if ax.is_first_col():
 				ax.yaxis.set_visible(True)
 				ax.yaxis.set_ticks_position('left')
 				ax.set_ylabel(plotdata[row][1], rotation='horizontal',
 				  size='small', horizontalalignment='right')
-#				print(str(col) + ", " + str(row) + ": " + plotdata[row][1])
 			if ax.is_last_row():
 				ax.xaxis.set_visible(True)
 				ax.xaxis.set_ticks_position('bottom')
 				ax.set_xlabel(plotdata[col][1], rotation='vertical', size='small')
-#				print(str(col) + ", " + str(row) + ": " + plotdata[col][1])
-			
-#			if col == 0:
-#				print(plotdata[col][1] + "\t\t" + plotdata[row][1])
-#				print(str(ax.get_xlim()) + "\t" + str(ax.get_ylim()))
-#				print(plotdata[col][0])
 			
 			ax.scatter(plotdata[col][0], plotdata[row][0], marker='.', s=6,
 			  edgecolors='none', facecolors='k')
-	
-	plt.savefig(outputdir + "scattermatrix.svg")
+	if opts.keepOutliers:	
+		plt.savefig(outputdir + "scattermatrix-all.svg")
+	else:
+		plt.savefig(outputdir + "scattermatrix-noOutliers.svg")
