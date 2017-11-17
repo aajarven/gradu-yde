@@ -8,7 +8,6 @@ import clustering
 import clusterAnalysis
 import filereader
 import LGfinder
-from optparse import OptionParser
 import physUtils
 from sibeliusConstants import *
 from transitiondistance import simpleFit

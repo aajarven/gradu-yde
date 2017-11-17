@@ -9,7 +9,6 @@ import clustering
 import clusterAnalysis
 import filereader
 import LGfinder
-from optparse import OptionParser
 import physUtils
 from sklearn.utils import resample
 from sibeliusConstants import *

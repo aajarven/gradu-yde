@@ -22,7 +22,6 @@ import numpy.ma as ma
 import filereader
 import physUtils
 from sibeliusConstants import *
-from optparse import OptionParser
 import pylab
 
 

@@ -9,7 +9,6 @@ import clustering
 import clusterAnalysis
 import filereader
 import LGfinder
-from optparse import OptionParser
 #import pandas as pd
 import physUtils
 from savePCdata import readAndSave

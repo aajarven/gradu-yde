@@ -12,7 +12,6 @@ from matplotlib import rc
 import matplotlib.pyplot as plt
 import matplotlib.backends.backend_agg
 import numpy as np
-from optparse import OptionParser
 import os
 import physUtils
 import sys
