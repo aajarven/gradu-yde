@@ -7,6 +7,7 @@ sys.path.insert(0, '/scratch/aajarven/plotscripts/')
 
 import math
 import matplotlib.pyplot as plt
+from matplotlib import rc
 import numpy as np
 from sklearn.preprocessing import scale
 from optparse import OptionParser
@@ -15,8 +16,10 @@ import os
 if __name__ == "__main__":
 
 	parser = OptionParser(usage="usage: python scattermatrix.py [options]")
-	parser.add_option("--outliers", help="show plot instantly",
-					  action="store_true", default=False, dest="keepOutliers")
+	parser.add_option("--outlierexclusion", action="store", default="tight",
+				   help="exclude outliers, based on HF zero point distances. " +
+				   "Criteria options none/loose/tight, default tight.",
+				   dest="outlierExclusion")
 	(opts, args) = parser.parse_args()
 
 	simulationfiles = ("/home/aajarven/Z-drive/duuni/extragal/gradu-yde/"
@@ -36,17 +39,34 @@ if __name__ == "__main__":
    allDispersions, unclusteredDispersions, clusterDispersions,
    radialVelocities, tangentialVelocities, LGdistances) = result
 
+	if opts.outlierExclusion != "none" and opts.outlierExclusion != "loose" and	opts.outlierExclusion != "tight":
+		print("Unexpected value in outlierexclusion parameter. Allowed values"
+		+ " are none (all data points are plotted), loose (-5 to 5 kpc range"
+		+ " allowed) and tight (custom criteria creating visually satisfying"
+		+ "result.")
 
-	if opts.keepOutliers == False:
-		allHaloesSanitymask = np.array([zeropoint < 3.0 and zeropoint > -3.0 for zeropoint
-						   in zeropoints])
-		inClusterSanitymask = np.array([zeropoint < 4.0 and zeropoint > -5.0 for zeropoint
-						   in inClusterZeros])
-		outClusterSanitymask = np.array([zeropoint < 4.0 and zeropoint > -1.0 for zeropoint
-						   in outClusterZeros])
-		sanitymask = np.logical_and(allHaloesSanitymask,
-								 np.logical_and(inClusterSanitymask,
-						   outClusterSanitymask))
+	if opts.outlierExclusion != "none":
+		if opts.outlierExclusion == "tight":
+			allHaloesSanitymask = np.array([zeropoint < 3.0 and zeropoint > -3.0 for zeropoint
+							   in zeropoints])
+			inClusterSanitymask = np.array([zeropoint < 4.0 and zeropoint > -5.0 for zeropoint
+							   in inClusterZeros])
+			outClusterSanitymask = np.array([zeropoint < 4.0 and zeropoint > -1.0 for zeropoint
+							   in outClusterZeros])
+			sanitymask = np.logical_and(allHaloesSanitymask,
+									 np.logical_and(inClusterSanitymask,
+							   outClusterSanitymask))
+		
+		elif opts.outlierExclusion == "loose":
+			allHaloesSanitymask = np.array([zeropoint < 5.0 and zeropoint > -5.0 for zeropoint
+							   in zeropoints])
+			inClusterSanitymask = np.array([zeropoint < 5.0 and zeropoint > -5.0 for zeropoint
+							   in inClusterZeros])
+			outClusterSanitymask = np.array([zeropoint < 5.0 and zeropoint > -5.0 for zeropoint
+							   in outClusterZeros])
+			sanitymask = np.logical_and(allHaloesSanitymask,
+									 np.logical_and(inClusterSanitymask,
+							   outClusterSanitymask))
 		# apply mask
 		masses = masses[sanitymask]
 		timingArgumentMasses = timingArgumentMasses[sanitymask]
@@ -64,13 +84,13 @@ if __name__ == "__main__":
 
 	plotdata = [(masses*1e-12, 'LG mass'), (timingArgumentMasses*1e-12, 'mass from TA'),
 			 (H0s, 'HF slope'), (zeropoints, 'HF zero'),
-			 (inClusterZeros, 'HF zero for clusters'),
-			 (outClusterZeros, 'HF zero for non-clustered'),
-			 (allDispersions, 'HF velocity dispersion'),
-			 (clusterDispersions, 'HF velocity dispersion in clusters'),
-			 (unclusteredDispersions, 'HF velocity dispersion outside clusters'),
-			 (radialVelocities, 'radial velocity of M31'),
-			 (tangentialVelocities, 'tangential velocity of M31'),
+			 (inClusterZeros, 'HF zero for\nclusters'),
+			 (outClusterZeros, 'HF zero for\nnon-clustered'),
+			 (allDispersions, 'HF velocity\ndispersion'),
+			 (clusterDispersions, 'HF velocity dispersion\nin clusters'),
+			 (unclusteredDispersions, 'HF velocity dispersion\noutside clusters'),
+			 (radialVelocities, 'radial velocity\nof M31'),
+			 (tangentialVelocities, 'tangential velocity\nof M31'),
 			 (LGdistances, 'distance to M31')]
 
 	# tarvitaanko tätä?
@@ -85,12 +105,17 @@ if __name__ == "__main__":
 
 	# making the scatter matrix
 	fig, axes = plt.subplots(nrows=len(plotdata), ncols=len(plotdata),
-						  figsize=(10,10))
-	fig.subplots_adjust(hspace=0.1, wspace=0.1)
-	plt.gcf().subplots_adjust(bottom=0.3)
-	plt.gcf().subplots_adjust(left=0.3)
+						  figsize=(5.7,5.7))
+	fig.subplots_adjust(hspace=0.08, wspace=0.08)
+	plt.gcf().subplots_adjust(bottom=0.25)
+	plt.gcf().subplots_adjust(left=0.25)
 	plt.gcf().subplots_adjust(right=0.99)
 	plt.gcf().subplots_adjust(top=0.99)
+
+#	rc('font', **{'family':'serif','serif':['Palatino']})
+#	rc('text', usetex=True)
+#	params = {'text.latex.preamble' : [r'\usepackage{wasysym}']}
+#	plt.rcParams.update(params)
 
 	for col in range(len(plotdata)):
 		for row in range(len(plotdata)):
@@ -108,15 +133,19 @@ if __name__ == "__main__":
 				ax.yaxis.set_visible(True)
 				ax.yaxis.set_ticks_position('left')
 				ax.set_ylabel(plotdata[row][1], rotation='horizontal',
-				  size='small', horizontalalignment='right')
+				  size='x-small', horizontalalignment='right',
+				  verticalalignment="center")
 			if ax.is_last_row():
 				ax.xaxis.set_visible(True)
 				ax.xaxis.set_ticks_position('bottom')
-				ax.set_xlabel(plotdata[col][1], rotation='vertical', size='small')
+				ax.set_xlabel(plotdata[col][1], rotation='vertical',
+				  size='x-small')
 			
 			ax.scatter(plotdata[col][0], plotdata[row][0], marker='.', s=6,
 			  edgecolors='none', facecolors='k')
-	if opts.keepOutliers:	
+	if opts.outlierExclusion == "none":
 		plt.savefig(outputdir + "scattermatrix-all.svg")
-	else:
-		plt.savefig(outputdir + "scattermatrix-noOutliers.svg")
+	elif opts.outlierExclusion == "loose":
+		plt.savefig(outputdir + "scattermatrix-looseOutlierCriteria.svg")
+	elif opts.outlierExclusion == "tight":
+		plt.savefig(outputdir + "scattermatrix-tightOutlierCriteria.svg")
