@@ -141,7 +141,7 @@ if __name__ == "__main__":
 				ax.set_xlabel(plotdata[col][1], rotation='vertical',
 				  size='x-small')
 			
-			ax.scatter(plotdata[col][0], plotdata[row][0], marker='.', s=6,
+			ax.scatter(plotdata[col][0], plotdata[row][0], marker='.', s=4,
 			  edgecolors='none', facecolors='k')
 	if opts.outlierExclusion == "none":
 		plt.savefig(outputdir + "scattermatrix-all.svg")
