@@ -5,16 +5,11 @@ from __future__ import print_function
 import sys
 sys.path.insert(0, '/scratch/aajarven/plotscripts/')
 
-import clustering
-import clusterAnalysis
 import filereader
-import LGfinder
-#import pandas as pd
 import physUtils
 from savePCdata import readAndSave
 from sibeliusConstants import *
 import timingargument
-from transitiondistance import findBestHubbleflow
 import matplotlib.pyplot as plt
 from matplotlib import rc
 import numpy as np
