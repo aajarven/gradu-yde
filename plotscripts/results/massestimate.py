@@ -104,7 +104,7 @@ if __name__ == "__main__":
 
 	# Explained variance
 	plt.plot(np.array(range(len(pca.explained_variance_ratio_)))+1,
-		  pca.explained_variance_ratio_*100, linewidth=2.0, color='k')
+		  pca.explained_variance_ratio_*100, '-o', linewidth=2.0, color='k')
 	plt.xlabel("Number of component")
 	plt.ylabel("Percentage of variance explained by component")
 	plt.savefig(outputdir + "PCA-variances.svg")
@@ -113,10 +113,13 @@ if __name__ == "__main__":
 
 	# Cumulative variance
 	cumVariances = np.zeros(len(components))
+	print("\nExplained variance (cumulative):")
 	for i in range(len(cumVariances)):
 		cumVariances[i] = np.sum(pca.explained_variance_ratio_[:i+1])
+		print(str(i+1) + ":\t" + str(cumVariances[i]))
+	print()
 	plt.plot(np.array(range(len(cumVariances)))+1,
-		  cumVariances*100, linewidth=2.0, color='k')
+		  cumVariances*100, '-o', linewidth=2.0, color='k')
 	plt.ylim(0, 100)
 	plt.xlabel("Number of component")
 	plt.ylabel("Cumulative variance explained by first components (\% of total)")
