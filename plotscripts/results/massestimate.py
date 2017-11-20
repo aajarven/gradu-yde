@@ -47,11 +47,11 @@ if __name__ == "__main__":
    radialVelocities, tangentialVelocities, LGdistances) = result
 		
 	# masking zeropoints
-	allHaloesSanitymask = np.array([zeropoint < 5.0 and zeropoint > -5.0 for zeropoint
+	allHaloesSanitymask = np.array([zeropoint < 3.0 and zeropoint > -3.0 for zeropoint
 					   in zeropoints])
-	inClusterSanitymask = np.array([zeropoint < 5.0 and zeropoint > -5.0 for zeropoint
+	inClusterSanitymask = np.array([zeropoint < 4.0 and zeropoint > -5.0 for zeropoint
 					   in inClusterZeros])
-	outClusterSanitymask = np.array([zeropoint < 5.0 and zeropoint > -5.0 for zeropoint
+	outClusterSanitymask = np.array([zeropoint < 4.0 and zeropoint > -1.0 for zeropoint
 					   in outClusterZeros])
 	sanitymask = np.logical_and(allHaloesSanitymask,
 							 np.logical_and(inClusterSanitymask,
@@ -108,11 +108,22 @@ if __name__ == "__main__":
 	plt.xlabel("Number of component")
 	plt.ylabel("Percentage of variance explained by component")
 	plt.savefig(outputdir + "PCA-variances.svg")
+	plt.cla()
+	plt.clf()
 
-	print("Number of PCs and cumulative variances:")
-	for i in range(len(pca.explained_variance_ratio_)-1):
-		print(str(i+1) + "\t" + str(np.sum(pca.explained_variance_ratio_[:i+1])))
-	print()
+	# Cumulative variance
+	cumVariances = np.zeros(len(components))
+	for i in range(len(cumVariances)):
+		cumVariances[i] = np.sum(pca.explained_variance_ratio_[:i+1])
+	plt.plot(np.array(range(len(cumVariances)))+1,
+		  cumVariances*100, linewidth=2.0, color='k')
+	plt.ylim(0, 100)
+	plt.xlabel("Number of component")
+	plt.ylabel("Cumulative variance explained by first components (\% of total)")
+	plt.savefig(outputdir + "PCA-cumvariances.svg")
+	plt.cla()
+	plt.clf()
+	
 
 	plt.cla()
 	plt.clf()
