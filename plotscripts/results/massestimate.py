@@ -209,6 +209,7 @@ if __name__ == "__main__":
 	plt.clf()
 	plt.plot(np.arange(1, 10), np.array(mses), '-o', color='k', linewidth=2.0)
 	plt.plot(np.arange(1, 10), np.ones(9)*timing_mse, color='r', linewidth=2.0)
+	plt.gca().set_ylim(bottom=0)
 	plt.xlabel('Number of principal components')
 	plt.ylabel(r'MSE ($M_{\astrosun}$)')
 	plt.title('MSE of test set values from fit to training set')
