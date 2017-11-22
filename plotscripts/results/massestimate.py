@@ -12,6 +12,7 @@ from sibeliusConstants import *
 import timingargument
 import matplotlib.pyplot as plt
 from matplotlib import rc
+from matplotlib import colors
 import numpy as np
 import os.path
 
@@ -227,3 +228,23 @@ if __name__ == "__main__":
 	plt.ylabel('MSE')
 	plt.title('MSE of the points from the fit using PLSRegression')
 	plt.savefig(outputdir + "PCR-cv" + str(n_folds) + ".svg")
+	plt.cla()
+	plt.clf()
+
+	# effect of tangential velocity on TA mass:
+	p = plt.scatter(masses, timingArgumentMasses,
+			 c=tangentialVelocities/radialVelocities, cmap='magma', s=30,
+			 vmax=0.6,# vmin=0.01,
+			 norm=colors.LogNorm())
+	cbar = plt.colorbar(label=r'$v_{t}$ $v_{r}^{-1}$', extend='max')
+	minorticks = p.norm([0.1, 0.11, 0.12, 0.13])#np.arange(0.05, 0.6, 0.1))
+	cbar.ax.xaxis.set_ticks(minorticks, minor=True)
+#	cbar.ax.minorticks_on()
+	plt.xlabel(r'LG mass (M_{\astrosun})')
+	plt.ylabel(r'LG mass from timing argument (M_{\astrosun})')
+	plt.xlim(0.0, 8.0e12)
+	plt.ylim(0.0, 8.0e12)
+#	plt.show()
+	plt.savefig(outputdir + "masscomparison.svg")
+	plt.cla()
+	plt.clf()
