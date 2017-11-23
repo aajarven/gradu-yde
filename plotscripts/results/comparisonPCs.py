@@ -57,14 +57,21 @@ if __name__ == "__main__":
 					   outClusterSanitymask))
 
 	masses = masses[sanitymask]
+	timingArgumentMasses = timingArgumentMasses[sanitymask]
 	zeropoints = zeropoints[sanitymask]
 	inClusterZeros = inClusterZeros[sanitymask]
 	outClusterZeros = outClusterZeros[sanitymask]
 	allDispersions = allDispersions[sanitymask]
 	clusterDispersions = clusterDispersions[sanitymask]
 	unclusteredDispersions = unclusteredDispersions[sanitymask]
+	radialVelocities = radialVelocities[sanitymask]
+	tangentialVelocities = tangentialVelocities[sanitymask]
 
 	y = masses
+
+	############
+	# triplets #
+	############
 
 	dataTriplets = (
 		(np.array([zeropoints, inClusterZeros, outClusterZeros]).T, "zeros",
@@ -152,3 +159,35 @@ if __name__ == "__main__":
 		plt.ylabel(r'MSE ($M_{\astrosun}$)')
 		plt.title('MSE of test set values from fit to training set')
 		plt.savefig(outputdir + name + "-PCA-testresults.svg")
+
+	
+	###################
+	# timing argument #
+	###################
+
+	data = np.array([timingArgumentMasses*1e-12,
+				  tangentialVelocities/radialVelocities]).T
+	y = masses
+
+	pca = PCA()
+	indices = np.arange(0, len(y))
+	train_indices, test_indices = cross_validation.train_test_split(indices,
+																 test_size=0.5)#,
+#																 random_state=random_state)
+	data_train = data[train_indices]
+	data_test = data[test_indices]
+	y_train = y[train_indices]
+	y_test = y[test_indices]
+	timing_test = timingArgumentMasses[test_indices]
+	
+	regr = LinearRegression()
+	
+	data_pca_train = pca.fit_transform(scale(data_train))
+	data_pca_test = pca.transform(scale(data_test))
+	regr = LinearRegression()
+	regr.fit(data_pca_train[:,:i], y_train)
+	pred = regr.predict(data_pca_test)
+	print("MSE of estimate from timing argument mass + v_t/v_r: " +
+	   str(mean_squared_error(y_test, pred)))
+	print("MSE of timing argument mass: " + str(mean_squared_error(y_test,
+																timing_test)))
