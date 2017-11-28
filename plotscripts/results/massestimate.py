@@ -8,8 +8,6 @@ sys.path.insert(0,
 				'/home/ad/fshome1/u1/a/aajarven/Linux/.local/lib/python2.7/site-packages/sklearn')
 
 
-import filereader
-import physUtils
 from savePCdata import readAndSave
 from sibeliusConstants import *
 import timingargument
