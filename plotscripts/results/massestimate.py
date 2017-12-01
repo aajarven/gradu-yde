@@ -299,28 +299,28 @@ if __name__ == "__main__":
 
 
 	# split to train and test
-	seed = 17
+	kfold_seed = 8
 	n_folds = 10
 	n_repeats = 10
 	
 	fullData = np.concatenate((y.reshape(-1, 1), data), axis=1)
-	fullData_train, fullData_test = train_test_split(fullData,
+	X_train, X_test, Y_train, Y_test = train_test_split(data, y,
 													 test_size=0.25,
-													 random_state=seed)
-	scaler = preprocessing.StandardScaler().fit(fullData_train)
-	fullData_train_scaled = scaler.transform(fullData_train)
-	fullData_test_scaled = scaler.transform(fullData_test)
-	X_train = fullData_train_scaled[:,1:]
-	Y_train = fullData_train_scaled[:,0]
-	X_test = fullData_test_scaled[:,1:]
-	Y_test = fullData_test_scaled[:,0]
+													 random_state=7)
+	scaler = preprocessing.StandardScaler().fit(X_train)
+	X_train_scaled = scaler.transform(X_train)
+	X_test_scaled = scaler.transform(X_test)
+
+	pca2 = PCA()
+	X_train_reduced = pca2.fit_transform(X_train_scaled)
+	X_test_reduced = pca2.transform(X_train_scaled)
 
 	# MSE in training using k-fold cross validation
 	RMSEs = []
 	regr = LinearRegression()
-	rkf = RepeatedKFold(n_splits=n_folds, n_repeats=n_repeats, random_state=seed)
+	rkf = RepeatedKFold(n_splits=n_folds, n_repeats=n_repeats, random_state=kfold_seed)
 	for i in range(10):
-		score = cross_val_score(regr, X_train[:,:i+1],
+		score = cross_val_score(regr, X_train_reduced[:,:i+1],
 							  Y_train.ravel(),
 							  cv=rkf,
 							  scoring='neg_mean_squared_error').mean()
@@ -331,4 +331,8 @@ if __name__ == "__main__":
 	plt.ylabel(r"RMSE ($M_{\astrosun}$)")
 	plt.title("Training error using " + str(n_folds) + " folds and " +
 		   str(n_repeats) + " repeats")
-	plt.savefig(outputdir + "training-RMSE" + str(n_folds) + ".svg")
+	plt.savefig(outputdir + "training-RMSE.svg")
+	plt.cla()
+	plt.clf()
+
+
