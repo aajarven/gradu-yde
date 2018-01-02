@@ -1,0 +1,35 @@
+\usepackage[utf8]{inputenc} % For UTF8 support. Use UTF8 when saving your file.
+\usepackage{lmodern} % Font package
+\usepackage{textcomp}
+\usepackage[pdftex]{color, graphicx} % For pdf output and jpg/png graphics
+\usepackage[pdftex, plainpages=false]{hyperref} % For hyperlinks and pdf metadata
+\usepackage{fancyhdr} % For nicer page headers
+%\usepackage{tikz} % For making vector graphics (hard to learn but powerful)
+%\usepackage{wrapfig} % For nice text-wrapping figures (use at own discretion)
+\usepackage{amsmath, amssymb} % For better math
+\usepackage[sort,colon]{natbib} % For bibliography
+\usepackage[bf]{caption} % For more control over figure captions
+\usepackage{marginnote} % margin notes for myself
+%\usepackage{svg} % vector graphics
+\usepackage{graphicx}
+\graphicspath{{kuvat/tex/}}
+\usepackage{wasysym}
+\usepackage{tabularx}
+\usepackage{adjustbox}
+\usepackage{makecell}
+\usepackage{rotating}
+
+% titlesec and fix for no numbering on titlesec 2.10.2
+\usepackage{titlesec}
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd{\ttlh@hang}{\parindent\z@}{\parindent\z@\leavevmode}{}{}
+\patchcmd{\ttlh@hang}{\noindent}{}{}{}
+\makeatother
+
+\fussy % Probably not needed but you never know...
+
+\renewcommand{\topfraction}{.75} % less single-float pages
+\renewcommand{\floatpagefraction}{.75} % less single-float pages
+
+\newcommand{\matr}[1]{\mathbf{#1}}
