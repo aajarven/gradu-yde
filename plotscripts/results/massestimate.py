@@ -302,11 +302,15 @@ if __name__ == "__main__":
 	kfold_seed = 8
 	n_folds = 10
 	n_repeats = 10
+	splitting_seed = 7
 	
 	fullData = np.concatenate((y.reshape(-1, 1), data), axis=1)
-	X_train, X_test, Y_train, Y_test = train_test_split(data, y,
-													 test_size=0.25,
-													 random_state=7)
+	X_train, X_test, Y_train, Y_test, timing_train, timing_test = train_test_split(data, y,
+																				timingArgumentMasses,
+																				test_size=0.25,
+																				random_state=splitting_seed)
+
+
 	scaler = preprocessing.StandardScaler().fit(X_train)
 	X_train_scaled = scaler.transform(X_train)
 	X_test_scaled = scaler.transform(X_test)
@@ -326,13 +330,20 @@ if __name__ == "__main__":
 							  scoring='neg_mean_squared_error').mean()
 		RMSEs.append(sqrt(-score))
 	
+	# TA comparison
+	timing_mse = mean_squared_error(Y_train, timing_train)
+
+
 	plt.plot(np.arange(1, 11), RMSEs, '-o', color='k')
+	plt.plot([1, 10], [sqrt(timing_mse), sqrt(timing_mse)], color='r')
+
+	#plt.ylim(0, 1.3)
 	plt.xlabel("Number of PCs in regression")
 	plt.ylabel(r"RMSE ($M_{\astrosun}$)")
 	plt.title("Training error using " + str(n_folds) + " folds and " +
 		   str(n_repeats) + " repeats")
+	plt.gca().set_ylim(bottom=0)
+#	plt.gca().set_ylim(top=1.3)
 	plt.savefig(outputdir + "training-RMSE.svg")
 	plt.cla()
 	plt.clf()
-
-
