@@ -4,13 +4,14 @@ from __future__ import print_function
 
 import sys
 sys.path.insert(0, '/scratch/aajarven/plotscripts/')
-sys.path.insert(0,
-				'/home/ad/fshome1/u1/a/aajarven/Linux/.local/lib/python2.7/site-packages/sklearn')
+#sys.path.insert(0,
+#				'/home/ad/fshome1/u1/a/aajarven/Linux/.local/lib/python2.7/site-packages/sklearn')
 
 
 from savePCdata import readAndSave
 from sibeliusConstants import *
 import timingargument
+from math import sqrt
 import matplotlib.pyplot as plt
 from matplotlib import rc
 from matplotlib import colors
@@ -18,15 +19,15 @@ import numpy as np
 import os.path
 
 from sklearn import preprocessing
-from sklearn import cross_validation
+#from sklearn import cross_validation
 from sklearn.decomposition import PCA
 from sklearn.linear_model import LinearRegression
 from sklearn.cross_decomposition import PLSRegression, PLSSVD
 from sklearn.metrics import mean_squared_error
-#from sklearn.model_selection import train_test_split
-import sklearn
-
-print(sklearn.__version__)
+from sklearn.model_selection import train_test_split
+from sklearn.model_selection import cross_val_score
+from sklearn.model_selection import RepeatedKFold
+	
 
 if __name__ == "__main__":
 	simulationfiles = ("/home/aajarven/Z-drive/duuni/extragal/gradu-yde/"
@@ -77,7 +78,8 @@ if __name__ == "__main__":
 				  radialVelocities, tangentialVelocities, LGdistances]).T
 
 	
-	rc('font', **{'family':'serif','serif':['Palatino']})
+#	rc('font', **{'family':'serif','serif':['Palatino']})
+	rc('font', family='serif')
 	rc('text', usetex=True)
 	params = {'text.latex.preamble' : [r'\usepackage{wasysym}']}
 	plt.rcParams.update(params)
@@ -233,40 +235,115 @@ if __name__ == "__main__":
 #	plt.clf()
 
 	# effect of tangential velocity on TA mass:
-	p = plt.scatter(masses, timingArgumentMasses,
-			 c=tangentialVelocities/radialVelocities, cmap='magma', s=30,
-			 vmax=0.6,# vmin=0.01,
-			 norm=colors.LogNorm())
-	cbar = plt.colorbar(label=r'$v_{t}$ $v_{r}^{-1}$', extend='max')
-	minorticks = p.norm([0.1, 0.11, 0.12, 0.13])#np.arange(0.05, 0.6, 0.1))
-	cbar.ax.xaxis.set_ticks(minorticks, minor=True)
-#	cbar.ax.minorticks_on()
-	plt.xlabel(r'LG mass (M_{\astrosun})')
-	plt.ylabel(r'LG mass from timing argument (M_{\astrosun})')
-	plt.xlim(0.0, 8.0e12)
-	plt.ylim(0.0, 8.0e12)
-#	plt.show()
-	plt.savefig(outputdir + "masscomparison.svg")
-	plt.cla()
-	plt.clf()
+#	p = plt.scatter(masses, timingArgumentMasses,
+#			 c=tangentialVelocities/radialVelocities, cmap='magma', s=30,
+#			 vmax=0.6,# vmin=0.01,
+#			 norm=colors.LogNorm())
+#	cbar = plt.colorbar(label=r'$v_{t}$ $v_{r}^{-1}$', extend='max')
+#	minorticks = p.norm([0.1, 0.11, 0.12, 0.13])#np.arange(0.05, 0.6, 0.1))
+#	cbar.ax.xaxis.set_ticks(minorticks, minor=True)
+##	cbar.ax.minorticks_on()
+#	plt.xlabel(r'LG mass (M_{\astrosun})')
+#	plt.ylabel(r'LG mass from timing argument (M_{\astrosun})')
+#	plt.xlim(0.0, 8.0e12)
+#	plt.ylim(0.0, 8.0e12)
+##	plt.show()
+#	plt.savefig(outputdir + "masscomparison.svg")
+#	plt.cla()
+#	plt.clf()
 
 
 	####
 	# PCA v 2.0
 	####
-	seed = 7
-	X_train, X_test, Y_train, Y_test = train_test_split(data, y,
-													 test_size=0.25,
-													 random_state=seed)
+
+	# calculate and print components from whole dataset
+	pca = PCA()
+	data_pca =	pca.fit_transform(preprocessing.StandardScaler().fit(data).transform(data))
+	components = pca.components_
+	print("component\tH0s\tzeropoints\tinClusterZeros\toutClusterZeros\t" + 
+	   "allDispersions\tclusterDispersions\tunclusteredDispersions\t" + 
+	   "radialVelocities\ttangentialVelocities\tLGdistances")
+	for i in range(len(components)):
+		print(str(i+1), end='\t')
+		for component in components[i]:
+			print("{:.3f}".format(component), end='\t')
+		print()
+	print()
+
+
+	# Scree plot 
+	plt.plot(np.array(range(len(pca.explained_variance_ratio_)))+1,
+		  pca.explained_variance_ratio_*100, '-o', linewidth=2.0, color='k')
+	plt.xlabel("Number of component")
+	plt.ylabel("Percentage of variance explained by component")
+	plt.savefig(outputdir + "scree.svg")
+	plt.cla()
+	plt.clf()
+
+	# Cumulative variance
+	cumVariances = np.zeros(len(components))
+	print("\nExplained variance (cumulative):")
+	for i in range(len(cumVariances)):
+		cumVariances[i] = np.sum(pca.explained_variance_ratio_[:i+1])
+		print(str(i+1) + ":\t" + str(cumVariances[i]))
+	print()
+	plt.plot(np.array(range(len(cumVariances)))+1,
+		  cumVariances*100, '-o', linewidth=2.0, color='k')
+	plt.ylim(0, 100)
+	plt.xlabel("Number of component")
+	plt.ylabel("Cumulative variance explained by first components (\% of total)")
+	plt.savefig(outputdir + "cumulative_variances.svg")
+	plt.cla()
+	plt.clf()
+
+
+	# split to train and test
+	kfold_seed = 8
+	n_folds = 10
+	n_repeats = 10
+	splitting_seed = 7
+	
+	fullData = np.concatenate((y.reshape(-1, 1), data), axis=1)
+	X_train, X_test, Y_train, Y_test, timing_train, timing_test = train_test_split(data, y,
+																				timingArgumentMasses,
+																				test_size=0.25,
+																				random_state=splitting_seed)
+
+
 	scaler = preprocessing.StandardScaler().fit(X_train)
 	X_train_scaled = scaler.transform(X_train)
-	Y_train_scaled = scaler.transform(Y_train)
-	X_test_scaled = scaler.transform(X_test_scaled)
-	Y_test_scaled = scaler.transform(Y_test_scaled)
-	print(X_train_scaled)
-	print(Y_train_scaled)
-#	data_train_scaled = 
+	X_test_scaled = scaler.transform(X_test)
 
-	pca = PCA()
-	data_pca = pca.fit_transform(scale(data))
-	components = pca.components_
+	pca2 = PCA()
+	X_train_reduced = pca2.fit_transform(X_train_scaled)
+	X_test_reduced = pca2.transform(X_train_scaled)
+
+	# MSE in training using k-fold cross validation
+	RMSEs = []
+	regr = LinearRegression()
+	rkf = RepeatedKFold(n_splits=n_folds, n_repeats=n_repeats, random_state=kfold_seed)
+	for i in range(10):
+		score = cross_val_score(regr, X_train_reduced[:,:i+1],
+							  Y_train.ravel(),
+							  cv=rkf,
+							  scoring='neg_mean_squared_error').mean()
+		RMSEs.append(sqrt(-score))
+	
+	# TA comparison
+	timing_mse = mean_squared_error(Y_train, timing_train)
+
+
+	plt.plot(np.arange(1, 11), RMSEs, '-o', color='k')
+	plt.plot([1, 10], [sqrt(timing_mse), sqrt(timing_mse)], color='r')
+
+	#plt.ylim(0, 1.3)
+	plt.xlabel("Number of PCs in regression")
+	plt.ylabel(r"RMSE ($M_{\astrosun}$)")
+	plt.title("Training error using " + str(n_folds) + " folds and " +
+		   str(n_repeats) + " repeats")
+	plt.gca().set_ylim(bottom=0)
+#	plt.gca().set_ylim(top=1.3)
+	plt.savefig(outputdir + "training-RMSE.svg")
+	plt.cla()
+	plt.clf()
