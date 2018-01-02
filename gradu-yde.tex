@@ -269,19 +269,28 @@ Data used here from EAGLE which uses modified GADGET-2 which is a tree-code that
     \centering
     %\def\svgwidth{\columnwidth}
     \input{kuvat/tex/tree-box.pdf_tex}
-    \caption{.}\label{fig:tree-box}
+    \caption{A two-dimensional example of particles (black dots) being split into cells using the Barnes-Hut algorithm. The outermost square is the simulation box i.e. the root of the tree and samaller squares with decreasing line thickness are its children. Note how each cell contains either one particle, no particles or four smaller subcells.}\label{fig:tree-box}
 \end{figure}
 
 \begin{figure}
     \centering
     \def\svgwidth{\columnwidth}
     \input{kuvat/tex/tree.pdf_tex}
-    \caption{.}\label{fig:tree}
+    \caption{Cells of figure \ref{fig:tree-box} shown as a tree, each level of refined cells in \ref{fig:tree-box} traversed from left to right and up to down corresponding to each level of nodes from left to right. Cells with no particles are not used in force calculations and thus they do not need to be stored in computer memory, but they are shown here to emphasize the structure of the tree.}\label{fig:tree}
 \end{figure}
 
 \subsection{Numerical Integrators}
-\subsection{Halo Finding with Subfind} %iannuzzi thesis
+
+
+\subsection{Halo Finding} %iannuzzi thesis
 %merger tree mentioned in todo, is it relevant?
+
+\begin{figure}
+    \centering
+    %\def\svgwidth{\columnwidth}
+    \input{kuvat/tex/fof.pdf_tex}
+    \caption{.}\label{fig:fof}
+\end{figure}
 
 \section{Description of actual simulations used}
 Volume, number of particles, compare to other simulations, where better and where maybe worse
