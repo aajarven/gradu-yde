@@ -21,6 +21,7 @@
 \usepackage{adjustbox}
 \usepackage{makecell}
 \usepackage{rotating}
+\usepackage[shortcuts]{extdash}
 
 % titlesec and fix for no numbering on titlesec 2.10.2
 \usepackage{titlesec}
@@ -263,20 +264,27 @@ Plot: observations with fitted hubble flow
 \chapter{general simulation thingies}
 %Data used here from EAGLE which uses modified GADGET-2 which is a tree-code that uses leapfrog
 
-Simulations are a valuable tool in astrophysical research as they bypass many major restrictions of observational astronomy such as not being able to observe the evolution of a single object with the exception of the most rapid events such as supernovae, and constraining the observations to a single view plane.
+Simulations are a valuable tool in astrophysical research as they bypass many major restrictions of observational astronomy such as not being able to observe the evolution of a single object with the exception of the most rapid events such as supernovae, and the observations being constrained to a single view plane. The data used in this Master's thesis also originates from a cosmological N\=/body simulation. This section shortly introduces first some fundamental operational principles of N\=/body simulations and then specifics of the [insert name or other identification here] %TODO
+simulations from which the data used here originates from.
+
 
 \section{N-body simulations}
+N\=/body simulations are a type of computer simulations that follow a number of particles interacting with each other, often used in computational astrophysics \citep{binney2008galactic}. Their concept is simple: the current states of the particles are known and a physical model is used to calculate how the states of the particles should advance over a small period of time known as the time step \citep{binney2008galactic}. Simple dark matter only simulations might only handle gravitational interactions of the particles, but many simulation codes such as GADGET-2 \citep{springel2005cosmological} and Enzo \citep{norman2007simulating} are also able to handle hydrodynamics of baryonic matter and can include star formation, feedback and other baryonic processes.
 
+There are multiple ways to handle both the force calculations and calculating new positions for the particles \citep{binney2008galactic}. For the former most notable types being algorithms using hierarchical trees or particle meshes and for the latter a wide variety of integrators have been developed for a range of different needs \citep{binney2008galactic}. The [insert identification here] %TODO
+simulations are run using a modified GADGET-3 and thus use the TreePM method for force calculations accompanied by a leapfrog integrator. TreePM is a mix of a hierarchical tree for close range forces and a particle mesh for distant forces, former of which is more interesting. Thus the \citet{barnes1986hierarchical} hierarchical tree algorithm is introduced in the following subsection, accompanied by a short description of the leapfrog integrator.
 
 \subsection{Hierarchical Tree Algorithm}
+In many applications of computational astrophysics, desired number of particles in a simulation is too high to allow calculating interparticle forces by direct summation as it's time complexity is $\mathcal{O}(n^2)$. One of the alternatives is organizing the particles into a tree data structure, which allows distant particles residing close to each other to be approximated as single more massive particle. This approach was first introduced by \citet{appel1985efficient} and \citet{barnes1986hierarchical}, latter of which will be followed here.
+
+Constructing the tree starts with setting the full simulation box as the root of the tree. This root cube is then subdivided into eight equally sized sub-cubes called cells. These cells are children of the root cube. This starts a recursive process where each new cell is again divided into eight subcells repeatedly until each of the cells contains either no particles, one particle or eight subcells. When a new cell is created, the mass and the location of the mass centre of the particles within it is stored to allow easy calculation of the approximate gravitational effect the particles within a cell have on a distant particle.
 
 \begin{figure}
     \centering
     %\def\svgwidth{\columnwidth}
     \input{kuvat/tex/tree-box.pdf_tex}
-    \caption{A two-dimensional example of particles (black dots) being split into cells using the Barnes-Hut algorithm. The outermost square is the simulation box i.e. the root of the tree and samaller squares with decreasing line thickness are its children. Note how each cell contains either one particle, no particles or four smaller subcells.}\label{fig:tree-box}
+    \caption{A two-dimensional example of particles (black dots) being split into cells using the Barnes-Hut algorithm \citep{barnes1986hierarchical}. The outermost square is the simulation box i.e. the root of the tree and samaller squares with decreasing line thickness are its children. Note how each cell contains either one particle, no particles or four smaller subcells.}\label{fig:tree-box}
 \end{figure}
-
 \begin{figure}
     \centering
     \def\svgwidth{\columnwidth}
@@ -284,7 +292,18 @@ Simulations are a valuable tool in astrophysical research as they bypass many ma
     \caption{Cells of figure \ref{fig:tree-box} shown as a tree, each level of refined cells in \ref{fig:tree-box} traversed from left to right and up to down corresponding to each level of nodes from left to right. Cells with no particles are not used in force calculations and thus they do not need to be stored in computer memory, but they are shown here to emphasize the structure of the tree.}\label{fig:tree}
 \end{figure}
 
-\subsection{Numerical Integrators}
+To aid the understanding the process, a two-dimensional simplification of the simulation box after the tree has been constructed is shown in figure \ref{fig:tree-box}, together with the corresponding tree in figure \ref{fig:tree}. The thick outer line of the former figure is the simulation box, corresponding to the topmost node of the tree in the latter. This root cube is first divided into four (in contrast to eight in the three-dimensional case) subcells, which is shown with the second-thickest line dividing the simulation box into quarters in figure \ref{fig:tree-box}. These four cells are the four children of the root node in the tree. Each of the subcells contains more than one particle, so each of those is again split into four quarters, each quarter a child of the original node in the tree. These quarters of quarters form the third level of the tree in figure \ref{fig:tree}.
+
+Some of these newly-created cells are empty or only have a single particle, so for them the recursion halts and the nodes of the tree are leaves. The rest are again split and a new layer of the tree is created, but as some cells were complete already the fourth layer of the tree is not full. In this case only one cell requires division beyond the fourth level, producing the last four leaves of the tree on the fifth level.
+
+Often, as is the case in the example, some of the leaf nodes are empty. In the case of a real simulation, these of course do not need to be saved as there is no information to store, but in this example case all are drawn to emphasize the regular structure of the tree. In the three-dimensional case where each cell has eight subcells the formed tree is known as an octree, whose two-dimensional analog, the quadtree, is constructed in the example.
+
+TODO: how to operate the tree to retrieve the gravity %TODO
+
+
+
+
+\subsection{Leapfrog Integrator}
 
 
 \subsection{Halo Finding} %iannuzzi thesis
