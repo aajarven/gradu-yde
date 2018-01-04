@@ -117,6 +117,9 @@ Abstract goes here.
 % Place ToC
 \mytableofcontents
 
+% set line spacing to the publication-ready single spacing:
+%\singlespacing
+
 % -----------------------------------------------------------------------------------
 % STEP 4: Write the thesis.
 % Your actual text starts here. You shouldn't mess with the code above the line except
@@ -275,15 +278,15 @@ There are multiple ways to handle both the force calculations and calculating ne
 simulations are run using a modified GADGET-3 and thus use the TreePM method for force calculations accompanied by a leapfrog integrator. TreePM is a mix of a hierarchical tree for close range forces and a particle mesh for distant forces, former of which is more interesting. Thus the \citet{barnes1986hierarchical} hierarchical tree algorithm is introduced in the following subsection, accompanied by a short description of the leapfrog integrator.
 
 \subsection{Hierarchical Tree Algorithm}
-In many applications of computational astrophysics, desired number of particles in a simulation is too high to allow calculating interparticle forces by direct summation as it's time complexity is $\mathcal{O}(n^2)$. One of the alternatives is organizing the particles into a tree data structure, which allows distant particles residing close to each other to be approximated as single more massive particle. This approach was first introduced by \citet{appel1985efficient} and \citet{barnes1986hierarchical}, latter of which will be followed here.
+In many applications of computational astrophysics, desired number of particles in a simulation is too high to allow calculating interparticle forces by direct summation as its time complexity is $\mathcal{O}(n^2)$. One of the alternatives is organizing the particles into a tree data structure, which allows distant particles residing close to each other to be approximated as single more massive particle. This approach was first introduced by \citet{appel1985efficient} and \citet{barnes1986hierarchical}, latter of which will be followed here.
 
-Constructing the tree starts with setting the full simulation box as the root of the tree. This root cube is then subdivided into eight equally sized sub-cubes called cells. These cells are children of the root cube. This starts a recursive process where each new cell is again divided into eight subcells repeatedly until each of the cells contains either no particles, one particle or eight subcells. When a new cell is created, the mass and the location of the mass centre of the particles within it is stored to allow easy calculation of the approximate gravitational effect the particles within a cell have on a distant particle.
+Constructing the tree starts with setting the full simulation box as the root of the tree. This root cube is then subdivided into eight equally sized sub-cubes called cells. These cells are children of the root cube. This starts a recursive process where each new cell is again divided into eight subcells repeatedly until each of the cells contains either no particles, one particle or eight subcells. When a new cell is created, the mass and the location of the mass centre of the particles within it is stored as a pseudoparticle to allow easy calculation of the approximate gravitational effect the particles within a cell have on a distant particle.
 
 \begin{figure}
     \centering
     %\def\svgwidth{\columnwidth}
     \input{kuvat/tex/tree-box.pdf_tex}
-    \caption{A two-dimensional example of particles (black dots) being split into cells using the Barnes-Hut algorithm \citep{barnes1986hierarchical}. The outermost square is the simulation box i.e. the root of the tree and samaller squares with decreasing line thickness are its children. Note how each cell contains either one particle, no particles or four smaller subcells.}\label{fig:tree-box}
+    \caption{A two-dimensional example of particles (black dots) being split into cells using the Barnes-Hut algorithm \citep{barnes1986hierarchical}. The outermost square is the simulation box, i.e. the root of the tree, and the samaller squares with decreasing line thicknesses are its children. Note how each cell contains either one particle, no particles or four smaller subcells.}\label{fig:tree-box}
 \end{figure}
 \begin{figure}
     \centering
@@ -298,9 +301,11 @@ Some of these newly-created cells are empty or only have a single particle, so f
 
 Often, as is the case in the example, some of the leaf nodes are empty. In the case of a real simulation, these of course do not need to be saved as there is no information to store, but in this example case all are drawn to emphasize the regular structure of the tree. In the three-dimensional case where each cell has eight subcells the formed tree is known as an octree, whose two-dimensional analog, the quadtree, is constructed in the example.
 
-TODO: how to operate the tree to retrieve the gravity %TODO
+The tree can then be utilized to speed up the force calculations. When calculating the gravitational acceleration felt by a single particle, the tree is traversed starting from the root. The ratio $l/D$ of he length of a side of the cell and the distance from the particle to the pseudoparticle representing the mass within the cell is then calculated and if it is smaller than a predefined accuracy parameter $\theta$, the cell is treated as everything within it was replaced with the pseudoparticle having the combined mass of the cell. Otherwise the subcells of the cell are examined recursively in the same way until a small enough subcell is found or a leaf of the tree is reached, at which point the pseudoparticle and the real particle in the cell are equivalent and the force can be calculated with the maximum accuracy possible for the simulation.
 
+The tree construction and the force calculations both have time complexity of $\mathcal{O}(n \log n)$. This is a significant improvement to the $\mathcal{O}(n^2)$ of the direct summation considering that the accuracy cost is fairly small: \citet{barnes1986hierarchical} report accuracy of about 1~\% when $\theta=1$ and the accuracy can be improved by either setting a smaller $\theta$ or including multipole moments in the pseudoparticles \citep{barnes1989error}. Similar algorithms with even smaller time complexity of $\mathcal{O}(n)$ have also been introduced such as ones by \citet{dehnen2002hierarchical} and \citet{xue1998n}.
 
+ This, together with the ease of parallelization by assigning different branches of the tree to different threads and the ability to handle problems where the range of densities in the simulation box is wide such as galaxy mergers and cosmological simulations, makes tree based codes an appealing tool for many astrophysical simulations \citep{binney2008galactic}.
 
 
 \subsection{Leapfrog Integrator}
