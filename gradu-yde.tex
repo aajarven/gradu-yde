@@ -309,6 +309,28 @@ The tree construction and the force calculations both have time complexity of $\
 
 
 \subsection{Leapfrog Integrator}
+A number of different integrators suitable for astronomical and astrophysical applications have been developed over for the years for solving different problems \citep{binney2008galactic}. No integrator is optimal for every task and thus factors such as the integration time, amount of memory available per particle, smoothness of the potential and the cost of a single gravitational field evaluation should be considered \citep{binney2008galactic}. One of the integrators that are well suited for cosmological simulations is the leapfrog integrator, which is also used by GADGET-2 simulation code among others \citep{springel2005cosmological}.
+
+When a fixed time-step is used, the leapfrog integrator conserves the energy of the system and is time reversible \citep{binney2008galactic}. Thus introducing a variable time step requires some modifications, presented in e.g. \citep{springel2005cosmological}. Other benefits of the integrator are that it doesn't require excessive amounts of memory per particle as only the current state of the system is needed in calculating the next step and its second order accuracy \citep{binney2008galactic}. With it's second order accuracy paired with sympleticity, it rivals fourth order integrators such as the fourth order Runge-Kutta for long simulation runs \citep{binney2008galactic}.
+
+
+% won't work for an unknown reason
+%\begin{figure}
+%    \centering
+%    %\def\svgwidth{\columnwidth}
+%    \input{kuvat/tex/leapfrog.pdf_tex}
+%    \caption{adsf}\label{fig:leapfrog}
+%\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics{kuvat/tex/leapfrog.pdf}
+\caption{Timesteps taken by the leapfrog algorithm, positions updated as indicated with lower arrows and velocities as the upper arrows. It's not important for the algorithm which is chosen to step through the integer times, choice of it being $x$ in this figure is arbitrary. The dashed short arrows depict the half-steps that are needed when a synchronized output is desired.}\label{fig:leapfrog}
+\end{figure}
+
+Timestepping with the leapfrog integrator consists of two phases, the drift step and the kick steps, which are alternated with a half-step offset as shown in the figure \ref{fig:leapfrog} \citep{binney2008galactic}. During the kick step, the momenta of the particles are updated and during the drift step the positions of the particles are changed according to the previously calculated momenta \citep{binney2008galactic}. When synchronized output of both positions and velocities is desired, a half-timestep advance or backtrack to either of the variables will result in both variables being outputted at the same time. This kind of synchronization steps at the ends of the integration are indicated in figure \ref{fig:leapfrog} with dashed arrows.
+
+
 
 
 \subsection{Halo Finding} %iannuzzi thesis
