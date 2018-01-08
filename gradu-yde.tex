@@ -267,12 +267,14 @@ Plot: observations with fitted hubble flow
 \chapter{Simulations and Simulation Codes}
 %Data used here from EAGLE which uses modified GADGET-2 which is a tree-code that uses leapfrog
 
+
+%TODO : sweeping statements, view plane bullshit, paremmat syyt se että havainnoista ei nähdä DM ja analyyttiset mallit eivät riitä kaikkeen. ehkä koko kappale uusiksi?
 Simulations are a valuable tool in astrophysical research as they bypass many major restrictions characteristic to observational astronomy such as not being able to observe the evolution of a single object with the exception of the most rapid events such as supernovae, and the observations being constrained to a single view plane. The data used in this master's thesis also originates from a cosmological N\=/body simulation. This section shortly introduces first some fundamental operational principles of N\=/body simulations and then specifics of the [insert name or other identification here] %TODO
 simulations from which the data used here originates from.
 
 
 \section{N-body simulations}
-N\=/body simulations are a type of computer simulations that follow a number of particles interacting with each other, often used in computational astrophysics \citep{binney2008galactic}. Their concept is simple: the current states of the particles are known and a physical model is used to calculate how the states of the particles should advance over a small period of time known as the time step \citep{binney2008galactic}. Simple dark matter only simulations might only handle gravitational interactions of the particles, but many simulation codes such as GADGET-2 \citep{springel2005cosmological} and Enzo \citep{norman2007simulating} are also able to handle hydrodynamics of baryonic matter and can include star formation, feedback and other baryonic processes.
+N\=/body simulations are a type of computer simulations that follow a number of particles interacting with each other, often used in computational astrophysics \citep{binney2008galactic}. Their concept is simple: the current states of the particles are known and a physical model is used to calculate how the states of the particles should advance over a small period of time known as the time step \citep{binney2008galactic}. Simple dark matter only simulations might only handle gravitational interactions of the particles, but many simulation codes such as GADGET-2 \citep{springel2005cosmological} (see section \ref{sect:gadget} for more about GADGET family simulation codes) and Enzo \citep{norman2007simulating} are also able to handle hydrodynamics of baryonic matter and can include star formation, feedback and other baryonic processes.
 
 There are multiple ways to handle both the force calculations and calculating new positions for the particles \citep{binney2008galactic}. For the force calculations most popular algorithms are based on either hierarchical trees or particle meshes, but for calculating the positions a wide variety of integrators have been developed for a range of different needs \citep{binney2008galactic}. The [insert identification here] %TODO
 simulations are run using a modified GADGET-3 and thus use the TreePM method for force calculations accompanied by a leapfrog integrator. TreePM is a mix of a hierarchical tree for close range forces and a particle mesh for distant forces, the former of which is more interesting. Thus the \citet{barnes1986hierarchical} hierarchical tree algorithm is introduced in the following subsection, followed by a short description of the leapfrog integrator in the next one.
@@ -379,6 +381,7 @@ DM-only parts: Volker-Springer Gadget and Gadget 2 papers 1999 and 2005 or somet
 Zooms can use multiple meshes, only one is used here
 gravitational softening
 
+\subsection{GADGET} \label{sect:gadget}
 
 \chapter{Mathematical and statistical methods}
 täällä tarvittavat esitiedot ja önnönnöö, listaa mm. mitä aiot kertoa kunhan tiedät itsekään
