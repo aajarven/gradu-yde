@@ -341,7 +341,7 @@ Timestepping with the leapfrog integrator consists of two phases, the drift and 
 
 
 
-\subsection{Halo Finding}
+\subsection{Halo Finding} \label{sect:halofinding}
 The data output by a cosmological simulation consists of individual particles tracing the underlying density field. To make comparisons to the real universe, a way of matching structures in the simulation to observable objects is needed. In a dark matter only simulation no structure would obviously be directly observable but luckily many properties of dark matter haloes from simulations can be compared with the estimated dark matter haloes of observed galaxies. %TODO cite?
 Making such comparisons requires naturally such structures to be identified first, which makes structure finding a key step in the data analysis for many astrophysical and cosmological applications \citep{knebe2013structure}.
 
@@ -376,18 +376,29 @@ Unfortunately, now some particles are assigned to multiple substructure candidat
 After the iterative pruning stage some substructure candidates can vanish completely or be left with very few members. These substructure candidates with less than some minimum number of bound particles can be discarded \citep{springel2001populating}. The structures candidates surviving the pruning can then be considered to represent physical structures and are labelled as subhaloes \citep{springel2001populating}. In this work, all of the analysis is based on catalogues containing such subhaloes. 
 
 \section{Description of actual simulations used}
-Volume, number of particles, compare to other simulations, where better and where maybe worse
+[insert some form of attribution for the simulations, e.g. some kind of ''in preparation'' citation?]. The simulations are cosmological zoom-in simulations, meaning that interesting regions at $z=0$ were identified from an output from a low-resolution simulation, after which resolution of the interesting volumes was increased and the simulation was run again. In this case, the interesting regions were defined as surroundings of a pair of dark matter haloes resembling ones of the Milky Way and Andromeda galaxies, the two main galaxies of the Local Group.
 
-Resimulation of interesting regions
+The simulations contained only dark matter, and for my analysis only the dark matter halo information was needed, so instead of using the full simulation output I conducted my analysis on subhalo catalogues. The subhalo information was extracted as described in section \ref{sect:halofinding}. The resulting data set consists of subhalo catalogues from 448 zooms, each centered on one region resembling the Local Group in the low-resolution simulation. The following sections shortly introduce the code used to run the simulation and the parameters of the simulation for both stages of the zoom-in simulations.
 
-Simulation has same parameters as EAGLE
-800 Mpc volume used
-schaye 2015 paper
-DM-only parts: Volker-Springer Gadget and Gadget 2 papers 1999 and 2005 or something,     gravity part is more interesting than SPH 
-Zooms can use multiple meshes, only one is used here
-gravitational softening
+%Volume, number of particles, compare to other simulations, where better and where maybe worse
 
-\subsection{GADGET} \label{sect:gadget}
+%Resimulation of interesting regions
+
+%Simulation has same parameters as EAGLE
+%800 Mpc volume used
+%schaye 2015 paper
+%DM-only parts: Volker-Springer Gadget and Gadget 2 papers 1999 and 2005 or something,     gravity part is more interesting than SPH 
+%Zooms can use multiple meshes, only one is used here
+%gravitational softening
+
+
+\subsection{Modified GADGET-3} \label{sect:gadget}
+The simulation code that was used to run the simulations on which all of the analysis in this master's thesis is based on was a modified version of GADGET-3, an earlier version of which is described in \citet{springel2005cosmological}. The code is same as used in the EAGLE project, so detailed descriptions of the changes can be found in \citet{schaye2015eagle}. However, the changes mostly affect the handling of baryonic matter so understanding the basic GADGET-2 gives a good basis for understanding the simulations \citep{schaye2015eagle}.
+
+\subsection{Parent simulation}
+
+\subsection{Zoom simulations}
+
 
 \chapter{Mathematical and statistical methods}
 täällä tarvittavat esitiedot ja önnönnöö, listaa mm. mitä aiot kertoa kunhan tiedät itsekään
