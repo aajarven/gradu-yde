@@ -402,9 +402,49 @@ Updating the positions of the particles is done using an integrator resembling t
 TODO: wrap up, maybe by providing the reasoning behind choosing gadget %TODO
 
 \subsection{Parent simulation}
+First step of a zoom-in simulation running process is to construct initial conditions and run a low-resolution box. A large box with 800 Mpc/h was chosen to ensure that the box is big enough to contain a reasonable sample of Local Group analogues and that the large scale structure of the universe is represented in the simulation.
+
+TODO: simulation properties, both cosmology and resolution related
+
+\begin{table}
+	\centering
+	\begin{tabular}{| l | l |}
+		\hline
+		Box size & 800 Mpc/h \\ \hline
+		Number of particles & 0 \\ \hline
+		Particle mass & 0 \\ \hline
+		Softening length & 0 \\ \hline
+	\end{tabular}
+	\caption{Properties of the parent simulation.} \label{tab:parentBox}
+\end{table}
+
+\begin{table}
+	\centering
+	\begin{tabular}{| l | l |}
+		\hline
+		H & 67.77 km/s/Mpc\\ \hline
+		$\Omega_m$ & 0.307 \\ \hline
+		$\Omega_\Lambda$ & 0.693 \\ \hline
+	\end{tabular}
+	\caption{Cosmological parameters used in the simulation. TODO: planck + lensing 2013} \label{tab:cosmopars}
+\end{table}
 
 
 \subsection{Zoom simulations}
+
+
+\begin{table}
+	\centering
+	\begin{tabular}{| l | l | l | l | l |}
+		\hline
+		& min & mean & median & max \\ \hline
+		High resolution particles & min & mean & median & max \\ \hline
+		High resolution particle mass  & min & mean & median & max \\ \hline
+		High resolution softening length & min & mean & median & max \\ \hline
+		Total particles  & min & mean & median & max \\ \hline
+	\end{tabular}
+	\caption{Properties of the zoom simulations.} \label{tab:parentBox}
+\end{table}
 
 
 \chapter{Mathematical and statistical methods}
