@@ -158,7 +158,18 @@ Cosmology determines the properties of the Universe, including its origin, the r
 \section{Basics of Cosmology}
 Current cosmological understanding is based on a subset of the general theory of relativity together with simple hypotheses such as the cosmological principle, which states that on large scales the Universe is spatially homogeneous and isotropic \citep{mo2010galaxy}. At a given location, an observer might not see this, as is easy to understand when considering two observers located at the same point but moving relative to each other. In this situation, it is  clear that at least one of the observers will see a dipole in the surrounding velocities and thus will not observe the universe to be isotropic. Nonetheless, for every point in space we can define a so-called fundamental observer as the observer who sees the universe as isotropic \citep{mo2010galaxy}. These fundamental observes correspond to a cosmological rest frame, which can be determined at a given location by e.g. observing the cosmic microwave background and subtracting the velocity corresponding to the observed dipole component \citep{mo2010galaxy}.
 
-The existence of such fundamental observer has interesting consequences. Existence of any large-scale flows are clearly prohibited, as these would clearly violate the isotropy. In three-dimensional universe curl of the velocity field around the fundamental observer is also forbidden. This is due to the hairy ball theorem, which states that a sphere cannot have a nowhere-zero tangent vector field \citep{renteln2013manifolds}. Thus if there was a curl in the surrounding velocity field, there would always be at least one direction in which the tangential velocity is zero and thus the field would not be isotropic. This means that only allowed motion happens in the radial direction: the universe either expands or contracts.
+The existence of such fundamental observer has interesting consequences. Existence of any large-scale flows are clearly prohibited, as these would clearly violate the isotropy. In three-dimensional universe curl of the velocity field around the fundamental observer is also forbidden. This is due to the hairy ball theorem, which states that a sphere cannot have a nowhere-zero tangent vector field \citep{renteln2013manifolds}. Thus if there was a curl in the surrounding velocity field, there would always be at least one direction in which the tangential velocity is zero and thus the field would not be isotropic. This means that only allowed motion happens in the radial direction: the universe can either expand or contract.
+
+This behaviour of the universe is governed by the Friedmann equations
+\begin{align}
+\frac{\ddot{a}}{a} = -\frac{4\pi G}{3} \left( \rho + 3 \frac{P}{c^2} \right) + \frac{\Lambda c^2}{3} \\
+{\left( \frac{\dot{a}}{a} \right)}^2 = \frac{8\pi G}{3}\rho - \frac{Kc^2}{a^2} + \frac{\Lambda c^2}{3},
+\end{align}
+where $G$ is the gravitational constant, $P$ is pressure, $\rho$ is density and $K$, $\Lambda$ and $a$ are parameters that define the cosmology \citep{mo2010galaxy}. $K$ specifies the curvature of the universe, determined by the overall density of the universe \citep{mo2010galaxy}. The allowed values being for $K$ are $-1$ corresponding to a hyperbolic universe, $0$ to a flat one and $1$ to a spherical universe \citep{mo2010galaxy}. Modern measurements suggest that the Universe is flat within the measurement error, but small deviations from the $K=1$ cannot be eliminated \citep{planck2016resultsI}. $\Lambda$ is the cosmological constant driving the expansion of the universe, often described as vacuum energy \citep{mo2010galaxy}.
+
+The most relevant of these cosmological parameters is the scale factor $a$. It 
+
+Observations have confirmed that the universe indeed expands, first observed by \citet{hubble1929relation}. TODO: later estimates better, eg $67.74 \pm 0.46$ by \citep{planck2016resultsI} 
 
 %\subsection{Discovery}
 %Make maths, add cosmological constant, make observations, remove cosmological constant
@@ -205,8 +216,6 @@ In the Local Group, CDM can be tested.
 % nämä siirretty toisaalta, johon olin aloittamassa. tuikeiden galaksien kirja tai galaxies and cosmology parhaat lähdeveikkaukset ehkä, sparken s. 172 lyhyesti hyvä
 %For the first 380~000 years in the evolution in the timeline of the Universe, temperature of the universe was high enough to keep hydrogen and helium ionized, and thus the Universe consisted of plasma where radiation could not move freely, which meant that matter and radiation were bound together.
 %After the temperature of the radiation filling the Universe no longer had the energy to keep hydrogen and helium ionized at around 380~000 years after the Big Bang, the Universe became transparent and the gas started to accrete and collapse %TODO kerro paremmin, aloita siitä että pimeä aine klimppiintyy aiemmin? galkos 13 s 15 (pdf)
-
-
 
 \section{Local Group}
 %%Definition of galaxy group, our local group is one of these.
