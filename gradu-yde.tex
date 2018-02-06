@@ -22,6 +22,7 @@
 \usepackage{makecell}
 \usepackage{rotating}
 \usepackage[shortcuts]{extdash}
+\usepackage{physics}
 
 % titlesec and fix for no numbering on titlesec 2.10.2
 \usepackage{titlesec}
@@ -167,9 +168,20 @@ This behaviour of the universe is governed by the Friedmann equations
 \end{align}
 where $G$ is the gravitational constant, $P$ is pressure, $\rho$ is density and $K$, $\Lambda$ and $a$ are cosmology-related parameters \citep{mo2010galaxy}. $K$ specifies the curvature of the universe, determined by the overall density of the universe \citep{mo2010galaxy}. The allowed values being for $K$ are $-1$ corresponding to a hyperbolic universe, $0$ to a flat one and $1$ to a spherical universe \citep{mo2010galaxy}. Modern measurements suggest that the Universe is flat within the measurement error, but small deviations from the $K=1$ cannot be eliminated \citep{planck2016resultsI}. $\Lambda$ is the cosmological constant driving the expansion of the universe, often described as vacuum energy \citep{mo2010galaxy}.
 
-The most relevant of these cosmological parameters is the scale factor $a$. It increases or decreases as the universe expands or contracts, and thus it can be used to relate distances at different times \citep{mo2010galaxy}. It is often convenient to measure not the proper distance between a pair of objects, but instead so-called comoving distance, which is the proper distance at a given time divided with the sale factor \citep{mo2010galaxy}. Thus for a pair of objects with no relative motion, the comoving distance will remain constant as the size of the universe changes. Comoving coordinate system is often used in cosmological simulations, as the expansion of the universe is factored in the scale factor instead of all of the coordinates having to be recalculated as the size of the universe varies. %TODO soossi
+The most relevant of these cosmological parameters is the scale factor $a$. It increases or decreases as the universe expands or contracts, and thus it can be used to relate distances at different times \citep{mo2010galaxy}. It is often convenient to measure not the proper distance $l$ between a pair of objects, but instead so-called comoving distance $r$: \citep{mo2010galaxy}
+\begin{equation}
+r = \frac{l}{a}
+\end{equation}
+For a pair of objects with no relative motion, the comoving distance will remain constant as the size of the universe changes. Comoving coordinate system is often used in cosmological simulations, as the expansion of the universe is factored in the scale factor instead of all of the coordinates having to be recalculated as the size of the universe varies \citep{griebel1002numerical}.
 
-Observations have confirmed that the universe indeed expands, first observed by \citet{hubble1929relation}. TODO: later estimates better, eg $67.74 \pm 0.46$ by \citep{planck2016resultsI} 
+Observations have confirmed that the universe is indeed expanding, first observed by \citet{hubble1929relation}. The speed of the expansion is denoted with the Hubble parameter $H(t)$, which is defined using the proper distance and the rate of change of the proper distance between a pair of fundamental observers:
+\begin{equation}
+H(t)l = \dv{l}{t}
+\end{equation}
+The first measurements were prone to error as the distance estimates to extragalactic objects were inaccurate, but later estimates offer reasonably accurate results such as \citet{planck2016resultsI} value of $67.74 \pm 0.46$~km/s/Mpc for the current expansion speed.
+
+
+
 
 %\subsection{Discovery}
 %Make maths, add cosmological constant, make observations, remove cosmological constant
