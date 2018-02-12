@@ -157,7 +157,7 @@ Whatever the main results end up being, presented in somewhat coherent manner an
 Cosmology determines the properties of the Universe, including its origin, the rules by which it evolves and the structures that arise \citep{mo2010galaxy}. Thus many fields of astronomy and astrophysics, including the study of galaxies and galaxy groups such as the Local group and its members, is tightly connected to the study of cosmology. This section gives a brief explanation of the current cosmological understanding, its relevant implications and how the Local Group is currently viewed in the cosmological context.
 
 \section{Basics of Cosmology}
-Understanding processes that happen on large scales or take long times requires understanding some basic cosmology. This section will cover the most basic concepts of cosmology, its evolution on both large and small scales, and the $\Lambda$CDM model which is currently the cosmological model that best matches the observations on multiple scales \citep{mo2010galaxy}.
+Understanding processes that happen on large scales or take long times requires understanding some basic cosmology. The following sections will cover the most basic concepts of cosmology, its evolution on both large and small scales, and the $\Lambda$CDM model which is currently the cosmological model that best matches the observations on multiple scales \citep{mo2010galaxy}.
 
 \subsection{Evolution of the Universe} \label{universe-evolution}
 Current cosmological understanding is based on a subset of the general theory of relativity together with simple hypotheses such as the cosmological principle, which states that on large scales the Universe is spatially homogeneous and isotropic \citep{mo2010galaxy}. At a given location, an observer might not see this, as is easy to understand when considering two observers located at the same point but moving relative to each other. In this situation, it is  clear that at least one of the observers will see a dipole in the surrounding velocities and thus will not observe the universe to be isotropic. Nonetheless, for every point in space we can define a so-called fundamental observer as the observer who sees the universe as isotropic \citep{mo2010galaxy}. These fundamental observes correspond to a cosmological rest frame, which can be determined at a given location by e.g. observing the cosmic microwave background and subtracting the velocity corresponding to the observed dipole component \citep{mo2010galaxy}.
@@ -200,7 +200,7 @@ where $\lambda_o$ is the observed and $\lambda_e$ the emitted wavelength \citep{
 
 
 \subsection{Composition of the Universe}
-Using the Friedmann equations \ref{friedmann1} and \ref{friedmann2} to model the evolution of the Universe requires not only the equations and cosmological parameters introduced in the section \ref{universe-evolution}, but also the composition of the universe has to be known in order to determine the density, pressure, cosmological constant and ultimately even the curvature of the universe. According to the current understanding, the universe is made of three components: matter, radiation and vacuum energy \citep{mo2010galaxy}. At present time, about 69 \% of the energy density in the universe is vacuum energy and 31 \% is matter, including both baryonic and dark components \citep{planck2016resultsI}. Most of the matter, around 84 \%, is dark matter, with baryonic matter only contributing around 16 \% of the total matter energy density \citep{planck2016resultsI}. Radiation density of the modern universe is negligible \citep{mo2010galaxy}.
+Using the Friedmann equations \ref{friedmann1} and \ref{friedmann2} to model the evolution of the Universe requires not only the equations and cosmological parameters introduced in the section \ref{universe-evolution}, but also the composition of the universe has to be known in order to determine the density, pressure, cosmological constant and ultimately even the curvature of the universe. According to the current understanding, the universe is made of three components: non-relativistic matter, relativistic matter and vacuum energy \citep{mo2010galaxy}. At present time, about 69 \% of the energy density in the universe is vacuum energy and 31 \% is non-relativistic matter, including both baryonic and dark components \citep{planck2016resultsI}. Most of the matter, around 84 \%, is dark matter, with baryonic matter only contributing around 16 \% of the total matter energy density \citep{planck2016resultsI}. Energy density of relativistic matter such as photons and neutrinos in the modern universe is negligible \citep{mo2010galaxy}.
 
 This has not always been true, as these ratios change over time as the Universe evolves. It is easy to see that as the Universe expands, energy density of matter behaves as $a^{-3}$, as the volume of the volume of the Universe increases as $a^3$ and in adiabatic system no new matter is created or disappears. Radiation is diluted similarly to matter, but in addition to the effect of increasing volume, the growing universe also causes the wavelength of the radiation lengthening, thus resulting in the energy density decreasing as $a^{-4}$. The vacuum energy, as the name suggests, can be thought as arising from the space itself, and thus change in $a$ does not affect the energy density of the component \citep{mo2010galaxy}. The change of energy density of a component results in the pressure and temperature of the component changing too, these effects are shown in table \ref{tab:thermodynamics} \citep{mo2010galaxy}.
 
@@ -210,17 +210,32 @@ This has not always been true, as these ratios change over time as the Universe 
 		Component & $\rho$ & $P$ & $T$ \\ \hline
 		Matter & $a^{-3}$ & $a^{-5}$ & $a^{-2}$ \\
 		Radiation & $a^{-4}$ & $a^{-4}$ & $a^{-1}$  \\
-		Dark energy & $a$ & $a$  \\
+		Dark energy & $a^{-0}$ & $a^{-0}$  \\
 	\end{tabular}
 	\caption{Evolution of energy density, pressure and temperature of the Universe as the scale factor varies. Adapted from \citet{mo2010galaxy}.} \label{tab:thermodynamics}
 \end{table}
 
 The differences in time evolutions of the components also mean that the dominant component of the Universe changes as the scale factor grows. At very early times the Universe was radiation dominated, but as the radiation energy density decreases faster than the energy densities of the two other components, a matter dominated era will follow. As the dark energy is the only component with constant energy density, it will be the final dominant energy component. This transition from matter to dark energy dominated era has either happened in the recent past or will happen in the near future \citep{mo2010galaxy}.
 
-TODO: critical density + density parameters
+The geometry of the Universe is also determined by the contents of it. A density threshold known as critical density and defined as
+\begin{equation}
+\rho_{crit,0} \equiv \frac{2H_0^2}{8\pi G}
+\end{equation}
+acts as a threshold value that separates the different geometries \citep{mo2010galaxy}. The overall density of the universe can be parametrized using this critical density:
+\begin{equation} \label{Omega}
+\Omega_0 \equiv \frac{\bar \rho_0}{\rho_{crit,0}}
+\end{equation}
+where $\bar\rho_0$ is the mean density of the universe and $\Omega_0$ is known as the density parameter \citep{mo2010galaxy}. Different values of $\Omega_0$ correspond to different geometries: for values of $\Omega_0 < 1$ the Universe is hyperbolic, for $\Omega_0 = 1$ flat and for  $\Omega_0 > 1$ spherical \citep{mo2010galaxy}.
+
+As the contents of the Universe can be divided into the three categories of vacuum energy and relativistic and non-relativistic matter, the total density parameter is also a sum of three density parameters:
+\begin{equation}
+\Omega_0 = \Omega_{m,0} + \Omega_{r, 0} + \Omega_{\Lambda, 0}
+\end{equation}
+where $m$, $r$ and $\Lambda$ stand for non-relativistic matter, relativistic matter and vacuum energy \citep{mo2010galaxy}. Each of these can be calculated similarly to the equation \ref{Omega} but replacing the overall density with density of the corresponding component \citep{mo2010galaxy}. As in the Universe the value of $\Omega_0$ is very close to unity, the different density parameters conveniently correspond the relative densities of the components.
+
 
 \subsection{Structure Formation}
-
+% start with LCDM here?
 
 %\subsection{Discovery}
 %Make maths, add cosmological constant, make observations, remove cosmological constant
