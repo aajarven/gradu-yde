@@ -157,16 +157,19 @@ Whatever the main results end up being, presented in somewhat coherent manner an
 Cosmology determines the properties of the Universe, including its origin, the rules by which it evolves and the structures that arise \citep{mo2010galaxy}. Thus many fields of astronomy and astrophysics, including the study of galaxies and galaxy groups such as the Local group and its members, is tightly connected to the study of cosmology. This section gives a brief explanation of the current cosmological understanding, its relevant implications and how the Local Group is currently viewed in the cosmological context.
 
 \section{Basics of Cosmology}
+Understanding processes that happen on large scales or take long times requires understanding some basic cosmology. This section will cover the most basic concepts of cosmology, its evolution on both large and small scales, and the $\Lambda$CDM model which is currently the cosmological model that best matches the observations on multiple scales \citep{mo2010galaxy}.
+
+\subsection{Evolution of the Universe} \label{universe-evolution}
 Current cosmological understanding is based on a subset of the general theory of relativity together with simple hypotheses such as the cosmological principle, which states that on large scales the Universe is spatially homogeneous and isotropic \citep{mo2010galaxy}. At a given location, an observer might not see this, as is easy to understand when considering two observers located at the same point but moving relative to each other. In this situation, it is  clear that at least one of the observers will see a dipole in the surrounding velocities and thus will not observe the universe to be isotropic. Nonetheless, for every point in space we can define a so-called fundamental observer as the observer who sees the universe as isotropic \citep{mo2010galaxy}. These fundamental observes correspond to a cosmological rest frame, which can be determined at a given location by e.g. observing the cosmic microwave background and subtracting the velocity corresponding to the observed dipole component \citep{mo2010galaxy}.
 
 The existence of such fundamental observer has interesting consequences. Existence of any large-scale flows are clearly prohibited, as these would clearly violate the isotropy. In three-dimensional universe curl of the velocity field around the fundamental observer is also forbidden. This can be easily seen by considering the hairy ball theorem, which states that a sphere cannot have a nowhere-zero tangent vector field \citep{renteln2013manifolds}. Thus if there was a curl in the surrounding velocity field, there would always be at least one direction in which the tangential velocity is zero and thus the field would not be isotropic. This means that there cannot be any tangential motion and thus the only allowed motion happens in the radial direction: the universe can either expand or contract.
 
 This behaviour of the universe is governed by the Friedmann equations
-\begin{align}
-\frac{\ddot{a}}{a} = -\frac{4\pi G}{3} \left( \rho + 3 \frac{P}{c^2} \right) + \frac{\Lambda c^2}{3} \\
+\begin{align}\label{friedmann1}
+\frac{\ddot{a}}{a} = -\frac{4\pi G}{3} \left( \rho + 3 \frac{P}{c^2} \right) + \frac{\Lambda c^2}{3} \\ \label{friedmann2}
 {\left( \frac{\dot{a}}{a} \right)}^2 = \frac{8\pi G}{3}\rho - \frac{Kc^2}{a^2} + \frac{\Lambda c^2}{3},
 \end{align}
-where $G$ is the gravitational constant, $P$ is pressure, $\rho$ is density and $K$, $\Lambda$ and $a$ are cosmology-related parameters \citep{mo2010galaxy}. $K$ specifies the curvature of the universe, determined by the overall density of the universe \citep{mo2010galaxy}. The allowed values being for $K$ are $-1$ corresponding to a hyperbolic universe, $0$ to a flat one and $1$ to a spherical universe \citep{mo2010galaxy}. Modern measurements suggest that the Universe is flat within the measurement error, but small deviations from the $K=0$ cannot be ruled out \citep{planck2016resultsI}. $\Lambda$ is the cosmological constant driving the expansion of the universe, often described as vacuum energy \citep{mo2010galaxy}.
+where $G$ is the gravitational constant, $P$ is pressure, $\rho$ is density and $K$, $\Lambda$ and $a$ are cosmology-related parameters \citep{mo2010galaxy}. $K$ specifies the curvature of the universe, determined by the overall density of the universe \citep{mo2010galaxy}. The allowed values being for $K$ are $-1$ corresponding to a hyperbolic universe, $0$ to a flat one and $1$ to a spherical universe \citep{mo2010galaxy}. Modern measurements suggest that the Universe is flat within the measurement error, but small deviations from the $K=0$ cannot be ruled out \citep{planck2016resultsI}. $\Lambda$ is the cosmological constant driving the expansion of the universe, often described as dark energy or vacuum energy \citep{mo2010galaxy}.
 
 The most relevant for this thesis of these cosmological parameters is the scale factor $a$. It increases or decreases as the universe expands or contracts, and thus it can be used to relate distances at different times \citep{mo2010galaxy}. For universe that is monotonically expanding the scale factor can also be used as an alternative time coordinate, as it has one-to-one correspondence to time. It is often convenient to measure not the proper distance $l$ between a pair of objects, but instead so-called comoving distance $r$: \citep{mo2010galaxy}
 \begin{equation}
@@ -195,7 +198,29 @@ where $\lambda_o$ is the observed and $\lambda_e$ the emitted wavelength \citep{
 1 + z = \frac{a(t_o)}{a(t_e)}
 \end{equation}
 
-TODO: redshift, density parameters + critical density
+
+\subsection{Composition of the Universe}
+Using the Friedmann equations \ref{friedmann1} and \ref{friedmann2} to model the evolution of the Universe requires not only the equations and cosmological parameters introduced in the section \ref{universe-evolution}, but also the composition of the universe has to be known in order to determine the density, pressure, cosmological constant and ultimately even the curvature of the universe. According to the current understanding, the universe is made of three components: matter, radiation and vacuum energy \citep{mo2010galaxy}. At present time, about 69 \% of the energy density in the universe is vacuum energy and 31 \% is matter, including both baryonic and dark components \citep{planck2016resultsI}. Most of the matter, around 84 \%, is dark matter, with baryonic matter only contributing around 16 \% of the total matter energy density \citep{planck2016resultsI}. Radiation density of the modern universe is negligible \citep{mo2010galaxy}.
+
+This has not always been true, as these ratios change over time as the Universe evolves. It is easy to see that as the Universe expands, energy density of matter behaves as $a^{-3}$, as the volume of the volume of the Universe increases as $a^3$ and in adiabatic system no new matter is created or disappears. Radiation is diluted similarly to matter, but in addition to the effect of increasing volume, the growing universe also causes the wavelength of the radiation lengthening, thus resulting in the energy density decreasing as $a^{-4}$. The vacuum energy, as the name suggests, can be thought as arising from the space itself, and thus change in $a$ does not affect the energy density of the component \citep{mo2010galaxy}. The change of energy density of a component results in the pressure and temperature of the component changing too, these effects are shown in table \ref{tab:thermodynamics} \citep{mo2010galaxy}.
+
+\begin{table}
+	\centering
+	\begin{tabular}{ l | l  l  l }
+		Component & $\rho$ & $P$ & $T$ \\ \hline
+		Matter & $a^{-3}$ & $a^{-5}$ & $a^{-2}$ \\
+		Radiation & $a^{-4}$ & $a^{-4}$ & $a^{-1}$  \\
+		Dark energy & $a$ & $a$  \\
+	\end{tabular}
+	\caption{Evolution of energy density, pressure and temperature of the Universe as the scale factor varies. Adapted from \citet{mo2010galaxy}.} \label{tab:thermodynamics}
+\end{table}
+
+The differences in time evolutions of the components also mean that the dominant component of the Universe changes as the scale factor grows. At very early times the Universe was radiation dominated, but as the radiation energy density decreases faster than the energy densities of the two other components, a matter dominated era will follow. As the dark energy is the only component with constant energy density, it will be the final dominant energy component. This transition from matter to dark energy dominated era has either happened in the recent past or will happen in the near future \citep{mo2010galaxy}.
+
+TODO: critical density + density parameters
+
+\subsection{Structure Formation}
+
 
 %\subsection{Discovery}
 %Make maths, add cosmological constant, make observations, remove cosmological constant
