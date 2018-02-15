@@ -157,9 +157,25 @@ Whatever the main results end up being, presented in somewhat coherent manner an
 Cosmology determines the properties of the Universe, including its origin, the rules by which it evolves and the structures that arise \citep{mo2010galaxy}. Thus many fields of astronomy and astrophysics, including the study of galaxies and galaxy groups such as the Local group and its members, is tightly connected to the study of cosmology. This section gives a brief explanation of the current cosmological understanding, its relevant implications and how the Local Group is currently viewed in the cosmological context.
 
 \section{Basics of Cosmology}
-Understanding processes that happen on large scales or take long times requires understanding some basic cosmology. The following sections will cover the most basic concepts of cosmology, its evolution on both large and small scales, and the $\Lambda$CDM model which is currently the cosmological model that best matches the observations on multiple scales \citep{mo2010galaxy}.
+Understanding processes that happen on large scales or take long times requires understanding some basic cosmology. The following sections will cover the most basic concepts of cosmology, its evolution on both large and small scales, and the $\Lambda$CDM model which is currently the cosmological model that best matches the observations on multiple scales \citep{mo2010galaxy}. Sections \ref{universe-evolution} and \ref{universe-composition} cover large scales at which the cosmological principle applies and section \ref{universe-structure} applies to smaller scales of single dark matter halo.
 
 \subsection{Evolution of the Universe} \label{universe-evolution}
+%\\- FRW
+%\\- - cosmological principle
+%\\- - fundamental observer
+%\\- - radial expansion/contraction
+%\\- - Friedmann equations
+%\\- - critical density
+%\\- - density parameters
+%\\- - cosmic time
+%\\- - (3D hypersurface, ds)
+%\\- - a, K
+%\\- - proper vs comoving distances
+%\\- - H(t)
+%\\- - redshift
+%\\- - peculiar + expansion = proper velocity
+%\\- - Values of the density parameters (how much matter, dm, radiation, lambda is there?)
+
 Current cosmological understanding is based on a subset of the general theory of relativity together with simple hypotheses such as the cosmological principle, which states that on large scales the Universe is spatially homogeneous and isotropic \citep{mo2010galaxy}. At a given location, an observer might not see this, as is easy to understand when considering two observers located at the same point but moving relative to each other. In this situation, it is  clear that at least one of the observers will see a dipole in the surrounding velocities and thus will not observe the universe to be isotropic. Nonetheless, for every point in space we can define a so-called fundamental observer as the observer who sees the universe as isotropic \citep{mo2010galaxy}. These fundamental observes correspond to a cosmological rest frame, which can be determined at a given location by e.g. observing the cosmic microwave background and subtracting the velocity corresponding to the observed dipole component \citep{mo2010galaxy}.
 
 The existence of such fundamental observer has interesting consequences. Existence of any large-scale flows are clearly prohibited, as these would clearly violate the isotropy. In three-dimensional universe curl of the velocity field around the fundamental observer is also forbidden. This can be easily seen by considering the hairy ball theorem, which states that a sphere cannot have a nowhere-zero tangent vector field \citep{renteln2013manifolds}. Thus if there was a curl in the surrounding velocity field, there would always be at least one direction in which the tangential velocity is zero and thus the field would not be isotropic. This means that there cannot be any tangential motion and thus the only allowed motion happens in the radial direction: the universe can either expand or contract.
@@ -172,7 +188,7 @@ This behaviour of the universe is governed by the Friedmann equations
 where $G$ is the gravitational constant, $P$ is pressure, $\rho$ is density and $K$, $\Lambda$ and $a$ are cosmology-related parameters \citep{mo2010galaxy}. $K$ specifies the curvature of the universe, determined by the overall density of the universe \citep{mo2010galaxy}. The allowed values being for $K$ are $-1$ corresponding to a hyperbolic universe, $0$ to a flat one and $1$ to a spherical universe \citep{mo2010galaxy}. Modern measurements suggest that the Universe is flat within the measurement error, but small deviations from the $K=0$ cannot be ruled out \citep{planck2016resultsI}. $\Lambda$ is the cosmological constant driving the expansion of the universe, often described as dark energy or vacuum energy \citep{mo2010galaxy}.
 
 The most relevant for this thesis of these cosmological parameters is the scale factor $a$. It increases or decreases as the universe expands or contracts, and thus it can be used to relate distances at different times \citep{mo2010galaxy}. For universe that is monotonically expanding the scale factor can also be used as an alternative time coordinate, as it has one-to-one correspondence to time. It is often convenient to measure not the proper distance $l$ between a pair of objects, but instead so-called comoving distance $r$: \citep{mo2010galaxy}
-\begin{equation}
+\begin{equation} \label{comoving}
 r = \frac{l}{a}
 \end{equation}
 For a pair of objects with no relative motion, the comoving distance will remain constant as the size of the universe changes. Comoving coordinate system is often used in cosmological simulations, as the expansion of the universe is factored in the scale factor instead of all of the coordinates having to be recalculated as the size of the universe varies \citep{griebel1002numerical}.
@@ -199,7 +215,7 @@ where $\lambda_o$ is the observed and $\lambda_e$ the emitted wavelength \citep{
 \end{equation}
 
 
-\subsection{Composition of the Universe}
+\subsection{Composition of the Universe} \label{universe-composition}
 Using the Friedmann equations \ref{friedmann1} and \ref{friedmann2} to model the evolution of the Universe requires not only the equations and cosmological parameters introduced in the section \ref{universe-evolution}, but also the composition of the universe has to be known in order to determine the density, pressure, cosmological constant and ultimately even the curvature of the universe. According to the current understanding, the universe is made of three components: non-relativistic matter, relativistic matter and vacuum energy \citep{mo2010galaxy}. At present time, about 69 \% of the energy density in the universe is vacuum energy and 31 \% is non-relativistic matter, including both baryonic and dark components \citep{planck2016resultsI}. Most of the matter, around 84 \%, is dark matter, with baryonic matter only contributing around 16 \% of the total matter energy density \citep{planck2016resultsI}. Energy density of relativistic matter such as photons and neutrinos in the modern universe is negligible \citep{mo2010galaxy}.
 
 This has not always been true, as these ratios change over time as the Universe evolves. It is easy to see that as the Universe expands, energy density of matter behaves as $a^{-3}$, as the volume of the volume of the Universe increases as $a^3$ and in adiabatic system no new matter is created or disappears. Radiation is diluted similarly to matter, but in addition to the effect of increasing volume, the growing universe also causes the wavelength of the radiation lengthening, thus resulting in the energy density decreasing as $a^{-4}$. The vacuum energy, as the name suggests, can be thought as arising from the space itself, and thus change in $a$ does not affect the energy density of the component \citep{mo2010galaxy}. The change of energy density of a component results in the pressure and temperature of the component changing too, these effects are shown in table \ref{tab:thermodynamics} \citep{mo2010galaxy}.
@@ -234,7 +250,33 @@ As the contents of the Universe can be divided into the three categories of vacu
 where $m$, $r$ and $\Lambda$ stand for non-relativistic matter, relativistic matter and vacuum energy \citep{mo2010galaxy}. Each of these can be calculated similarly to the equation \ref{Omega} but replacing the overall density with density of the corresponding component \citep{mo2010galaxy}. As in the Universe the value of $\Omega_0$ is very close to unity, the different density parameters conveniently correspond the relative densities of the components.
 
 
-\subsection{Structure Formation}
+\subsection{Structure Formation} \label{universe-structure}
+All structures in the Universe arise from the small density perturbations in the early universe and the physics that govern their evolution. These primordial density fluctuations that later develop to the structures such as galaxies and galaxy clusters can still be seen in the cosmic microwave background (CMB) \citep{planck2016resultsI}. At $z \approx 1100$, the time of recombination and origin of the CMB photons, these fluctuations are still very small, but sufficiently overdense regions are able to collapse in on themselves \citep{mo2010galaxy}. This requires the volume to be sufficiently dense to allow gravity to overcome the expansion of the universe as described by the Friedmann equations.
+
+To understand the evolution of density perturbations at early times when the perturbations are still small and evolve linearly, let us consider an ideal fluid of density $\rho$, moving at velocity $\mathbf{u}$ and experiencing the gravitational field with potential $\phi$. Growth of a perturbation in this medium is governed by three equations: the equation of continuity describing the conservation of mass, Euler equations governing the motions in the fluid and the Poisson equation describing the gravitational field, or
+\begin{equation}
+\frac{\textrm{D}\rho}{\textrm{D}t} + \rho \nabla_r\dot{\mathbf{u}} = 0,
+\end{equation}
+\begin{equation}
+\frac{\textrm{D}\mathbf{u}}{\textrm{D}t} = - \frac{\nabla_r P}{\rho} - \nabla_r\phi
+\end{equation}
+and
+\begin{equation}
+\nabla_r^2\phi = 4\pi G\rho
+\end{equation}
+respectively \citep{mo2010galaxy}. Here $r$ denotes proper coordinates and $\frac{\textrm{D}}{\textrm{D}t}$ is the convective time derivative, defined as
+\begin{equation}
+\frac{\textrm{D}}{\textrm{D}t} = \pdv{}{t} + \mathbf{u}\dot\nabla_r
+\end{equation}
+and describing the time derivative when moving with the fluid \citep{mo2010galaxy}.
+
+As the Universe is expanding, it is natural to use comoving coordinates, defined in \ref{comoving} but denoted by $\mathbf{x}$ here. This also affects the velocities, as using the dot to denote time derivative we can write
+\begin{equation}
+\mathbf{u} = \dot{\mathbf{r}} = \dot{a}(t)\mathbf{x} + a(t)\dot{\mathbf{x}} = \dot{a}(t)\mathbf{x} + \mathbf{v}.
+\end{equation}
+Here $\mathbf{v}$ denotes the peculiar velocity. The overdensities in the Universe are measured using a density perturbation contrast $\delta$, defined by $\rho(\mathbf{x}, t) = \bar \rho(t)[1+\delta(\mathbf{x}, t)]$ where the bar denotes global average \citep{mo2010galaxy}. Applying these coordinate transforms and reading from table \ref{tab:thermodynamics} that $\rho \propto a^{-3}$, we can rewrite the continuity, Euler and Poisson equations:
+*TODO add equations*
+
 % start with LCDM here?
 
 %\subsection{Discovery}
@@ -243,27 +285,13 @@ where $m$, $r$ and $\Lambda$ stand for non-relativistic matter, relativistic mat
 %Enough cosmology here or in other sections to make other parts of thesis to make sense and to suffice as master's thesis = basic textbook cosmology and galaxy formation theory %t. puppe
 
 %Relevant(?) things:
-%\\- FRW
-%\\- - cosmological principle
-%\\- - fundamental observer
-%\\- - radial expansion/contraction
-%\\- - Friedmann equations
-%\\- - critical density
-%\\- - density parameters
-%\\- - cosmic time
-%\\- - (3D hypersurface, ds)
-%\\- - a, K
-%\\- - proper vs comoving distances
-%\\- - H(t)
-%\\- - redshift
-%\\- - peculiar + expansion = proper velocity
+
 %\\- Initial conditions of the Universe: 
-%\\- - Values of the density parameters (how much matter, dm, radiation, lambda is there?)
-%\\- - what separates DM, baryons radiation, Lambda (time evolution is different, and baryons experience pressure, and can radiate photons)
 %\\- - Initial perturbations (we can already see non-homogeneities in the CMB, spectrum of perturbations), highlight that, at z=300,000, perturbations are still very small ($10^{-4}$).
 %\\- - evolution of perturbations: competition between expansion (Friedmann equations discussed earlier, and collapse)
 %\\- - Newtonian is fine, discuss collapse of a spherical overdensity (top hat, 1D), including concept of turn-around, turn-around time.
 %\\- - caveats: spherical, top-hat, collisionless, zero-angular momentum, no substructures and not mergers, end-point is not physical...
+%\\- - - what separates DM, baryons radiation, Lambda (time evolution is different, and baryons experience pressure, and can radiate photons)
 %\\- - Concept of a halo: collapsed object, with a boundary set by some overdensity threshold (e.g. r200 defined as the radius within which the overdensity is 200).
 %\\- LCDM
 %\\- - Model which describes constitutents of the universe (out of many possibilities): key assumptions are: universe contains ordinary matter, radiation, dark matter and dark energy. Evidence for, and properties of, dark matter and dark energy: structure formation agrees (without DM, no BAO, density close to critical (see review on open problems - from SNe and CMB we can constrain Omega\_matter and Omega\_lambda - result is Omega\_L ~ 0.7 and Omega\_m ~ 0.3). 
