@@ -285,7 +285,7 @@ These equations can be greatly simplified by subtracting the unperturbed version
 \begin{equation}
 \frac{\textrm{D}}{\textrm{D}t} \frac{\delta \rho}{\rho_0} = -\nabla_x \cdot \delta \mathbf{v}
 \end{equation}
-\begin{equation}\label{euler-modified}
+\begin{equation}
 \pdv{\delta \mathbf{v}}{t} + (\delta \mathbf{v} \cdot \nabla_x) \mathbf{v}_0 = - \frac{\nabla_x \delta P}{\rho_0} - \nabla_x \delta \phi
 \end{equation}
 \begin{equation}
@@ -296,13 +296,33 @@ As the Universe is expanding, it is natural to transit to comoving coordinates, 
 \begin{equation}
 \mathbf{v} = \dot{\mathbf{x}} = \dot{a}(t)\mathbf{r} + a(t)\dot{\mathbf{r}} = \dot{a}(t)\mathbf{r} + \mathbf{u},
 \end{equation}
-where $\mathbf{u}$ denotes the perturbed comoving velocity. From this it follows that $\delta \mathbf{v} = a \mathbf{u}$. In comoving coordinates the operator $\nabla_x$ is also replaced with $\frac{1}{a}\nabla_r$. Using these and $(a\mathbf{u}\cdot\nabla_x)=\mathbf{u}\dot{a}$, equation \ref{euler-modified} becomes
+where $\mathbf{u}$ denotes the perturbed comoving velocity. From this it follows that $\delta \mathbf{v} = a \mathbf{u}$. In comoving coordinates the operator $\nabla_x$ is also replaced with $\frac{1}{a}\nabla_r$. Using these and $(a\mathbf{u}\cdot\nabla_x)\dot{a}\mathbf{r}=\mathbf{u}\dot{a}$, the equations can be written as
+\begin{equation}\label{continuity-modified}
+\frac{\textrm{D}}{\textrm{D}t} \frac{\delta \rho}{\rho_0} = -\nabla_r \cdot \mathbf{u}
+\end{equation}
+\begin{equation}\label{euler-modified}
+\pdv{\mathbf{u}}{t} + 2 \frac{\dot a}{a}\mathbf{u} = - \frac{\nabla_r \delta P}{\rho_0 a^2} - \frac{1}{a^2}\nabla_r \delta \phi.
+\end{equation}
+\begin{equation}\label{poisson-modified}
+\nabla_r^2\delta \phi = 4 \pi G \delta a^2 \rho
+\end{equation}
+Taking the comoving divergence, equation \ref{euler-modified} gives
 \begin{equation}
-\pdv{\mathbf{u}}{t} + 2 \frac{\dot a}{a}\mathbf{u} = - \frac{\nabla_r \delta P}{\rho_0 a^2} - \frac{1}{a^2}\nabla_r \delta \phi
+\nabla_r \cdot \dot{\mathbf{u}} + 2 \frac{\dot a}{a}\nabla_r \cdot \mathbf{u} = - \frac{\nabla_r^2 \delta P}{\rho_0 a^2} - \frac{1}{a^2}\nabla_r^2 \delta \phi,
+\end{equation}
+where the last term on the right side contains the left side of equation \ref{poisson-modified}, the first term on the left can be found in equation \ref{continuity-modified} after taking the convective time derivative and the second term on the left already contains the right side of \ref{continuity-modified}. Inserting these yields
+\begin{equation}\label{euler-insertions1}
+\frac{\textrm{D}^2}{\textrm{D}^2 t} \frac{\delta \rho}{\rho_0} + 2 \frac{\dot a}{a} \frac{\textrm{D}}{\textrm{D} t} \frac{\delta \rho}{\rho_0} = \frac{\nabla_r^2 \delta P}{\rho_0 a^2} + 4 \pi G \delta \rho.
 \end{equation}
 
-%The overdensities in the Universe are measured using a density contrast $\Delta$, defined by $\rho(\mathbf{x}, t) = \bar \rho(t)[1+\delta(\mathbf{x}, t)]$ where the bar denotes the universal mean \citep{mo2010galaxy}. Applying these coordinate transforms and reading from table \ref{tab:thermodynamics} that for matter $\rho \propto a^{-3}$, we can rewrite the continuity, Euler and Poisson equations:
+The overdensities in the Universe are often denoted using a density contrast $\Delta = \delta\rho/\bar{\rho}$, where the bar denotes the universal mean \citep{mo2010galaxy}. In this case the unperturbed density $\rho$ is the mean density, so the left side of equation \ref{euler-insertions1} can be expressed using $\Delta$. If the density perturbations are assumed to be adiabatic, the adiabatic sound speed $c_s$ relates perturbations in density and pressure as $\delta P / \delta \rho = c_s^2$. Inserting these yields
+\begin{equation}\label{euler-insertions1}
+\frac{\textrm{D}^2\Delta}{\textrm{D}^2 t} + 2 \frac{\dot a}{a} \frac{\textrm{D}\Delta}{\textrm{D} t} = \frac{c_s^2 \nabla_r^2 \delta \rho}{a^2 \rho_0} + 4 \pi G \delta \rho.
+\end{equation}
 
+??? -> wave equation -> perturbations may be either oscillatory or growing -> Jeans
+
+Transition to later times and non-linear collapse, non-linear usually requires simulations
 
 % start with LCDM here?
 
