@@ -253,29 +253,56 @@ where $m$, $r$ and $\Lambda$ stand for non-relativistic matter (''matter''), rel
 \subsection{Structure Formation} \label{universe-structure}
 All structures in the Universe arise from the small perturbations in the matter density in the early universe and the physics that govern their evolution. These primordial density fluctuations that later develop to the structures such as galaxies and galaxy clusters can still be seen in the cosmic microwave background (CMB) \citep{planck2016resultsI}. At $z \approx 1100$, the time of recombination and origin of the CMB photons, these fluctuations are still very small, having $\Delta\rho/\rho \approx 10^{-4}$, but sufficiently overdense regions have already collapsed \citep{mo2010galaxy}. This requires the volume to be sufficiently dense to allow gravity to overcome the expansion of the universe as described by the Friedmann equations.
 
-To understand the evolution of density perturbations at early times when the perturbations are still small and evolve linearly, let us consider an ideal fluid of density $\rho$, moving at velocity $\mathbf{u}$ and experiencing the gravitational field with potential $\phi$. Growth of a perturbation in this medium is governed by three equations: the equation of continuity describing the conservation of mass, Euler equations governing the motions in the fluid and the Poisson equation describing the gravitational field, or
-\begin{equation}
-\frac{\textrm{D}\rho}{\textrm{D}t} + \rho \nabla_r\dot{\mathbf{u}} = 0,
+To understand the evolution of density perturbations at early times when the perturbations are still small and evolve linearly, let us consider an ideal fluid of density $\rho$, moving at proper velocity $\mathbf{v}$ and experiencing the gravitational field with potential $\phi$. Growth of a perturbation in this medium is governed by three equations: the equation of continuity describing the conservation of mass, Euler equation governing the motions in the fluid and the Poisson equation describing the gravitational field, or
+\begin{equation}\label{continuity}
+\frac{\textrm{D}\rho}{\textrm{D}t} + \rho \nabla_x\cdot{\mathbf{v}} = 0 \,,,
 \end{equation}
-\begin{equation}
-\frac{\textrm{D}\mathbf{u}}{\textrm{D}t} = - \frac{\nabla_r P}{\rho} - \nabla_r\phi
+\begin{equation}\label{euler}
+\frac{\textrm{D}\mathbf{v}}{\textrm{D}t} = - \frac{\nabla_x P}{\rho} - \nabla_x\phi
 \end{equation}
 and
-\begin{equation}
-\nabla_r^2\phi = 4\pi G\rho
+\begin{equation}\label{poisson}
+\nabla_x^2\phi = 4\pi G\rho
 \end{equation}
-respectively \citep{mo2010galaxy}. Here $r$ denotes proper coordinates and $\frac{\textrm{D}}{\textrm{D}t}$ is the convective time derivative, defined as
+respectively \citep{mo2010galaxy}. Here $x$ denotes proper coordinates and $\frac{\textrm{D}}{\textrm{D}t}$ is the convective time derivative, defined as
 \begin{equation}
-\frac{\textrm{D}}{\textrm{D}t} = \pdv{}{t} + \mathbf{u}\cdot\nabla_r
+\frac{\textrm{D}}{\textrm{D}t} = \pdv{}{t} + \mathbf{v}\cdot\nabla_x
 \end{equation}
 and describing the time derivative when moving with the fluid \citep{mo2010galaxy}.
 
-As the Universe is expanding, it is natural to use comoving coordinates, defined in \ref{comoving} and denoted by $\mathbf{x}$ here. This also affects the velocities, and using the dot to denote time derivative we can write
+Next let us introduce a small perturbation by replacing $\mathbf{v}$, $\rho$, $P$ and $\phi$ with $\mathbf{v_0} + \delta\mathbf{v}$, $\rho_0 + \delta\rho$, $P_0 + \delta P$ and $\phi_0 + \delta \phi$ respectively. Now equations \ref{continuity}--\ref{poisson} are
 \begin{equation}
-\mathbf{u} = \dot{\mathbf{r}} = \dot{a}(t)\mathbf{x} + a(t)\dot{\mathbf{x}} = \dot{a}(t)\mathbf{x} + \mathbf{v}.
+\frac{\textrm{D}\rho_0}{\textrm{D}t} + \frac{\textrm{D}\delta\rho}{\textrm{D}t} + \rho_0 \nabla_x\cdot{\mathbf{v}_0} + \rho_0 \nabla_x \delta \cdot{\mathbf{v}} + \delta \rho \nabla_x \cdot{\mathbf{v}}_0 + \delta\rho \nabla_x \delta \cdot{\mathbf{v}}  = 0 \,,
 \end{equation}
-Here $\mathbf{v}$ denotes the peculiar velocity. The overdensities in the Universe are measured using a density contrast $\delta$, defined by $\rho(\mathbf{x}, t) = \bar \rho(t)[1+\delta(\mathbf{x}, t)]$ where the bar denotes the universal mean \citep{mo2010galaxy}. Applying these coordinate transforms and reading from table \ref{tab:thermodynamics} that for matter $\rho \propto a^{-3}$, we can rewrite the continuity, Euler and Poisson equations:
-*TODO add equations*
+\begin{equation}
+\frac{\textrm{D} \mathbf{v}_0}{\textrm{D}t} + \frac{\textrm{D} \delta\mathbf{v}}{\textrm{D}t}= - \frac{\nabla_x P}{\rho_0 + \delta \rho} - \nabla_x\phi_0 - \nabla_x\delta\phi
+\end{equation}
+and
+\begin{equation}
+\nabla_x^2\phi_0 + \nabla_x^2\delta\phi = 4\pi G\rho_0 + 4\pi G\delta\rho.
+\end{equation}
+These equations can be greatly simplified by subtracting the unperturbed versions from each and assuming that the initial state is homogeneous and isotropic i.e. $\nabla P_0=0$ and $\nabla \rho_0 = 0$. Using the knowledge that in the linear regime the perturbations are small, the equations get the following forms:
+\begin{equation}
+\frac{\textrm{D}}{\textrm{D}t} \frac{\delta \rho}{\rho_0} = -\nabla_x \cdot \delta \mathbf{v}
+\end{equation}
+\begin{equation}\label{euler-modified}
+\pdv{\delta \mathbf{v}}{t} + (\delta \mathbf{v} \cdot \nabla_x) \mathbf{v}_0 = - \frac{\nabla_x \delta P}{\rho_0} - \nabla_x \delta \phi
+\end{equation}
+\begin{equation}
+\nabla_x^2\delta \phi = 4 \pi G \delta \rho
+\end{equation}
+
+As the Universe is expanding, it is natural to transit to comoving coordinates, defined in \ref{comoving} and denoted by $\mathbf{r}$. This also affects the velocities, and using the dot to denote time derivative we can write
+\begin{equation}
+\mathbf{v} = \dot{\mathbf{x}} = \dot{a}(t)\mathbf{r} + a(t)\dot{\mathbf{r}} = \dot{a}(t)\mathbf{r} + \mathbf{u},
+\end{equation}
+where $\mathbf{u}$ denotes the perturbed comoving velocity. From this it follows that $\delta \mathbf{v} = a \mathbf{u}$. In comoving coordinates the operator $\nabla_x$ is also replaced with $\frac{1}{a}\nabla_r$. Using these and $(a\mathbf{u}\cdot\nabla_x)=\mathbf{u}\dot{a}$, equation \ref{euler-modified} becomes
+\begin{equation}
+\pdv{\mathbf{u}}{t} + 2 \frac{\dot a}{a}\mathbf{u} = - \frac{\nabla_r \delta P}{\rho_0 a^2} - \frac{1}{a^2}\nabla_r \delta \phi
+\end{equation}
+
+%The overdensities in the Universe are measured using a density contrast $\Delta$, defined by $\rho(\mathbf{x}, t) = \bar \rho(t)[1+\delta(\mathbf{x}, t)]$ where the bar denotes the universal mean \citep{mo2010galaxy}. Applying these coordinate transforms and reading from table \ref{tab:thermodynamics} that for matter $\rho \propto a^{-3}$, we can rewrite the continuity, Euler and Poisson equations:
+
 
 % start with LCDM here?
 
