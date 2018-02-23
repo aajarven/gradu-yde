@@ -235,7 +235,7 @@ The different time evolutions of the components also mean that the dominant comp
 
 The geometry of the Universe is also determined by the contents of it. A density threshold known as critical density and defined as
 \begin{equation}
-\rho_{crit,0} \equiv \frac{2H_0^2}{8\pi G}
+\rho_{crit,0} \equiv \frac{3H_0^2}{8\pi G}
 \end{equation}
 acts as a threshold value that separates the different geometries \citep{mo2010galaxy}. Subscript zero comes from $z=0$ and denotes present-day values, but all introduced quantities can also be determined at any other time. The overall density of the universe can be parametrized using this critical density:
 \begin{equation} \label{Omega}
@@ -251,73 +251,77 @@ where $m$, $r$ and $\Lambda$ stand for non-relativistic matter (''matter''), rel
 
 
 \subsection{Structure Formation} \label{universe-structure}
-All structures in the Universe arise from the small perturbations in the matter density in the early universe and the physics that govern their evolution. These primordial density fluctuations that later develop to the structures such as galaxies and galaxy clusters can still be seen in the cosmic microwave background (CMB) \citep{planck2016resultsI}. At $z \approx 1100$, the time of recombination and origin of the CMB photons, these fluctuations are still very small, having $\Delta\rho/\rho \approx 10^{-4}$, but sufficiently overdense regions have already collapsed \citep{mo2010galaxy}. This requires the volume to be sufficiently dense to allow gravity to overcome the expansion of the universe as described by the Friedmann equations.
+All structures in the Universe arise from the small perturbations in the matter density in the early universe and the physics that govern their evolution. Starting at the end of inflation, small density contrasts in the dark matter start to grow. These primordial density fluctuations that later develop into the structures such as galaxy clusters and voids separating them can still be seen in the cosmic microwave background (CMB) \citep{planck2016resultsI}. Starting from the end of inflation, the density contrast of such perturbations in the dark matter begin to grow. While the DM is collisionless, the pressure experienced by baryons slows their structural evolution down. Consequently, their evolution is delayed relative to the dark matter, and baryons sink into potential wells already formed from the dark matter.
+
+At $z \approx 1100$, the time of recombination and origin of the CMB photons, these fluctuations are still very small, having $\Delta\rho/\rho \approx 10^{-4}$, but sufficiently overdense regions have already collapsed \citep{mo2010galaxy}. The gas inside these structures seen as hot spots in the CMB has just reached a density maximum and is shock-heated, while gas inside smaller fluctuations has already begun expanding again, and larger scales have not yet reached their maximum density at the time of the CMB.
+
+At first, the evolution of overdense regions that will later collapse differ from the evolution of the surroundings only by the speed of the expansion of the Universe in that region: denser regions expand slower. Later some of these volumes will start to collapse. This requires the volume to be sufficiently dense to allow gravity to overcome the expansion of the universe as described by the Friedmann equations.
 
 To understand the evolution of density perturbations at early times when the perturbations are still small and evolve linearly, let us consider an ideal fluid of density $\rho$, moving at proper velocity $\mathbf{v}$ and experiencing the gravitational field with potential $\phi$. Growth of a perturbation in this medium is governed by three equations: the equation of continuity describing the conservation of mass, Euler equation governing the motions in the fluid and the Poisson equation describing the gravitational field, or
 \begin{equation}\label{continuity}
-\frac{\textrm{D}\rho}{\textrm{D}t} + \rho \nabla_x\cdot{\mathbf{v}} = 0 \,,,
+\frac{\textrm{D}\rho}{\textrm{D}t} + \rho \nabla_\mathbf{x}\cdot{\mathbf{v}} = 0 \,,
 \end{equation}
 \begin{equation}\label{euler}
-\frac{\textrm{D}\mathbf{v}}{\textrm{D}t} = - \frac{\nabla_x P}{\rho} - \nabla_x\phi
+\frac{\textrm{D}\mathbf{v}}{\textrm{D}t} = - \frac{\nabla_\mathbf{x} P}{\rho} - \nabla_\mathbf{x}\phi
 \end{equation}
 and
 \begin{equation}\label{poisson}
-\nabla_x^2\phi = 4\pi G\rho
+\nabla_\mathbf{x}^2\phi = 4\pi G\rho
 \end{equation}
-respectively \citep{mo2010galaxy}. Here $x$ denotes proper coordinates and $\frac{\textrm{D}}{\textrm{D}t}$ is the convective time derivative, defined as
+respectively \citep{mo2010galaxy}. Here $\mathbf{x}$ denotes proper coordinates and $\frac{\textrm{D}}{\textrm{D}t}$ is the convective time derivative, defined as
 \begin{equation}
-\frac{\textrm{D}}{\textrm{D}t} = \pdv{}{t} + \mathbf{v}\cdot\nabla_x
+\frac{\textrm{D}}{\textrm{D}t} = \pdv{}{t} + \mathbf{v}\cdot\nabla_\mathbf{x}
 \end{equation}
 and describing the time derivative when moving with the fluid \citep{mo2010galaxy}.
 
-Next let us introduce a small perturbation by replacing $\mathbf{v}$, $\rho$, $P$ and $\phi$ with $\mathbf{v_0} + \delta\mathbf{v}$, $\rho_0 + \delta\rho$, $P_0 + \delta P$ and $\phi_0 + \delta \phi$ respectively. Now equations \ref{continuity}--\ref{poisson} are
+Next let us introduce a small perturbation by replacing $\mathbf{v}$, $\rho$, $P$ and $\phi$ with $\mathbf{v_0} + \delta\mathbf{v}$, $\rho_0 + \delta\rho$, $P_0 + \delta P$ and $\phi_0 + \delta \phi$ respectively, having subscript zero represent the properties of the unperturbed medium. Now equations \ref{continuity}--\ref{poisson} are
 \begin{equation}
-\frac{\textrm{D}\rho_0}{\textrm{D}t} + \frac{\textrm{D}\delta\rho}{\textrm{D}t} + \rho_0 \nabla_x\cdot{\mathbf{v}_0} + \rho_0 \nabla_x \delta \cdot{\mathbf{v}} + \delta \rho \nabla_x \cdot{\mathbf{v}}_0 + \delta\rho \nabla_x \delta \cdot{\mathbf{v}}  = 0 \,,
+\frac{\textrm{D}\rho_0}{\textrm{D}t} + \frac{\textrm{D}\delta\rho}{\textrm{D}t} + \rho_0 \nabla_\mathbf{x}\cdot{\mathbf{v}_0} + \rho_0 \nabla_\mathbf{x} \cdot\delta{\mathbf{v}} + \delta \rho \nabla_\mathbf{x} \cdot{\mathbf{v}}_0 + \delta\rho \nabla_\mathbf{x} \cdot\delta{\mathbf{v}}  = 0 \,,
 \end{equation}
 \begin{equation}
-\frac{\textrm{D} \mathbf{v}_0}{\textrm{D}t} + \frac{\textrm{D} \delta\mathbf{v}}{\textrm{D}t}= - \frac{\nabla_x P}{\rho_0 + \delta \rho} - \nabla_x\phi_0 - \nabla_x\delta\phi
+\frac{\textrm{D} \mathbf{v}_0}{\textrm{D}t} + \frac{\textrm{D} \delta\mathbf{v}}{\textrm{D}t}= - \frac{\nabla_\mathbf{x} (P_0 + \delta P)}{\rho_0 + \delta \rho} - \nabla_\mathbf{x}\phi_0 - \nabla_\mathbf{x}\delta\phi
 \end{equation}
 and
 \begin{equation}
-\nabla_x^2\phi_0 + \nabla_x^2\delta\phi = 4\pi G\rho_0 + 4\pi G\delta\rho.
+\nabla_\mathbf{x}^2\phi_0 + \nabla_\mathbf{x}^2\delta\phi = 4\pi G\rho_0 + 4\pi G\delta\rho.
 \end{equation}
-These equations can be greatly simplified by subtracting the unperturbed versions from each and assuming that the initial state is homogeneous and isotropic i.e. $\nabla P_0=0$ and $\nabla \rho_0 = 0$. Using the knowledge that in the linear regime the perturbations are small, the equations get the following forms:
+These equations can be greatly simplified by subtracting the unperturbed versions from each and assuming that the initial state is homogeneous and isotropic i.e. $\nabla P_0=0$ and $\nabla \rho_0 = 0$. Using the knowledge that in the linear regime the perturbations are small and thus discarding second order terms, the equations take the following forms:
 \begin{equation}
-\frac{\textrm{D}}{\textrm{D}t} \frac{\delta \rho}{\rho_0} = -\nabla_x \cdot \delta \mathbf{v}
-\end{equation}
-\begin{equation}
-\pdv{\delta \mathbf{v}}{t} + (\delta \mathbf{v} \cdot \nabla_x) \mathbf{v}_0 = - \frac{\nabla_x \delta P}{\rho_0} - \nabla_x \delta \phi
+\frac{\textrm{D}}{\textrm{D}t} \frac{\delta \rho}{\rho_0} = -\nabla_\mathbf{x} \cdot \delta \mathbf{v}
 \end{equation}
 \begin{equation}
-\nabla_x^2\delta \phi = 4 \pi G \delta \rho
+\pdv{\delta \mathbf{v}}{t} + (\delta \mathbf{v} \cdot \nabla_\mathbf{x}) \mathbf{v}_0 = - \frac{\nabla_\mathbf{x} \delta P}{\rho_0} - \nabla_\mathbf{x} \delta \phi
+\end{equation}
+\begin{equation}
+\nabla_\mathbf{x}^2\delta \phi = 4 \pi G \delta \rho
 \end{equation}
 
-As the Universe is expanding, it is natural to transit to comoving coordinates, defined in \ref{comoving} and denoted by $\mathbf{r}$. This also affects the velocities, and using the dot to denote time derivative we can write
+As the Universe is expanding, it is natural to transit to comoving coordinates, defined in equation \ref{comoving} and denoted by $\mathbf{r}$. This also affects the velocities, and using the dot to denote time derivative we can write
 \begin{equation}
 \mathbf{v} = \dot{\mathbf{x}} = \dot{a}(t)\mathbf{r} + a(t)\dot{\mathbf{r}} = \dot{a}(t)\mathbf{r} + \mathbf{u},
 \end{equation}
-where $\mathbf{u}$ denotes the perturbed comoving velocity. From this it follows that $\delta \mathbf{v} = a \mathbf{u}$. In comoving coordinates the operator $\nabla_x$ is also replaced with $\frac{1}{a}\nabla_r$. Using these and $(a\mathbf{u}\cdot\nabla_x)\dot{a}\mathbf{r}=\mathbf{u}\dot{a}$, the equations can be written as
+where $\mathbf{u}$ denotes the perturbed comoving velocity. From this it follows that $\delta \mathbf{v} = a \mathbf{u}$. In comoving coordinates the operator $\nabla_\mathbf{x}$ is also replaced with $\frac{1}{a}\nabla_\mathbf{r}$. Using these and $(a\mathbf{u}\cdot\nabla_\mathbf{x})\dot{a}\mathbf{r}=\mathbf{u}\dot{a}$, the equations can be written as
 \begin{equation}\label{continuity-modified}
-\frac{\textrm{D}}{\textrm{D}t} \frac{\delta \rho}{\rho_0} = -\nabla_r \cdot \mathbf{u}
+\frac{\textrm{D}}{\textrm{D}t} \frac{\delta \rho}{\rho_0} = -\nabla_\mathbf{r} \cdot \mathbf{u}
 \end{equation}
 \begin{equation}\label{euler-modified}
-\pdv{\mathbf{u}}{t} + 2 \frac{\dot a}{a}\mathbf{u} = - \frac{\nabla_r \delta P}{\rho_0 a^2} - \frac{1}{a^2}\nabla_r \delta \phi.
+\pdv{\mathbf{u}}{t} + 2 \frac{\dot a}{a}\mathbf{u} = - \frac{\nabla_\mathbf{r} \delta P}{\rho_0 a^2} - \frac{1}{a^2}\nabla_\mathbf{r} \delta \phi.
 \end{equation}
 \begin{equation}\label{poisson-modified}
-\nabla_r^2\delta \phi = 4 \pi G \delta a^2 \rho
+\nabla_\mathbf{r}^2\delta \phi = 4 \pi G \delta a^2 \rho
 \end{equation}
 Taking the comoving divergence, equation \ref{euler-modified} gives
 \begin{equation}
-\nabla_r \cdot \dot{\mathbf{u}} + 2 \frac{\dot a}{a}\nabla_r \cdot \mathbf{u} = - \frac{\nabla_r^2 \delta P}{\rho_0 a^2} - \frac{1}{a^2}\nabla_r^2 \delta \phi,
+\nabla_\mathbf{r} \cdot \dot{\mathbf{u}} + 2 \frac{\dot a}{a}\nabla_\mathbf{r} \cdot \mathbf{u} = - \frac{\nabla_\mathbf{r}^2 \delta P}{\rho_0 a^2} - \frac{1}{a^2}\nabla_\mathbf{r}^2 \delta \phi.
 \end{equation}
-where the last term on the right side contains the left side of equation \ref{poisson-modified}, the first term on the left can be found in equation \ref{continuity-modified} after taking the convective time derivative and the second term on the left already contains the right side of \ref{continuity-modified}. Inserting these yields
+There the last term on the right side contains the left side of equation \ref{poisson-modified}, the first term on the left can be found in equation \ref{continuity-modified} after taking the convective time derivative and the second term on the left already contains the right side of \ref{continuity-modified}. Inserting these yields
 \begin{equation}\label{euler-insertions1}
-\frac{\textrm{D}^2}{\textrm{D}^2 t} \frac{\delta \rho}{\rho_0} + 2 \frac{\dot a}{a} \frac{\textrm{D}}{\textrm{D} t} \frac{\delta \rho}{\rho_0} = \frac{\nabla_r^2 \delta P}{\rho_0 a^2} + 4 \pi G \delta \rho.
+\frac{\textrm{D}^2}{\textrm{D}^2 t} \frac{\delta \rho}{\rho_0} + 2 \frac{\dot a}{a} \frac{\textrm{D}}{\textrm{D} t} \frac{\delta \rho}{\rho_0} = \frac{\nabla_\mathbf{r}^2 \delta P}{\rho_0 a^2} + 4 \pi G \delta \rho.
 \end{equation}
 
 The overdensities in the Universe are often denoted using a density contrast $\Delta = \delta\rho/\bar{\rho}$, where the bar denotes the universal mean \citep{mo2010galaxy}. In this case the unperturbed density $\rho$ is the mean density, so the left side of equation \ref{euler-insertions1} can be expressed using $\Delta$. If the density perturbations are assumed to be adiabatic, the adiabatic sound speed $c_s$ relates perturbations in density and pressure as $\delta P / \delta \rho = c_s^2$. Inserting these yields
 \begin{equation}\label{euler-insertions1}
-\frac{\textrm{D}^2\Delta}{\textrm{D}^2 t} + 2 \frac{\dot a}{a} \frac{\textrm{D}\Delta}{\textrm{D} t} = \frac{c_s^2 \nabla_r^2 \delta \rho}{a^2 \rho_0} + 4 \pi G \delta \rho.
+\frac{\textrm{D}^2\Delta}{\textrm{D}^2 t} + 2 \frac{\dot a}{a} \frac{\textrm{D}\Delta}{\textrm{D} t} = \frac{c_s^2 \nabla_\mathbf{r}^2 \delta \rho}{a^2 \rho_0} + 4 \pi G \delta \rho.
 \end{equation}
 
 ??? -> wave equation -> perturbations may be either oscillatory or growing -> Jeans
