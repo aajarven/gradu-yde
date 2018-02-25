@@ -321,8 +321,17 @@ There the last term on the right side contains the left side of equation \ref{po
 
 The overdensities in the Universe are often denoted using a density contrast $\Delta = \delta\rho/\bar{\rho}$, where the bar denotes the universal mean \citep{mo2010galaxy}. In this case the unperturbed density $\rho$ is the mean density, so the left side of equation \ref{euler-insertions1} can be expressed using $\Delta$. If the density perturbations are assumed to be adiabatic, the adiabatic sound speed $c_s$ relates perturbations in density and pressure as $\delta P / \delta \rho = c_s^2$. Inserting these yields
 \begin{equation}\label{euler-insertions1}
-\frac{\textrm{D}^2\Delta}{\textrm{D}^2 t} + 2 \frac{\dot a}{a} \frac{\textrm{D}\Delta}{\textrm{D} t} = \frac{c_s^2 \nabla_\mathbf{r}^2 \delta \rho}{a^2 \rho_0} + 4 \pi G \delta \rho.
+\frac{\textrm{D}^2\Delta}{\textrm{D}^2 t} + 2 \frac{\dot a}{a} \frac{\textrm{D}\Delta}{\textrm{D} t} = \frac{c_s^2 \nabla_\mathbf{r}^2 \Delta \rho_0}{a^2 \rho_0} + 4 \pi G \Delta \rho_0.
 \end{equation}
+
+Now a trial solution of $\Delta \propto e^{i(\mathbf{k}_r\cdot\mathbf{r}-\omega t)}$ corresponding to a wave with comoving wavevector $\mathbf{k}_c$ yields a wave equation
+\begin{equation}\label{wave-equation}
+\frac{\textrm{D}^2\Delta}{\textrm{D}^2 t} + 2 \frac{\dot a}{a} \frac{\textrm{D}\Delta}{\textrm{D} t} = \Delta(4\pi G \rho_0 - k^2c_s^2).
+\end{equation}
+Here $\mathbf{k}_r$ has been replaced by $a\mathbf{k}$ to transform it to proper coordinates. This is a linear second-order partial differential equation that describes the evolution of perturbations. This equation represents the perturbations well if they are assumed to be spatialyl small compared to the observable universe at all times and that all matter behaves as non-relativistic fluid so that Newtonian physics suffice to describe the perturbation.
+
+Whether the waves described by equation \ref{wave-equation} are oscillatory or unstable depends on the sign of the right side of the equation. If $c_s^2k^2 > 4\pi G\rho_0$ the perturbations are oscillating sound waves  supported by the internal pressure of the denser regions, but if $c_s^2k^2 < 4\pi G\rho_0$ the wave is unstable and the modes grow \citep{longair2008galaxy}. In a static universe these density perturbations grow exponentially but in an expanding universe the growth is slower: e.g. in simple Einstein-de Sitter universe with $\Omega_0 = 1$ and $\Omega_Lambda$ = 0 the growth is only algebraically \citep{longair2008galaxy}.
+
 
 ??? -> wave equation -> perturbations may be either oscillatory or growing -> Jeans
 
