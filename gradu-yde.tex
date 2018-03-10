@@ -388,18 +388,51 @@ As the cosmological model and its parameters affect the structure formation, ana
 %For the first 380~000 years in the evolution in the timeline of the Universe, temperature of the universe was high enough to keep hydrogen and helium ionized, and thus the Universe consisted of plasma where radiation could not move freely, which meant that matter and radiation were bound together.
 %After the temperature of the radiation filling the Universe no longer had the energy to keep hydrogen and helium ionized at around 380~000 years after the Big Bang, the Universe became transparent and the gas started to accrete and collapse %TODO kerro paremmin, aloita siitä että pimeä aine klimppiintyy aiemmin? galkos 13 s 15 (pdf)
 
-\section{Local Group}
+\section{The Local Group and Its Mass}
 Galaxy groups are systems of galaxies defined by the number of galaxies within a volume. Exact definitions vary, but typically they are required to have at least three galaxies in a volume with numerical overdensity of the order of 20 \citep{mo2010galaxy}. The Local Group, the galaxy group containing the Milky Way, is the best-known of these galaxy groups as it offers a great opportunity for precise observations: in it much fainter dwarf galaxies can be observed than in any other galaxy group and objects subtend large areas on the sky allowing smaller details to be observed than in more distant galaxies \citep{mo2010galaxy, mcconnachie2012observed}. This makes it an appealing target for testing astrophysical and cosmological models \citep{bullock2017small}.
 
 The Local Group has two major members: the Milky Way and Andromeda Galaxy (M31). In total more than hundred galaxies are known to exist within 3~Mpc of the Sun, more than half of these being satellites for either of the primaries \citep{mcconnachie2012observed}. As the distance range is quite wide, some of the more distant galaxies are likely not bound to the Local Group, but on the other hand there are likely numerous faint dwarf galaxies that remain unseen \citep{mcconnachie2012observed}. Number of these unknown galaxies within the Local Group could be as high as several hundreds \citep{tollerud2008hundreds}.
 
-Number of galaxiesis not the only uncertainty regarding the Local Group: also masses of the system and the individual masses of Milky Way and M31 galaxies are still highly uncertain with different estimates easily differing by a factor 2 or 3 \citep{wang2015estimating, carlesi2016constraining}. This is problematic as in addition to constraining dark matter models as mentioned in section \ref{universe-structure}, the Local Group has a key role in testing the currently dominant $\Lambda$CDM model. The model explains the large-scale structure of the Universe and is able to make accurate predictions on large scales, but at distance scales of a single galaxy group the quality of the predictions is more questionable \citep{bullock2017small}. Two of the possible discrepancies between observations and $\Lambda$CDM predictions are the missing satellites problem and the too-big-to-fail problem.
+Number of galaxiesis not the only uncertainty regarding the Local Group: also masses of the system and the individual masses of Milky Way and M31 galaxies are still highly uncertain with different estimates easily differing by a factor 2~or~3 \citep{wang2015estimating, carlesi2016constraining}. This is problematic as in addition to constraining dark matter models as mentioned in section \ref{universe-structure}, the Local Group has a key role in testing the currently dominant $\Lambda$CDM model. The model explains the large-scale structure of the Universe and is able to make accurate predictions on large scales, but at distance scales of a single galaxy group the quality of the predictions is more questionable \citep{bullock2017small}. Two of the possible discrepancies between observations and $\Lambda$CDM predictions are the missing satellites problem and the too-big-to-fail problem.
 
 The first arises from the fact that both analytical calculations and cosmological simulations produce more low-mass satellites in systems depicting the Local Group than can be observed \citep{klypin1999missing}. To some extent the number of luminous galaxies and dark matter haloes can be expected to differ as stars do not form in all haloes due to reionization and feedback processes such as supernova feedback \citep{efstathiou1992suppressing, larson1974effects}. The problem is also somewhat alleviated by the high estimated number of satellite galaxies that are luminous but faint and yet unseen. It is still uncertain whether the missing satellites problem actually exists, but many modern simulations such as \citep{ garrison2014elvis} and \citep{sawala2016apostle} agree well with observed number of faint satellite galaxies.
 
 Regardless the existence of the missing satellites problem, the most massive dark matter haloes also seem to be more numerous in dark matter only simulations compared to the members of the Local Group. For example the Milky Way has only three satellite galaxies with central densities high enough to allow maximum circular velocities of more than 30 km/s, but simulations tend to produce double or even triple this number of dark matter haloes \citep{sawala2016apostle}. In this case the small central masses of the satellites can be reduced as a result of satellites interacting with the primary and e.g. tidal stripping and ram pressure stripping lowering the central densities \citep{bullock2017small}. As with the missing satellites problem, the difference between the simulations and observations decreases as baryons and baryonic effects are included in the simulations \citep{sawala2016apostle}.
 
+Both these possible problems are sensitive to the mass of the Local Group: a massive haloe is expected to have more subhaloes than less massive ones have. Thus the mass of the Local Group and its members is an intriquing question not only for building up knowledge about our surroundings but also for testing cosmological models. Numerous studies have been conducted to find out the mass, and the following sections outline some of the methods that have been used.
 
+\subsection{Timing Argument}
+One possible way of estimating the lower end of the range of possible Local Group masses is to use the timing argument, first introduced by \citet{kahn1959intergalactic}. It is based on the mutual kinematics of the Milky Way and M31 galaxies and an estimate that they have formed close to each other and are now on orbiting their mutual mass centre, approaching each other for the first time. For a zero angular momentum system, \citeauthor{kahn1959intergalactic} obtain an estimate of minimum total mass of the system can be obtained using Kepler's third law
+\begin{equation}
+P^2 = \frac{4\pi}{GM}a
+\end{equation}
+and the fact that energy is conservated:
+\begin{equation}
+\frac{GM}{2a} = \frac{GM}{D} - E_k.
+\end{equation}
+Many of the quantities that appear in the equations are either known or can be approximated: the current distance $D$ between the Milky Way and the center of mass of the system can be estimated from distance estimate to M31 galaxy, upper limit for $P$ can be obtained using the current age of the Universe and kinetic energy $E_k$ only depends on the velocity of the galaxy, easily obtained using radial velocity measurements. Thus what remains to be solved are semimajor axis $a$ and the effective mass at the center of gravity $M$. The lower limit for the mass of the system derived by \citeauthor{kahn1959intergalactic} was $1.8 \times 10^{12}~M_{\astrosun}$. This is clearly less than current estimates using %TODO TA ja muita
+that tend to favour masses as of around $5 \times 10^{12}~M_{\astrosun}$ \citep{li2008masses, fattahi2016apostle}, but still significantly larger than the observed baryonic mass content of the two galaxies \citep{kahn1959intergalactic}.
+
+The estimate can be improved by using the Kepler's laws in parametric form:
+\begin{equation}
+r = a(1-\cos E)
+\end{equation}
+and
+\begin{equation}
+t = \left(\frac{a^3}{\mu}\right)^{1/2}(E-\sin E)
+\end{equation}
+where $E$ is the eccentric anomaly and $\mu$ is gravitational parameter $GM$ \citep{li2008masses}. These two equations can be combined to determine the value of $\dv{r}{t}$ as
+\begin{equation}
+\dv{r}{t} = \dv{r}{E} \dv{E}{t} = \dv{r}{E} \left(\dv{t}{E}\right)^{-1}.
+\end{equation}
+This yields the following equation:
+\begin{equation}
+\dv{r}{t} = \left(\frac{\mu}{a}\right)^{1/2}\frac{\sin E}{1 + \cos E}.
+\end{equation}
+
+%TODO yhteys minimaailmankaikkeuteen romahtamassa, re: edellisen section jutut
+
+\subsection{Kinematic Tracers}
 %todo:
 %\\- what is a galaxy group
 %\\- why mass matters
@@ -495,8 +528,6 @@ Regardless the existence of the missing satellites problem, the most massive dar
 %
 %M32 ehkä galaksin ydin
 %How have we ended up in a situation described earlier? What will happen in future?
-
-\subsection{Determining the Mass of the Local Group and Its Members}
 
 % dark matter haloes merging a bit?
 
