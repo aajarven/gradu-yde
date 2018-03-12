@@ -402,7 +402,9 @@ Regardless the existence of the missing satellites problem, the most massive dar
 Both these possible problems are sensitive to the mass of the Local Group: a massive haloe is expected to have more subhaloes than less massive ones have. Thus the mass of the Local Group and its members is an intriquing question not only for building up knowledge about our surroundings but also for testing cosmological models. Numerous studies have been conducted to find out the mass, and the following sections outline some of the methods that have been used.
 
 \subsection{Timing Argument}
-One possible way of estimating the lower end of the range of possible Local Group masses is to use the timing argument, first introduced by \citet{kahn1959intergalactic}. It is based on the mutual kinematics of the Milky Way and M31 galaxies and an estimate that they have formed close to each other and are now on orbiting their mutual mass centre, approaching each other for the first time. For a zero angular momentum system, \citeauthor{kahn1959intergalactic} obtain an estimate of minimum total mass of the system can be obtained using Kepler's third law
+One possible way of estimating the lower end of the range of possible Local Group masses is to use the timing argument, first introduced by \citet{kahn1959intergalactic}. It is based on the mutual kinematics of the Milky Way and M31 galaxies and an estimate that they have formed close to each other and are now on orbiting their mutual mass centre, approaching each other for the first time. This corresponds to the structure formation model presented in section \ref{universe-structure}: initially the expansion of the Universe drives the pair further away from each other, but eventually the mass of the system is able to overcome the expansion and the galaxies start to approach each other.
+
+For a zero angular momentum system, \citeauthor{kahn1959intergalactic} obtain an estimate of minimum total mass of the system can be obtained using Kepler's third law
 \begin{equation}
 P^2 = \frac{4\pi}{GM}a
 \end{equation}
@@ -410,27 +412,47 @@ and the fact that energy is conservated:
 \begin{equation}
 \frac{GM}{2a} = \frac{GM}{D} - E_k.
 \end{equation}
-Many of the quantities that appear in the equations are either known or can be approximated: the current distance $D$ between the Milky Way and the center of mass of the system can be estimated from distance estimate to M31 galaxy, upper limit for $P$ can be obtained using the current age of the Universe and kinetic energy $E_k$ only depends on the velocity of the galaxy, easily obtained using radial velocity measurements. Thus what remains to be solved are semimajor axis $a$ and the effective mass at the center of gravity $M$. The lower limit for the mass of the system derived by \citeauthor{kahn1959intergalactic} was $1.8 \times 10^{12}~M_{\astrosun}$. This is clearly less than current estimates using %TODO TA ja muita
-that tend to favour masses as of around $5 \times 10^{12}~M_{\astrosun}$ \citep{li2008masses, fattahi2016apostle}, but still significantly larger than the observed baryonic mass content of the two galaxies \citep{kahn1959intergalactic}.
+Many of the quantities that appear in the equations are either known or can be approximated: the current distance $D$ between the Milky Way and the center of mass of the system can be estimated from distance estimate to M31 galaxy, upper limit for $P$ can be obtained using the current age of the Universe and kinetic energy $E_k$ only depends on the velocity of the galaxy, easily obtained using radial velocity measurements. Thus what remains to be solved are semimajor axis $a$ and the effective mass at the center of gravity $M$. The lower limit for the mass of the system derived by \citeauthor{kahn1959intergalactic} was $1.8 \times 10^{12}~M_{\astrosun}$. This is clearly less than current estimates
+that tend to favour masses around $5 \times 10^{12}~M_{\astrosun}$ \citep{li2008masses, fattahi2016apostle}, but still significantly larger than the observed baryonic mass content of the two galaxies \citep{kahn1959intergalactic}.
 
 The estimate can be improved by using the Kepler's laws in parametric form:
-\begin{equation}
-r = a(1-\cos E)
+\begin{equation}\label{kepler-r}
+r = a(1-\cos(E))
 \end{equation}
 and
-\begin{equation}
-t = \left(\frac{a^3}{\mu}\right)^{1/2}(E-\sin E)
+\begin{equation}\label{kepler-t}
+t = \left(\frac{a^3}{\mu}\right)^{1/2}(E-\sin(E))
 \end{equation}
 where $E$ is the eccentric anomaly and $\mu$ is gravitational parameter $GM$ \citep{li2008masses}. These two equations can be combined to determine the value of $\dv{r}{t}$ as
 \begin{equation}
 \dv{r}{t} = \dv{r}{E} \dv{E}{t} = \dv{r}{E} \left(\dv{t}{E}\right)^{-1}.
 \end{equation}
 This yields the following equation:
-\begin{equation}
-\dv{r}{t} = \left(\frac{\mu}{a}\right)^{1/2}\frac{\sin E}{1 + \cos E}.
+\begin{equation}\label{orbit-speed}
+\dv{r}{t} = \left(\frac{\mu}{a}\right)^{1/2}\frac{\sin(E)}{1 - \cos(E)}.
 \end{equation}
 
-%TODO yhteys minimaailmankaikkeuteen romahtamassa, re: edellisen section jutut
+Solving $a$ and $\sqrt{\mu}$ from equations \ref{kepler-r} and \ref{kepler-t} yields
+\begin{equation}\label{timing-a}
+a = \frac{r}{1-\cos(E)}
+\end{equation}
+and
+\begin{equation}\label{timing-mu}
+\sqrt{\mu} = \frac{a^\frac{3}{2}}{t}(E - \sin(E))
+\end{equation}
+respectively and inserting them into equation \ref{orbit-speed} gives
+\begin{equation}
+\frac{vt}{r} = \frac{\sin (E) \left(E - \sin(E)\right)}{(1- \cos(E))^2},
+\end{equation}
+where velocity $v$ and distance $r$ can be deduced from observations and if the Milky Way and M31 are on their first orbit, $t$ is the age of the Universe. Thus $E$ can be solved numerically. Now inserting equations \ref{timing-a} and the solved value of $E$ into \ref{timing-mu}, a value for $\mu$ and thus the combined mass of the pair is acquired.
+
+Getting an estimate is simple, but the results are burdened with the assumptions that are made of the system. Modern values for the velocity and distance yield a virial mass of $(4.23 \pm 0.45) \times 10^{12}~M_{\astrosun}$ for the Local Group \citep{vandermarel2012m31}. This is considerably higher mass than masses calculated for the Milky Way and Andromeda galaxies using kinematic tracers of the gravitational field suggest  \citep{wang2015estimating}, but at least some of the effect might be explained by the timing argument is sensitive to a larger volume of mass compared to satellite galaxies and other kinematic tracers \citep{kroeker1991accuracy}.
+
+The assumption of the galaxies being on their first approach is likely to be valid as higher number of completed orbits would result in higher mass, which does not seem physically realistic. Applying Kepler's laws also requires the masses to be approximated as point masses.  If the dark matter haloes of the galaxies are assumed to be spherically symmetrical, this is not a problem if the haloes are sufficiently far from each other, but at times when the center of one halo is encompassed in the other halo, the accuracy of the model is compromised. Indeed the mass estimates acquired using timing argument seem to be best consistent with the mass enclosed in two spheres surrounding the two galaxies with radii of half the distance between the galaxies \citep{kroeker1991accuracy}. 
+
+The assumption of radial orbit is likely fairly good as the estimated tangential velocities are small. For example \citep{vandermarel2012m31} give a mass estimate of 17~km/s with $v_{t} < 34$~km/s at 1~$\sigma$ confidence. It is also possible to carry out the calculations above for elliptical orbits as is done by \citet{einasto1982mass}. A non-zero tangential velocity increases the resulting mass: for example \citet{vandermarel2012m31} five a mass of $4.27 \pm 0.53 \times 10^{12}~M_{\astrosun}$ when the tangential velocity is included. Even if external forces felt by the galaxies do not result in significant tangential velocities for the galaxies, they can affect the system in other ways. Large-scale structure surrounding the Local Group can apply forces and torques and smaller members of the Local Group interact with the primary members as was noted by \citet{kahn1959intergalactic}.
+
+Other structures can also be used to infer the masses of Milky Way and M31 galaxies. For example \citet{zaritsky1989velocities} used Leo I, a Milky Way satellite with high galactocentric velocity, to estimate the mass of the Milky Way by a calculation similar to the timing argument. This is done by assuming that the satellite is bound to the Milky Way which is the only body gravitationally influencing it and that it is on a radial orbit, having passed the periapsis once and now moving towards the apoapsis. This yielded a lower limit of $1.3 \times 10^{12}~M_{\astrosun}$ for the mass of the Milky Way \citep{zaritsky1989velocities}.
 
 \subsection{Kinematic Tracers}
 %todo:
