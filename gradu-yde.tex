@@ -639,8 +639,8 @@ When the low-resolution box reached redshift $z=0$, haloes were identified using
 täällä tarvittavat esitiedot ja önnönnöö, listaa mm. mitä aiot kertoa kunhan tiedät itsekään
 
 \section{Statistical Background}
-\reversemarginpar
-\marginnote{\footnotesize{vähän parempi tässä kuin aiemman otsikon alla}}
+%\reversemarginpar
+%\marginnote{\footnotesize{vähän parempi tässä kuin aiemman otsikon alla}}
 Precision of the used equipment limits accuracy of all data gathered from physical experiments, simulations or observations. Therefore the results are affected by the measurement process and the results have to be presented as estimates with some error, magnitude of which is affected by both number of data points and accuracy of the measurement equipment \citep{bohm2010introduction}.
 
 Estimating errors for measured quantities offers a way to test hypotheses and compare different experiments \citep{bohm2010introduction}. This is done using different statistical methods, of which the main methods relevant for this thesis are covered here. The methods are shortly introduced in the following sections together with basic statistical concepts that are necessary to understand the methods. 
@@ -656,8 +656,8 @@ the significance level $\alpha$ which corresponds to the probability of rejectin
 
 This kind of probability based decision making is always prone to error. It is easy to see that $\alpha$ corresponds to the chance of $H_0$ being rejected when it is true. This is known as error of the first kind. However, this is not the only kind of error possible. It might also occur that $H_0$ is false but it does not get rejected, which is known as error of the second kind.
 
-\reversemarginpar
-\marginnote{\footnotesize{kerro mikä $\alpha$ ja N käytössä myöhemmin kunhan tiedät}}
+%\reversemarginpar
+%\marginnote{\footnotesize{kerro mikä $\alpha$ ja N käytössä myöhemmin kunhan tiedät}}
 There is no one optimal way of choosing $\alpha$, but instead one should try to find a balance between false rejections of null hypothesis and not being able to reject null hypothesis based on the dataset even if in reality it might not be true. When sample size (often denoted $N$) is large, smaller values of $\alpha$ can often be used as decisions get more accurate when $N$ grows. For example tässä työssä $\alpha$ oli jokin ja $N$ jotain muuta.
 
 It is crucial not to look at the test results before choosing $\alpha$ in order to avoid intentional or unintentional fiddling with the data or changing the criterion of acceptance or rejectance to give desired results. Only after these steps should the test statistic be calculated. If the test statistic falls within the critical region, $H_0$ should be rejected and otherwise stated that $H_0$ cannot be rejected at this significance level. The critical values for different test statistics are widely found in statistical textbooks and collections of statistical tables or they can be calculated using statistical or scientific libraries available for many programming languages.
@@ -665,13 +665,13 @@ It is crucial not to look at the test results before choosing $\alpha$ in order 
 Despite statistical tests having a binary outcome ''$H_0$ rejected'' or ''$H_0$ not rejected'', a continuous output is often desired. This is what p-values are used for. The name p-value hints towards probability, but despite its name p-value is not equal to the probability that the null hypothesis is true. These p-values are functions of a test statistic and the p-value for a certain value $t_{obs}$ of a test statistic gives the probability that under the condition that $H_0$ is true, the value of a test statistics for a randomly drawn sample is at least as extreme as $t_{obs}$. Therefore if p-value is smaller than $\alpha$, $H_0$ is to be rejected.
 
 \subsection{Distribution functions} \label{sect:distribution-functions}
-\reversemarginpar
-\marginnote{\footnotesize{ei hyvä, harkitse esim http://puppu\-lause\-generaattori.fi/?ava\-in\-sana=ja\-kau\-ma\-funk\-tio}}
+%\reversemarginpar
+%\marginnote{\footnotesize{ei hyvä, harkitse esim http://puppu\-lause\-generaattori.fi/?ava\-in\-sana=ja\-kau\-ma\-funk\-tio}}
 Some statistical tests such as the Kolmogorov-Smirnov test and the Anderson-Darling test make use of distribution functions such as cumulative density function (CDF) and empirical distribution function (EDF) in determining the distribution from which a sample is drawn. %Therefore it is important to grasp these concepts in order to fully understand these tests. [this is shit t. puppe]
 
 To understand CDF and EDF, one must first be familiar with probability density function (PDF).
-\reversemarginpar
-\marginnote{\footnotesize{PDF määritelmä vaikea ymmärtää}}[0.5cm]
+%\reversemarginpar
+%\marginnote{\footnotesize{PDF määritelmä vaikea ymmärtää}}[0.5cm]
 As the name suggests, PDF is a function the value of which at some point $x$ represents the likelihood that the value of the random variable would equal $x$. This is often denoted $f(x)$. Naturally for continuous functions the probability of drawing any single value from the distribution is zero, so these values should be interpreted as depicting relative likelihoods of different values. For example if $f(a)=0.3$ and $f(b)=0.6$ we can say that drawing value $b$ is twice as likely as drawing value $a$. \citep{htk}
 
 Another way to use the PDF is to integrate it over semi-closed interval from negative infinity to some value $a$ to obtain the CDF, often denoted with $F(x)$:
@@ -681,8 +681,8 @@ Another way to use the PDF is to integrate it over semi-closed interval from neg
 This gives the probability of a random value drawn from the distribution having value that is smaller than $x$. Relation between the PDF and the CDF is illustrated in figure \ref{fig:cdf}, where PDFs and CDFs are shown for three different distributions. It is easy to see the integral relation between PDF and CDF and how wider distributions have wider CDFs. \citep{htk}
 
 \begin{figure}
-   \reversemarginpar
-	\marginnote{\footnotesize{lisää johonkin selitys normaalijakauman parametreille}}
+%   \reversemarginpar
+%	\marginnote{\footnotesize{lisää johonkin selitys normaalijakauman parametreille}}
    \centering
    \includegraphics[width=0.9\textwidth]{kuvat/cdf.png}
    \caption{Cumulative distribution function (top panel) for three random samples (PDFs shown in the bottom panel) drawn from different distributions, two of which are normal and one is uniform. Parameters $\mu$ and $\sigma$ of the normal distribution describe the mean and the spread of the distribution respectively, large values of $\sigma$ resulting in wide distribution.}
@@ -690,16 +690,16 @@ This gives the probability of a random value drawn from the distribution having 
 
 \end{figure}
 
-\reversemarginpar
-\marginnote{\footnotesize{esittelet nyt nolosti EDF:n nimeltä kahdesti, mieti ratkaisu}}
+%\reversemarginpar
+%\marginnote{\footnotesize{esittelet nyt nolosti EDF:n nimeltä kahdesti, mieti ratkaisu}}
 Both the PDF and the CDF apply to whole population or the set of all possible outcomes of a measurement. In reality the sample is almost always smaller than this. Therefore one cannot measure the actual CDF. Nevertheless, it is possible to calculate a similar measure of how big a fraction of measurements falls under a given value. This empirical counterpart of the CDF is known as empirical distribution function (EDF), often denoted $\hat F(x)$, and for a dataset $X_1, X_2,\,..., X_n$ containing $n$ samples it is defined to be
 \begin{equation}
 	\hat F(x) = \frac{1}{n}\sum_{i=1}^n I[X_i \leq x]
 \end{equation}
 where $I$ is the indicator function, value of which is 1 if the condition in brackets is true, otherwise 0. \citep{feigelson2012modern}
 
-\reversemarginpar
-\marginnote{\footnotesize{harkitse laittavasi jämpti arvo N:lle kun muut osat valmiita}}
+%\reversemarginpar
+%\marginnote{\footnotesize{harkitse laittavasi jämpti arvo N:lle kun muut osat valmiita}}
 Due to the EDF being a result of random sampling, it may deviate from the underlying CDF considerably as can be seen by comparing CDFs in figure \ref{fig:cdf} and corresponding EDFs in figure \ref{fig:edf}. This example is somewhat exaggerated with its $N$=35 as the actual dataset used in this thesis has $N$>100, but reducing the sample size makes seeing the effects of random sampling easier. The latter figure also has EDFs corresponding to two random samples drawn from the distribution of the green curve in the first figure to further illustrate the differences that can arise from random sampling. This randomness also makes determining whether two samples are drawn from the same distribution difficult.
 
 \begin{figure}
@@ -730,8 +730,8 @@ are nonlinear.
 
 
 \subsection{Simple linear regression}
-\reversemarginpar
-\marginnote{\footnotesize{onko otsikko järkevä kun }}
+%\reversemarginpar
+%\marginnote{\footnotesize{onko otsikko järkevä kun }}
 Simple linear regression is a model with a single predictor variable and a single response variable with a straight line relationship, i.e.
 \begin{equation}
 	y = \beta_0 + \beta_1 x + \varepsilon
@@ -745,8 +745,8 @@ where parameter $\beta_0$ represents the $y$ axis intercept of the line and $\be
    \label{fig:OLS}
 \end{figure}
 
-\reversemarginpar
-\marginnote{\footnotesize{toisiko jotain lisää jos olisi $\beta_1$ ja $\beta_2$ lausekkeet?}}
+%\reversemarginpar
+%\marginnote{\footnotesize{toisiko jotain lisää jos olisi $\beta_1$ ja $\beta_2$ lausekkeet?}}
 The best-known method of minimizing the sum of squared error is the ordinary least-squares (OLS) estimator. The OLS method uses distances measured vertically as shown in figure \ref{fig:OLS} and thus the minimized sum is
 \begin{equation}
 	\sum_{i=1}^n (y_i - \beta_0 - \beta_1 x_i)
@@ -760,8 +760,8 @@ where $x_1$ and $y_i$ are single values of the measured quantities \citep{feigel
    \label{fig:OLSproblem}
 \end{figure}
 
-\reversemarginpar
-\marginnote{\footnotesize{HF: OLS/TLS? Sido PCA:han}}
+%\reversemarginpar
+%\marginnote{\footnotesize{HF: OLS/TLS? Sido PCA:han}}
 When dividing the variables to the independent variable with no error and a response variable with possible measurement error is not a justifiable choice OLS should not be used. One alternative for OLS is total least squares (TLS, also known as orthogonal least squares in some sources such as \citep{feigelson2012modern}) regression can be used instead of OLS \citep{markovsky2007overview}.  The major difference between OLS and TLS is that instead of vertical distance, the minimized squared distance is measured between a point and its projection to the fitted line, thus providing minimum of the sum of the squared orthogonal distances from the line \citep{feigelson2012modern}.
 
 \begin{figure}
@@ -795,12 +795,12 @@ ongelman kuvailu, esim OLS:lle yleistys, jälleen liittyy PCA
 
 
 \section{Principal Component Analysis}
-\reversemarginpar
-\marginnote{\footnotesize{orthogonal vs uncorrelated}}
+%\reversemarginpar
+%\marginnote{\footnotesize{orthogonal vs uncorrelated}}
 Principal component analysis (PCA) is a statistical procedure first introdueced by \citet{pearson1901lines} to aid physical, statistical and biological investigations where fitting a line or a plane to n-dimensional dataset is desired. When performing PCA, one transforms a data set to new set of uncorrelated variables i.e.\ ones represented by orthogonal basis vectors. These variables are called principal components (PCs) \citep{jolliffe2002principal}. This approach also solves the problem of sometimes arbitrary choice of division of the data to dependent and independent variables introduced in section 4.2.something \citet{pearson1901lines}. 
 
-\reversemarginpar
-\marginnote{\footnotesize{not sure if kannattaa kuvaille proseduuria erityisen tarkkaan, selityksestä tulee pitkällinen jos aikoo aloittaa keskimääräisen tähtitieteilijän lähtötasolta, ehkä vain ohjaa lähteeseen}}
+%\reversemarginpar
+%\marginnote{\footnotesize{not sure if kannattaa kuvaille proseduuria erityisen tarkkaan, selityksestä tulee pitkällinen jos aikoo aloittaa keskimääräisen tähtitieteilijän lähtötasolta, ehkä vain ohjaa lähteeseen}}
 PCA can be used to both reduce and interpret data \citep{johnson2007applied}. Often PCA alone does not produce the desired result, but instead PCs are used as a starting point for other analysis methods such as factor analysis or multiple regression \citep{johnson2007applied}. These applications are introduced in the following subsections together with a short description of performing PCA and interpreting its results. In addition to  these applications, PCA is also used in image compression, face recognition and other fields \citep{smith2002tutorial}.
 
 \subsection{Extracting Principal Components}
@@ -812,8 +812,8 @@ PCA can be used to both reduce and interpret data \citep{johnson2007applied}. Of
 
 In order to understand the process of obtaining principal components of a data set let us follow the procedure on a two-dimensional data set shown in the top panel of figure \ref{fig:pca-illustrated} with black dots. First step of finding the PCs is to locate the centroid of the dataset i.e.\ the mean of the data along every axis \citep{smith2002tutorial}. This is marked with a red x in the top panel of figure \ref{fig:pca-illustrated}.
 
-\reversemarginpar
-\marginnote{\footnotesize{jos päädyt puhumaan eigenvektoreista tai kovarianssimatriiseista, selitä ne täällä}}
+%\reversemarginpar
+%\marginnote{\footnotesize{jos päädyt puhumaan eigenvektoreista tai kovarianssimatriiseista, selitä ne täällä}}
 The best-fit line and therefore the PCs always pass through the centroid of the system \citep{pearson1901lines}, so subtracting the location of the centroid from the data is a natural next step, as this ensures that in the next step only the slope has to be optimized. This is done in the middle panel of the figure \ref{fig:pca-illustrated}. If the variables have different units, each variable should be scaled to have equal standard deviations \citep{james2013introduction} unless the linear algebra based approach with correlation matrices, as explained in e.g. \citep{jolliffe2002principal}, is used.
 
 If this scaling is not performed, the choice of units can arbitrarily skew the principal components. This is easy to see when considering for example a case where one has distances to galaxies in megaparsecs and their masses in units of $10^{12}\ M_{\astrosun}$, both of which might result in standard deviations being of the order of unity and PCA might thus yield principal components that are not dominated by neither variable alone. Now, say another astronomer has a similar data set, but distances are given in meters. In this case, most of the variation is in the distances, so distances will also dominate the PCs. If all variables are measured in the same units, scaling can be omitted in some cases \citep{james2013introduction}.
@@ -822,14 +822,14 @@ Now the first PC can be located by finding the line that passes through the orig
 
 Had the data set had more than two dimensions, the second PC would have been chosen such that it and the first PC are orthogonal and that variance along the new PC is again maximised \citep{jolliffe2002principal}. This can be repeated for each dimension of the data set or, if dimensionality reduction is desired, only for a smaller number of dimensions.
 
-\reversemarginpar
-\marginnote{\footnotesize{mieti mitä monospeissillä ja ole konsistentti}}
+%\reversemarginpar
+%\marginnote{\footnotesize{mieti mitä monospeissillä ja ole konsistentti}}
 This level of understanding is often enough to successfully apply PCA to a problem, because PCA has ready-made implementations for many programming languages such as \texttt{prcomp} in R \citep{james2013introduction} and \texttt{sklearn.decomposition.PCA} in scikit-learn library \citep{scikit-learn} for Python. If a more mathematical approach is desired, \citet{smith2002tutorial} explains PCA together with covariance matrices, eigenvectors and eigenvalues required to understand the process very clearly. \citet{jolliffe2002principal} also includes a very thorough description of PCA.
 
 
 \subsection{Excluding Less Interesting Principal Components}
-\reversemarginpar
-\marginnote{\footnotesize{maininta bootstrappingista (loppuun?) ja siitä, että maistuu koneoppiminen?}}
+%\reversemarginpar
+%\marginnote{\footnotesize{maininta bootstrappingista (loppuun?) ja siitä, että maistuu koneoppiminen?}}
 Even though a data set has as many principal components as there are measured variables, one is often not interested in all of them as the last principal components might explain only a tiny fraction of the total variation in the data \citep{james2013introduction}. Reducing the dimensionality of the problem also greatly eases visualizing and interpreting the data. Thus one might want to retain only first few of the PCs when PCA is used to for example compress, visualize or just interpret the data set at hand \citep{james2013introduction, johnson2007applied}. Unfortunately, many of the rules and methods used to determine the number of PCs to retain are largely without a formal basis or require assuming a certain distribution which is often not justifiable with the data \citep{jolliffe2002principal}. With careful consideration these methods can nevertheless aid a researcher in making informed decisions and reasoned conclusions, so some rules are introduced in this section.
 
 If the PCA is performed to aid visualizing the data set, retaining only the two first PCs can be a justified choice as two is the maximum number of dimensions that are easy to visualize on two-dimensional media such as paper and the two first PCs determine the best-fit plane for the data \citep{jolliffe2002principal}. Of course the question whether the two PCs are sufficient to describe the data reasonably well still remains unanswered in this case. Fortunately it can be addressed using some of the following methods used in general case of determining how many PCs to retain.
@@ -846,8 +846,8 @@ When the scree plot has two clearly different areas, the steep slope correspondi
 
 Unfortunately, as Cattell also acknowledges in his paper, all cases are not as easy to analyze as the one in figure \ref{fig:scree} and may prove difficult to discern for an inexperienced researcher. This problem might arise from for example noise in the linear part of the plot or scree line consisting of two separate linear segments with different slopes. The first case has no easy solution, but in the latter case Cattell suggests using the smaller number of PCs.
 
-\reversemarginpar
-\marginnote{\footnotesize{joku kiva lopetus tämän jälkeen?}}
+%\reversemarginpar
+%\marginnote{\footnotesize{joku kiva lopetus tämän jälkeen?}}
 Another straightforward method for choosing how many PCs to retain is to examine how much of the total variation in data is explained by first PCs and including components only up to a point where pre-defined percentage of the total variance is explained \citep{jolliffe2002principal}. Whereas the previous method posed a challenge in determining which PC best matches the exclusion criteria, when using this approach the problem arises from choosing the threshold for including PCs. \citet{jolliffe2002principal} suggests that a value between 70~\% and 90~\% of the total variation is often a reasonable choice, but admits that the properties of the data set may justify values outside this range. Unfortunately, the suggested range is quite wide, so it may contain pultiple PCs and therefore it is up to the researcher to determine the best number of PCs, while the criterion again acts as only an aid in the process. 
 
 
@@ -861,8 +861,8 @@ Another straightforward method for choosing how many PCs to retain is to examine
 
 
 \section{Comparing two samples drawn from unknown distributions}
-\reversemarginpar
-\marginnote{\footnotesize{TODO: oispa parempi otsikko. mieti, onko tämä muutenkaan hyvä nyt kun on siirretty yksi otsikkotaso ylöspäin}}[-3cm]
+%\reversemarginpar
+%\marginnote{\footnotesize{TODO: oispa parempi otsikko. mieti, onko tämä muutenkaan hyvä nyt kun on siirretty yksi otsikkotaso ylöspäin}}[-3cm]
 A common question in multiple fields of science is whether two or more samples are drawn from the same distribution. The most relevant methods that can be used to address this problem are introduced here following \citep{bohm2010introduction} and \citep{feigelson2012modern} apart from introducing the $\chi^2$ test which is mostly based on the approach of \citep{corder2014nonparametric}.
 
 Questions related to comparing samples can emerge for example when comparing effectiveness of two procedures, determining if the instrument has changed over time or whether observed data is compatible with simulations. There are multiple two-sample tests that can address this kind of questions, e.g. $\chi^2$, Kolmogorov-Smirnov, Cram\'er-von Mises and Anderson-Darling tests. 
@@ -871,8 +871,8 @@ In addition to comparing two samples, these tests can be used as one-sample test
 
 
 \subsection{$\chi^2$ test}
-\reversemarginpar
-\marginnote{\footnotesize{keksi paremmat esimerkit koko kappaleeseen, jotain relevanttia myöhempää tutkimusta ajatellen. katso kommentit paperista sen jälkeen, kaikkia ei täällä vielä}}
+%\reversemarginpar
+%\marginnote{\footnotesize{keksi paremmat esimerkit koko kappaleeseen, jotain relevanttia myöhempää tutkimusta ajatellen. katso kommentit paperista sen jälkeen, kaikkia ei täällä vielä}}
 Astronomical data often involves classifying objects into categories such as ''stars with exoplanets'' and ''stars without exoplanets'' or the spectral classes of stars  \citep{feigelson2012modern}. One tool for analyzing such categorical data is $\chi^2$ test, which can be used both to determine whether a sample can be drawn from a certain distribution and to test whether two samples can originate from a single distribution. 
 
 The method described here is sometimes referred to as Pearson's $\chi^2$ test due to existence of other tests where $\chi^2$ distribution is used. In some cases, such as with small $2 \times 2$ contingency tables and when expected cell counts are small, other variants of $\chi^2$ test should be used. For example the Yates's $\chi^2$ test or the Fisher exact test work better in these cases than the $\chi^2$ test.
@@ -950,8 +950,8 @@ uses the maximum vertical distance of the EDFs. This test statistic is then used
 
 As an example, let us consider two pairs of samples from figure \ref{fig:edf}: green and blue (two samples drawn from different normal distributions) and blue and cyan (two samples drawn from same normal distribution). We can formulate the test and null hypotheses for both pairs as $H_0$=''the two samples are drawn from the same distribution'' and $H_1$=''the two samples are not drawn from the same distribution'' and choose a significance level of for example $\alpha=0.05$ or $\alpha=0.01$.
 
-\reversemarginpar
-\marginnote{\footnotesize{mistä p-value saadaan, kerro taas aiemmin (tai täällä)}}
+%\reversemarginpar
+%\marginnote{\footnotesize{mistä p-value saadaan, kerro taas aiemmin (tai täällä)}}
 The test statistic is then calculated and for these samples we get $D=0.51$ for the green-blue pair and $D=0.20$ for the blue-cyan pair. Test statistics are illustrated in figure \ref{fig:ks} where the test statistics $D$ are shown as vertical magenta lines. According to Python function \texttt{scipy.stats.ks\_2samp}, these values of $D$ correspond to p-values $9.9\times 10^{-5}$ and $0.44$ respectively, which means that the null hypothesis ''green and blue samples are drawn from the same distribution'' is rejected at both 0.05 and 0.01 significance levels but the null hypothesis ''blue and cyan samples are drawn from the same distribution'' cannot be rejected.
 
 \begin{figure}
@@ -965,8 +965,8 @@ In this case the KS test produced result that matches the actual distributions f
 
 The latter example case also illustrates one major shortcoming of the KS test: it is not very sensitive to small-scale differences near the tails of the distribution. For example in figure \ref{fig:ks-error} the blue sample goes much further left, but because EDF is always zero at the lowest allowed value and one at the highest one the vertical distances near the tails are small and the test is most sensitive to differences near the median value of the distribution. On the other hand, the test performs quite well when the samples differ globally or have different means. \citep{feigelson2012modern}
 
-\reversemarginpar
-\marginnote{\footnotesize{"explain better"}}[1.8cm]
+%\reversemarginpar
+%\marginnote{\footnotesize{"explain better"}}[1.8cm]
 The KS test is also subject to some limitations and it is important to be aware of them in order to avoid misusing it. First of all, the KS test is not distribution free if the model parameters, e.g. mean and standard deviation for normal distribution, are estimated from the dataset that is tested. Thus the tabulated critical values can be used only if model parameters are determined from some other source such as a simulation, theoretical model or another dataset.
 
 Another severe limitation of KS test is that it is only applicable to one-dimensional data. If the dataset has two or more dimensions, there is no unique way of ordering the points to plot EDF and therefore if KS test is used, it is no longer distribution free. Some variants that can handle two or more dimensions have been invented, such as ones by \citet{peacock1983twodimensional} and \citet{fasano1987multidimensional}, but the authors do not provide formal proof of validity of these tests. Despite this, the authors claim that Monte Carlo simulations suggest that the methods work adequately well for most applications.
@@ -975,8 +975,8 @@ Another severe limitation of KS test is that it is only applicable to one-dimens
 
 
 \subsection{Other tests based on EDFs}
-\reversemarginpar
-\marginnote{\footnotesize{ehkä vähän lyhyenpuoleisia kappaleita}}
+%\reversemarginpar
+%\marginnote{\footnotesize{ehkä vähän lyhyenpuoleisia kappaleita}}
 Unsatisfactory sensitivity of the KS test motivates the use of other more complex tests. Such tests are for example the Cram\'er-von Mises test (CvM) and Anderson-Darling (AD) test, both of which have their strengths. Similar to KS test, both of these can be used as one-sample or two-sample variants.  
 
 First of these tests integrates over the squared difference between the EDF of the sample and CDF from the model or two EDFs in case of two-sample test. The test statistic $W^2$ for one-sample case can be expressed formally as
@@ -993,8 +993,8 @@ In order to achieve constant sensitivity over the entire range of values, the st
 \end{equation}
 where $N$ is the number of data points in sample. This weighing makes the test more powerful than the KS and CvM tests in many cases. \citep{bohm2010introduction, feigelson2012modern}
 
-\reversemarginpar
-\marginnote{\footnotesize{hnnngh}}
+%\reversemarginpar
+%\marginnote{\footnotesize{hnnngh}}
 Also other more specific tests exist, such as the Kuiper test which is well suited for cyclic measurements. The test should always be chosen to match the dataset such that it best differentiates between the null and research hypotheses.
 
 \section{Cluster Analysis}
