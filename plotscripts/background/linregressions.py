@@ -55,16 +55,16 @@ if __name__ == "__main__":
 	ax.scatter(x, y, color='k', s=20)
 	ax.plot([-plotxlimit, plotxlimit], [intercept1 - slope1*plotxlimit,
 									 intercept1 + slope1*plotxlimit],
-		 color='k', linewidth=2.0, label="vertical distances")
+		 color='k', linewidth=2.0, label="using vertical\ndistances")
 
 	ax.plot([-plotxlimit, plotxlimit], [(plotxlimit + intercept2)*-1.0/slope2,
 									 (plotxlimit - intercept2)/slope2],
 		 color='k', linewidth=2.0, linestyle="--",
-		 label="horizontal distances")
+		 label="using horizontal\ndistances")
 
 #	plt.legend(loc=2)
-#	ax.legend(bbox_to_anchor=(1.1, 0.25), frameon=False)
-	ax.legend(bbox_to_anchor=(0.78, 1.06), frameon=False)
+	ax.legend(bbox_to_anchor=(1.23, 0.35), frameon=False)
+#	ax.legend(bbox_to_anchor=(0.78, 1.06), frameon=False)
 
 	ax.set_xlim(-1*plotxlimit, plotxlimit)
 	ax.set_ylim(min(y)-0.5, max(y)+0.5)
