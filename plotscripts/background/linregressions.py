@@ -109,7 +109,7 @@ if __name__ == "__main__":
 		 color='k', linewidth=2.0, zorder=2)
 	for x0, y0 in zip(x, y):
 		xx, yy = orthogonalIntercept(x0, y0, slope3, intercept3)
-		ax.plot([x0, xx], [y0, yy], color='k', zorder=1)
+		ax.plot([x0, xx], [y0, yy], color='0.4', zorder=1)
 
 	ax.set_xlim(-1*plotxlimit, plotxlimit)
 	ax.set_ylim(min(y)-0.5, max(y)+0.5)
