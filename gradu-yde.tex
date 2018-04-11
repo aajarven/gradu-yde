@@ -586,7 +586,7 @@ Updating the positions of the particles is done using an integrator resembling t
 \subsection{Parent simulation}
 First step of a zoom-in simulation running process is to construct initial conditions and run a low-resolution box. A large box with a side length of 542.16 Mpc/h was used to ensure that the box is big enough to contain a reasonable sample of Local Group analogues and that the large scale structure of the universe is represented in the simulation. At $z = 0$ this corresponds to a volume of $800^3$~Mpc$^3$.
 
-The volume contained about $1.3 \times 10^{11}$ dark matter particles, each with a mass of about $1.6 \times 10^8~\mathrm{M_{\astrosun}}$. This determines the mass resolution of the simulation: objects smaller than the mass of a single particle are not seen at all and reliable analysis cannot be made of objects that are made of a small number of particles. This means that spiral and elliptical galaxies can be studied but all dwarf galaxies are not resolved. The spatial resolution of the simulation is determined by the softening length: TODO mikä softening %TODO %TODO viittaa taulukkoon
+The volume contained about $1.3 \times 10^{11}$ dark matter particles, each with a mass of about $1.6 \times 10^8~\mathrm{M_{\astrosun}}$. This determines the mass resolution of the simulation: objects smaller than the mass of a single particle are not seen at all and reliable analysis cannot be made of objects that are made of a small number of particles. This means that spiral and elliptical galaxies can be studied but all dwarf galaxies are not resolved. The spatial resolution of the simulation is determined by the softening length: the distance within the gravitational interaction calculations are modified in order to remove singularities and avoid extreme accelerations. In the parent simulation a softening length of 2.3~kpc/h was used. The properties of the parent simulation are shown in table \ref{tab:parentBox}.
 
 \begin{table}
 	\centering
@@ -600,12 +600,15 @@ The volume contained about $1.3 \times 10^{11}$ dark matter particles, each with
 	\caption{Properties of the parent simulation.} \label{tab:parentBox}
 \end{table}
 
+The cosmology of the simulation is a standard $\Lambda$CDM cosmology with cosmological parameters of \citet{planck2014resultsXVI}, shown in table \ref{tab:cosmopars}. For a dark matter only simulation the $\Omega_b$ is naturally ignored and all matter treated as dark matter. The $\sigma_8$ parameter shown in the table is used to define the amplitude of the power spectrum in the initial conditions.
+
 \begin{table}
 	\centering
 	\begin{tabular}{| l | l |}
 		\hline
 		$H_0$ & 67.77 km/s/Mpc\\ \hline
 		$\Omega_m$ & 0.307 \\ \hline
+		$\Omega_b$ & 0.0455 \\ \hline
 		$\Omega_\Lambda$ & 0.693 \\ \hline
 		$\sigma_8$ & 0.8288 \\ \hline
 	\end{tabular}
