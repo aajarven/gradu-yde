@@ -616,10 +616,16 @@ The cosmology of the simulation is a standard $\Lambda$CDM cosmology with cosmol
 \end{table}
 
 The low-resolution simulation was then run and when it reached redshift $z=0$, haloes were identified using the friends-of-friends and SUBFIND algorithms as  described in section \ref{sect:halofinding}. A lower limit of 20 particles in each subhalo was used and smaller structures ignored. From the resulting subhalo catalogue, halo pairs resembling the Local Group were identified. TODO criteria %TODO how
-
+For each of these Local Group analogues a zoom simulation was created.
 
 
 \subsection{Zoom simulations}
+The zoom simulations simulated the same box as the parent simulation, but new initial conditions with enhanced resolution around Local Group analogues were created for each pair of objects. The large scale structure and evolution in these zooms is similar to the parent simulation, but due to increased resolution the interesting regions in the vicinity of the Local Group analogues can be studied in more detail.
+
+The change of resolution was implemented by dividing the dark matter particles to three categories ranging from the least massive type 1 particles to the most massive type 3 particles corresponding to the mass resolution of the parent simulation. The type 1 particles were assigned to regions identified to end up in or pass by the central Local Group analogue and a buffer zone of type 2 particles was created around the type 1 particles to reduce the probability of interactions between different types of particles resulting in the lighter particle being subjected to an unrealistically high acceleration.
+
+At $z=0$ a subhalo catalogue was created for each of the zoom simulations. This was done using a combination of friends-of-friends ans SUBFIND algorithms similarly to with the parent simulation. Instead of the full particle data, all analysis conducted for this thesis was done using these subhalo catalogues. Initially there were 448 of these catalogues in the data set.
+
 %- parentista poiketen zoomeissa korkeampi resoluutio kiinnostavissa osissa
 %- halo finding -> data minulle
 %- Subhalo catalogs from 448 resimulations, cut down by by:
