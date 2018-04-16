@@ -586,7 +586,7 @@ Updating the positions of the particles is done using an integrator resembling t
 \subsection{Parent simulation}
 First step of a zoom-in simulation running process is to construct initial conditions and run a low-resolution box. A large box with a side length of 542.16 Mpc/h was used to ensure that the box is big enough to contain a reasonable sample of Local Group analogues and that the large scale structure of the universe is represented in the simulation. At $z = 0$ this corresponds to a volume of $800^3$~Mpc$^3$.
 
-The volume contained about $1.3 \times 10^{11}$ dark matter particles, each with a mass of about $1.6 \times 10^8~\mathrm{M_{\astrosun}}$. This determines the mass resolution of the simulation: objects smaller than the mass of a single particle are not seen at all and reliable analysis cannot be made of objects that are made of a small number of particles. This means that spiral and elliptical galaxies can be studied but all dwarf galaxies are not resolved. The spatial resolution of the simulation is determined by the softening length: the distance within the gravitational interaction calculations are modified in order to remove singularities and avoid extreme accelerations. In the parent simulation a softening length of 2.3~kpc/h was used. The properties of the parent simulation are shown in table \ref{tab:parentBox}.
+The volume contained about $1.3 \times 10^{11}$ dark matter particles, each with a mass of about $1.6 \times 10^8~\mathrm{M_{\astrosun}}$. This determines the mass resolution of the simulation: objects smaller than the mass of a single particle are not seen at all and reliable analysis cannot be made of objects that are made of a small number of particles. This means that for example distribution of spiral and elliptical galaxies can be studied but all dwarf galaxies are not resolved. The spatial resolution of the simulation is determined by the softening length: the distance within the gravitational interaction calculations are modified in order to remove singularities and avoid extreme accelerations. In the parent simulation a softening length of 2.3~kpc/h was used. The properties of the parent simulation are shown in table \ref{tab:parentBox}.
 
 \begin{table}
 	\centering
@@ -620,8 +620,17 @@ The low-resolution simulation was then run and when it reached redshift $z=0$, h
 
 
 \subsection{Zoom simulations}
+%- parentista poiketen zoomeissa korkeampi resoluutio kiinnostavissa osissa
+%- halo finding -> data minulle
+%- Subhalo catalogs from 448 resimulations, cut down by by:
+%-- No LG in all of them
+%-- Contamination
+%-- Duplicates
+%- Result: 126 Local Groups
+%-- löytyivätkö samat halot kuin parentista piti?
 
- %Softening length 1.0 kpc/h in all zooms.
+
+%Softening length 1.0 kpc/h in all zooms.
 
 \begin{figure}
     \centering
