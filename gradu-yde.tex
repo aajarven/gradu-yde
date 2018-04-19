@@ -198,7 +198,7 @@ Observations have confirmed that the Universe is indeed expanding, first observe
 H(t)\; l = \dv{l}{t}
 \end{equation}
 The Hubble parameter is also closely related to the scale factor, as \citep{mo2010galaxy}
-\begin{equation}
+\begin{equation}\label{reducedhubble}
 H(t) = \frac{\dot{a}(t)}{a(t)}.
 \end{equation}
 Often in calculations the Hubble parameter is replaced with the reduced Hubble parameter, often denoted by $h$ and defined as \citep{montgomery2012introduction}
@@ -592,7 +592,9 @@ Updating the positions of the particles is done using an integrator resembling t
 \subsection{Parent simulation}
 First step of a zoom-in simulation running process is to construct initial conditions and run a low-resolution box. A large box with a side length of 542.16 Mpc/h was used to ensure that the box is big enough to contain a reasonable sample of Local Group analogues and that the large scale structure of the universe is represented in the simulation. At $z = 0$ this corresponds to a volume of $800^3$~Mpc$^3$.
 
-The volume contained about $1.3 \times 10^{11}$ dark matter particles, each with a mass of about $1.6 \times 10^8~\mathrm{M_{\astrosun}}$. This determines the mass resolution of the simulation: objects smaller than the mass of a single particle are not seen at all and reliable analysis cannot be made of objects that are made of a small number of particles. This means that for example distribution of spiral and elliptical galaxies can be studied but all dwarf galaxies are not resolved. The spatial resolution of the simulation is determined by the softening length: the distance within the gravitational interaction calculations are modified in order to remove singularities and avoid extreme accelerations. In the parent simulation a softening length of 2.3~kpc/h was used. The properties of the parent simulation are shown in table \ref{tab:parentBox}.
+The volume contained about $1.3 \times 10^{11}$ dark matter particles, each with a mass of about $1.6 \times 10^8~\mathrm{M_{\astrosun}}$. This determines the mass resolution of the simulation: objects smaller than the mass of a single particle are not seen at all and reliable analysis cannot be made of objects that are made of a small number of particles. This means that for example distribution of spiral and elliptical galaxies can be studied but all dwarf galaxies are not resolved. The spatial resolution of the simulation is determined by the softening length: the distance within the gravitational interaction calculations are modified in order to remove singularities and avoid extreme accelerations. The properties of the parent simulation are shown in table \ref{tab:parentBox}.
+
+In the parent simulation a softening length of 2.3~kpc/$h$ was used, $h$ being the reduced Hubble parameter defined in equation \ref{reducedhubble}. As $h$ evolves with the scale factor, the softening length grows with the simulation box. For regions expanding with the simulated universe this is advantageous, but for e.g. virialized structures with no spatial growth this is an unwanted behaviour. For simulations aimed for studying objects with specific mass and thus specific redshift when they collapse, it is possible to specify a redshift after which the softening length is kept constant in physical units, but for simulations exploring a range of objects this is not possible.
 
 \begin{table}
 	\centering
@@ -606,7 +608,7 @@ The volume contained about $1.3 \times 10^{11}$ dark matter particles, each with
 	\caption{Properties of the parent simulation.} \label{tab:parentBox}
 \end{table}
 
-The cosmology of the simulation is a standard $\Lambda$CDM cosmology with cosmological parameters of \citet{planck2014resultsXVI}, shown in table \ref{tab:cosmopars}. For a dark matter only simulation the $\Omega_b$ is naturally ignored and all matter treated as dark matter. The $\sigma_8$ parameter shown in the table is used to define the amplitude of the power spectrum in the initial conditions.
+The cosmology of the simulation is a standard $\Lambda$CDM cosmology with most important cosmological parameters of \citet{planck2014resultsXVI}. Most important parameters are shown in table \ref{tab:cosmopars}. For a dark matter only simulation the $\Omega_b$ is naturally ignored and all matter treated as dark matter. The $\sigma_8$ parameter shown in the table is used to define the amplitude of the power spectrum in the initial conditions.
 
 \begin{table}
 	\centering
@@ -628,25 +630,27 @@ For each of these Local Group analogues a zoom simulation was created.
 \subsection{Zoom simulations}
 The zoom simulations simulated the same box as the parent simulation, but new initial conditions with enhanced resolution around Local Group analogues were created for each pair of objects. The large scale structure and evolution in these zooms is similar to the parent simulation, but due to increased resolution the interesting regions in the vicinity of the Local Group analogues can be studied in more detail. The change of resolution was implemented by dividing the dark matter particles to three categories ranging from the least massive type 1 particles to the most massive type 3 particles corresponding to the mass resolution of the parent simulation. The GADGET-3 simulation code is also capable of handling baryonic matter such as gas and stars, but the simulations used in this thesis were dark matter only simulations.
 
-The type 1 particles were assigned to regions identified to end up in or pass by the central Local Group analogue and a buffer zone of type 2 particles was created around the type 1 particles to reduce the probability of interactions between different types of particles resulting in the lighter particle being subjected to an unrealistically high acceleration. Number %and mass %TODO miten massa?
-of type 1 particles in a simulation varies based on the extent and density of the regions forming the Local Group analogue. Histogram showing the numbers of high resolution particles in each simulation is presented in figure \ref{fig:type1hist}. Number of type 1 particles ranges from about $1.6 \times 10^6$  to nearly $30 \times 10^6$ with lower values being most typical: most of the simulations have less than $7 \times 10^6$ high resolution particles. %1,618,600 to 29,791,000
-While number and mass of type 1 particles varied from simulation to simulation, every simulation had the same softening length of 1.0 kpc/h.
+The type 1 particles were assigned to regions identified to end up in or pass by the central Local Group analogue and a buffer zone of type 2 particles was created around the type 1 particles to reduce the probability of interactions between different types of particles resulting in the lighter particle being subjected to an unrealistically high acceleration. Number and mass of type 1 particles in a simulation varies based on the extent and density of the regions forming the Local Group analogue. Histogram showing the numbers of high resolution particles in each simulation is presented in figure \ref{fig:type1hist}. Number of type 1 particles ranges from about $1.6 \times 10^6$  to nearly $30 \times 10^6$ with lower values being most typical: most of the simulations have less than $7 \times 10^6$ high resolution particles. %1,618,600 to 29,791,000
 
 \begin{figure}
     \centering
     \input{kuvat/tex/type1particles.pdf_tex}
-    \caption{TODO: why is the font so small?}\label{fig:type1hist}
+    \caption{Font ok, TODO: caption}\label{fig:type1hist}
 \end{figure}
 
-At $z=0$ a subhalo catalogue was created for each of the zoom simulations. This was done using a combination of friends-of-friends ans SUBFIND algorithms similarly to with the parent simulation. Instead of the full particle data, all analysis conducted for this thesis was done using these subhalo catalogues. In total, there were 448 of these catalogues in the data set. Simulations were run and halo catalogues generated by Till Sawala but all further analysis presented is done as a part of this thesis.
+
+While number and mass of type 1 particles varied slightly from simulation to simulation, every simulation had the same softening length of 1.0~kpc/$h$.
+
+
+At $z=0$ a subhalo catalogue was created for each of the zoom simulations. This was done using a combination of friends-of-friends ans SUBFIND algorithms similarly to with the parent simulation. Instead of the full particle data, all analysis conducted for this thesis was done using these subhalo catalogues. Initially there were 448 of these catalogues in the data set. Simulations were run and halo catalogues generated by Till Sawala but all further analysis presented is done as a part of this thesis.
 
 First, Local Group analogues were identified in all of the catalogues. This was done by identifying pairs of haloes that are made of type 1 particles and fulfil the following criteria:
 \begin{itemize}
 \item Distances between centres of potential are in range 0.6--1.0~Mpc.
 \item Masses of individual haloes lie between $4 \times 10^{11}$ and $5 \times 10^{12} \mathrm{M_{\astrosun}}$,
 \item The haloes are moving towards each other with radial velocity no larger than 150 km/s.
-\item Tangential velocity of the haloes is smaller than 50 km/s.
-\item The two haloes are the most massive ones within 2 Mpc.
+\item Tangential velocity of the haloes is smaller than 50~km/s.
+\item The two haloes are the most massive ones within 2~Mpc.
 \end{itemize}
 The criteria was chosen so that the systems resemble the Local Group but the ranges are wide enough to accommodate uncertainties in the observed values and to produce a large enough data set for statistical analysis.
 
