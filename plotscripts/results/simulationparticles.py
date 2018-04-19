@@ -29,18 +29,22 @@ if __name__ == "__main__":
 
 	fig = plt.figure()
 
-	rc('font', **{'family':'serif','serif':['']})
+	rc('font', **{'family':'serif','serif':['Palatino']})
 	rc('text', usetex=True)
-	matplotlib.rcParams['text.latex.unicode'] = True
+	matplotlib.rcParams.update({'font.size': 13})
+	
+#	matplotlib.rcParams['text.latex.unicode'] = True
 	
 	dm1 = dm1
 	binlimits = np.arange(0, 3.1e7, 2e6)
 	plt.hist(dm1, bins=binlimits, color='0.75', edgecolor='black')
-	plt.xticks(binlimits)
+	plt.xticks(binlimits[::2])
 	plt.xlim(min(binlimits), max(binlimits))
-	plt.xlabel("Number of type 1 dark matter particles")	
+	plt.ylim(0, 80)
+	plt.xlabel("Number of type 1 dark matter particles")
+	plt.ylabel("Simulations")
 
-	fig.set_size_inches(5, 3.5)
+	fig.set_size_inches(5.0, 3.5)
 	plt.tight_layout()
 	
-	plt.savefig("../../kuvat/type1particles.svg")
+	plt.savefig("../../kuvat/type1particles.svg", bbox_inches='tight')
