@@ -478,17 +478,12 @@ Constructing the tree starts with setting the full simulation box as the root of
     \input{kuvat/tex/tree-box.pdf_tex}
     \caption{A two-dimensional example of particles (black dots) being split into cells using the Barnes-Hut algorithm \citep{barnes1986hierarchical}. The outermost square is the simulation box, i.e. the root of the tree, and the samaller squares with decreasing line thicknesses are its descendants. Note how each cell contains either one particle, no particles or four smaller subcells.}\label{fig:tree-box}
 \end{figure}
-\begin{figure}
-    \centering
-    \def\svgwidth{\columnwidth}
-    \input{kuvat/tex/tree.pdf_tex}
-    \caption{Cells of figure \ref{fig:tree-box} shown as a tree, each level of refined cells in \ref{fig:tree-box} traversed from left to right and up to down corresponding to each level of nodes from left to right. Cells with no particles are not used in force calculations and thus they do not need to be stored in computer memory, but they are shown here to emphasize the structure of the tree.}\label{fig:tree}
-\end{figure}
+
 \begin{figure}
     \centering
     \def\svgwidth{\columnwidth}
     \input{kuvat/tex/tree-solids.pdf_tex}
-    \caption{Alternative tree where cells with particles are solid, doesn't work as well as it could}\label{fig:tree-solids}
+    \caption{Cells of figure \ref{fig:tree-box} shown as a tree, each level of refined cells in \ref{fig:tree-box} traversed from left to right and top to bottom corresponding to each level of nodes from left to right. Cells with particles are shown as filled circles. Cells with no particles are not used in force calculations and thus they do not need to be stored in computer memory, but they are shown here as non-filled circles to emphasize the structure of the tree.}\label{fig:tree}
 \end{figure}
 
 To aid understanding the process, a two-dimensional simplification of the simulation box after the tree has been constructed is shown in figure \ref{fig:tree-box}, together with the corresponding tree in figure \ref{fig:tree}. The thick outer line of the former figure is the simulation box, corresponding to the topmost node of the tree in the latter. This root cell is first divided into four (in contrast to eight in the three-dimensional case) subcells, which is shown with the second-thickest line dividing the simulation box into quarters in figure \ref{fig:tree-box}. These four cells are the four children of the root node in the tree. Each of the subcells contains more than one particle, so each of those is again split into four quarters, each quarter a child of the original node in the tree. These quarters of quarters form the third level of the tree in figure \ref{fig:tree}.
@@ -608,7 +603,7 @@ In the parent simulation a softening length of 2.3~kpc/$h$ was used, $h$ being t
 	\caption{Properties of the parent simulation.} \label{tab:parentBox}
 \end{table}
 
-The cosmology of the simulation is a standard $\Lambda$CDM cosmology with most important cosmological parameters of \citet{planck2014resultsXVI}. Most important parameters are shown in table \ref{tab:cosmopars}. For a dark matter only simulation the $\Omega_b$ is naturally ignored and all matter treated as dark matter. The $\sigma_8$ parameter shown in the table is used to define the amplitude of the power spectrum in the initial conditions.
+The cosmology of the simulation is a standard $\Lambda$CDM cosmology with most important cosmological parameters of \citet{planck2014resultsXVI}. Most important parameters are shown in table \ref{tab:cosmopars}. For a dark matter only simulation the $\Omega_b$ is treated as dark matter. The $\sigma_8$ parameter shown in the table is defined as the amplitude of the primordial power spectrum at scales of 8~Mpc.
 
 \begin{table}
 	\centering
@@ -620,29 +615,28 @@ The cosmology of the simulation is a standard $\Lambda$CDM cosmology with most i
 		$\Omega_\Lambda$ & 0.693 \\ \hline
 		$\sigma_8$ & 0.8288 \\ \hline
 	\end{tabular}
-	\caption{Cosmological parameters used in the simulation. TODO: planck + lensing 2013} \label{tab:cosmopars}
+	\caption{Most important cosmological parameters of the simulations.} \label{tab:cosmopars}
 \end{table}
 
-The low-resolution simulation was then run and when it reached redshift $z=0$, haloes were identified using the friends-of-friends and SUBFIND algorithms as  described in section \ref{sect:halofinding}. A lower limit of 20 particles in each subhalo was used and smaller structures ignored. From the resulting subhalo catalogue, halo pairs resembling the Local Group were identified. TODO criteria %TODO how
+The low-resolution simulation was then run and when it reached redshift $z=0$, haloes were identified using the friends-of-friends and SUBFIND algorithms as  described in section \ref{sect:halofinding}. From the resulting subhalo catalogue, halo pairs resembling the Local Group were identified. TODO criteria %TODO how
 For each of these Local Group analogues a zoom simulation was created.
 
 
 \subsection{Zoom simulations}
-The zoom simulations simulated the same box as the parent simulation, but new initial conditions with enhanced resolution around Local Group analogues were created for each pair of objects. The large scale structure and evolution in these zooms is similar to the parent simulation, but due to increased resolution the interesting regions in the vicinity of the Local Group analogues can be studied in more detail. The change of resolution was implemented by dividing the dark matter particles to three categories ranging from the least massive type 1 particles to the most massive type 3 particles corresponding to the mass resolution of the parent simulation. The GADGET-3 simulation code is also capable of handling baryonic matter such as gas and stars, but the simulations used in this thesis were dark matter only simulations.
+The zoom simulations simulated the same box as the parent simulation, but new initial conditions with enhanced resolution around Local Group analogues were created for each pair of objects. The large scale structure and evolution in these zooms is similar to the parent simulation, but due to increased resolution the interesting regions in the vicinity of the Local Group analogues can be studied in more detail. The change of resolution was implemented by grouping the dark matter particles to three categories ranging from the least massive type 1 particles to the most massive type 3 particles.
 
-The type 1 particles were assigned to regions identified to end up in or pass by the central Local Group analogue and a buffer zone of type 2 particles was created around the type 1 particles to reduce the probability of interactions between different types of particles resulting in the lighter particle being subjected to an unrealistically high acceleration. Number and mass of type 1 particles in a simulation varies based on the extent and density of the regions forming the Local Group analogue. Histogram showing the numbers of high resolution particles in each simulation is presented in figure \ref{fig:type1hist}. Number of type 1 particles ranges from about $1.6 \times 10^6$  to nearly $30 \times 10^6$ with lower values being most typical: most of the simulations have less than $7 \times 10^6$ high resolution particles. %1,618,600 to 29,791,000
+Whereas type 1 particles have a fixed mass in each simulation, type 2 and 3 particles have masses ranging from type 2 particles with only slightly larger mass than the type 1 particles have to type 3 particles with masses comparable to a million type 1 particles. Masses of type 2 and 3 particles vary, but each particle type has its own softening length with type 1 particles having the shortest and type 3 particles the longest softening lengths. The GADGET-3 simulation code is also capable of handling baryonic matter such as gas and stars, but the simulations used in this thesis were dark matter only simulations. While number and mass of type 1 particles varied slightly from simulation to simulation, every simulation used the same softening length of 1.0~kpc/$h$ for them.
+
+The type 1 particles were assigned to regions identified to end up in or pass by the central Local Group analogue, surrounded by a region of type 2 particles. Rest of the box was filled with type 3 particles. Where two different types of particles interact, the longer of the two softening lengths is applied for the interaction. Number and mass of type 1 particles in a simulation varies based on the extent and density of the regions forming the Local Group analogue. Histogram showing the numbers of high resolution particles in each simulation is presented in figure \ref{fig:type1hist}. Number of type 1 particles ranges from about $1.6 \times 10^6$  to nearly $30 \times 10^6$ with lower values being most typical: most of the simulations have less than $7 \times 10^6$ high resolution particles. %1,618,600 to 29,791,000
 
 \begin{figure}
     \centering
     \input{kuvat/tex/type1particles.pdf_tex}
-    \caption{Font ok, TODO: caption}\label{fig:type1hist}
+    \caption{Frequency of simulations with given number of type 1 particles. Values near the lower end of the distribution are most common, but numerous simulations have more than $2 \times 10^7$ particles.}\label{fig:type1hist}
 \end{figure}
 
 
-While number and mass of type 1 particles varied slightly from simulation to simulation, every simulation had the same softening length of 1.0~kpc/$h$.
-
-
-At $z=0$ a subhalo catalogue was created for each of the zoom simulations. This was done using a combination of friends-of-friends ans SUBFIND algorithms similarly to with the parent simulation. Instead of the full particle data, all analysis conducted for this thesis was done using these subhalo catalogues. Initially there were 448 of these catalogues in the data set. Simulations were run and halo catalogues generated by Till Sawala but all further analysis presented is done as a part of this thesis.
+At $z=0$ a subhalo catalogue was created for each of the zoom simulations. This was done using a combination of friends-of-friends ans SUBFIND algorithms similarly to with the parent simulation. A lower limit of 20 particles in each subhalo was used and smaller structures ignored. Instead of the full particle data, all analysis conducted for this thesis was done using these subhalo catalogues. Initially there were 448 of these catalogues in the data set. Simulations were run and halo catalogues generated by Till Sawala but all further analysis presented is done as a part of this thesis.
 
 First, Local Group analogues were identified in all of the catalogues. This was done by identifying pairs of haloes that are made of type 1 particles and fulfil the following criteria:
 \begin{itemize}
@@ -656,17 +650,18 @@ The criteria was chosen so that the systems resemble the Local Group but the ran
 
 Unfortunately, the 448 simulation runs did not easily translate to 448 Local Group analogues. First of all, some resimulations did not contain a pair of haloes fulfilling the Local Group criteria, which reduced the sample to 354 simulations. Some of the simulations also contained more than one Local Group analogue, in which case the pair with largest distance to the nearest type 2 or 3 particle was chosen for analysis.
 
-The sample size was still further reduced from the 354 Local Group analogues as picking the Local Group analogues from the parent simulation had resulted in many (all?) %TODO
-pairs of haloes being picked twice. Two zoom simulations were then run for each of the pairs resulting essentially the same simulation being run twice, providing no new information. Removing one of each of these pairs from the data set resulted in a total of 159 unique Local Group analogues.
+The sample size was still further reduced from the 354 Local Group analogues as picking the Local Group analogues from the parent simulation had resulted in most pairs of haloes being picked twice. Two zoom simulations were then run for each of the pairs resulting essentially the same simulation being run twice, providing no new information. Removing one of each of these pairs from the data set resulted in a total of 159 unique Local Group analogues.
 
-As the analysis conducted for this thesis uses not only the properties of a Local Group analogue but also its surroundings, all of the analogues were also required not to have any type 2 or 3 particles within \_ Mpc of the mass centre of the halo pair. %TODO distance
+As the analysis conducted for this thesis uses not only the properties of a Local Group analogue but also its surroundings, the extent of high resolution region is important. As can be seen in figure \ref{fig:uncontaminatedDistances}, most of the simulations contain only type 1 particles up to 4~Mpc from the Local Group analogue. For larger distances, the number of simulations uncontaminated by type 2 or 3 particles decreases until after 8~Mpc only few simulations have only type 1 particles.
+To ensure maximum accuracy, all of the Local Group analogues used in the analysis were required not to have any type 2 or 3 particles within \_ Mpc of the mass centre of the halo pair. %TODO distance
 This resulted in a final sample of \_ subhalo catalogues. %TODO number
 
-TODO:\\
-- plot uncontaminated distances?\\
-- 
 
-
+\begin{figure}
+    \centering
+    \input{kuvat/tex/uncontaminatedDistances.pdf_tex}
+    \caption{Number of simulations that have only high resolution type 1 particles at least up to a given distance as a function of distance.}\label{fig:uncontaminatedDistances}
+\end{figure}
 
 \chapter{Mathematical and statistical methods}
 täällä tarvittavat esitiedot ja önnönnöö, listaa mm. mitä aiot kertoa kunhan tiedät itsekään
