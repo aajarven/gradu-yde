@@ -622,10 +622,16 @@ The low-resolution simulation was then run and when it reached redshift $z=0$, h
 For each of these Local Group analogues a zoom simulation was created.
 
 
+
+
+
 \subsection{Zoom simulations}
 The zoom simulations simulated the same box as the parent simulation, but new initial conditions with enhanced resolution around Local Group analogues were created for each pair of objects. The large scale structure and evolution in these zooms is similar to the parent simulation, but due to increased resolution the interesting regions in the vicinity of the Local Group analogues can be studied in more detail. The change of resolution was implemented by grouping the dark matter particles to three categories ranging from the least massive type 1 particles to the most massive type 3 particles.
 
-Whereas type 1 particles have a fixed mass in each simulation, type 2 and 3 particles have masses ranging from type 2 particles with only slightly larger mass than the type 1 particles have to type 3 particles with masses comparable to a million type 1 particles. Masses of type 2 and 3 particles vary, but each particle type has its own softening length with type 1 particles having the shortest and type 3 particles the longest softening lengths. The GADGET-3 simulation code is also capable of handling baryonic matter such as gas and stars, but the simulations used in this thesis were dark matter only simulations. While number and mass of type 1 particles varied slightly from simulation to simulation, every simulation used the same softening length of 1.0~kpc/$h$ for them.
+Whereas type 1 particles have a fixed mass in each simulation, type 2 and 3 particles have masses ranging from type 2 particles with only slightly larger mass than the type 1 particles have to type 3 particles with masses comparable to a million type 1 particles. Masses of type 2 and 3 particles vary, but each particle type has its own softening length with type 1 particles having the shortest and type 3 particles the longest softening lengths. The GADGET-3 simulation code is also capable of handling baryonic matter such as gas and stars, but the simulations used in this thesis were dark matter only simulations. While number and mass of type 1 particles varied slightly from simulation to simulation, ranging from $3.7 \times 10^7$ to $4.7 \times 10^7~\mathrm{M}_{\astrosun}$ per particle, every simulation used the same softening length of 1.0~kpc/$h$ for them.
+
+%0.0036669746 10^10 M_sun min type 1 particle mass
+%0.004693010710^10 M_sun max type 1 particle mass
 
 The type 1 particles were assigned to regions identified to end up in or pass by the central Local Group analogue, surrounded by a region of type 2 particles. Rest of the box was filled with type 3 particles. Where two different types of particles interact, the longer of the two softening lengths is applied for the interaction. Number and mass of type 1 particles in a simulation varies based on the extent and density of the regions forming the Local Group analogue. Histogram showing the numbers of high resolution particles in each simulation is presented in figure \ref{fig:type1hist}. Number of type 1 particles ranges from about $1.6 \times 10^6$  to nearly $30 \times 10^6$ with lower values being most typical: most of the simulations have less than $7 \times 10^6$ high resolution particles. %1,618,600 to 29,791,000
 
