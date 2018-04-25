@@ -651,16 +651,16 @@ At $z=0$ a subhalo catalogue was created for each of the zoom simulations. This 
 The analysis started with identifying Local Group analogues in all of the catalogues. This was done by identifying pairs of haloes that are made of type 1 particles and fulfil the following criteria:
 \begin{itemize}
 \item Distances between centres of potential are in range 0.6--1.0~Mpc.
-\item The haloes are moving towards each other with radial velocity no larger than 150 km/s.
+\item The haloes are moving towards each other with radial velocity no larger than 170 km/s.
 \item Tangential velocity of the haloes is smaller than 50~km/s.
 \item Masses of individual haloes lie between $4 \times 10^{11}$ and $5 \times 10^{12} \mathrm{M_{\astrosun}}$.
 \item The two haloes are the most massive ones within 2~Mpc.
 \end{itemize}
 The criteria were chosen so that the systems resemble the Local Group but the ranges are wide enough to accommodate uncertainties in the observed values and to produce a large enough data set for statistical analysis.
 
-Unfortunately, the 448 simulation runs did not easily translate to 448 Local Group analogues. First of all, some resimulations did not contain a pair of haloes fulfilling the Local Group criteria, which reduced the sample to 354 simulations. Some of the simulations also contained more than one Local Group analogue, in which case the pair with largest distance to the nearest type 2 or 3 particle was chosen for analysis.
+Unfortunately, the 448 simulation runs did not easily translate to 448 Local Group analogues. First of all, picking the Local Group analogues from the parent simulation had resulted in most halo pairs being picked twice. Two zoom simulations were then run for each of these pairs resulting essentially the same simulation being run twice, providing no new information. Removing one of each of these pairs from the data set resulted in a total of 250 unique zoom simulations.
 
-The sample size was still further reduced from the 354 Local Group analogues as picking the Local Group analogues from the parent simulation had resulted in most halo pairs being picked twice. Two zoom simulations were then run for each of these pairs resulting essentially the same simulation being run twice, providing no new information. Removing one of each of these pairs from the data set resulted in a total of 159 unique Local Group analogues.
+The sample size was still further reduced as some resimulations did not contain a pair of haloes fulfilling the Local Group criteria, which reduced the sample to 199 simulations. This can happen as the zooms are not identical to the parent simulation and especially Local Group analogues with some value near the edge of the allowed range can end up no longer meeting all criteria after resimulation. Some of the simulations also contained more than one Local Group analogue, in which case the pair with largest distance to the nearest type 2 or 3 particle was chosen for analysis.
 
 As the analysis conducted for this thesis uses not only the properties of a Local Group analogue but also its surroundings, the extent of high resolution region is important. As can be seen in figure \ref{fig:uncontaminatedDistances}, most of the simulations contain only type 1 particles up to 4~Mpc from the Local Group analogue. For larger distances, the number of simulations uncontaminated by type 2 or 3 particles decreases until after 8~Mpc only few simulations have only type 1 particles.
 To ensure maximum accuracy, all of the Local Group analogues used in the analysis were required not to have any type 2 or 3 particles within \_ Mpc of the mass centre of the halo pair. %TODO distance
