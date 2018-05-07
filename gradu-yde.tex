@@ -120,6 +120,7 @@ Abstract goes here.
 
 % set line spacing to the publication-ready single spacing:
 %\singlespacing
+%\onehalfspacing
 
 % -----------------------------------------------------------------------------------
 % STEP 4: Write the thesis.
@@ -781,7 +782,7 @@ where parameter $\beta_0$ represents the $y$ axis intercept of the line and $\be
     \centering
     %\def\svgwidth{\columnwidth}
     \input{kuvat/tex/OLS.pdf_tex}
-    \caption{TODO: caption}\label{fig:OLS}
+    \caption{Ordinary least squares fit (black line) to a data set (black circles). The fitted line minimizes the sum of squares of vertical distances between the data points and the fitted line, shown in gray.}\label{fig:OLS}
 \end{figure}
 
 %\reversemarginpar
@@ -796,7 +797,7 @@ where $x_1$ and $y_i$ are single values of the measured quantities \citep{feigel
     \centering
     %\def\svgwidth{\columnwidth}
     \input{kuvat/tex/OLSproblem.pdf_tex}
-    \caption{TODO: caption}\label{fig:OLSproblem}
+    \caption{Ordinary least squares fits using either vertical or horizontal distances, both resulting in different fit. In order to avoid such ambiquity, ordinary least squares should only be used when the predictor variable is measured exactly.}\label{fig:OLSproblem}
 \end{figure}
 
 %\reversemarginpar
@@ -807,7 +808,7 @@ When dividing the variables to the independent variable with no error and a resp
     \centering
     %\def\svgwidth{\columnwidth}
     \input{kuvat/tex/TLS.pdf_tex}
-    \caption{TODO: caption}\label{fig:TLS}
+    \caption{Total least squares minimizes the sum of squares of orthogonal distances of the data points from the fitted line. Distances between the data points (black circles) and the fitted line (black line) are shown in gray.}\label{fig:TLS}
 \end{figure}
 
 
@@ -847,7 +848,9 @@ PCA can be used to both reduce and interpret data \citep{johnson2007applied}. Of
 \begin{figure}
     \centering
     \input{kuvat/tex/pca-illustrated.pdf_tex}
-    \caption{.}\label{fig:pca-illustrated}
+    \caption{Extracting the PCs of a two-dimensional data set. First the origin is moved to the centroid of the data, original location of which is shown with a red x in the top panel. Next the line along which the variance of the data points is largest is determined, shown with the black line in the middle panel. This is the first PC, to which the second PC is orthogonal and thus fully determined. In the bottom panel the data is plotted along these principal components.
+    %First the centroid of the data set (the red x) is determined and the origin is moved to the centroid as is done in the middle panel. Next the first PC, i.e. the line along which the variance of the data points is largest, is determined, shown with the black line in the middle panel. The second PC is orthogonal to the first one, i.e. fully determined in the two-dimensional case. In the bottom panel, the data is plotted along these principal components.
+    }\label{fig:pca-illustrated}
 \end{figure}
 
 In order to understand the process of obtaining principal components of a data set let us follow the procedure on a two-dimensional data set shown in the top panel of Fig.\ \ref{fig:pca-illustrated} with black dots. First step of finding the PCs is to locate the centroid of the dataset i.e.\ the mean of the data along every axis \citep{smith2002tutorial}. This is marked with a red x in the top panel of Fig.\ \ref{fig:pca-illustrated}.
