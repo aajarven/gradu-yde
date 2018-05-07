@@ -683,9 +683,9 @@ Estimating errors for measured quantities offers a way to test hypotheses and co
 
 
 \subsection{Hypothesis testing and p-values}
-A common situation in scientific research is that one has to compare a sample of data points to either a model or another sample in order to derive a conclusion from the dataset. In statistics, this is known as hypothesis testing. For example, this can mean testing hypotheses such as ''these two variables are not correlated'' or ''this sample is from a population with a mean of 1.0'' \citep{wall2003practical}. Next paragraphs shortly introduce the basic concept of hypothesis testing and methods that can used to test the hypothesis ''these two samples are drawn from the same distribution'' following the approach of \citep{bohm2010introduction} and \citep{wall2003practical}.
+A common situation in scientific research is that one has to compare a sample of data points to either a model or another sample in order to derive a conclusion from the dataset. In statistics, this is known as hypothesis testing \citep{wall2003practical}. For example, this can mean testing hypotheses such as ''these two variables are not correlated'' or ''this sample is from a population with a mean of 1.0''. Next paragraphs shortly introduce the basic concept of hypothesis testing and methods that can used to test the hypothesis ''these two samples are drawn from the same distribution'' following the approach of \citep{bohm2010introduction} and \citep{wall2003practical}.
 
-The process of hypothesis testing as described by begins with forming of a null hypothesis $H_0$ that is formatted such that the aim for the next steps is to either reject it or deduce that it cannot be rejected with a chosen significance level. Negation of the null hypothesis is often called research hypothesis or alternative hypothesis and denoted as $H_1$. For example, this can lead to $H_0$ ''this dataset is sampled from a normal distribution'' and $H_1$ ''this dataset is not sampled from a normal distribution''. Choosing the hypothesis in this manner is done because often the research hypothesis is difficult to define otherwise.
+The process of hypothesis testing as described by \citet{bohm2010introduction} begins with forming of a null hypothesis $H_0$ that is formatted such that the aim for the next steps is to either reject it or deduce that it cannot be rejected with a chosen significance level. Negation of the null hypothesis is often called research hypothesis or alternative hypothesis and denoted as $H_1$. For example, this can lead to $H_0$ ''this dataset is sampled from a normal distribution'' and $H_1$ ''this dataset is not sampled from a normal distribution''. Choosing the hypothesis in this manner is done because often the research hypothesis is difficult to define otherwise.
 
 After setting the hypothesis one must choose an appropriate test statistic. Ideally this is chosen such that the difference between cases $H_0$ and $H_1$ is as large as possible. Then one must choose 
 the significance level $\alpha$ which corresponds to the probability of rejecting $H_0$ in the case where $H_0$ actually is true. This fixes the critical region i.e.\ the values of test statistic that lead to the rejection of the $H_0$. 
@@ -721,7 +721,7 @@ This gives the probability of a random value drawn from the distribution having 
 %	\marginnote{\footnotesize{lisää johonkin selitys normaalijakauman parametreille}}
    \centering
    \includegraphics[width=0.9\textwidth]{kuvat/cdf.png}
-   \caption{Cumulative distribution function (top panel) for three random samples (PDFs shown in the bottom panel) drawn from different distributions, two of which are normal and one is uniform. Parameters $\mu$ and $\sigma$ of the normal distribution describe the mean and the spread of the distribution respectively, large values of $\sigma$ resulting in wide distribution.}
+   \caption{Cumulative distribution function (top panel) and probability distribution functions (bottom panel) for three random samples drawn from different distributions, two of which are normal and one is uniform. Parameters $\mu$ and $\sigma$ of the normal distribution describe the mean and the spread of the distribution respectively, large values of $\sigma$ resulting in wide distribution.}
    \label{fig:cdf}
 
 \end{figure}
@@ -747,25 +747,28 @@ Due to the EDF being a result of random sampling, it may deviate from the underl
 
 
 \section{Linear Regression}
-Regression analysis is a set of statistical analysis processes that are used to estimate functional relationships between a response variable (denoted with $y$) and one or more predictor variables (denoted with $x$ in case of single predictor or $x_1 \dots x_i$ if there are multiple predictor variables) \citep{feigelson2012modern}. In this section, we will cover both simple regression where there is only one response variable and multiple linear regression where there are more than one response variables. The models also contain $\varepsilon$ term that represents the scatter of measured points around the fit. One of the models used is linear regression model, which can be used to fit any relationship where the response variable is a linear function of the model parameters \citep{montgomery2012introduction}. In addition to the widely known and used models where the relationship is a straight line, such as
+Regression analysis is a set of statistical analysis processes that are used to estimate functional relationships between a response variable (denoted with $y$) and one or more predictor variables (denoted with $x$ in case of single predictor or $x_1 \dots x_i$ if there are multiple predictor variables) \citep{feigelson2012modern}. In this section, we will cover both simple regression, where there is only one response variable, and multiple linear regression, where there are more than one predictor variables. The models also contain $\varepsilon$ term that represents the scatter of measured points around the fit. One of the models used is linear regression model, which can be used to fit any relationship where the response variable is a linear function of the model parameters \citep{montgomery2012introduction}. In addition to the widely known and used models where the relationship is a straight line, such as
 \begin{equation}
 	y = \beta_0 x + \varepsilon
 \end{equation}
-all models where relationship is linear in unknown parameters $\beta_i$ are linear \citep{montgomery2012introduction}. Thus for example the following are linear models
+all models where relationship is linear in unknown parameters $\beta_i$ are linear \citep{montgomery2012introduction}. Thus for example the following are linear models:
 \begin{align}
 	y &= \beta_0 x^2 + \varepsilon \\
 	y &= \beta_0 e^x + \beta_1 \tan{x} + \varepsilon \\
-	y &= \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \varepsilon
+	y &= \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \varepsilon.
 \end{align}
-On the other hand, all models where the relationship is not linear and therefore
-\begin{align}
-	y &= x^\beta_0 + \varepsilon \\
-	y &= \beta_0 x + \cos{(\beta_1 x)} + \varepsilon
-\end{align}
+On the other hand, all models where the relationship is not linear, for example
+\begin{equation}
+	y = x^{\beta_0}+ \varepsilon
+\end{equation}
+and
+\begin{equation}
+	y = \beta_0 x + \cos{(\beta_1 x)} + \varepsilon,
+\end{equation}
 are nonlinear.
 
 
-\subsection{Simple linear regression}
+\subsection{Simple linear regression}\label{sect:simple-linear}
 %\reversemarginpar
 %\marginnote{\footnotesize{onko otsikko järkevä kun }}
 Simple linear regression is a model with a single predictor variable and a single response variable with a straight line relationship, i.e.
@@ -783,11 +786,11 @@ where parameter $\beta_0$ represents the $y$ axis intercept of the line and $\be
 
 %\reversemarginpar
 %\marginnote{\footnotesize{toisiko jotain lisää jos olisi $\beta_1$ ja $\beta_2$ lausekkeet?}}
-The best-known method of minimizing the sum of squared error is the ordinary least-squares (OLS) estimator. The OLS method uses distances measured vertically as shown in Fig.\ \ref{fig:OLS} and thus the minimized sum is
+The best-known method of minimizing the sum of squared error is the ordinary least-squares (OLS) estimator. The OLS method uses distances measured vertically when the response variable is on the vertical axis as shown in Fig.\ \ref{fig:OLS} and thus the minimized sum is
 \begin{equation}
 	\sum_{i=1}^n (y_i - \beta_0 - \beta_1 x_i)
 \end{equation}
-where $x_1$ and $y_i$ are single values of the measured quantities \citep{feigelson2012modern}. This approach requires that the values of the predictor variable are known exactly without error and all uncertainty is in the values of the response variable \citep{feigelson2012modern}. In those situations where this assumption is not valid, results acquired using OLS may be counterintuitive. This can be seen for example in Fig.\ \ref{fig:OLSproblem} where OLS is used to calculate two linear fits: one where $x$ is used and predictor variable and $y$ as response variable and another where $y$ is the predictor and $x$ the response.
+where $x_1$ and $y_i$ are single values of the measured quantities \citep{feigelson2012modern}. This approach requires that the values of the predictor variable are known exactly without error and all uncertainty is in the values of the response variable \citep{feigelson2012modern}. In those situations where this assumption is not valid, results acquired using OLS may be counterintuitive. This can be seen for example in Fig.\ \ref{fig:OLSproblem} where OLS is used to calculate two linear fits: one where $x$ is used and predictor variable and $y$ as response variable and another where $y$ is the predictor and $x$ the response. As the minimized distance is different, the fitted lines also differ.
 
 \begin{figure}
     \centering
@@ -798,7 +801,7 @@ where $x_1$ and $y_i$ are single values of the measured quantities \citep{feigel
 
 %\reversemarginpar
 %\marginnote{\footnotesize{HF: OLS/TLS? Sido PCA:han}}
-When dividing the variables to the independent variable with no error and a response variable with possible measurement error is not a justifiable choice OLS should not be used. One alternative for OLS is total least squares (TLS, also known as orthogonal least squares in some sources such as \citep{feigelson2012modern}) regression can be used instead of OLS \citep{markovsky2007overview}.  The major difference between OLS and TLS is that instead of vertical distance, the minimized squared distance is measured between a point and its projection to the fitted line, thus providing minimum of the sum of the squared orthogonal distances from the line \citep{feigelson2012modern}. These minimized distances are shown in Fig.\ \ref{fig:TLS}.
+When dividing the variables to the independent variable with no error and a response variable with possible measurement error is not a justifiable choice, OLS should not be used. One alternative for OLS is total least squares (TLS, also known as orthogonal least squares in some sources such as \citep{feigelson2012modern}) regression can be used instead of OLS \citep{markovsky2007overview}.  The major difference between OLS and TLS is that instead of vertical distance, the minimized squared distance is measured between a point and its projection to the fitted line, thus providing minimum of the sum of the squared orthogonal distances from the line \citep{feigelson2012modern}. These minimized distances are shown in Fig.\ \ref{fig:TLS}.
 
 \begin{figure}
     \centering
@@ -810,9 +813,9 @@ When dividing the variables to the independent variable with no error and a resp
 
 
 \subsection{Multiple linear regression}
-\reversemarginpar
-\marginnote{\footnotesize{gradun sovellus: onko PCR relevantti?}}
-ongelman kuvailu, esim OLS:lle yleistys, jälleen liittyy PCA
+%\reversemarginpar
+%\marginnote{\footnotesize{gradun sovellus: onko PCR relevantti?}}
+%ongelman kuvailu, esim OLS:lle yleistys, jälleen liittyy PCA
 
 
 %\begin{equation}
@@ -834,7 +837,7 @@ ongelman kuvailu, esim OLS:lle yleistys, jälleen liittyy PCA
 \section{Principal Component Analysis}
 %\reversemarginpar
 %\marginnote{\footnotesize{orthogonal vs uncorrelated}}
-Principal component analysis (PCA) is a statistical procedure first introdueced by \citet{pearson1901lines} to aid physical, statistical and biological investigations where fitting a line or a plane to n-dimensional dataset is desired. When performing PCA, one transforms a data set to new set of uncorrelated variables i.e.\ ones represented by orthogonal basis vectors. These variables are called principal components (PCs) \citep{jolliffe2002principal}. This approach also solves the problem of sometimes arbitrary choice of division of the data to dependent and independent variables introduced in section 4.2.something \citet{pearson1901lines}. 
+Principal component analysis (PCA) is a statistical procedure first introdueced by \citet{pearson1901lines} to aid physical, statistical and biological investigations where fitting a line or a plane to n-dimensional dataset is desired. When performing PCA, one transforms a data set to new set of uncorrelated variables i.e.\ ones represented by orthogonal basis vectors. These variables are called principal components (PCs) \citep{jolliffe2002principal}. This approach also solves the problem of sometimes arbitrary choice of division of the data to dependent and independent variables introduced in section \ref{sect:simple-linear} \citep{pearson1901lines}. 
 
 %\reversemarginpar
 %\marginnote{\footnotesize{not sure if kannattaa kuvaille proseduuria erityisen tarkkaan, selityksestä tulee pitkällinen jos aikoo aloittaa keskimääräisen tähtitieteilijän lähtötasolta, ehkä vain ohjaa lähteeseen}}
@@ -861,7 +864,7 @@ Had the data set had more than two dimensions, the second PC would have been cho
 
 %\reversemarginpar
 %\marginnote{\footnotesize{mieti mitä monospeissillä ja ole konsistentti}}
-This level of understanding is often enough to successfully apply PCA to a problem, because PCA has ready-made implementations for many programming languages such as \texttt{prcomp} in R \citep{james2013introduction} and \texttt{sklearn.decomposition.PCA} in scikit-learn library \citep{scikit-learn} for Python. If a more mathematical approach is desired, \citet{smith2002tutorial} explains PCA together with covariance matrices, eigenvectors and eigenvalues required to understand the process very clearly. \citet{jolliffe2002principal} also includes a very thorough description of PCA.
+This level of understanding is often enough to successfully apply PCA to a problem, because PCA has ready-made implementations for many programming languages such as \texttt{prcomp} in R \citep{james2013introduction} and \texttt{sklearn.decomposition.PCA} in scikit-learn library  for Python \citep{scikit-learn}. If a more mathematical approach is desired, \citet{smith2002tutorial} explains PCA together with covariance matrices, eigenvectors and eigenvalues required to understand the process very clearly. \citet{jolliffe2002principal} also includes a very thorough description of PCA.
 
 
 \subsection{Excluding Less Interesting Principal Components}
@@ -874,18 +877,18 @@ If the PCA is performed to aid visualizing the data set, retaining only the two 
 \begin{figure}
     \centering
     \input{kuvat/tex/scree.pdf_tex}
-    \caption{Example of a scree plot of randomly generated normally distributed data. In this case the plot has a clear elbow at fifth PC with the PCs 5-9 appearing roughly on a line. Thus the last five PCs could be a good number of PCs to be omitted if dimensionality reduction is desired.}\label{fig:scree}
+    \caption{Example of a scree plot of randomly generated normally distributed data. In this case the plot has a clear elbow at fifth PC with the PCs 5-9 appearing roughly on a line. Thus the last four PCs could be a good number of PCs to be omitted if dimensionality reduction is desired.}\label{fig:scree}
 \end{figure}
 
 One widely used technique was introduced by \citet{cattell1966scree} to be used in factor analysis, but is also very much applicable to PCA \citep{jolliffe2002principal}. This so called Cattell scree test involves plotting the variance of the data points along each PC versus the index of the PC. These plots tend to look similar to what is shown in Fig.\ \ref{fig:scree}, resembling a steep cliff with eroded material accumulated at the base, which is why these plots are known as scree plots and the nearly linear section of the plot is called the scree.
 
 When the scree plot has two clearly different areas, the steep slope corresponding to the first PCs and a more gently sloping scree for the latter PCs, locating this elbow in the plot connecting the two areas will give the number of PCs that should be included \citep{jolliffe2002principal}, which in case of Fig.\ \ref{fig:scree} would yield five PCs. Some sources such as \citep{cattell1966scree} suggest that in some cases the PC corresponding to the elbow should be discarded, which will result in one less PC.
 
-Unfortunately, as Cattell also acknowledges in his paper, all cases are not as easy to analyze as the one in Fig.\ \ref{fig:scree} and may prove difficult to discern for an inexperienced researcher. This problem might arise from for example noise in the linear part of the plot or scree line consisting of two separate linear segments with different slopes. The first case has no easy solution, but in the latter case Cattell suggests using the smaller number of PCs.
+Unfortunately, as Cattell also acknowledges in his paper, all cases are not as easy to analyze as the one in Fig.\ \ref{fig:scree} and may prove difficult to discern for an inexperienced researcher. This problem might arise from for example noise in the linear part of the plot or the scree line consisting of two separate linear segments with different slopes. The first case has no easy solution, but in the latter case Cattell suggests using the smaller number of PCs.
 
 %\reversemarginpar
 %\marginnote{\footnotesize{joku kiva lopetus tämän jälkeen?}}
-Another straightforward method for choosing how many PCs to retain is to examine how much of the total variation in data is explained by first PCs and including components only up to a point where pre-defined percentage of the total variance is explained \citep{jolliffe2002principal}. Whereas the previous method posed a challenge in determining which PC best matches the exclusion criteria, when using this approach the problem arises from choosing the threshold for including PCs. \citet{jolliffe2002principal} suggests that a value between 70~\% and 90~\% of the total variation is often a reasonable choice, but admits that the properties of the data set may justify values outside this range. Unfortunately, the suggested range is quite wide, so it may contain pultiple PCs and therefore it is up to the researcher to determine the best number of PCs, while the criterion again acts as only an aid in the process. 
+Another straightforward method for choosing how many PCs to retain is to examine how much of the total variation in data is explained by first PCs and including components only up to a point where pre-defined percentage of the total variance is explained \citep{jolliffe2002principal}. Whereas the previous method posed a challenge in determining which PC best matches the exclusion criteria, when using this approach the problem arises from choosing the threshold for including PCs. \citet{jolliffe2002principal} suggests that a value between 70~\% and 90~\% of the total variation is often a reasonable choice, but admits that the properties of the data set may justify values outside this range. Unfortunately, the suggested range is quite wide, so it may contain pultiple PCs and therefore it is up to the researcher to determine the best number of PCs, while the criterion again acts only as an aid in the process. 
 
 
 
@@ -900,7 +903,7 @@ Another straightforward method for choosing how many PCs to retain is to examine
 \section{Comparing two samples drawn from unknown distributions}
 %\reversemarginpar
 %\marginnote{\footnotesize{TODO: oispa parempi otsikko. mieti, onko tämä muutenkaan hyvä nyt kun on siirretty yksi otsikkotaso ylöspäin}}[-3cm]
-A common question in multiple fields of science is whether two or more samples are drawn from the same distribution. The most relevant methods that can be used to address this problem are introduced here following \citep{bohm2010introduction} and \citep{feigelson2012modern} apart from introducing the $\chi^2$ test which is mostly based on the approach of \citep{corder2014nonparametric}.
+A common question in multiple fields of science is whether two or more samples are drawn from the same distribution. The most relevant methods that can be used to address this problem are introduced here following \citet{bohm2010introduction} and \citet{feigelson2012modern} apart from introducing the $\chi^2$ test which is mostly based on the approach of \citet{corder2014nonparametric}.
 
 Questions related to comparing samples can emerge for example when comparing effectiveness of two procedures, determining if the instrument has changed over time or whether observed data is compatible with simulations. There are multiple two-sample tests that can address this kind of questions, e.g. $\chi^2$, Kolmogorov-Smirnov, Cram\'er-von Mises and Anderson-Darling tests. 
 
@@ -968,7 +971,7 @@ Before performing the $\chi^2$ test on a dataset, it is important to confirm tha
 
 
 \subsection{Kolmogorov-Smirnov test}
-For astronomers one of the most well-known statistical test is the Kolmogorov-Smirnov test, also known as the KS test. It is computationally inexpensive to calculate, easy to understand and does not require binning of data. It is also a nonparametric test i.e.\ the data does not have to be drawn from a particular distribution.
+For astronomers, one of the most well-known statistical test is the Kolmogorov-Smirnov test, also known as the KS test. It is computationally inexpensive to calculate, easy to understand and does not require binning of data. It is also a nonparametric test i.e.\ the data does not have to be drawn from a particular distribution.
 
 In the astrophysical context this is often important because astrophysical models usually do not fix a specific statistical distribution for observables and it is common to carry out calculations with logarithms of observables, after which the originally possibly normally distributed residuals  will no longer follow a normal distribution. When using the KS test, the values on the x-axis can be freely reparametrized: for example using $2x$ or $\log x$ on x-axis will result in same value of the test statistic as using just $x$ \citep{press2007numerical}.
 
@@ -985,7 +988,7 @@ uses the maximum vertical distance of the EDFs. This test statistic is then used
    \label{fig:ks} 
 \end{figure}
 
-As an example, let us consider two pairs of samples from Fig.\ \ref{fig:edf}: green and blue (two samples drawn from different normal distributions) and blue and cyan (two samples drawn from same normal distribution). We can formulate the test and null hypotheses for both pairs as $H_0$=''the two samples are drawn from the same distribution'' and $H_1$=''the two samples are not drawn from the same distribution'' and choose a significance level of for example $\alpha=0.05$ or $\alpha=0.01$.
+As an example, let us consider two pairs of samples from Fig.\ \ref{fig:edf}: green and blue (two samples drawn from different normal distributions) and blue and cyan (two samples drawn from the same normal distribution). We can formulate the test and null hypotheses for both pairs as $H_0$=''the two samples are drawn from the same distribution'' and $H_1$=''the two samples are not drawn from the same distribution'' and choose a significance level of for example $\alpha=0.05$ or $\alpha=0.01$.
 
 %\reversemarginpar
 %\marginnote{\footnotesize{mistä p-value saadaan, kerro taas aiemmin (tai täällä)}}
@@ -998,7 +1001,7 @@ The test statistic is then calculated and for these samples we get $D=0.51$ for 
    \label{fig:ks-error} 
 \end{figure}
 
-In this case the KS test produced result that matches the actual distributions from which the samples were drawn. Using a different random realization might have resulted in a different conclusion, for example one shown in Fig.\ \ref{fig:ks-error} results in $D=0.17$ that corresponds to a p-value of $0.64$ i.e.\ null hypothesis could not have been rejected using the $\alpha$ specified earlier. In a similar manner there can be cases where two samples from one distribution are erroneously determined not to come from the same distribution if the samples differ from each other enough due to random effects.
+In this case the KS test produced result that matches the actual distributions from which the samples were drawn. Using a different random realization might have resulted in a different conclusion, for example the one shown in Fig.\ \ref{fig:ks-error} results in $D=0.17$ that corresponds to a p-value of $0.64$ i.e.\ null hypothesis could not have been rejected using the $\alpha$ specified earlier. In a similar manner there can be cases where two samples from one distribution are erroneously determined not to come from the same distribution if the samples differ from each other enough due to random effects.
 
 The latter example case also illustrates one major shortcoming of the KS test: it is not very sensitive to small-scale differences near the tails of the distribution. For example in Fig.\ \ref{fig:ks-error} the blue sample goes much further left, but because EDF is always zero at the lowest allowed value and one at the highest one the vertical distances near the tails are small and the test is most sensitive to differences near the median value of the distribution. On the other hand, the test performs quite well when the samples differ globally or have different means. \citep{feigelson2012modern}
 
