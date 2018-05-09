@@ -1043,6 +1043,9 @@ where $N$ is the number of data points in sample. This weighing makes the test m
 Also other more specific tests exist, such as the Kuiper test which is well suited for cyclic measurements. The test should always be chosen to match the dataset such that it best differentiates between the null and research hypotheses.
 
 \section{Cluster Analysis}
+The aim of cluster analysis is to find groups of similar data points within a data set, known as clusters \citep{han2000data}. Ideally data points within each cluster are as similar to each other as possible and dissimilar to data points outside the cluster \citep{han2000data}. It has many applications in many fields ranging from machine learning to biology and it can also be applied in astronomy and astrophysics to e.g. classify objects and possibly even discover new ways to classify them \citep{ball2010data, han2000data}. TODO: https://arxiv.org/pdf/astro-ph/9802085.pd, is this a good example, might there be a better onef ? %TODO
+
+Many different algorithms have been developed for performing cluster analysis, each best suited for some specific type of data \citep{han2000data}. The best algorithm for a problem should always be chosen based on the properties of the data and the desired output, e.g. size of the dataset, are the clusters expected to be spherical or can they have arbitrary shapes and can the clusters contain a hierarchy of smaller clusters. One clustering algorithm that is well suited for finding clusters based on a density threshold in a spatial data set is DBSCAN, presented by \citet{ester1996density}.
 
 
 \chapter{Findings from DMO Halo Catalogue Analysis}
