@@ -1047,7 +1047,9 @@ The aim of cluster analysis is to find groups of similar data points within a da
 
 The definition of a cluster is intentionally loose, with the exact definition varying between problems to which it is applied \citep{tan2006introduction}. Differences can arise for example from whether one particle can be part of multiple clusters and whether all data points should be part of some cluster or if the dataset contains noise not belonging to any cluster. Many different algorithms have been developed for performing cluster analysis, each best suited for some specific type of data \citep{han2000data}. A wide range of different clustering algorithms also exist and the used algorithm should always be chosen based on the properties of the data and the desired properties of the clusters.
 
-One clustering algorithm that is well suited for finding clusters based on a density threshold in a spatial data set is DBSCAN, presented by \citet{ester1996density}.
+One clustering algorithm that is well suited for finding clusters based on a density threshold in a spatial data set is DBSCAN, originally presented by \citet{ester1996density}. It produces a density-based clustering, meaning that the found clusters are data points residing in high-density regions, each cluster separated from others by a low-density region \citep{han2000data}. This definition allows both finding clusters of arbitrary shape and working with noisy data with data points that do not belong to any cluster \citep{ester1996density}.
+
+The algorithm uses two parameters defining the properties of the clusters: $\epsilon$ (sometimes denoted Eps) and MinPts. The $\epsilon$ parameter resembles the linking length used by the FOF algorithm introduced in section \ref{sect:halofinding} 
 
 
 
