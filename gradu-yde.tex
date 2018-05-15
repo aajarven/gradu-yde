@@ -1061,6 +1061,13 @@ If more than MinPts data points belong to the $\epsilon$\=/neighbourhood of a da
 \end{figure}
 
 
+\begin{figure}
+    \centering
+    %\def\svgwidth{\columnwidth}
+    \input{kuvat/tex/DBSCAN-borderpoint.pdf_tex}
+    \caption{A single cluster with MinPts = 4 and $\epsilon$ shown with circles. The dark blue particles all have at least four particles in their $\epsilon$\=/neighbourhood so they are core particles, but the light blue particle in the lower right corner has an $\epsilon$\=/neighbourhood of only three particles. Thus despite it being part of $\epsilon$\=/neighbourhoods of some core particles, it is not a core particle. Instead, it is a border particle of the cluster.}\label{fig:DBSCAN-twocores}
+\end{figure}
+
 % non-deterministic, one-particle-clusters
 % 2*d minpts
 
