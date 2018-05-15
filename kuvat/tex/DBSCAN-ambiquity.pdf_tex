@@ -1,6 +1,6 @@
 %% Creator: Inkscape inkscape 0.91, www.inkscape.org
 %% PDF/EPS/PS + LaTeX output extension by Johan Engelen, 2010
-%% Accompanies image file 'DBSCAN-borderpoint.pdf' (pdf, eps, ps)
+%% Accompanies image file 'DBSCAN-ambiquity.pdf' (pdf, eps, ps)
 %%
 %% To include the image in your LaTeX document, write
 %%   \input{<filename>.pdf_tex}
@@ -36,7 +36,7 @@
   }%
   \providecommand\rotatebox[2]{#2}%
   \ifx\svgwidth\undefined%
-    \setlength{\unitlength}{150.06700563bp}%
+    \setlength{\unitlength}{194.22834663bp}%
     \ifx\svgscale\undefined%
       \relax%
     \else%
@@ -48,7 +48,7 @@
   \global\let\svgwidth\undefined%
   \global\let\svgscale\undefined%
   \makeatother%
-  \begin{picture}(1,0.73416802)%
-    \put(0,0){\includegraphics[width=\unitlength,page=1]{DBSCAN-borderpoint.pdf}}%
+  \begin{picture}(1,0.65679939)%
+    \put(0,0){\includegraphics[width=\unitlength,page=1]{DBSCAN-ambiquity.pdf}}%
   \end{picture}%
 \endgroup%

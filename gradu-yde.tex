@@ -784,7 +784,7 @@ where parameter $\beta_0$ represents the $y$ axis intercept of the line and $\be
     \centering
     %\def\svgwidth{\columnwidth}
     \input{kuvat/tex/OLS.pdf_tex}
-    \caption{Ordinary least squares fit (black line) to a data set (black circles). The fitted line minimizes the sum of squares of vertical distances between the data points and the fitted line, shown in gray.}\label{fig:OLS}
+    \caption{Ordinary least squares fit (black line) to a data set (black circles). The fitted line minimizes the sum of squares of vertical distances between the data points and the fitted line, shown in grey.}\label{fig:OLS}
 \end{figure}
 
 %\reversemarginpar
@@ -810,7 +810,7 @@ When dividing the variables to the independent variable with no error and a resp
     \centering
     %\def\svgwidth{\columnwidth}
     \input{kuvat/tex/TLS.pdf_tex}
-    \caption{Total least squares minimizes the sum of squares of orthogonal distances of the data points from the fitted line. Distances between the data points (black circles) and the fitted line (black line) are shown in gray.}\label{fig:TLS}
+    \caption{Total least squares minimizes the sum of squares of orthogonal distances of the data points from the fitted line. Distances between the data points (black circles) and the fitted line (black line) are shown in grey.}\label{fig:TLS}
 \end{figure}
 
 
@@ -1051,21 +1051,31 @@ One clustering algorithm that is well suited for finding clusters based on a den
 
 The algorithm uses two parameters defining the properties of the clusters: $\epsilon$ (sometimes denoted Eps) and MinPts. The $\epsilon$ parameter resembles the linking length used by the FOF algorithm introduced in section \ref{sect:halofinding} as it sets the size of the neighbourhood used when determining whether a particle is part of a cluster. The distance function can be chosen freely to best fit the problem, possible metrics being e.g. Euclidean or Manhattan distance. The points within the distance $\epsilon$ from a given data point are said to belong to its $\epsilon$\=/neighbourhood. This definition implies that a data point also belongs to its own $\epsilon$\=/neighbourhood.
 
-If more than MinPts data points belong to the $\epsilon$\=/neighbourhood of a data point, it belong to a cluster and is a core point of said cluster. If a core point has another core point in its $\epsilon$\=/neighbourhood, the two core points belong to the same cluster. For example in figure \ref{fig:DBSCAN-twocores} red points are all core points of one cluster, but as no blue points are within $\epsilon$\=/neighbourhood of any red point, the blue points form their own cluster.
+If more than MinPts data points belong to the $\epsilon$\=/neighbourhood of a data point, it belong to a cluster and is a core point of said cluster. If a core point has another core point in its $\epsilon$\=/neighbourhood, the two core points belong to the same cluster. For example in Fig.\ \ref{fig:DBSCAN-twocores} red points are all core points of one cluster, but as no blue points are within $\epsilon$\=/neighbourhood of any red point, the blue points form their own cluster.
 
 \begin{figure}
     \centering
     %\def\svgwidth{\columnwidth}
     \input{kuvat/tex/DBSCAN-twocores.pdf_tex}
-    \caption{An example data set shown as dots, surrounded by circles showing the extent of $\epsilon$\=/neighbourhoods of each point. To reduce clutter, all but one $\epsilon$\=/neighbourhood border are shown in grey. When MinPts = 4, the data points are separated to two clusters, shown in red and blue here. As every point has at least four data points within its $\epsilon$\=/neighbourhood, all data points are core points.}\label{fig:DBSCAN-twocores}
+    \caption{An example data set shown as dots, surrounded by circles showing the extent of $\epsilon$\=/neighbourhoods of each data point. To reduce clutter, all but one $\epsilon$\=/neighbourhood border are shown in grey. When MinPts = 4, the data points are separated to two clusters, shown in red and blue here. As every point has at least four data points within its $\epsilon$\=/neighbourhood, all data points are core points.}\label{fig:DBSCAN-twocores}
 \end{figure}
 
+Some points might have $\epsilon$\=/neighbourhoods with less than MinPts data points in them, but belong to an $\epsilon$\=/neighbourhood of a core point. These points are border points and they are also in the cluster the point or points of which are in the $\epsilon$\=/neighbourhoods of the border point. For example in Fig.\ \ref{fig:DBSCAN-borderpoint} the light blue point also belongs to the cluster defined by the dark blue core points. Cluster membership does not propagate further from border points, meaning that e.g. the grey data point in Fig.\ \ref{fig:DBSCAN-borderpoint} is not part of any cluster despite being in the $\epsilon$\=/neighbourhood in one of the cluster members as this member is a border point.
 
 \begin{figure}
     \centering
     %\def\svgwidth{\columnwidth}
     \input{kuvat/tex/DBSCAN-borderpoint.pdf_tex}
-    \caption{A single cluster with MinPts = 4 and $\epsilon$ shown with circles. The dark blue particles all have at least four particles in their $\epsilon$\=/neighbourhood so they are core particles, but the light blue particle in the lower right corner has an $\epsilon$\=/neighbourhood of only three particles. Thus despite it being part of $\epsilon$\=/neighbourhoods of some core particles, it is not a core particle. Instead, it is a border particle of the cluster.}\label{fig:DBSCAN-twocores}
+    \caption{A single cluster with MinPts = 4 and $\epsilon$ shown with circles. The dark blue points all have at least four points in their $\epsilon$\=/neighbourhood so they are core points, but the light blue point in the lower right corner has an $\epsilon$\=/neighbourhood of only three points. Thus despite it being part of the $\epsilon$\=/neighbourhood of a core point, it is not a core point. Instead, it is a border point of the cluster. The grey points does not have four points in its $\epsilon$\=/neighbourhood nor does it belong to an $\epsilon$\=/neighbourhood of any core point, so it is not part of the cluster.}\label{fig:DBSCAN-borderpoint}
+\end{figure}
+
+DBSCAN classifies every data point as a member of one cluster at most, which means that it is not always clear to which cluster a border point should belong. For example in Fig.\ \ref{fig:DBSCAN-ambiquity} the grey point in the middle is part of $\epsilon$\=/neighbourhoods of both red and blue core points. 
+
+\begin{figure}
+    \centering
+    %\def\svgwidth{\columnwidth}
+    \input{kuvat/tex/DBSCAN-ambiquity.pdf_tex}
+    \caption{In this situation the grey data point could belong to either red or blue cluster. It will be added to the cluster that is }\label{fig:DBSCAN-ambiquity}
 \end{figure}
 
 % non-deterministic, one-particle-clusters
