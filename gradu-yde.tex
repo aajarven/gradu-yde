@@ -1066,21 +1066,36 @@ Some points might have $\epsilon$\=/neighbourhoods with less than MinPts data po
     \centering
     %\def\svgwidth{\columnwidth}
     \input{kuvat/tex/DBSCAN-borderpoint.pdf_tex}
-    \caption{A single cluster with MinPts = 4 and $\epsilon$ shown with circles. The dark blue points all have at least four points in their $\epsilon$\=/neighbourhood so they are core points, but the light blue point in the lower right corner has an $\epsilon$\=/neighbourhood of only three points. Thus despite it being part of the $\epsilon$\=/neighbourhood of a core point, it is not a core point. Instead, it is a border point of the cluster. The grey points does not have four points in its $\epsilon$\=/neighbourhood nor does it belong to an $\epsilon$\=/neighbourhood of any core point, so it is not part of the cluster.}\label{fig:DBSCAN-borderpoint}
+    \caption{A single cluster with MinPts = 4 and $\epsilon$ shown with circles. The dark blue points all have at least four points in their $\epsilon$\=/neighbourhood so they are core points, but the light blue point in the lower right corner has an $\epsilon$\=/neighbourhood of only three points. Thus despite it being part of the $\epsilon$\=/neighbourhood of a core point, it is not a core point. Instead, it is a border point of the cluster. The grey point does not have four points in its $\epsilon$\=/neighbourhood nor does it belong to an $\epsilon$\=/neighbourhood of any core point, so it is not part of the cluster.}\label{fig:DBSCAN-borderpoint}
 \end{figure}
 
-DBSCAN classifies every data point as a member of one cluster at most, which means that it is not always clear to which cluster a border point should belong. For example in Fig.\ \ref{fig:DBSCAN-ambiquity} the grey point in the middle is part of $\epsilon$\=/neighbourhoods of both red and blue core points. 
+In a situation where a border point is in $\epsilon$\=/neighbourhoods of core particles belonging to different clusters, as happens for example to the grey particle in Fig.\ \ref{fig:DBSCAN-ambiquity}, it is not clear to which cluster the border particle should be assigned. The density-based definition of a cluster presented by \citet{ester1996density} would classify these border points to all clusters whose core points reside in the $\epsilon$\=/neighbourhoods of these border point. Often a clustering with each data point belonging to a maximum of one cluster is desired instead, so the DBSCAN algorithm classifies this kind of border points only to the first cluster they are discovered in. 
+
+This introduces some possibly unexpected behaviours. First of all, even as the algorithm in deterministic when run multiple times on the same data set, if the order of particles is permuted, the cluster to which these border points between two clusters are assigned might change \citep{schubert2017dbscan}. Fortunately this is a fairly rare occasion and the effect of assigning a single border point to one cluster or another are insignificant \citep{schubert2017dbscan}.
 
 \begin{figure}
     \centering
     %\def\svgwidth{\columnwidth}
     \input{kuvat/tex/DBSCAN-ambiquity.pdf_tex}
-    \caption{In this situation the grey data point could belong to either red or blue cluster. It will be added to the cluster that is }\label{fig:DBSCAN-ambiquity}
+    \caption{In this situation the grey data point could belong to either red or blue cluster. The DBSCAN algorithm will be added to the cluster that is discovered first, so depending on the order of the data points it might be part of either red or blue cluster.}\label{fig:DBSCAN-ambiquity}
 \end{figure}
 
-% non-deterministic, one-particle-clusters
-% 2*d minpts
+Another edge case is even more extreme. Consider the configuration of data points is Fig.\ \ref{fig:DBSCAN-singlecore} where the $\epsilon$\=/neighbourhood of the grey point contains one border point from each of the three other clusters. As these are only border points, the grey point is not member of any of the three coloured clusters, but its $\epsilon$\=/neighbourhood has four points, so it is a core point of its own. Now assuming that the red, blue and yellow clusters are all found before the grey point is processed, the grey data point becomes the core point of a cluster containing only a single particle. These clusters with fewer than MinPts members are of course even rarer than the occasions when cluster membership of a border point is unambiguous, as they require border points of multiple clusters stretching close to the core area of another cluster without merging with it.
 
+\begin{figure}
+    \centering
+    %\def\svgwidth{\columnwidth}
+    \input{kuvat/tex/DBSCAN-singlecore.pdf_tex}
+    \caption{One border point form red, blue and yellow clusters each resides within the $\epsilon$\=/neighbourhood of the grey point, but as these are border points, the grey point belongs to none of the other clusters. The grey point has four points in its $\epsilon$\=/neighbourhood, meaning that with MinPts = 4 it is a core point. If the three other clusters are discovered before the cluster membership of the grey data point is determined, it becomes the only particle of its own cluster.}\label{fig:DBSCAN-singlecore}
+\end{figure}
+
+The properties of the identified clusters naturally depend on the used parameters $\epsilon$ and MinPts. Different heuristics exist for determining suitable values for them. For MinPts, \citet{schubert2017dbscan} provide a value of twice the dimensionality of the dataset, i.e. for two dimensional data MinPts = 4 should be chosen. For some datasets a higher value can be better if the dataset e.g. contains duplicate data points or is very large or high-dimensional \citep{schubert2017dbscan}.
+
+According to \citet{ester1996density}, $\epsilon$ can be set after choosing the value of MinPts by inspecting the distances of particles to their $k$\textsuperscript{th} nearest neighbour. Here $k$ can be set to the same value as MinPts and the results do not seem to vary greatly if $k$ is increased \citep{ester1996density}. TODO: elbow
+
+% 2*d minpts
+% elbow eps
+% domain knowledge
 
 
 \chapter{Findings from DMO Halo Catalogue Analysis}
