@@ -1091,11 +1091,7 @@ Another edge case is even more extreme. Consider the configuration of data point
 
 The properties of the identified clusters naturally depend on the used parameters $\epsilon$ and MinPts. Different heuristics exist for determining suitable values for them. For MinPts, \citet{schubert2017dbscan} provide a value of twice the dimensionality of the dataset, i.e. for two dimensional data MinPts = 4 should be chosen. For some datasets a higher value can be better if the dataset e.g. contains duplicate data points or is very large or high-dimensional \citep{schubert2017dbscan}.
 
-According to \citet{ester1996density}, $\epsilon$ can be set after choosing the value of MinPts by inspecting the distances of particles to their $k$\textsuperscript{th} nearest neighbour. Here $k$ can be set to the same value as MinPts and the results do not seem to vary greatly if $k$ is increased \citep{ester1996density}. TODO: elbow
-
-% 2*d minpts
-% elbow eps
-% domain knowledge
+According to \citet{ester1996density}, $\epsilon$ can be set after choosing the value of MinPts by inspecting the distances of particles to their $k$\textsuperscript{th} nearest neighbour. Here $k$ can be set to the same value as MinPts and the results do not seem to vary greatly if $k$ is increased \citep{ester1996density}. When the $k$\=/distances are sorted and plotted, the resulting plot often shows an elbow similar to the one in the scree plot in Fig.\ \ref{fig:scree}. \citet{ester1996density} suggest that the distance corresponding to this elbow should be used as a value of $\epsilon$, with the points to the left of the elbow corresponding to noise. If domain knowledge is available, $\epsilon$ and MinPts can also be chosen differently to best suit the data set \citep{schubert2017dbscan}.
 
 
 \chapter{Findings from DMO Halo Catalogue Analysis}
