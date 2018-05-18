@@ -46,5 +46,12 @@ if __name__ == "__main__":
 	fitdata = clustering.precomputeDistances(directions)
 	neighbours= NearestNeighbors(n_neighbors=5,
 										metric='precomputed').fit(fitdata)
-	four_distances, indices = neighbours.kneighbors(n_neighbors=4, return_distance=True)
-	print(four_distances)
+	k_distances, indices = neighbours.kneighbors(n_neighbors=4, return_distance=True)
+	four_distances = k_distances[:,3]
+
+	f = plt.figure()
+	ax = f.add_subplot(111)
+	ax.plot(range(0, len(four_distances)), sorted(four_distances, reverse=True))
+	plt.tight_layout()
+	plt.subplots_adjust(wspace=0)
+	plt.show()
