@@ -49,7 +49,7 @@ if __name__ == "__main__":
 
 		distmask = np.array([distance < 5.0 and distance > 1.5 for distance in
 						  distances])
-		
+
 		distances = distances[distmask]
 		cop = cop[distmask]
 
@@ -57,8 +57,13 @@ if __name__ == "__main__":
 							   pos in cop])
 
 		fitdata = clustering.precomputeDistances(directions)
+		meansep = np.mean([min(x[x>0]) for x in fitdata])
+		
 		neighbours= NearestNeighbors(n_neighbors=5,
 											metric='precomputed').fit(fitdata)
+#		neighbours= NearestNeighbors(n_neighbors=5,
+#											metric='precomputed').fit(np.divide(fitdata,
+#											  meansep))
 		k_distances, indices = neighbours.kneighbors(n_neighbors=4, return_distance=True)
 		four_distances = k_distances[:,3]
 
@@ -72,4 +77,4 @@ if __name__ == "__main__":
 	plt.ylim(0, None)
 	plt.tight_layout()
 	plt.subplots_adjust(wspace=0)
-	plt.savefig("../../kuvat/4-distances.svg")
+	plt.savefig("../../kuvat/4-distances-meansep_scaled.svg")
