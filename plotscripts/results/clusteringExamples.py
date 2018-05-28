@@ -16,12 +16,13 @@ from sklearn.cluster import DBSCAN
 # HUOM OBS NB: kaatuu jos colours on liian lyhyt
 def loopClusterPlotting(fitdata, axes, clusteringParameters, colours):
 	for ax, parameters in zip(axes, clusteringParameters):
-		eps = clustering.meanSeparationEps(fitdata, parameters[1])
+		eps = parameters[1]
+		#eps = clustering.meanSeparationEps(fitdata, parameters[1])
 		db = DBSCAN(eps=eps, min_samples=parameters[0], metric='precomputed', ).fit(fitdata)
 		labels = db.labels_
 		uniqueLabels = set(labels)
 		clusters = len(set(labels)) - (1 if -1 in labels else 0)
-
+		print(clusters)
 		for l in uniqueLabels:
 			if l == -1:
 				col = 'k'
@@ -76,11 +77,11 @@ if __name__ == "__main__":
 
 	# general examples
 
-	clusteringParameters = [(6, 4.5), (15, 4.5),
-						 (6, 2.0), (15, 2.0),
-						 (6, 1.0), (15, 1.0)]
+	clusteringParameters = [(4, 0.15), (8, 0.2),
+						 (4, 0.2), (8, 0.1),
+						 (4, 0.1), (8, 0.3)]
 	f, axarr = plt.subplots(3, 2, subplot_kw=dict(projection='mollweide'))
-	colours = plt.cm.Set1(np.linspace(0, 1, 14))
+	colours = plt.cm.Set1(np.linspace(0, 1, 18))
 	
 	loopClusterPlotting(fitdata, axarr.flatten(), clusteringParameters,
 					 colours)
