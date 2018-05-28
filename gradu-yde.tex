@@ -1180,8 +1180,8 @@ Figure \ref{fig:clusteringparameters} shows the effect of varying minsamples and
     \caption{Mean number of clusters found for all simulations in dataset with different DBSCAN parameters. In all simulations $\varepsilon$ is scaled using the mean distance between closest neighbours.}\label{fig:clusteringparameters}
 \end{figure}
 
-\reversemarginpar
-\marginnote{\footnotesize{TODO: mieti laitatko samaan figureen, vertaile kuitenkin, selitä vasemmanpuolimmainen pikselisarake}}
+%\reversemarginpar
+%\marginnote{\footnotesize{TODO: mieti laitatko samaan figureen, vertaile kuitenkin, selitä vasemmanpuolimmainen pikselisarake}}
 Figure \ref{fig:clusterdiameter} shows the change in mean diameter (supremum of angular distance between haloes) in cluster when $\varepsilon$ and minsamples are varied. White areas where no clusters are found in any simulation.
 
 \begin{figure}
@@ -1190,8 +1190,15 @@ Figure \ref{fig:clusterdiameter} shows the change in mean diameter (supremum of 
     \caption{Mean diameter of clusters found for all simulations in dataset with different DBSCAN parameters. In all simulations $\varepsilon$ is scaled using the mean distance between closest neighbours.}\label{fig:clusterdiameter}
 \end{figure}
 
-\reversemarginpar
-\marginnote{\footnotesize{Ehkä vähän vähemmän tilaa plottien välissä vaakasuunnassa? Keltaiset vähän turhan samanlaisia.}}
+\begin{figure}
+    \centering
+    \input{kuvat/tex/4-distances.pdf_tex}
+    \caption{Sorted 4-dist graphs for subhaloes between $1.5$ and $5.0$ Mpc from the Local Group in each simulation that is uncontaminated at least up to 5 Mpc from the Local Group. The plotted distances are measured as the angular distance between the subhaloes as seen from the Milky Way analogue. %eps 0.17, ehkä alempikin, esim 0.15 %TODO
+    }\label{fig:4-distances}
+\end{figure}
+
+%\reversemarginpar
+%\marginnote{\footnotesize{Ehkä vähän vähemmän tilaa plottien välissä vaakasuunnassa? Keltaiset vähän turhan samanlaisia.}}
 Figures \ref{fig:clusteringExamples} and \ref{fig:clusteringvariations} show how the clustering results vary when clustering parameters are varied.
 
 \begin{figure}
