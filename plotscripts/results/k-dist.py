@@ -19,7 +19,9 @@ if __name__ == "__main__":
 	rc('font', **{'family':'serif','serif':['Palatino']})
 	rc('text', usetex=True)
 	matplotlib.rcParams.update({'font.size': 13})
-	
+
+	fig = plt.figure()
+
 	simlist_path = "../input/allButDuplicates-fullpath.txt"
 	simlist_file = open(simlist_path, 'r')
 	simlist = [line.strip() for line in simlist_file]
@@ -46,7 +48,9 @@ if __name__ == "__main__":
 
 		cop = d['cops']
 		distances = np.array([physUtils.distance(centre, pos) for pos in cop])
-
+		if max(distances) < 5.0:
+			print("distance criteria failed")
+			continue
 		distmask = np.array([distance < 5.0 and distance > 1.5 for distance in
 						  distances])
 
@@ -72,9 +76,13 @@ if __name__ == "__main__":
 		
 	
 	plt.xlabel(r"Subhalo index")
-	plt.ylabel(r'Distance to the 4\textsuperscript{th} nearest neighbour (radians)')
+	plt.ylabel('Distance to the $4^{\mathrm{th}}$ nearest\nneighbour (radians)',
+			multialignment='center')
+	plt.plot([0, 500], [0.17, 0.17])
+	
 	plt.xlim(0, None)
 	plt.ylim(0, None)
+	fig.set_size_inches(4.2, 3.5)
 	plt.tight_layout()
-	plt.subplots_adjust(wspace=0)
-	plt.savefig("../../kuvat/4-distances-meansep_scaled.svg")
+	#plt.subplots_adjust(wspace=0)
+	plt.savefig("../../kuvat/4-distances.svg")
