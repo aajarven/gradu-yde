@@ -38,7 +38,7 @@ def loopClusterPlotting(fitdata, axes, clusteringParameters, colours):
 			ax.grid(b=True)
 			ax.set_xticklabels([])
 			ax.set_yticklabels([])
-			ax.set_title(r"$\varepsilon$=" + str(parameters[1]) + ", minsamples=" +
+			ax.set_title(r"$\varepsilon$={:.2f}".format(parameters[1]) + ", minsamples=" +
 				str(parameters[0]))
 
 if __name__ == "__main__":
@@ -75,20 +75,19 @@ if __name__ == "__main__":
 
 	fitdata = clustering.precomputeDistances(directions)
 
+	rc('font', **{'family':'serif','serif':['Palatino']})
+	rc('text', usetex=True)
+
 	# general examples
 
-	clusteringParameters = [(4, 0.15), (8, 0.2),
-						 (4, 0.2), (8, 0.1),
-						 (4, 0.1), (8, 0.3)]
+	clusteringParameters = [(4, 0.10), (2, 0.16),
+						 (4, 0.16), (6, 0.16),
+						 (4, 0.24), (12, 0.16)]
 	f, axarr = plt.subplots(3, 2, subplot_kw=dict(projection='mollweide'))
-	colours = plt.cm.Set1(np.linspace(0, 1, 18))
+	colours = plt.cm.tab20(np.linspace(0, 1, 20))
 	
 	loopClusterPlotting(fitdata, axarr.flatten(), clusteringParameters,
 					 colours)
-	
-	
-	rc('font', **{'family':'serif','serif':['Palatino']})
-	rc('text', usetex=True)
 
 	plt.tight_layout(rect=[-0.02, 0, 1.02, 1])
 	plt.subplots_adjust(wspace=0)
@@ -109,10 +108,10 @@ if __name__ == "__main__":
 	smallax3 = plt.subplot(gs[2, 0], projection="mollweide")
 	smallax4 = plt.subplot(gs[2, 1], projection="mollweide")
 
-	colours = plt.cm.Set1(np.linspace(0, 1, 12))
-	clusteringParameters = [(10, 1.8),
-						 (10, 1.6), (10, 2.0),
-						 (8, 1.8), (12, 1.8)]
+	colours = plt.cm.tab10(np.linspace(0, 1, 10))
+	clusteringParameters = [(4, 0.16),
+						 (4, 0.14), (7, 0.16),
+						 (4, 0.18), (10, 0.16)]
 	loopClusterPlotting(fitdata, [bigax, smallax1, smallax2, smallax3,
 							   smallax4], clusteringParameters, colours)
 
