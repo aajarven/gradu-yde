@@ -24,7 +24,7 @@ def percentFormat(x, position):
 	return s + r'$\%$'
 
 if __name__ == "__main__":
-	inputfile = "../input/allButDuplicates-fullpath.txt" 
+	inputfile = "../input/lgfound-fullpath.txt" 
 	saveloc = "../../kuvat/LGproperties.svg"
 
 	lines =  sum(1 for line in open(inputfile))
@@ -103,19 +103,24 @@ if __name__ == "__main__":
 
 	ax = axarr[0, 0]
 	weights = np.ones_like(radvel)/float(len(radvel))
-	ax.hist(radvel, weights=weights, color='0.75', edgecolor='black')
+	ax.hist(radvel, weights=weights, color='0.75', edgecolor='black',
+		 bins=np.arange(10, 176, 15))
 	ax.set_xlabel("Radial velocity (km/s)")
+	ax.set_xticks(np.arange(10, 176, 30))
 	ax.yaxis.set_major_formatter(formatter)
 	
 	ax = axarr[0, 1]
 	weights = np.ones_like(tanvel)/float(len(tanvel))
-	ax.hist(tanvel, weights=weights, color='0.75', edgecolor='black')
+	ax.hist(tanvel, weights=weights, color='0.75', edgecolor='black',
+		 bins=np.arange(0, 51, 5))
 	ax.set_xlabel("Tangential velocity (km/s)")
+	ax.set_xticks(np.arange(0, 50, 10))
 	ax.yaxis.set_major_formatter(formatter)
 
 	ax = axarr[1, 0]
 	weights = np.ones_like(distance)/float(len(distance))
-	ax.hist(distance, weights=weights, color='0.75', edgecolor='black')
+	ax.hist(distance, weights=weights, color='0.75', edgecolor='black',
+		 bins=np.arange(0.6, 1.001, 0.05))
 	majorLocator = ticker.MultipleLocator(0.1)
 	minorLocator = ticker.MultipleLocator(0.05)
 	ax.xaxis.set_major_locator(majorLocator)
@@ -125,15 +130,18 @@ if __name__ == "__main__":
 
 	ax = axarr[1, 1]
 	weights = np.ones_like(mass)/float(len(mass))
-	ax.hist(mass/1e12, weights=weights, color='0.75', edgecolor='black')
+	ax.hist(mass/1e12, weights=weights, color='0.75', edgecolor='black',
+		 bins=np.arange(0.5, 6.6, 0.5))
 	ax.set_xlabel(r'Combined mass ($10^{12}\ M_{\astrosun}$)',
 			   multialignment='center')
+	ax.set_xticks(np.arange(1, 6.6, 1))
 	ax.yaxis.set_major_formatter(formatter)
 	ax.xaxis.set_major_formatter(ticker.FormatStrFormatter('%.1f'))
 
 	ax = axarr[2, 0]
 	weights = np.ones_like(massdifference)/float(len(massdifference))
-	ax.hist(massdifference/1e12, weights=weights, color='0.75', edgecolor='black')
+	ax.hist(massdifference/1e12, weights=weights, color='0.75',
+		 edgecolor='black', bins=np.arange(0, 4.1, 0.5))
 	ax.set_xlabel(r"Mass difference ($10^{12}\ M_{\astrosun}$)",
 			   multialignment='center')
 	ax.yaxis.set_major_formatter(formatter)
@@ -146,7 +154,8 @@ if __name__ == "__main__":
 
 	ax = axarr[2, 1]
 	weights = np.ones_like(massratio)/float(len(massratio))
-	ax.hist(massratio*100, weights=weights, color='0.75', edgecolor='black')
+	ax.hist(massratio*100, weights=weights, color='0.75', edgecolor='black',
+		 bins=np.arange(10, 51, 5))
 	ax.set_xlabel(r"Percent of mass in the\\less massive primary",
 			   multialignment='center', linespacing=10.0)
 	majorLocator = ticker.MultipleLocator(5)
