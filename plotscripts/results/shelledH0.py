@@ -123,12 +123,17 @@ if __name__ == "__main__":
 		data = H0[:, i]
 		data = data[~np.isnan(data)]
 		sem = scipy.stats.sem(data)
-		H0min[0, i] = np.nanmean(data) - sem
-		H0max[0, i] = np.nanmean(data) + sem
+		std = np.std(data)
+		
+		H0min[0, i] = np.nanmean(data) - std
+		H0max[0, i] = np.nanmean(data) + std
 
 	centers = [(l[0]+l[1])/2 for l in limitsH0]
 	
 	#### plotting #####
+	rc('font', **{'family':'serif','serif':['Palatino']})
+	rc('text', usetex=True)
+	
 	fig = plt.figure()
 
 	plt.plot(centers, H0max.flatten(), linewidth=2.0, color='0.75')
@@ -136,10 +141,9 @@ if __name__ == "__main__":
 	plt.plot(centers, np.nanmean(H0, axis=0), linewidth=2.0, color='k')
 	
 	plt.xlabel("Distance of bin centre from Milky Way (Mpc)")
-	plt.ylabel("Mean H0 when fitted using haloes in bin")	
+	plt.ylabel("Mean $H_0$ in 2.0 Mpc bin (km/s/Mpc)")	
 	
-	rc('font', **{'family':'serif','serif':['Palatino']})
-	rc('text', usetex=True)
+
 	plt.tight_layout()
 
 	fig.set_size_inches(5.9, 5)
@@ -159,6 +163,7 @@ if __name__ == "__main__":
 	ax.set_xticklabels(centers)
 	plt.ylim([-2, 4])
 
+	#TODO ligatures not working (e.g. fl)
 	plt.xlabel("Distance of bin centre from Milky Way (Mpc)")
 	plt.ylabel("Hubble flow zero point distance from MW (Mpc)")	
 	
