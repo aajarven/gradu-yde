@@ -30,7 +30,13 @@ ax.set_ylabel("Number of simulations")
 ax.set_xlim(min(distances), max(distances))
 ax.set_ylim(0, math.ceil(max(indexes)/10.0)*10)
 
+
+print("Mpc\nUncontaminated haloes")
+for distance in range(9):
+	print(str(distance) + "\t" + str(sum(distances >= distance)))
+
+
 F = pylab.gcf()
 F.set_size_inches(5, 3)
 
-plt.savefig('../../kuvat/uncontaminatedDistances.svg', bbox_inches='tight')
+plt.savefig('../../kuvat/uncontaminatedDistances.pdf', bbox_inches='tight')
