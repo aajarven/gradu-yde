@@ -13,7 +13,7 @@ import numpy as np
 import physUtils
 from sklearn.cluster import DBSCAN
 
-# HUOM OBS NB: kaatuu jos colours on liian lyhyt
+# HUOM OBS NB: kaatuu jos colours on liian lyhyt eli klustereita yli 20
 def loopClusterPlotting(fitdata, axes, clusteringParameters, colours):
 	for ax, parameters in zip(axes, clusteringParameters):
 		eps = parameters[1]
@@ -22,7 +22,7 @@ def loopClusterPlotting(fitdata, axes, clusteringParameters, colours):
 		labels = db.labels_
 		uniqueLabels = set(labels)
 		clusters = len(set(labels)) - (1 if -1 in labels else 0)
-		print(clusters)
+		
 		for l in uniqueLabels:
 			if l == -1:
 				col = 'k'
@@ -94,7 +94,7 @@ if __name__ == "__main__":
 	
 	f.set_size_inches(5.9, 5.62)
 
-	plt.savefig(saveloc + "clusteringExamples.svg")
+	plt.savefig(saveloc + "clusteringExamples.pdf")
 
 
 	# examples of values near the chosen value
@@ -108,10 +108,10 @@ if __name__ == "__main__":
 	smallax3 = plt.subplot(gs[2, 0], projection="mollweide")
 	smallax4 = plt.subplot(gs[2, 1], projection="mollweide")
 
-	colours = plt.cm.tab10(np.linspace(0, 1, 10))
+	colours = plt.cm.tab20(np.linspace(0, 1, 20))
 	clusteringParameters = [(4, 0.16),
-						 (4, 0.14), (7, 0.16),
-						 (4, 0.18), (10, 0.16)]
+						 (4, 0.14), (3, 0.16),
+						 (4, 0.18), (5, 0.16)]
 	loopClusterPlotting(fitdata, [bigax, smallax1, smallax2, smallax3,
 							   smallax4], clusteringParameters, colours)
 
@@ -120,4 +120,4 @@ if __name__ == "__main__":
 	
 	f.set_size_inches(5.9, 7.0)
 	
-	plt.savefig(saveloc + "smallClusteringVariations.svg")
+	plt.savefig(saveloc + "smallClusteringVariations.pdf")
