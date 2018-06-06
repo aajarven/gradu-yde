@@ -25,7 +25,7 @@ def percentFormat(x, position):
 
 if __name__ == "__main__":
 	inputfile = "../input/lgfound-fullpath.txt" 
-	saveloc = "../../kuvat/LGproperties.svg"
+	saveloc = "../../kuvat/LGproperties.pdf"
 
 	lines =  sum(1 for line in open(inputfile))
 	radvel = np.full(lines, np.nan)
@@ -34,6 +34,7 @@ if __name__ == "__main__":
 	mass = np.full(lines, np.nan)
 	massdifference = np.full(lines, np.nan)
 	massratio = np.full(lines, np.nan)
+	overdensity2mpc = np.full(lines, np.nan)
 
 	f = open(inputfile, 'r')
 	sim = -1
@@ -91,6 +92,10 @@ if __name__ == "__main__":
 		massdifference[sim] = math.fabs(masses[LG[0]] - masses[LG[1]])
 		massratio[sim] = masses[centreIndex] / (masses[LG[0]] + masses[LG[1]])
 		
+		distances = np.array([physUtils.distance(centre, pos) for pos in cop])
+		mass2mpc = sum(masses[np.where(distances<=2)])
+		overdensity2mpc[sim] = (mass2mpc/(4.0/3.0*math.pi*(2**3)))/critical_density
+		
 	
 	#### plotting #####
 	rc('font', **{'family':'serif','serif':['Palatino']})
@@ -99,7 +104,7 @@ if __name__ == "__main__":
 	rcParams.update({'font.size': 13})
 	formatter = ticker.FuncFormatter(percentFormat)
 
-	fig, axarr = plt.subplots(3, 2, sharey=True)
+	fig, axarr = plt.subplots(4, 2, sharey=True)
 
 	ax = axarr[0, 0]
 	weights = np.ones_like(radvel)/float(len(radvel))
@@ -114,7 +119,7 @@ if __name__ == "__main__":
 	ax.hist(tanvel, weights=weights, color='0.75', edgecolor='black',
 		 bins=np.arange(0, 51, 5))
 	ax.set_xlabel("Tangential velocity (km/s)")
-	ax.set_xticks(np.arange(0, 50, 10))
+	ax.set_xticks(np.arange(0, 51, 10))
 	ax.yaxis.set_major_formatter(formatter)
 
 	ax = axarr[1, 0]
@@ -129,6 +134,16 @@ if __name__ == "__main__":
 	ax.yaxis.set_major_formatter(formatter)
 
 	ax = axarr[1, 1]
+	weights = np.ones_like(mass)/float(len(overdensity2mpc))
+	ax.hist(overdensity2mpc, weights=weights, color='0.75', edgecolor='black',
+		 bins=np.arange(0.2, 3.0, 0.2))
+	ax.set_xlabel(r'$\frac{M_{r<2~\mathrm{Mpc}}}{\rho_{crit}}$',
+			   multialignment='center')
+	ax.set_xticks(np.arange(0.2, 3.1, 0.4))
+	ax.yaxis.set_major_formatter(formatter)
+	ax.xaxis.set_major_formatter(ticker.FormatStrFormatter('%.1f'))
+	
+	ax = axarr[2, 0]
 	weights = np.ones_like(mass)/float(len(mass))
 	ax.hist(mass/1e12, weights=weights, color='0.75', edgecolor='black',
 		 bins=np.arange(0.5, 6.6, 0.5))
@@ -138,7 +153,7 @@ if __name__ == "__main__":
 	ax.yaxis.set_major_formatter(formatter)
 	ax.xaxis.set_major_formatter(ticker.FormatStrFormatter('%.1f'))
 
-	ax = axarr[2, 0]
+	ax = axarr[2, 1]
 	weights = np.ones_like(massdifference)/float(len(massdifference))
 	ax.hist(massdifference/1e12, weights=weights, color='0.75',
 		 edgecolor='black', bins=np.arange(0, 4.1, 0.5))
@@ -152,7 +167,7 @@ if __name__ == "__main__":
 	ax.xaxis.set_major_locator(majorLocator)
 	ax.xaxis.set_minor_locator(minorLocator)
 
-	ax = axarr[2, 1]
+	ax = axarr[3, 0]
 	weights = np.ones_like(massratio)/float(len(massratio))
 	ax.hist(massratio*100, weights=weights, color='0.75', edgecolor='black',
 		 bins=np.arange(10, 51, 5))
@@ -165,7 +180,8 @@ if __name__ == "__main__":
 #	ax.xaxis.set_minor_locator(minorLocator)
 
 	plt.tight_layout()
+	plt.subplots_adjust(hspace = 0.8)
 
-	fig.set_size_inches(5.9, 6.5)
+	fig.set_size_inches(5.9, 8)# 6.5)
 
 	plt.savefig(saveloc)
