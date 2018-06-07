@@ -20,18 +20,19 @@ from sklearn.cluster import DBSCAN
 
 if __name__ == "__main__":
 
-	inputfile = "../input/allButDuplicates-fullpath.txt"
+#	inputfile = "../input/upTo5Mpc-fullpath.txt"
+	inputfile = "../input/ten-fullpath.txt"
 	saveloc = "../../kuvat/"
 
 	simIndex = 0
 
-	samples = 32
-	minEPS = 0.5 
-	maxEPS = 8.5
+	samples = 30
+	minEPS = 0.01 
+	maxEPS = 0.31
 	EPSvalues = np.arange(minEPS, maxEPS+(maxEPS-minEPS)/samples,
 					   (maxEPS-minEPS)/samples)
 	minMS = 1
-	maxMS = 35
+	maxMS = 31
 	MSvalues = np.arange(minMS, maxMS+1)
 	clusters = np.zeros((len(EPSvalues), len(MSvalues)))
 	diameters = np.zeros((len(EPSvalues), len(MSvalues)))
@@ -85,11 +86,11 @@ if __name__ == "__main__":
 						   pos in cop])
 		fitdata = clustering.precomputeDistances(directions)
 
-		meansep = np.mean([min(x[x>0]) for x in fitdata])
+#		meansep = np.mean([min(x[x>0]) for x in fitdata])
 
 		for EPSindex in range(len(EPSvalues)):
 			for MSindex in range(len(MSvalues)):
-				eps = EPSvalues[EPSindex]*meansep
+				eps = EPSvalues[EPSindex]#*meansep
 				ms = MSvalues[MSindex]
 				db = DBSCAN(eps=eps, min_samples=ms, metric='precomputed', ).fit(fitdata)
 				labels = db.labels_
@@ -109,6 +110,8 @@ if __name__ == "__main__":
 
 
 	meanClusters = clusters / (sim+1)
+#	print(diameters)
+#	print(clusters)
 	meanDiameters = np.divide(diameters, clusters)
 	meanDiameters = np.multiply(meanDiameters, 180.0/np.pi)
 	meanDiametersNoInf = np.ma.masked_where( np.logical_or(
@@ -116,7 +119,6 @@ if __name__ == "__main__":
 
 	# replace zeroes with small value for log plotting
 	meanClusters[meanClusters == 0] = np.finfo(np.float).eps
-
 	matplotlib.rcParams['axes.unicode_minus'] = False
 	rc('font', **{'family':'serif','serif':['Palatino']})
 	rc('text', usetex=True)
@@ -136,28 +138,30 @@ if __name__ == "__main__":
 	minorticks = pcm.norm(np.arange(1, 20, 1))
 	cb.ax.yaxis.set_ticks(minorticks, minor=True)
 
-	xticks = np.array([1, 5, 10, 15, 20, 25, 30, 34])
-	xminorticks = np.arange(1, 34, 1)+0.5
+	xticks = np.array([1, 5, 10, 15, 20, 25, 30])
+	xminorticks = np.arange(1, 31, 1)+0.5
 
-	yticks = np.arange(np.ceil(min(EPSvalues)), max(EPSvalues), 1)
+	#yticks = np.arange(min(EPSvalues), max(EPSvalues), 0.05)
+	yticks = np.arange(0.05, 0.31, 0.05)
 
-	ax.axis([min(MSvalues), max(MSvalues), min(EPSvalues), max(EPSvalues)])
 	ax.set_xticks(xticks + 0.5*(MSvalues[1]-MSvalues[0]), minor=False)
-	ax.set_yticks(yticks + 0.5*(EPSvalues[1]-EPSvalues[0]), minor=False)
+	ax.set_yticks([0.05, 0.10, 0.15, 0.20, 0.25, 0.30] + 0.5*(EPSvalues[1] -
+														   EPSvalues[0]), minor=False)
+	ax.set_yticks(EPSvalues + 0.5*(EPSvalues[1] - EPSvalues[0]), minor=True)
+#	ax.set_yticks()#yticks + 0.5*(EPSvalues[1]-EPSvalues[0]), minor=False)
 	ax.set_xticklabels(xticks.astype(int), minor=False)
 	ax.set_yticklabels(yticks, minor=False)
 	ax.xaxis.set_minor_locator(FixedLocator(xminorticks))
-	ax.set_xlim(min(MSvalues), max(MSvalues))
+
 	ax.set_ylim(min(EPSvalues), max(EPSvalues))
 	ax.set_xlabel("Minsamples")
-	ax.set_ylabel(r"$\varepsilon$ (mean distances to neighbour)",
+	ax.set_ylabel(r"$\varepsilon$ (radians)",
 			   multialignment='center')
 
-	plt.tight_layout(rect=[0.03, 0.04, 0.99, 0.999])
-	plt.autoscale()
-	fig.set_size_inches(4.4, 3.2)
+	plt.tight_layout(rect=[0.03, 0.03, 1, 1])#rect=[0.03, 0.04, 0.99, 0.999])
+	fig.set_size_inches(4, 3.2)
 
-	plt.savefig(saveloc + "clusteringParameters.svg")
+	plt.savefig(saveloc + "clusteringParameters.pdf")
 	
 	
 	# diameter plotting
@@ -168,23 +172,28 @@ if __name__ == "__main__":
 	ax = plt.gca()
 	
 	pcm = ax.pcolormesh(MSvalues, EPSvalues, meanDiametersNoInf, cmap='magma',
-					vmin=0, vmax=160, edgecolors='face')
+					vmin=0, vmax=120, edgecolors='face')
 	cb = fig.colorbar(pcm, ax=ax, extend='max',
 				  label=r'Mean diameter of cluster ($^\circ$)')
 
 	ax.axis([min(MSvalues), max(MSvalues), min(EPSvalues), max(EPSvalues)])
 	ax.set_xticks(xticks + 0.5*(MSvalues[1]-MSvalues[0]), minor=False)
-	ax.set_yticks(yticks + 0.5*(EPSvalues[1]-EPSvalues[0]), minor=False)
+	ax.set_yticks([0.05, 0.10, 0.15, 0.20, 0.25, 0.30] + 0.5*(EPSvalues[1] -
+														   EPSvalues[0]),
+			   minor=False)
+	ax.set_yticks(EPSvalues + 0.5*(EPSvalues[1] - EPSvalues[0]), minor=True)
+	#ax.set_yticks(yticks + 0.5*(EPSvalues[1]-EPSvalues[0]), minor=False)
 	ax.set_xticklabels(xticks.astype(int), minor=False)
 	ax.set_yticklabels(yticks, minor=False)
 	ax.xaxis.set_minor_locator(FixedLocator(xminorticks))
 	ax.set_xlim(min(MSvalues), max(MSvalues))
 	ax.set_ylim(min(EPSvalues), max(EPSvalues))
 	ax.set_xlabel("Minsamples")
-	ax.set_ylabel(r"$\varepsilon$ (mean distances to neighbour)",
+	ax.set_ylabel(r"$\varepsilon$ (radians)",
 			   multialignment='center')
 
-	plt.tight_layout(rect=[-0.03, -0.03, 1.03, 1.05])
-	fig.set_size_inches(4.4, 3.0)
+	plt.tight_layout()#rect=[-0.03, -0.03, 1.03, 1.05])
+	plt.autoscale()
+	fig.set_size_inches(4, 3.2)
 
-	plt.savefig(saveloc + "clusterDiameter.svg")
+	plt.savefig(saveloc + "clusterDiameter.pdf")
