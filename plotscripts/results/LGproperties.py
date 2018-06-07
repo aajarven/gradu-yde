@@ -137,7 +137,7 @@ if __name__ == "__main__":
 	weights = np.ones_like(mass)/float(len(overdensity2mpc))
 	ax.hist(overdensity2mpc, weights=weights, color='0.75', edgecolor='black',
 		 bins=np.arange(0.2, 3.0, 0.2))
-	ax.set_xlabel(r'$\frac{M_{r<2~\mathrm{Mpc}}}{\rho_{crit}}$',
+	ax.set_xlabel(r'$\frac{\rho_{r<2~\mathrm{Mpc}}}{\rho_{crit}}$',
 			   multialignment='center')
 	ax.set_xticks(np.arange(0.2, 3.1, 0.4))
 	ax.yaxis.set_major_formatter(formatter)
