@@ -98,7 +98,7 @@ def fractional_polar_axes(f, thlim=(0, 180), rlim=(0, 1), step=(30, 0.25),
 
 
 if __name__ == "__main__":
-	inputfile = "../input/allButDuplicates-fullpath.txt" 
+	inputfile = "../input/upTo5Mpc-fullpath.txt" 
 #	inputfile = "../input/hundred.txt"
 	outputdir = "../../kuvat/"
 
@@ -166,10 +166,13 @@ if __name__ == "__main__":
 			andromedaIndex = LG[1]
 
 		MWcop = cop[MWindex]
-		closestContDist = physUtils.findClosestDistance(MWcop,
+		massCentre = physUtils.massCentre(cop[MWindex], cop[andromedaIndex],
+									mass[MWindex], mass[andromedaIndex])
+		closestContDist = physUtils.findClosestDistance(massCentre,
 												  contaminatedPositions)
 		if closestContDist < maxdist:
 			excludedSims += 1
+			print("excluding " + simdir)
 			continue
 
 		LGvector = cop[andromedaIndex] - cop[MWindex]
@@ -282,22 +285,28 @@ if __name__ == "__main__":
 	plt.tight_layout()
 	fig.set_size_inches(5.3, 6.5)
 
-	plt.savefig(outputdir+"directionalHF.svg")
+	plt.savefig(outputdir+"directionalHF.pdf")
 
 	## off vs on axis
 	plt.cla()
 	plt.clf()
-	
+
+	fig = plt.figure()
+	ax = fig.add_subplot(111)
+
 	ratio = onAxisH0/offAxisH0
 	print("median: " + str(np.median(ratio)))
 #	print(np.count_nonzero(ratio>1.0))
 #	print(np.count_nonzero(ratio<1.0))
 
-	plt.hist(ratio)
-	plt.xlabel(r"$H_{0,onAxis}/H_{0,offAxis}$")
+	weights = np.ones_like(ratio)/float(len(ratio))*100
+	ax.hist(ratio, bins=np.arange(0.5, 3.5, 0.25), color='0.75', edgecolor='k')
+	ax.set_xlabel(r"$\frac{H_{0,onAxis}}{H_{0,offAxis}}$")
+	ax.set_ylabel("\% of simulations")
 
+	fig.set_size_inches(3, 2.8)
 	plt.tight_layout()
-	plt.savefig(outputdir+"directionalHF-ratios.svg")
+	plt.savefig(outputdir+"directionalHF-ratios.pdf")
 
 
 	## bootstrapping ##
