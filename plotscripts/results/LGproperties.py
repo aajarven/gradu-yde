@@ -25,13 +25,14 @@ def percentFormat(x, position):
 
 if __name__ == "__main__":
 	inputfile = "../input/lgfound-fullpath.txt" 
-	saveloc = "../../kuvat/LGproperties.pdf"
+	histogram_saveloc = "../../kuvat/LGproperties.pdf"
+	scatterplot_saveloc = "../../kuvat/LGmasses.pdf"
 
 	lines =  sum(1 for line in open(inputfile))
 	radvel = np.full(lines, np.nan)
 	tanvel = np.full(lines, np.nan)
 	distance = np.full(lines, np.nan)
-	mass = np.full(lines, np.nan)
+	totalmass = np.full(lines, np.nan)
 	massdifference = np.full(lines, np.nan)
 	massratio = np.full(lines, np.nan)
 	overdensity2mpc = np.full(lines, np.nan)
@@ -88,7 +89,7 @@ if __name__ == "__main__":
 		radvel[sim] = rad
 		tanvel[sim] = tan
 		distance[sim] = physUtils.distance(cop[LG[0]], cop[LG[1]])
-		mass[sim] = masses[LG[0]] + masses[LG[1]]
+		totalmass[sim] = masses[LG[0]] + masses[LG[1]]
 		massdifference[sim] = math.fabs(masses[LG[0]] - masses[LG[1]])
 		massratio[sim] = masses[centreIndex] / (masses[LG[0]] + masses[LG[1]])
 		
@@ -101,7 +102,7 @@ if __name__ == "__main__":
 	rc('font', **{'family':'serif','serif':['Palatino']})
 	rc('text', usetex=True)
 	rcParams['text.latex.preamble'] = [r'\usepackage{wasysym}']
-	rcParams.update({'font.size': 13})
+#	rcParams.update({'font.size': 13})
 	formatter = ticker.FuncFormatter(percentFormat)
 
 	fig, axarr = plt.subplots(4, 2, sharey=True)
@@ -134,7 +135,7 @@ if __name__ == "__main__":
 	ax.yaxis.set_major_formatter(formatter)
 
 	ax = axarr[1, 1]
-	weights = np.ones_like(mass)/float(len(overdensity2mpc))
+	weights = np.ones_like(totalmass)/float(len(overdensity2mpc))
 	ax.hist(overdensity2mpc, weights=weights, color='0.75', edgecolor='black',
 		 bins=np.arange(0.2, 3.0, 0.2))
 	ax.set_xlabel(r'$\frac{\rho_{r<2~\mathrm{Mpc}}}{\rho_{crit}}$',
@@ -144,8 +145,8 @@ if __name__ == "__main__":
 	ax.xaxis.set_major_formatter(ticker.FormatStrFormatter('%.1f'))
 	
 	ax = axarr[2, 0]
-	weights = np.ones_like(mass)/float(len(mass))
-	ax.hist(mass/1e12, weights=weights, color='0.75', edgecolor='black',
+	weights = np.ones_like(totalmass)/float(len(totalmass))
+	ax.hist(totalmass/1e12, weights=weights, color='0.75', edgecolor='black',
 		 bins=np.arange(0.5, 6.6, 0.5))
 	ax.set_xlabel(r'Combined mass ($10^{12}\ M_{\astrosun}$)',
 			   multialignment='center')
@@ -184,4 +185,35 @@ if __name__ == "__main__":
 
 	fig.set_size_inches(5.9, 8)# 6.5)
 
-	plt.savefig(saveloc)
+	plt.savefig(histogram_saveloc)
+
+	plt.cla()
+	plt.clf()
+
+	fig = plt.figure()
+	ax = fig.add_subplot(111,aspect='equal')
+
+	ax.scatter(totalmass, (totalmass + massdifference)/2.0,
+			 marker='.', s=25, c='k', zorder=10)
+#	plt.axes().set_aspect('equal')
+#	plt.xlim(0.4e12, 7e12)
+#	plt.ylim(0.4e12, 7e12)
+	minx = .4e12
+	miny = .4e12
+	ax.set_xlim(left=minx)
+	ax.set_ylim(bottom=miny)
+	minx, maxx = ax.get_xlim()
+	miny, maxy = ax.get_ylim()
+	ax.plot([minx*2, min(maxx, maxy)*2], [minx*2 - minMass, min(maxx, maxy)*2 - minMass], c='0.8', zorder=1)
+	ax.plot([minx, min(maxx, maxy)*2], [minx/2, min(maxx, maxy)],
+		 c='0.8', zorder=2)
+	ax.set_xlim([minx, maxx])
+	ax.set_ylim([miny, maxy])
+	ax.set_xlabel("Combined mass of the LG primaries "
+			r"($\mathrm{M}_{\astrosun}$)")
+	ax.set_ylabel("Mass of the more massive primary "
+			r"($\mathrm{M}_{\astrosun}$)")
+	fig.set_size_inches(4.2, 3.0)
+	plt.tight_layout()
+	plt.savefig(scatterplot_saveloc)
+
