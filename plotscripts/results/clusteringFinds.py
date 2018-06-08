@@ -21,7 +21,7 @@ from sklearn.cluster import DBSCAN
 if __name__ == "__main__":
 
 	inputfile = "../input/upTo5Mpc-fullpath.txt"
-#	inputfile = "../input/ten-fullpath.txt"
+#	inputfile = "../input/one-fullpath.txt"
 	saveloc = "../../kuvat/"
 
 	simIndex = 0
@@ -131,7 +131,7 @@ if __name__ == "__main__":
 	
 	pcm = ax.pcolormesh(MSvalues, EPSvalues, meanClusters, cmap='magma',
 					 vmin=1, vmax=25, edgecolors='face')
-	cb = fig.colorbar(pcm, ax=ax, extend='both', ticks=[1, 5, 10, 15, 20],
+	cb = fig.colorbar(pcm, ax=ax, extend='both', ticks=[1, 5, 10, 15, 20, 25],
 				  label='Mean number of clusters found')
 	cb.ax.set_yticklabels([1, 5, 10, 15, 20, 25])
 
