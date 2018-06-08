@@ -20,8 +20,8 @@ from sklearn.cluster import DBSCAN
 
 if __name__ == "__main__":
 
-#	inputfile = "../input/upTo5Mpc-fullpath.txt"
-	inputfile = "../input/ten-fullpath.txt"
+	inputfile = "../input/upTo5Mpc-fullpath.txt"
+#	inputfile = "../input/ten-fullpath.txt"
 	saveloc = "../../kuvat/"
 
 	simIndex = 0
@@ -130,12 +130,12 @@ if __name__ == "__main__":
 	ax = plt.gca()
 	
 	pcm = ax.pcolormesh(MSvalues, EPSvalues, meanClusters, cmap='magma',
-					 vmin=1, vmax=20, edgecolors='face')
+					 vmin=1, vmax=25, edgecolors='face')
 	cb = fig.colorbar(pcm, ax=ax, extend='both', ticks=[1, 5, 10, 15, 20],
 				  label='Mean number of clusters found')
-	cb.ax.set_yticklabels([1, 5, 10, 15, 20])
+	cb.ax.set_yticklabels([1, 5, 10, 15, 20, 25])
 
-	minorticks = pcm.norm(np.arange(1, 20, 1))
+	minorticks = pcm.norm(np.arange(1, 25, 1))
 	cb.ax.yaxis.set_ticks(minorticks, minor=True)
 
 	xticks = np.array([1, 5, 10, 15, 20, 25, 30])
