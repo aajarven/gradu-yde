@@ -301,8 +301,10 @@ if __name__ == "__main__":
 
 	weights = np.ones_like(ratio)/float(len(ratio))*100
 	ax.hist(ratio, bins=np.arange(0.5, 3.5, 0.25), color='0.75', edgecolor='k')
-	ax.set_xlabel(r"$\frac{H_{0,onAxis}}{H_{0,offAxis}}$")
-	ax.set_ylabel("\% of simulations")
+	ax.set_xlabel((r"$\frac{\displaystyle H_{0,\ \mathrm{on\ axis}}}"
+			   "{\displaystyle H_{0,\ \mathrm{off\ axis}}}$"))
+	ax.set_xticks(np.arange(0.5, 3.5, 0.5), minor=False)
+	ax.set_ylabel("Simulations (\%)")
 
 	fig.set_size_inches(3, 2.8)
 	plt.tight_layout()
