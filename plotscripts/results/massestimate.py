@@ -48,11 +48,17 @@ if __name__ == "__main__":
    radialVelocities, tangentialVelocities, LGdistances) = result
 		
 	# masking zeropoints
-	allHaloesSanitymask = np.array([zeropoint < 3.0 and zeropoint > -3.0 for zeropoint
+#	allHaloesSanitymask = np.array([zeropoint < 3.0 and zeropoint > -3.0 for zeropoint
+#					   in zeropoints])
+#	inClusterSanitymask = np.array([zeropoint < 4.0 and zeropoint > -5.0 for zeropoint
+#					   in inClusterZeros])
+#	outClusterSanitymask = np.array([zeropoint < 4.0 and zeropoint > -1.0 for zeropoint
+#					   in outClusterZeros])
+	allHaloesSanitymask = np.array([zeropoint < 5.0 and zeropoint > -5.0 for zeropoint
 					   in zeropoints])
-	inClusterSanitymask = np.array([zeropoint < 4.0 and zeropoint > -5.0 for zeropoint
+	inClusterSanitymask = np.array([zeropoint < 5.0 and zeropoint > -5.0 for zeropoint
 					   in inClusterZeros])
-	outClusterSanitymask = np.array([zeropoint < 4.0 and zeropoint > -1.0 for zeropoint
+	outClusterSanitymask = np.array([zeropoint < 5.0 and zeropoint > -5.0 for zeropoint
 					   in outClusterZeros])
 	sanitymask = np.logical_and(allHaloesSanitymask,
 							 np.logical_and(inClusterSanitymask,
