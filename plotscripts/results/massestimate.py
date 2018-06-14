@@ -38,7 +38,7 @@ if __name__ == "__main__":
 
 	if not os.path.isfile(datafile):
 		data = readAndSave(simulationfiles, datafile, mindist=1.0, maxdist=5.0,
-			  eps=1.8, ms=10)
+			  eps=0.16, ms=4, scale_eps=False)
 	else:
 		data = np.loadtxt(datafile)
 	
@@ -277,7 +277,7 @@ if __name__ == "__main__":
 		  pca.explained_variance_ratio_*100, '-o', linewidth=2.0, color='k')
 	plt.xlabel("Number of component")
 	plt.ylabel("Percentage of variance explained by component")
-	plt.savefig(outputdir + "scree.svg")
+	plt.savefig(outputdir + "scree.pdf")
 	plt.cla()
 	plt.clf()
 
@@ -293,7 +293,7 @@ if __name__ == "__main__":
 	plt.ylim(0, 100)
 	plt.xlabel("Number of component")
 	plt.ylabel("Cumulative variance explained by first components (\% of total)")
-	plt.savefig(outputdir + "cumulative_variances.svg")
+	plt.savefig(outputdir + "cumulative_variances.pdf")
 	plt.cla()
 	plt.clf()
 
@@ -344,6 +344,6 @@ if __name__ == "__main__":
 		   str(n_repeats) + " repeats")
 	plt.gca().set_ylim(bottom=0)
 #	plt.gca().set_ylim(top=1.3)
-	plt.savefig(outputdir + "training-RMSE.svg")
+	plt.savefig(outputdir + "training-RMSE.pdf")
 	plt.cla()
 	plt.clf()
