@@ -11,6 +11,7 @@ import LGfinder
 import physUtils
 from sibeliusConstants import *
 from transitiondistance import simpleFit
+import math
 import matplotlib.pyplot as plt
 from matplotlib import rc
 import numpy as np
@@ -22,14 +23,14 @@ def blackBoxplot(bp):
 
 
 if __name__ == "__main__":
-	inputfile = "../input/allButDuplicates-fullpath.txt" 
+	inputfile = "../input/upTo5Mpc-no229-fullpath.txt" 
 #	inputfile = "../input/hundred.txt"
 	outputdir = "../../kuvat/"
 
 	mindist = 1.0
 	maxdist = 5.0
-	eps = 1.8
-	ms = 10
+	eps = 0.16
+	ms = 4
 	massThreshold = 8e11 #M_sun
 
 	allZeros = []
@@ -112,13 +113,15 @@ if __name__ == "__main__":
 
 
 		##### extracting interesting data starts #####
-
+		#TLSfit(distances, radvel)
 		(H0, zero) = simpleFit(distances, radvel)
-		clusteringDB = clustering.runClustering(cop, centre, ms, eps)
+		clusteringDB = clustering.runClustering(cop, centre, ms, eps,
+										  meansep=False)
 		labels = clusteringDB.labels_
 		uniqueLabels = set(labels)
 
 		clusterMemberMask = labels != -1 # True for in cluster
+		print(sum([not membership for membership in clusterMemberMask]))
 		(inClusterH0, inClusterZero) = simpleFit(distances[clusterMemberMask],
 										   radvel[clusterMemberMask])
 		(outClusterH0, outClusterZero) = simpleFit(
@@ -165,7 +168,13 @@ if __name__ == "__main__":
 	print(inClusterH0s[np.argsort(inClusterH0s)[-10:]])
 	print(inClusterZeros[np.argsort(inClusterZeros)[:10]])
 	print(inClusterZeros[np.argsort(inClusterZeros)[-10:]])
-
+	print("")
+	minindex = np.argmin(inClusterH0s)
+	print(minindex)
+	print(inClusterH0s[minindex])
+	print(inClusterZeros[minindex])
+	print(allH0s[minindex])
+	print(allZeros[minindex])
 
 	rc('font', **{'family':'serif','serif':['Palatino']})
 	rc('text', usetex=True)
@@ -182,16 +191,22 @@ if __name__ == "__main__":
 					  r"than $8^{11}~M_{\astrosun}$",
 					  "Haloes in clusters", "Haloes outside clusters", "All haloes"
 					 ], ha='right', multialignment='right')
-	ax1.set_xlabel("H0 (km/s/Mpc)")
+	ylims = ax1.get_xlim()
+	ax1.set_xticks(np.arange(math.ceil(ylims[0]/10)*10, ylims[1], 10), minor=True)
+	ax1.set_xlabel(r"$H_0$ (km/s/Mpc)")
+	ylims = ax2.get_xlim()
+	ax2.set_xticks(np.arange(math.ceil(ylims[0]), ylims[1], 1.0), minor=True)
+	ax2.set_xticks(np.arange(-5, ylims[1], 5.0), minor=False)
 	ax2.set_xlabel("Distance to Hubble\nflow zero point (Mpc)")
 #	ax1.set_xlim([-25, 145])
-	ax2.set_xlim([-4, 4])
+#	ax2.set_xlim([-4, 4])
 
 	plt.tight_layout(rect=[0.065, 0.115, 1.0, 1.0])
+#	plt.tight_layout()
 	fig.set_size_inches(5.9, 2.6)
 
 #	plt.xlabel("Hubble flow zero point (Mpc from LG centre)")
 #	plt.ylabel("Combined mass of Milky Way and Andromeda (Solar masses)")
 #	plt.xlim(xmin, xmax)
-	plt.savefig(outputdir+"clusteredHFparameters.svg")
+	plt.savefig(outputdir+"clusteredHFparameters.pdf")
 
