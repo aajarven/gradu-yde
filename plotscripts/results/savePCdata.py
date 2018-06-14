@@ -19,7 +19,7 @@ import numpy as np
 
 # also returns the data
 def readAndSave(simulationfiles, datafile, mindist=1.0, maxdist=5.0, eps=1.8,
-				ms=10):
+				ms=10, scale_eps=False):
 	masses = []
 	H0s = []
 	zeropoints = []
@@ -73,6 +73,18 @@ def readAndSave(simulationfiles, datafile, mindist=1.0, maxdist=5.0, eps=1.8,
 		else:
 			centreIndex = LG[0]
 
+		massCentre = physUtils.massCentre(cop[LG[0]], cop[LG[1]], mass[LG[0]],
+									mass[LG[1]])
+		closestContDist = physUtils.findClosestDistance(massCentre,
+												  contaminatedPositions)
+		
+		if closestContDist < maxdist:
+			print("Warning: closest contaminated halo closer than the edge of\
+	  Hubble flow fitting range in simulation " + dirname + 
+	  ".\nExcluding simulation from analysis.")
+			continue
+
+
 		centre = cop[centreIndex]
 		centreVel = staticVel[centreIndex]
 		closestContDist = physUtils.findClosestDistance(centre,
@@ -91,12 +103,6 @@ def readAndSave(simulationfiles, datafile, mindist=1.0, maxdist=5.0, eps=1.8,
 						 distances])
 
 
-		if min(distances[closestContMask==False]) < maxdist:
-			print("Warning: closest contaminated halo closer than the edge of\
-	  Hubble flow fitting range in simulation " + dirname + 
-	  ".\nExcluding simulation from analysis.")
-			continue
-
 		# contamination and distance range cut
 		mask = np.logical_and(closestContMask, distRangeMask)
 		cop = cop[mask]
@@ -112,7 +118,8 @@ def readAndSave(simulationfiles, datafile, mindist=1.0, maxdist=5.0, eps=1.8,
 		##### extracting interesting data starts #####
 
 		(fit, flowstartdist) = findBestHubbleflow(distances, radvel)
-		clusteringDB = clustering.runClustering(cop, centre, ms, eps)
+		clusteringDB = clustering.runClustering(cop, centre, ms, eps,
+										  meansep=scale_eps)
 		clusterMemberMask = clusteringDB.labels_ != -1 # True for in cluster
 		(inClusterFit, inClusterFlowstart) = findBestHubbleflow(
 			distances[clusterMemberMask], radvel[clusterMemberMask])
