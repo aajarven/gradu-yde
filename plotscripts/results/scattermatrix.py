@@ -12,6 +12,7 @@ import numpy as np
 from sklearn.preprocessing import scale
 from optparse import OptionParser
 import os
+from savePCdata import readAndSave
 
 if __name__ == "__main__":
 
@@ -30,7 +31,7 @@ if __name__ == "__main__":
 
 	if not os.path.isfile(datafile):
 		data = readAndSave(simulationfiles, datafile, mindist=1.0, maxdist=5.0,
-			  eps=1.8, ms=10)
+			  eps=0.16, ms=4, scale_eps=False)
 	else:
 		data = np.loadtxt(datafile)
 
@@ -144,8 +145,8 @@ if __name__ == "__main__":
 			ax.scatter(plotdata[col][0], plotdata[row][0], marker='.', s=4,
 			  edgecolors='none', facecolors='k')
 	if opts.outlierExclusion == "none":
-		plt.savefig(outputdir + "scattermatrix-all.svg")
+		plt.savefig(outputdir + "scattermatrix-all.pdf")
 	elif opts.outlierExclusion == "loose":
-		plt.savefig(outputdir + "scattermatrix-looseOutlierCriteria.svg")
+		plt.savefig(outputdir + "scattermatrix-looseOutlierCriteria.pdf")
 	elif opts.outlierExclusion == "tight":
-		plt.savefig(outputdir + "scattermatrix-tightOutlierCriteria.svg")
+		plt.savefig(outputdir + "scattermatrix-tightOutlierCriteria.pdf")
