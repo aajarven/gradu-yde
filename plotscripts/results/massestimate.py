@@ -11,7 +11,7 @@ sys.path.insert(0, '/scratch/aajarven/plotscripts/')
 from savePCdata import readAndSave
 from sibeliusConstants import *
 import timingargument
-from math import sqrt
+from math import sqrt, ceil
 import matplotlib.pyplot as plt
 from matplotlib import rc
 from matplotlib import colors
@@ -281,6 +281,8 @@ if __name__ == "__main__":
 	# Scree plot 
 	plt.plot(np.array(range(len(pca.explained_variance_ratio_)))+1,
 		  pca.explained_variance_ratio_*100, '-o', linewidth=2.0, color='k')
+	lims = plt.xlim()
+	plt.xticks(np.arange(ceil(lims[0]), ceil(lims[1]), 1))
 	plt.xlabel("Number of component")
 	plt.ylabel("Percentage of variance explained by component")
 	plt.savefig(outputdir + "scree.pdf")
@@ -297,6 +299,8 @@ if __name__ == "__main__":
 	plt.plot(np.array(range(len(cumVariances)))+1,
 		  cumVariances*100, '-o', linewidth=2.0, color='k')
 	plt.ylim(0, 100)
+	lims = plt.xlim()
+	plt.xticks(np.arange(ceil(lims[0]), ceil(lims[1]), 1))
 	plt.xlabel("Number of component")
 	plt.ylabel("Cumulative variance explained by first components (\% of total)")
 	plt.savefig(outputdir + "cumulative_variances.pdf")
@@ -345,6 +349,8 @@ if __name__ == "__main__":
 
 	#plt.ylim(0, 1.3)
 	plt.xlabel("Number of PCs in regression")
+	lims = plt.xlim()
+	plt.xticks(np.arange(ceil(lims[0]), ceil(lims[1]), 1))
 	plt.ylabel(r"RMSE ($M_{\astrosun}$)")
 	plt.title("Training error using " + str(n_folds) + " folds and " +
 		   str(n_repeats) + " repeats")
