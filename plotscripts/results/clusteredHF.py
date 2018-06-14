@@ -86,7 +86,9 @@ if __name__ == "__main__":
 
 		centre = cop[centreIndex]
 		centreVel = staticVel[centreIndex]
-		closestContDist = physUtils.findClosestDistance(centre,
+		massCentre = physUtils.massCentre(cop[LG[0]], cop[LG[1]], mass[LG[0]],
+									mass[LG[1]])
+		closestContDist = physUtils.findClosestDistance(massCentre,
 														contaminatedPositions)
 		if closestContDist < maxdist:
 			continue
