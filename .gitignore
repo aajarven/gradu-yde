@@ -13,4 +13,5 @@ test*
 *.swp
 kuvat/all
 kuvat/vanhat
+kuvat/PCA/oldcriteria
 *.pyc
