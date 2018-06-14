@@ -82,7 +82,7 @@ if __name__ == "__main__":
 
 	clusteringParameters = [(4, 0.10), (2, 0.16),
 						 (4, 0.16), (6, 0.16),
-						 (4, 0.24), (12, 0.16)]
+						 (4, 0.22), (12, 0.16)]
 	f, axarr = plt.subplots(3, 2, subplot_kw=dict(projection='mollweide'))
 	colours = plt.cm.tab20(np.linspace(0, 1, 20))
 	
