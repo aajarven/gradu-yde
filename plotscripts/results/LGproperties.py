@@ -105,7 +105,7 @@ if __name__ == "__main__":
 #	rcParams.update({'font.size': 13})
 	formatter = ticker.FuncFormatter(percentFormat)
 
-	fig, axarr = plt.subplots(4, 2, sharey=True)
+	fig, axarr = plt.subplots(2, 2, sharey=True)
 
 	ax = axarr[0, 0]
 	weights = np.ones_like(radvel)/float(len(radvel))
@@ -138,52 +138,52 @@ if __name__ == "__main__":
 	weights = np.ones_like(totalmass)/float(len(overdensity2mpc))
 	ax.hist(overdensity2mpc, weights=weights, color='0.75', edgecolor='black',
 		 bins=np.arange(0.2, 3.0, 0.2))
-	ax.set_xlabel(r'$\frac{\rho_{r<2~\mathrm{Mpc}}}{\rho_{crit}}$',
+	ax.set_xlabel(r'\mbox{\Large $\frac{\rho_{r<2~\mathrm{Mpc}}}{\rho_{crit}}$}',
 			   multialignment='center')
 	ax.set_xticks(np.arange(0.2, 3.1, 0.4))
 	ax.yaxis.set_major_formatter(formatter)
 	ax.xaxis.set_major_formatter(ticker.FormatStrFormatter('%.1f'))
 	
-	ax = axarr[2, 0]
-	weights = np.ones_like(totalmass)/float(len(totalmass))
-	ax.hist(totalmass/1e12, weights=weights, color='0.75', edgecolor='black',
-		 bins=np.arange(0.5, 6.6, 0.5))
-	ax.set_xlabel(r'Combined mass ($10^{12}\ M_{\astrosun}$)',
-			   multialignment='center')
-	ax.set_xticks(np.arange(1, 6.6, 1))
-	ax.yaxis.set_major_formatter(formatter)
-	ax.xaxis.set_major_formatter(ticker.FormatStrFormatter('%.1f'))
-
-	ax = axarr[2, 1]
-	weights = np.ones_like(massdifference)/float(len(massdifference))
-	ax.hist(massdifference/1e12, weights=weights, color='0.75',
-		 edgecolor='black', bins=np.arange(0, 4.1, 0.5))
-	ax.set_xlabel(r"Mass difference ($10^{12}\ M_{\astrosun}$)",
-			   multialignment='center')
-	ax.yaxis.set_major_formatter(formatter)
-	ax.xaxis.set_major_formatter(ticker.FormatStrFormatter('%.1f'))
-	majorLocator = ticker.MultipleLocator(1.0)
-	minorLocator = ticker.MultipleLocator(0.5)
-	ax.yaxis.set_major_formatter(formatter)
-	ax.xaxis.set_major_locator(majorLocator)
-	ax.xaxis.set_minor_locator(minorLocator)
-
-	ax = axarr[3, 0]
-	weights = np.ones_like(massratio)/float(len(massratio))
-	ax.hist(massratio*100, weights=weights, color='0.75', edgecolor='black',
-		 bins=np.arange(10, 51, 5))
-	ax.set_xlabel(r"Percent of mass in the\\less massive primary",
-			   multialignment='center', linespacing=10.0)
-	majorLocator = ticker.MultipleLocator(5)
-#	minorLocator = ticker.MultipleLocator(0.05)
-	ax.yaxis.set_major_formatter(formatter)
-	ax.xaxis.set_major_locator(majorLocator)
+#	ax = axarr[2, 0]
+#	weights = np.ones_like(totalmass)/float(len(totalmass))
+#	ax.hist(totalmass/1e12, weights=weights, color='0.75', edgecolor='black',
+#		 bins=np.arange(0.5, 6.6, 0.5))
+#	ax.set_xlabel(r'Combined mass ($10^{12}\ M_{\astrosun}$)',
+#			   multialignment='center')
+#	ax.set_xticks(np.arange(1, 6.6, 1))
+#	ax.yaxis.set_major_formatter(formatter)
+#	ax.xaxis.set_major_formatter(ticker.FormatStrFormatter('%.1f'))
+#
+#	ax = axarr[2, 1]
+#	weights = np.ones_like(massdifference)/float(len(massdifference))
+#	ax.hist(massdifference/1e12, weights=weights, color='0.75',
+#		 edgecolor='black', bins=np.arange(0, 4.1, 0.5))
+#	ax.set_xlabel(r"Mass difference ($10^{12}\ M_{\astrosun}$)",
+#			   multialignment='center')
+#	ax.yaxis.set_major_formatter(formatter)
+#	ax.xaxis.set_major_formatter(ticker.FormatStrFormatter('%.1f'))
+#	majorLocator = ticker.MultipleLocator(1.0)
+#	minorLocator = ticker.MultipleLocator(0.5)
+#	ax.yaxis.set_major_formatter(formatter)
+#	ax.xaxis.set_major_locator(majorLocator)
 #	ax.xaxis.set_minor_locator(minorLocator)
+#
+#	ax = axarr[3, 0]
+#	weights = np.ones_like(massratio)/float(len(massratio))
+#	ax.hist(massratio*100, weights=weights, color='0.75', edgecolor='black',
+#		 bins=np.arange(10, 51, 5))
+#	ax.set_xlabel(r"Percent of mass in the\\less massive primary",
+#			   multialignment='center', linespacing=10.0)
+#	majorLocator = ticker.MultipleLocator(5)
+##	minorLocator = ticker.MultipleLocator(0.05)
+#	ax.yaxis.set_major_formatter(formatter)
+#	ax.xaxis.set_major_locator(majorLocator)
+##	ax.xaxis.set_minor_locator(minorLocator)
 
 	plt.tight_layout()
 	plt.subplots_adjust(hspace = 0.8)
 
-	fig.set_size_inches(5.9, 8)# 6.5)
+	fig.set_size_inches(5.9, 4)# 6.5)
 
 	plt.savefig(histogram_saveloc)
 
