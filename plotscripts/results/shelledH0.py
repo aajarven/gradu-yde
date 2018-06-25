@@ -16,6 +16,24 @@ import math
 import numpy as np
 from matplotlib import rc
 
+"""
+	Returns the extent of the range containing given percent of values in data
+	set. The parameter percentIncluded should be in range [0, 1].
+"""
+def rangeAroundMedian(data, percentIncluded):
+	if percentIncluded < 0 or percentIncluded > 1.0:
+		raise ValueError("Percentage outside the allowed range")
+	lowerLimit = (1.0 - percentIncluded)/2
+	upperLimit = 1.0 - lowerLimit
+
+	lowerIndex = max(0, int(math.ceil(len(data)*lowerLimit)-1))
+	upperIndex = min(len(data), int(math.floor(len(data)*upperLimit)-1))
+	
+	sortedData=sorted(data)
+	rangeMin = sortedData[lowerIndex]
+	rangeMax = sortedData[upperIndex]
+	return (rangeMin, rangeMax)
+
 
 if __name__ == "__main__":
 	inputfile = "../input/lgfound-fullpath.txt" 
@@ -29,8 +47,12 @@ if __name__ == "__main__":
 	H0min = np.full((1, len(limitsH0)), np.nan)
 	H0max = np.full((1, len(limitsH0)), np.nan)
 	zeros = np.full((lines, len(limitsZeros)), np.nan)
-	zerosMin = np.full((1, len(limitsZeros)), np.nan)
-	zerosMax = np.full((1, len(limitsZeros)), np.nan)
+	zerosMin50 = np.full((1, len(limitsZeros)), np.nan)
+	zerosMax50 = np.full((1, len(limitsZeros)), np.nan)
+	zerosMin75 = np.full((1, len(limitsZeros)), np.nan)
+	zerosMax75 = np.full((1, len(limitsZeros)), np.nan)
+	zerosMin90 = np.full((1, len(limitsZeros)), np.nan)
+	zerosMax90 = np.full((1, len(limitsZeros)), np.nan)
 
 	f = open(inputfile, 'r')
 	sim = -1
@@ -130,15 +152,14 @@ if __name__ == "__main__":
 		H0min[0, i] = np.nanmedian(data) - std
 		H0max[0, i] = np.nanmedian(data) + std
 
-	# standard deviations for zero point
+	# ranges for zero point
 	for i in range(len(limitsZeros)):
 		data = zeros[:, i]
 		data = data[~np.isnan(data)]
-		sem = scipy.stats.sem(data)
-		std = np.std(data)
 		
-		zerosMin[0, i] = np.nanmedian(data) - std
-		zerosMax[0, i] = np.nanmedian(data) + std
+		(zerosMin50[0, i], zerosMax50[0, i]) = rangeAroundMedian(data, 0.5)
+		(zerosMin75[0, i], zerosMax75[0, i]) = rangeAroundMedian(data, 0.75)
+		(zerosMin90[0, i], zerosMax90[0, i]) = rangeAroundMedian(data, 0.9)
 
 	H0centers = [(l[0]+l[1])/2 for l in limitsH0]
 	zeroCenters = [(l[0]+l[1])/2 for l in limitsZeros]
@@ -177,19 +198,34 @@ if __name__ == "__main__":
 #	plt.ylim([-2, 4])
 	
 	fig = plt.figure()
+	ax = plt.axes()
 
-	plt.plot(zeroCenters, zerosMax.flatten(), linewidth=2.0, color='0.75')
-	plt.plot(zeroCenters, zerosMin.flatten(), linewidth=2.0, color='0.75')
-	plt.plot(zeroCenters, np.nanmedian(zeros, axis=0), linewidth=2.0, color='k')
+	ax.fill_between(zeroCenters, zerosMin90.flatten(), zerosMax90.flatten(),
+				 color='0.9', label="90 \%")
+	ax.fill_between(zeroCenters, zerosMin75.flatten(), zerosMax75.flatten(),
+				 color='0.8', label="75 \%")
+	ax.fill_between(zeroCenters, zerosMin50.flatten(), zerosMax50.flatten(),
+				 color='0.7', label="50 \%")
+
 	
+#	plt.plot(zeroCenters, zerosMin50.flatten(), linewidth=2.0, color='0.75')
+#	plt.plot(zeroCenters, zerosMax50.flatten(), linewidth=2.0, color='0.75')
+#	plt.plot(zeroCenters, zerosMin75.flatten(), linewidth=2.0, color='0.75')
+#	plt.plot(zeroCenters, zerosMax75.flatten(), linewidth=2.0, color='0.75')
+#	plt.plot(zeroCenters, zerosMin90.flatten(), linewidth=2.0, color='0.75')
+#	plt.plot(zeroCenters, zerosMax90.flatten(), linewidth=2.0, color='0.75')
+	ax.plot(zeroCenters, np.nanmedian(zeros, axis=0), linewidth=2.0, color='k',
+		label="median")
+	
+	ax.legend(loc=3)
+
 	plt.xlabel("Distance of bin centre from Milky Way (Mpc)")
-	plt.ylim([-10, 10])	
+	plt.xlim([min(zeroCenters), max(zeroCenters)])	
 
 	plt.tight_layout()
 
 	fig.set_size_inches(5.9, 5)
 
-	#TODO ligatures not working (e.g. fl)
 	plt.xlabel("Distance of bin centre from Milky Way (Mpc)")
 	plt.ylabel("Median Hubble flow zero point distance from MW (Mpc)")	
 	
