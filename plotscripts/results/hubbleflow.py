@@ -28,20 +28,28 @@ import pylab
 if __name__ == "__main__":
 
 	inputs = [
+		"/scratch/sawala/milkomedia_ii/milkomedia_44_DMO/groups_008_z000p000/",
 		"/scratch/sawala/milkomedia_ii/milkomedia_193_DMO/groups_008_z000p000/",
+		"/scratch/sawala/milkomedia_ii/milkomedia_26_DMO/groups_008_z000p000/",
 		"/scratch/sawala/milkomedia_ii/milkomedia_168_DMO/groups_008_z000p000/"
 	]
-	saveloc = "../../kuvat/hubblediagrams.svg"
+	saveloc = "../../kuvat/hubblediagrams.pdf"
+	
+	rc('font', **{'family':'serif','serif':['Palatino']})
+	rc('text', usetex=True)
 
 	simIndex = 0
-	f, axes = plt.subplots(1, 2)
+	f, axes = plt.subplots(2, 2)
 
 	f = plt.figure()
 	bigaxis = f.add_subplot(111)    # The big subplot
-	ax1 = f.add_subplot(121)
-	ax2 = f.add_subplot(122)
+	ax1 = f.add_subplot(221)
+	ax2 = f.add_subplot(222)
+	ax3 = f.add_subplot(223)
+	ax4 = f.add_subplot(224)
 
-	for (dirname, ax) in zip(inputs, [ax1, ax2]):
+	
+	for (dirname, ax) in zip(inputs, [ax1, ax2, ax3, ax4]):
 		simIndex = simIndex + 1
 
 		vel = filereader.readAllFiles(dirname, "Subhalo/Velocity", 3)
@@ -103,24 +111,26 @@ if __name__ == "__main__":
 			  speed[dist<closestContDistance],
 			  color=colours[dist<closestContDistance], s=1)
 
-		ax.set_xlim([0,closestContDistance])
+		#ax.set_xlim([0,closestContDistance])
+		ax.set_xlim([0, 6.1])
 		ax.set_ylim([-700, 900])
 		
 		ax.tick_params(which="major", length=6)
 		ax.tick_params(which="minor", length=3.5)
 		ax.xaxis.set_ticks([])
-		ax.xaxis.set_minor_locator(FixedLocator(range(0, 6, 1)))
-		ax.xaxis.set_minor_formatter(FormatStrFormatter("%3d"))
+		ax.xaxis.set_minor_locator(FixedLocator(range(0, 7, 1)))
+		if simIndex == 2 or simIndex == 4:
+			ax.xaxis.set_minor_formatter(FormatStrFormatter("%3d"))
+		else:
+			ax.set_xticklabels(['0', '1', '2', '3', '4', '5', ''], minor=True)
 		ax.yaxis.set_ticks([0])
 		minorticks = range(-800, 1000, 200)
 		minorticks.remove(0)
 		ax.yaxis.set_minor_locator(FixedLocator(minorticks))
 		
 
-		if simIndex == 1:
-			ax.set_ylabel('Radial velocity (km/s)')
+		if simIndex == 1 or simIndex == 3:
 			ax.yaxis.set_minor_formatter(FormatStrFormatter("%3d"))
-			
 		else:
 			ax.tick_params(labelleft=False)  
 			ax.yaxis.set_minor_formatter(NullFormatter())
@@ -131,14 +141,12 @@ if __name__ == "__main__":
 	bigaxis.spines['right'].set_color('none')
 	bigaxis.tick_params(labelcolor='w', top='off', bottom='off', left='off',
 				right='off')
-	bigaxis.set_xlabel("Distance from MW centre (Mpc)")
-
-	rc('font', **{'family':'serif','serif':['Palatino']})
-	rc('text', usetex=True)
-
-	plt.tight_layout()
-	plt.subplots_adjust(wspace=0)
+	bigaxis.set_xlabel("Distance from Milky Way analogue (Mpc)")
+	bigaxis.set_ylabel("Radial velocity (km/s)", labelpad=10.0)
 	
-	f.set_size_inches(5.9, 3)
+	f.tight_layout(rect=[-0.05, -0.08, 1.0, 1.0])
+	plt.subplots_adjust(wspace=0, hspace=0.15)
+	
+	f.set_size_inches(5.9, 6)
 
 	plt.savefig(saveloc)
