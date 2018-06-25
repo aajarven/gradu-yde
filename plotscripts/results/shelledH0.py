@@ -24,11 +24,13 @@ if __name__ == "__main__":
 
 	lines =  sum(1 for line in open(inputfile))
 	limitsH0 = [[d, d+2.0] for d in np.arange(0.0, 8.0, 0.1)]
-	limitsZeros = [[d, d+4] for d in np.arange(0.0, 6.0, 1.0)]
+	limitsZeros = [[d, d+2.0] for d in np.arange(0.0, 8.0, 0.1)]
 	H0 = np.full((lines, len(limitsH0)), np.nan)
 	H0min = np.full((1, len(limitsH0)), np.nan)
 	H0max = np.full((1, len(limitsH0)), np.nan)
 	zeros = np.full((lines, len(limitsZeros)), np.nan)
+	zerosMin = np.full((1, len(limitsZeros)), np.nan)
+	zerosMax = np.full((1, len(limitsZeros)), np.nan)
 
 	f = open(inputfile, 'r')
 	sim = -1
@@ -118,17 +120,28 @@ if __name__ == "__main__":
 
 
 	
-	# standard errors
+	# standard deviations for H0
 	for i in range(len(limitsH0)):
 		data = H0[:, i]
 		data = data[~np.isnan(data)]
 		sem = scipy.stats.sem(data)
 		std = np.std(data)
 		
-		H0min[0, i] = np.nanmean(data) - std
-		H0max[0, i] = np.nanmean(data) + std
+		H0min[0, i] = np.nanmedian(data) - std
+		H0max[0, i] = np.nanmedian(data) + std
 
-	centers = [(l[0]+l[1])/2 for l in limitsH0]
+	# standard deviations for zero point
+	for i in range(len(limitsZeros)):
+		data = zeros[:, i]
+		data = data[~np.isnan(data)]
+		sem = scipy.stats.sem(data)
+		std = np.std(data)
+		
+		zerosMin[0, i] = np.nanmedian(data) - std
+		zerosMax[0, i] = np.nanmedian(data) + std
+
+	H0centers = [(l[0]+l[1])/2 for l in limitsH0]
+	zeroCenters = [(l[0]+l[1])/2 for l in limitsZeros]
 	
 	#### plotting #####
 	rc('font', **{'family':'serif','serif':['Palatino']})
@@ -136,12 +149,12 @@ if __name__ == "__main__":
 	
 	fig = plt.figure()
 
-	plt.plot(centers, H0max.flatten(), linewidth=2.0, color='0.75')
-	plt.plot(centers, H0min.flatten(), linewidth=2.0, color='0.75')
-	plt.plot(centers, np.nanmean(H0, axis=0), linewidth=2.0, color='k')
+	plt.plot(H0centers, H0max.flatten(), linewidth=2.0, color='0.75')
+	plt.plot(H0centers, H0min.flatten(), linewidth=2.0, color='0.75')
+	plt.plot(H0centers, np.nanmedian(H0, axis=0), linewidth=2.0, color='k')
 	
 	plt.xlabel("Distance of bin centre from Milky Way (Mpc)")
-	plt.ylabel("Mean $H_0$ in 2.0 Mpc bin (km/s/Mpc)")	
+	plt.ylabel("Median $H_0$ in 2.0 Mpc bin (km/s/Mpc)")	
 	
 
 	plt.tight_layout()
@@ -153,22 +166,33 @@ if __name__ == "__main__":
 
 	plt.cla()
 	plt.clf()
-	fig = plt.figure()
-	ax = fig.add_subplot(111)
+#	fig = plt.figure()
+#	ax = fig.add_subplot(111)
+#	
+#	mask = ~np.isnan(zeros)
+#	filteredZeros = [d[m] for d,m in zip(zeros.T, mask.T)]
+#	ZeroCenters = [(l[0]+l[1])/2.0 for l in limitsZeros]
+#	plt.boxplot(filteredZeros)
+#	ax.set_xticklabels(ZeroCenters)
+#	plt.ylim([-2, 4])
 	
-	mask = ~np.isnan(zeros)
-	filteredZeros = [d[m] for d,m in zip(zeros.T, mask.T)]
-	centers = [(l[0]+l[1])/2.0 for l in limitsZeros]
-	plt.boxplot(filteredZeros)
-	ax.set_xticklabels(centers)
-	plt.ylim([-2, 4])
+	fig = plt.figure()
+
+	plt.plot(zeroCenters, zerosMax.flatten(), linewidth=2.0, color='0.75')
+	plt.plot(zeroCenters, zerosMin.flatten(), linewidth=2.0, color='0.75')
+	plt.plot(zeroCenters, np.nanmedian(zeros, axis=0), linewidth=2.0, color='k')
+	
+	plt.xlabel("Distance of bin centre from Milky Way (Mpc)")
+	plt.ylim([-10, 10])	
+
+	plt.tight_layout()
+
+	fig.set_size_inches(5.9, 5)
 
 	#TODO ligatures not working (e.g. fl)
 	plt.xlabel("Distance of bin centre from Milky Way (Mpc)")
-	plt.ylabel("Hubble flow zero point distance from MW (Mpc)")	
+	plt.ylabel("Median Hubble flow zero point distance from MW (Mpc)")	
 	
-	rc('font', **{'family':'serif','serif':['Palatino']})
-	rc('text', usetex=True)
 	plt.tight_layout()
 
 	fig.set_size_inches(5.9, 5)
