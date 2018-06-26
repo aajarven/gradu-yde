@@ -44,6 +44,12 @@ if __name__ == "__main__":
 	limitsH0 = [[d, d+2.0] for d in np.arange(0.0, 8.0, 0.1)]
 	limitsZeros = [[d, d+2.0] for d in np.arange(0.0, 8.0, 0.1)]
 	H0 = np.full((lines, len(limitsH0)), np.nan)
+	H0min50 = np.full((1, len(limitsH0)), np.nan)
+	H0max50 = np.full((1, len(limitsH0)), np.nan)
+	H0min75 = np.full((1, len(limitsH0)), np.nan)
+	H0max75 = np.full((1, len(limitsH0)), np.nan)
+	H0min90 = np.full((1, len(limitsH0)), np.nan)
+	H0max90 = np.full((1, len(limitsH0)), np.nan)
 	H0min = np.full((1, len(limitsH0)), np.nan)
 	H0max = np.full((1, len(limitsH0)), np.nan)
 	zeros = np.full((lines, len(limitsZeros)), np.nan)
@@ -142,15 +148,14 @@ if __name__ == "__main__":
 
 
 	
-	# standard deviations for H0
+	# ranges for H0
 	for i in range(len(limitsH0)):
 		data = H0[:, i]
 		data = data[~np.isnan(data)]
-		sem = scipy.stats.sem(data)
-		std = np.std(data)
 		
-		H0min[0, i] = np.nanmedian(data) - std
-		H0max[0, i] = np.nanmedian(data) + std
+		(H0min50[0, i], H0max50[0, i]) = rangeAroundMedian(data, 0.5)
+		(H0min75[0, i], H0max75[0, i]) = rangeAroundMedian(data, 0.75)
+		(H0min90[0, i], H0max90[0, i]) = rangeAroundMedian(data, 0.9)
 
 	# ranges for zero point
 	for i in range(len(limitsZeros)):
@@ -169,19 +174,28 @@ if __name__ == "__main__":
 	rc('text', usetex=True)
 	
 	fig = plt.figure()
+	ax = plt.axes()
 
-	plt.plot(H0centers, H0max.flatten(), linewidth=2.0, color='0.75')
-	plt.plot(H0centers, H0min.flatten(), linewidth=2.0, color='0.75')
-	plt.plot(H0centers, np.nanmedian(H0, axis=0), linewidth=2.0, color='k')
+	ax.fill_between(H0centers, H0min90.flatten(), H0max90.flatten(),
+				 color='0.9', label="90 \%")
+	ax.fill_between(H0centers, H0min75.flatten(), H0max75.flatten(),
+				 color='0.8', label="75 \%")
+	ax.fill_between(H0centers, H0min50.flatten(), H0max50.flatten(),
+				 color='0.7', label="50 \%")
 	
+#	plt.plot(H0centers, H0max.flatten(), linewidth=2.0, color='0.75')
+#	plt.plot(H0centers, H0min.flatten(), linewidth=2.0, color='0.75')
+	ax.plot(H0centers, np.nanmedian(H0, axis=0), linewidth=2.0, color='k',
+		 label="median")
+	plt.xlim([min(H0centers), max(H0centers)])
+
+	ax.legend()
+
 	plt.xlabel("Distance of bin centre from Milky Way (Mpc)")
 	plt.ylabel("Median $H_0$ in 2.0 Mpc bin (km/s/Mpc)")	
 	
-
+	fig.set_size_inches(4.4, 3.5)
 	plt.tight_layout()
-
-	fig.set_size_inches(5.9, 5)
-	
 	plt.savefig(savelocH0)
 
 
@@ -217,6 +231,8 @@ if __name__ == "__main__":
 	ax.plot(zeroCenters, np.nanmedian(zeros, axis=0), linewidth=2.0, color='k',
 		label="median")
 	
+	#print(np.sum(~np.isnan(zeros), axis=0))
+	
 	ax.legend(loc=3)
 
 	plt.xlabel("Distance of bin centre from Milky Way (Mpc)")
@@ -224,13 +240,9 @@ if __name__ == "__main__":
 
 	plt.tight_layout()
 
-	fig.set_size_inches(5.9, 5)
-
 	plt.xlabel("Distance of bin centre from Milky Way (Mpc)")
-	plt.ylabel("Median Hubble flow zero point distance from MW (Mpc)")	
+	plt.ylabel("Median Hubble flow zero point\ndistance from Milky Way (Mpc)")	
 	
+	fig.set_size_inches(4.4, 3.5)
 	plt.tight_layout()
-
-	fig.set_size_inches(5.9, 5)
-
 	plt.savefig(savelocZero)
