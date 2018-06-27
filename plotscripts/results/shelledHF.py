@@ -39,10 +39,9 @@ if __name__ == "__main__":
 	inputfile = "../input/lgfound-fullpath.txt" 
 	savelocH0 = "../../kuvat/shelledH0.pdf"
 	savelocZero = "../../kuvat/zeros.pdf"
-
 	lines =  sum(1 for line in open(inputfile))
+
 	limitsH0 = [[d, d+2.0] for d in np.arange(0.0, 8.0, 0.1)]
-	limitsZeros = [[d, d+2.0] for d in np.arange(0.0, 8.0, 0.1)]
 	H0 = np.full((lines, len(limitsH0)), np.nan)
 	H0min50 = np.full((1, len(limitsH0)), np.nan)
 	H0max50 = np.full((1, len(limitsH0)), np.nan)
@@ -50,8 +49,8 @@ if __name__ == "__main__":
 	H0max75 = np.full((1, len(limitsH0)), np.nan)
 	H0min90 = np.full((1, len(limitsH0)), np.nan)
 	H0max90 = np.full((1, len(limitsH0)), np.nan)
-	H0min = np.full((1, len(limitsH0)), np.nan)
-	H0max = np.full((1, len(limitsH0)), np.nan)
+
+	limitsZeros = [[d, d+2.0] for d in np.arange(0.0, 8.0, 0.1)]
 	zeros = np.full((lines, len(limitsZeros)), np.nan)
 	zerosMin50 = np.full((1, len(limitsZeros)), np.nan)
 	zerosMax50 = np.full((1, len(limitsZeros)), np.nan)
@@ -172,7 +171,8 @@ if __name__ == "__main__":
 	#### plotting #####
 	rc('font', **{'family':'serif','serif':['Palatino']})
 	rc('text', usetex=True)
-	
+
+	## H0 ##
 	fig = plt.figure()
 	ax = plt.axes()
 
@@ -183,8 +183,6 @@ if __name__ == "__main__":
 	ax.fill_between(H0centers, H0min50.flatten(), H0max50.flatten(),
 				 color='0.7', label="50 \% range")
 	
-#	plt.plot(H0centers, H0max.flatten(), linewidth=2.0, color='0.75')
-#	plt.plot(H0centers, H0min.flatten(), linewidth=2.0, color='0.75')
 	ax.plot(H0centers, np.nanmedian(H0, axis=0), linewidth=2.0, color='k',
 		 label="median")
 	plt.xlim([min(H0centers), max(H0centers)])
@@ -198,19 +196,10 @@ if __name__ == "__main__":
 	plt.tight_layout()
 	plt.savefig(savelocH0)
 
-
 	plt.cla()
 	plt.clf()
-#	fig = plt.figure()
-#	ax = fig.add_subplot(111)
-#	
-#	mask = ~np.isnan(zeros)
-#	filteredZeros = [d[m] for d,m in zip(zeros.T, mask.T)]
-#	ZeroCenters = [(l[0]+l[1])/2.0 for l in limitsZeros]
-#	plt.boxplot(filteredZeros)
-#	ax.set_xticklabels(ZeroCenters)
-#	plt.ylim([-2, 4])
-	
+
+	## Zero point ##
 	fig = plt.figure()
 	ax = plt.axes()
 
@@ -221,13 +210,6 @@ if __name__ == "__main__":
 	ax.fill_between(zeroCenters, zerosMin50.flatten(), zerosMax50.flatten(),
 				 color='0.7', label="50 \% range")
 
-	
-#	plt.plot(zeroCenters, zerosMin50.flatten(), linewidth=2.0, color='0.75')
-#	plt.plot(zeroCenters, zerosMax50.flatten(), linewidth=2.0, color='0.75')
-#	plt.plot(zeroCenters, zerosMin75.flatten(), linewidth=2.0, color='0.75')
-#	plt.plot(zeroCenters, zerosMax75.flatten(), linewidth=2.0, color='0.75')
-#	plt.plot(zeroCenters, zerosMin90.flatten(), linewidth=2.0, color='0.75')
-#	plt.plot(zeroCenters, zerosMax90.flatten(), linewidth=2.0, color='0.75')
 	ax.plot(zeroCenters, np.nanmedian(zeros, axis=0), linewidth=2.0, color='k',
 		label="median")
 	
