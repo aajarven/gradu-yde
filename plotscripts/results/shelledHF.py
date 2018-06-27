@@ -39,7 +39,7 @@ if __name__ == "__main__":
 	inputfile = "../input/lgfound-fullpath.txt" 
 	savelocH0 = "../../kuvat/shelledH0.pdf"
 	savelocZero = "../../kuvat/zeros.pdf"
-	savelocCumulative = "../../kuvat/overdensity+H0.pdf"
+	savelocCumulative = "../../kuvat/unused/overdensity+H0.pdf"
 	lines =  sum(1 for line in open(inputfile))
 
 	limitsH0 = [[d, d+2.0] for d in np.arange(0.0, 8.0, 0.1)]
