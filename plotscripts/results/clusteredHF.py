@@ -197,11 +197,22 @@ if __name__ == "__main__":
 	ax1.set_xticks(np.arange(math.ceil(ylims[0]/10)*10, ylims[1], 10), minor=True)
 	ax1.set_xlabel(r"$H_0$ (km/s/Mpc)")
 	ylims = ax2.get_xlim()
-	ax2.set_xticks(np.arange(math.ceil(ylims[0]), ylims[1], 1.0), minor=True)
-	ax2.set_xticks(np.arange(-5, ylims[1], 5.0), minor=False)
+	ax2.set_xticks(np.arange(math.ceil(ylims[0]), ylims[1], 0.5), minor=True)
+	ax2.set_xlim([-2.5, 3])
+	print([min(allZeros), max(allZeros)])
+#	ax2.set_xticks(np.arange(-5, ylims[1], 5.0), minor=False)
 	ax2.set_xlabel("Distance to Hubble\nflow zero point (Mpc)")
 #	ax1.set_xlim([-25, 145])
 #	ax2.set_xlim([-4, 4])
+
+	print("")
+	print("Outliers:")
+	print("inClusterZeros: " + str([zero for zero in inClusterZeros if zero <
+								 -2.5 or zero > 3.0]))
+	print("outClusterZeros: " + str([zero for zero in outClusterZeros if zero <
+								 -2.5 or zero > 3.0]))
+	print("massCutZeros: " + str([zero for zero in massCutZeros if zero <
+								 -2.5 or zero > 3.0]))
 
 	plt.tight_layout(rect=[0.065, 0.115, 1.0, 1.0])
 #	plt.tight_layout()
