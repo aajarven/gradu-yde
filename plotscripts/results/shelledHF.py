@@ -39,6 +39,7 @@ if __name__ == "__main__":
 	inputfile = "../input/lgfound-fullpath.txt" 
 	savelocH0 = "../../kuvat/shelledH0.pdf"
 	savelocZero = "../../kuvat/zeros.pdf"
+	savelocCumulative = "../../kuvat/overdensity+H0.pdf"
 	lines =  sum(1 for line in open(inputfile))
 
 	limitsH0 = [[d, d+2.0] for d in np.arange(0.0, 8.0, 0.1)]
@@ -58,6 +59,10 @@ if __name__ == "__main__":
 	zerosMax75 = np.full((1, len(limitsZeros)), np.nan)
 	zerosMin90 = np.full((1, len(limitsZeros)), np.nan)
 	zerosMax90 = np.full((1, len(limitsZeros)), np.nan)
+
+	limitsCumulative = np.arange(0.5, 10.0, 0.1)
+	cumulativeDensity = np.full((lines, len(limitsCumulative)), np.nan)
+	cumulativeH0s = np.full((lines, len(limitsCumulative)), np.nan)
 
 	f = open(inputfile, 'r')
 	sim = -1
@@ -118,6 +123,7 @@ if __name__ == "__main__":
 		cop = cop[mask]
 		vel = vel[mask]
 		distances = distances[mask]
+		mass = mass[mask]
 
 		# radial velocities
 		radvel = np.array([physUtils.velocityComponents(vel[j] - centreVel,
@@ -125,12 +131,11 @@ if __name__ == "__main__":
 						   for j in range(len(vel))])
 
 
-		##### extracting H0 #####
+		##### extracting interesting numbers #####
 		for limit, index in zip(limitsH0, range(len(limitsH0))):
 			# jump to next if the haloes don't go all the way to the outer limit
 			if max(distances) < limit[1]:
 				continue
-
 			mask = np.array([d > limit[0] and d < limit[1] for d in distances])
 #			fit = np.polyfit(distances[mask], radvel[mask], 1)
 			k, b, r_value, p_value, std_err = linregress(distances[mask],
@@ -140,10 +145,20 @@ if __name__ == "__main__":
 		for limit, index in zip(limitsZeros, range(len(limitsZeros))):
 			if max(distances) < limit[1]:
 				continue
-
 			mask = np.array([d > limit[0] and d < limit[1] for d in distances])
 			k, b, r, p, std_err = linregress(distances[mask], radvel[mask])
 			zeros[sim, index] = -b/k
+
+		for limit, index in zip(limitsCumulative,
+						  range(len(limitsCumulative))):
+			if max(distances) < limit:
+				continue
+			mask = np.array([d < limit for d in distances])
+			k, b, r_value, p_value, std_err = linregress(distances[mask],
+													  radvel[mask])
+			cumulativeH0s[sim, index] = k
+			cumulativeDensity[sim, index] = np.sum(mass[mask]) / (4.0/3.0 *
+														math.pi * (limit**3))
 
 
 	
@@ -189,7 +204,7 @@ if __name__ == "__main__":
 
 	ax.legend()
 
-	plt.xlabel("Distance of bin centre from Milky Way (Mpc)")
+	plt.xlabel("Distance of bin centre from the Milky Way (Mpc)")
 	plt.ylabel("$H_0$ in 2.0 Mpc bin (km/s/Mpc)")	
 	
 	fig.set_size_inches(4.55, 3.7)
@@ -217,14 +232,40 @@ if __name__ == "__main__":
 	
 	ax.legend(loc=3)
 
-	plt.xlabel("Distance of bin centre from Milky Way (Mpc)")
+	plt.xlabel("Distance of bin centre from the Milky Way (Mpc)")
 	plt.xlim([min(zeroCenters), max(zeroCenters)])	
 
 	plt.tight_layout()
 
-	plt.xlabel("Distance of bin centre from Milky Way (Mpc)")
-	plt.ylabel("Hubble flow zero point distance from Milky Way (Mpc)")	
+	plt.xlabel("Distance of bin centre from the Milky Way (Mpc)")
+	plt.ylabel("Hubble flow zero point distance\nfrom the Milky Way (Mpc)")	
 	
 	fig.set_size_inches(4.55, 3.7)
 	plt.tight_layout()
 	plt.savefig(savelocZero)
+
+	plt.cla()
+	plt.clf()
+
+
+	## cumulative mass vs HF inside ##
+	fig, ax1 = plt.subplots()
+	ax1.plot(limitsCumulative, np.nanmedian(cumulativeDensity,
+										 axis=0)/critical_density, 'r')
+	ax1.tick_params('y', colors='r')
+	ax1.set_ylabel("Median overdensity within radius")
+	ax1.set_xlabel("Distance from the Milky Way")
+	ax1.set_xlim([min(limitsCumulative), max(limitsCumulative)])
+	ax1.set_xticks(np.arange(math.ceil(min(limitsCumulative)), max(limitsCumulative)+0.01,
+						 1), minor=False)
+
+	ax2 = ax1.twinx()
+	ax2.plot(limitsCumulative, np.nanmedian(cumulativeH0s, axis=0), 'b')
+	ax2.tick_params('y', colors='b')
+	ax2.set_ylabel("Median $H_0$ measured within radius")
+	ax2.set_xlabel("Distance from the Milky Way (Mpc)")
+
+	fig.set_size_inches(4.5, 3.1)
+	plt.tight_layout()
+	plt.savefig(savelocCumulative)
+
