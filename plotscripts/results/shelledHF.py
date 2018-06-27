@@ -44,21 +44,21 @@ if __name__ == "__main__":
 
 	limitsH0 = [[d, d+2.0] for d in np.arange(0.0, 8.0, 0.1)]
 	H0 = np.full((lines, len(limitsH0)), np.nan)
-	H0min50 = np.full((1, len(limitsH0)), np.nan)
-	H0max50 = np.full((1, len(limitsH0)), np.nan)
-	H0min75 = np.full((1, len(limitsH0)), np.nan)
-	H0max75 = np.full((1, len(limitsH0)), np.nan)
-	H0min90 = np.full((1, len(limitsH0)), np.nan)
-	H0max90 = np.full((1, len(limitsH0)), np.nan)
+	H0min50 = np.full(len(limitsH0), np.nan)
+	H0max50 = np.full(len(limitsH0), np.nan)
+	H0min75 = np.full(len(limitsH0), np.nan)
+	H0max75 = np.full(len(limitsH0), np.nan)
+	H0min90 = np.full(len(limitsH0), np.nan)
+	H0max90 = np.full(len(limitsH0), np.nan)
 
 	limitsZeros = [[d, d+2.0] for d in np.arange(0.0, 8.0, 0.1)]
 	zeros = np.full((lines, len(limitsZeros)), np.nan)
-	zerosMin50 = np.full((1, len(limitsZeros)), np.nan)
-	zerosMax50 = np.full((1, len(limitsZeros)), np.nan)
-	zerosMin75 = np.full((1, len(limitsZeros)), np.nan)
-	zerosMax75 = np.full((1, len(limitsZeros)), np.nan)
-	zerosMin90 = np.full((1, len(limitsZeros)), np.nan)
-	zerosMax90 = np.full((1, len(limitsZeros)), np.nan)
+	zerosMin50 = np.full(len(limitsZeros), np.nan)
+	zerosMax50 = np.full(len(limitsZeros), np.nan)
+	zerosMin75 = np.full(len(limitsZeros), np.nan)
+	zerosMax75 = np.full(len(limitsZeros), np.nan)
+	zerosMin90 = np.full(len(limitsZeros), np.nan)
+	zerosMax90 = np.full(len(limitsZeros), np.nan)
 
 	limitsCumulative = np.arange(0.5, 10.0, 0.1)
 	cumulativeDensity = np.full((lines, len(limitsCumulative)), np.nan)
@@ -167,18 +167,18 @@ if __name__ == "__main__":
 		data = H0[:, i]
 		data = data[~np.isnan(data)]
 		
-		(H0min50[0, i], H0max50[0, i]) = rangeAroundMedian(data, 0.5)
-		(H0min75[0, i], H0max75[0, i]) = rangeAroundMedian(data, 0.75)
-		(H0min90[0, i], H0max90[0, i]) = rangeAroundMedian(data, 0.9)
+		(H0min50[i], H0max50[i]) = rangeAroundMedian(data, 0.5)
+		(H0min75[i], H0max75[i]) = rangeAroundMedian(data, 0.75)
+		(H0min90[i], H0max90[i]) = rangeAroundMedian(data, 0.9)
 
 	# ranges for zero point
 	for i in range(len(limitsZeros)):
 		data = zeros[:, i]
 		data = data[~np.isnan(data)]
 		
-		(zerosMin50[0, i], zerosMax50[0, i]) = rangeAroundMedian(data, 0.5)
-		(zerosMin75[0, i], zerosMax75[0, i]) = rangeAroundMedian(data, 0.75)
-		(zerosMin90[0, i], zerosMax90[0, i]) = rangeAroundMedian(data, 0.9)
+		(zerosMin50[i], zerosMax50[i]) = rangeAroundMedian(data, 0.5)
+		(zerosMin75[i], zerosMax75[i]) = rangeAroundMedian(data, 0.75)
+		(zerosMin90[i], zerosMax90[i]) = rangeAroundMedian(data, 0.9)
 
 	H0centers = [(l[0]+l[1])/2 for l in limitsH0]
 	zeroCenters = [(l[0]+l[1])/2 for l in limitsZeros]
@@ -191,11 +191,11 @@ if __name__ == "__main__":
 	fig = plt.figure()
 	ax = plt.axes()
 
-	ax.fill_between(H0centers, H0min90.flatten(), H0max90.flatten(),
+	ax.fill_between(H0centers, H0min90, H0max90,
 				 color='0.9', label="90 \% range")
-	ax.fill_between(H0centers, H0min75.flatten(), H0max75.flatten(),
+	ax.fill_between(H0centers, H0min75, H0max75,
 				 color='0.8', label="75 \% range")
-	ax.fill_between(H0centers, H0min50.flatten(), H0max50.flatten(),
+	ax.fill_between(H0centers, H0min50, H0max50,
 				 color='0.7', label="50 \% range")
 	
 	ax.plot(H0centers, np.nanmedian(H0, axis=0), linewidth=2.0, color='k',
@@ -218,11 +218,11 @@ if __name__ == "__main__":
 	fig = plt.figure()
 	ax = plt.axes()
 
-	ax.fill_between(zeroCenters, zerosMin90.flatten(), zerosMax90.flatten(),
+	ax.fill_between(zeroCenters, zerosMin90, zerosMax90,
 				 color='0.9', label="90 \% range")
-	ax.fill_between(zeroCenters, zerosMin75.flatten(), zerosMax75.flatten(),
+	ax.fill_between(zeroCenters, zerosMin75, zerosMax75,
 				 color='0.8', label="75 \% range")
-	ax.fill_between(zeroCenters, zerosMin50.flatten(), zerosMax50.flatten(),
+	ax.fill_between(zeroCenters, zerosMin50, zerosMax50,
 				 color='0.7', label="50 \% range")
 
 	ax.plot(zeroCenters, np.nanmedian(zeros, axis=0), linewidth=2.0, color='k',
