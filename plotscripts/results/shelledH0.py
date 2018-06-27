@@ -177,11 +177,11 @@ if __name__ == "__main__":
 	ax = plt.axes()
 
 	ax.fill_between(H0centers, H0min90.flatten(), H0max90.flatten(),
-				 color='0.9', label="90 \%")
+				 color='0.9', label="90 \% range")
 	ax.fill_between(H0centers, H0min75.flatten(), H0max75.flatten(),
-				 color='0.8', label="75 \%")
+				 color='0.8', label="75 \% range")
 	ax.fill_between(H0centers, H0min50.flatten(), H0max50.flatten(),
-				 color='0.7', label="50 \%")
+				 color='0.7', label="50 \% range")
 	
 #	plt.plot(H0centers, H0max.flatten(), linewidth=2.0, color='0.75')
 #	plt.plot(H0centers, H0min.flatten(), linewidth=2.0, color='0.75')
@@ -192,9 +192,9 @@ if __name__ == "__main__":
 	ax.legend()
 
 	plt.xlabel("Distance of bin centre from Milky Way (Mpc)")
-	plt.ylabel("Median $H_0$ in 2.0 Mpc bin (km/s/Mpc)")	
+	plt.ylabel("$H_0$ in 2.0 Mpc bin (km/s/Mpc)")	
 	
-	fig.set_size_inches(4.4, 3.5)
+	fig.set_size_inches(4.55, 3.7)
 	plt.tight_layout()
 	plt.savefig(savelocH0)
 
@@ -215,11 +215,11 @@ if __name__ == "__main__":
 	ax = plt.axes()
 
 	ax.fill_between(zeroCenters, zerosMin90.flatten(), zerosMax90.flatten(),
-				 color='0.9', label="90 \%")
+				 color='0.9', label="90 \% range")
 	ax.fill_between(zeroCenters, zerosMin75.flatten(), zerosMax75.flatten(),
-				 color='0.8', label="75 \%")
+				 color='0.8', label="75 \% range")
 	ax.fill_between(zeroCenters, zerosMin50.flatten(), zerosMax50.flatten(),
-				 color='0.7', label="50 \%")
+				 color='0.7', label="50 \% range")
 
 	
 #	plt.plot(zeroCenters, zerosMin50.flatten(), linewidth=2.0, color='0.75')
@@ -241,8 +241,8 @@ if __name__ == "__main__":
 	plt.tight_layout()
 
 	plt.xlabel("Distance of bin centre from Milky Way (Mpc)")
-	plt.ylabel("Median Hubble flow zero point\ndistance from Milky Way (Mpc)")	
+	plt.ylabel("Hubble flow zero point distance from Milky Way (Mpc)")	
 	
-	fig.set_size_inches(4.4, 3.5)
+	fig.set_size_inches(4.55, 3.7)
 	plt.tight_layout()
 	plt.savefig(savelocZero)
