@@ -24,6 +24,7 @@ def blackBoxplot(bp):
 
 if __name__ == "__main__":
 	inputfile = "../input/upTo5Mpc-no229-fullpath.txt" 
+#	inputfile = "../input/upTo5Mpc-fullpath.txt" 
 #	inputfile = "../input/hundred.txt"
 	outputdir = "../../kuvat/"
 
@@ -193,11 +194,11 @@ if __name__ == "__main__":
 					  r"than $8^{11}~M_{\astrosun}$",
 					  "Haloes in clusters", "Haloes outside clusters", "All haloes"
 					 ], ha='right', multialignment='right')
-	ylims = ax1.get_xlim()
-	ax1.set_xticks(np.arange(math.ceil(ylims[0]/10)*10, ylims[1], 10), minor=True)
+	xlims = ax1.get_xlim()
+	ax1.set_xticks(np.arange(math.ceil(xlims[0]/10)*10, xlims[1], 10), minor=True)
 	ax1.set_xlabel(r"$H_0$ (km/s/Mpc)")
-	ylims = ax2.get_xlim()
-	ax2.set_xticks(np.arange(math.ceil(ylims[0]), ylims[1], 0.5), minor=True)
+	xlims = ax2.get_xlim()
+	ax2.set_xticks(np.arange(math.ceil(xlims[0]), xlims[1], 0.5), minor=True)
 	ax2.set_xlim([-2.5, 3])
 	print([min(allZeros), max(allZeros)])
 #	ax2.set_xticks(np.arange(-5, ylims[1], 5.0), minor=False)
@@ -207,6 +208,8 @@ if __name__ == "__main__":
 
 	print("")
 	print("Outliers:")
+	print("allZeros: " + str([zero for zero in allZeros if zero <
+								 -2.5 or zero > 3.0]))
 	print("inClusterZeros: " + str([zero for zero in inClusterZeros if zero <
 								 -2.5 or zero > 3.0]))
 	print("outClusterZeros: " + str([zero for zero in outClusterZeros if zero <
