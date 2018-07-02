@@ -630,7 +630,7 @@ This criterion produced 448 hits in the parent box and a zoom simulation was cre
 
 
 
-\subsection{Zoom simulations}
+\subsection{Zoom simulations} \label{sect:zooms}
 The zoom simulations simulated the same box as the parent simulation, but new initial conditions with enhanced resolution around Local Group analogues and coarser resolution elsewhere were created for each pair of objects. The large scale structure and evolution in these zooms is similar to the parent simulation, but due to increased resolution near the Local Group analogues they can be studied in more detail. The change of resolution was implemented by grouping the dark matter particles to three categories ranging from the least massive type 1 particles to the most massive type 3 particles.
 
 Whereas type 1 particles have a fixed mass in each simulation, type 2 and 3 particles have masses ranging from type 2 particles with only slightly larger mass than the type 1 particles to type 3 particles with masses comparable to a million type 1 particles. Masses of type 2 and 3 particles vary, but each particle type has its own softening length with type 1 particles having the smallest and type 3 particles the largest softening lengths. While the number and mass of type 1 particles varied slightly from simulation to simulation, ranging from $3.7 \times 10^7$ to $4.7 \times 10^7~\mathrm{M}_{\astrosun}$ per particle, every simulation used the same softening length of 1.0~kpc/$h$ for them. The \textsc{gadget-3} simulation code is also capable of handling baryonic matter such as gas and stars, but the simulations used in this thesis were dark matter only simulations so no other particles than the three types of dark matter particles were present. 
@@ -663,9 +663,9 @@ The criteria were chosen so that the systems resemble the Local Group but the al
 
 Even with the loose criteria, the sample size was reduced from the number of unique simulations as some resimulations did not contain a pair of haloes fulfilling the Local Group criteria. This can happen as the zooms are not identical to the parent simulation and especially Local Group analogues with some value near the edge of the allowed range can end up no longer meeting all criteria after resimulation. Some of the simulations also contained more than one Local Group analogue, in which case the pair with largest distance to the nearest type 2 or 3 particle was chosen for analysis.
 
-As the analysis conducted for this thesis uses not only the properties of a Local Group analogue but also its surroundings, the extent of high resolution regions is important. As can be seen in Fig.\ \ref{fig:uncontaminatedDistances}, most of the simulations contain only type 1 particles up to 4~Mpc from the Local Group analogue. For larger distances, the number of simulations uncontaminated by type 2 or 3 particles decreases until after 8~Mpc only few simulations have only type 1 particles.
-To ensure maximum accuracy, all of the Local Group analogues used in the analysis were required not to have any type 2 or 3 particles within \_ Mpc of the mass centre of the halo pair. %TODO distance
-This resulted in a final sample of \_ subhalo catalogues. %TODO number
+As the analysis conducted for this thesis uses not only the properties of a Local Group analogue but also its surroundings, the extent of high resolution regions is important. As can be seen in Fig.\ \ref{fig:uncontaminatedDistances}, most of the simulations contain only type 1 particles up to 4~Mpc from the Local Group analogue. For larger distances, the number of simulations uncontaminated by type 2 or 3 particles decreases until after 8~Mpc only few simulations have only type 1 particles. TODO: sum up the fact that some analysis required excluding some simulations based on contamination %TODO
+%To ensure maximum accuracy, all of the Local Group analogues used in the analysis were required not to have any type 2 or 3 particles within \_ Mpc of the mass centre of the halo pair. %TODO distance
+%This resulted in a final sample of \_ subhalo catalogues. %TODO number
 
 
 \begin{figure}
@@ -1103,8 +1103,18 @@ According to \citet{ester1996density}, $\varepsilon$ can be set after choosing t
 
 
 \chapter{Findings from DMO Halo Catalogue Analysis}
+TODO intro %TODO
+
 \section{Properties of the Local Group analogues}
-criteria, how many found, what are like (some plots maybe? distributions of masses, separations, velocity components, number of subhaloes within some radius or correlations between two of those?). Some of this might be part of previous chapter too (relevant to resimulation)?
+As the Local Group analogue identification criteria described in section \ref{sect:zooms} allows a range of different halo pairs, the properties of the found Local Group analogues vary. This can be seen in Fig. \ref{fig:LGproperties} where both distance between the main haloes and the velocity components span nearly the whole allowed range of values. The plot also contains a histogram of overdensity within 2 Mpc of the Milky Way analogue.
+
+The peak of the radial velocity histogram is located near 100 km/s, meaning that most of the identified Local Group analogues have radial velocities near the measured value for the Andromeda galaxy \citep{vandermarel2012m31}. For tangential velocities, the distribution is much more uniform, though values near the ends of the allowed interval are rarer. The \citet{vandermarel2012m31} tangential velocity measurement result of 17.0~km/s corresponds to the most TODO %TODO
+
+%The distributions tend to be centered near the middle of the range, but especially the radial velocity and mutual distance distributions are skewed.
+
+The 199 zoom simulations containing a Local Group analogue cover a range of different dark matter halo systems and their surroundings. 
+
+%criteria, how many found, what are like (some plots maybe? distributions of masses, separations, velocity components, number of subhaloes within some radius or correlations between two of those?). Some of this might be part of previous chapter too (relevant to resimulation)?
 
 %\reversemarginpar
 %\marginnote{\footnotesize{TODO: selitykset sille, miten osa on keskittynyt tiettyihin arvoihin sallitulla välillä ja osa jakautunut tasaisemmin. Mieti, pitäisikö kolme viimeistä esittää esim scatterplottina combined mass vs mass in more massive}}
@@ -1114,7 +1124,7 @@ Figure \ref{fig:LGproperties} shows how different features of the found LG analo
     \centering
     %\def\svgwidth{\columnwidth}
     \includegraphics{kuvat/LGproperties.pdf}
-    \caption{Histograms of LG analogue properties. TODO: caption}\label{fig:LGproperties}
+    \caption{Histograms of mutual radial and tangential velocities (top row) and distances (bottom left panel) of the main haloes in each Local Group analogue found in the simulations. The bottom right panel shows the overdensity within 2 Mpc of the Milky Way analogue in each simulation.}\label{fig:LGproperties}
 \end{figure}
 
 \begin{figure}
