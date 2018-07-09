@@ -790,7 +790,7 @@ where parameter $\beta_0$ represents the $y$ axis intercept of the line and $\be
 
 %\reversemarginpar
 %\marginnote{\footnotesize{toisiko jotain lisää jos olisi $\beta_1$ ja $\beta_2$ lausekkeet?}}
-The best-known method of minimizing the sum of squared error is the ordinary least-squares (OLS) estimator. The OLS method uses differences in the response variable as shown in Fig.\ \ref{fig:OLS} and thus the minimized sum is
+The best-known method of minimizing the sum of squared error is the ordinary least squares (OLS) estimator. The OLS method uses differences in the response variable as shown in Fig.\ \ref{fig:OLS} and thus the minimized sum is
 \begin{equation}
 	\sum_{i=1}^n (y_i - \beta_0 - \beta_1 x_i)
 \end{equation}
@@ -1161,7 +1161,10 @@ This kind of differences in the surroundings of the Local Group analogues might 
 
 
 \subsection{Measuring the Hubble Flow}
-The first step in quantifying the properties of the Hubble Flow around the Local Group analogues is to determine the 
+The first step in quantifying the properties of the Hubble flows around the Local Group analogues is to determine the basic shape of the flow. In this work, the Radial velocity field is modelled to consist of two parts: a nearly constant or decreasing radial velocity with possibly large scatter within and near the Local Group analogue and a linear relationship between distance and radial velocity on larger distances. Naturally this is not an accurate description of the situation, as the transition from gravitational collapse within the Local Group to a linear Hubble flow is not instantaneous and the gravitational pull of the Local Group also affects objects outside it.
+
+
+TODO: In this work, this is done using ordinary least squares regression (see section \ref{sect:simple-linear}) %TODO
 
 
 
