@@ -17,7 +17,7 @@ import transitiondistance
 if __name__ == "__main__":
 	
 	dirname = "/scratch/sawala/milkomedia_ii/milkomedia_129_DMO/groups_008_z000p000/"
-	saveloc = "/home/aajarven/Z-drive/duuni/extragal/gradu-yde/kuvat/hubblefit.svg"
+	saveloc = "/home/aajarven/Z-drive/duuni/extragal/gradu-yde/kuvat/hubblefit.pdf"
 
 	staticVel = filereader.readAllFiles(dirname, "Subhalo/Velocity", 3)
 	mass = filereader.readAllFiles(dirname, "Subhalo/Mass", 1)
@@ -78,6 +78,9 @@ if __name__ == "__main__":
 	(fit, flowstartdist) = transitiondistance.findBestHubbleflow(distances, radvel)
 	print("HF slope: " + str(fit[0]))
 
+	rc('font', **{'family':'serif','serif':['Palatino']})
+	rc('text', usetex=True)
+
 	fig, ax = plt.subplots()
 	
 	ax.scatter(distances[distances < flowstartdist],
@@ -95,10 +98,8 @@ if __name__ == "__main__":
 	ax.set_xlabel("Distance from Milky Way (Mpc)")
 	ax.set_ylabel("Radial velocity (km/s)")
 
-	rc('font', **{'family':'serif','serif':['Palatino']})
-	rc('text', usetex=True)
 
-	plt.tight_layout()
+	plt.tight_layout(rect=[0.05, 0.12, 1, 1])
 	
 	fig.set_size_inches(4, 4)
 	
