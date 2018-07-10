@@ -1161,10 +1161,25 @@ This kind of differences in the surroundings of the Local Group analogues might 
 
 
 \subsection{Measuring the Hubble Flow}
-The first step in quantifying the properties of the Hubble flows around the Local Group analogues is to determine the basic shape of the flow. In this work, the Radial velocity field is modelled to consist of two parts: a nearly constant or decreasing radial velocity with possibly large scatter within and near the Local Group analogue and a linear relationship between distance and radial velocity on larger distances. Naturally this is not an accurate description of the situation, as the transition from gravitational collapse within the Local Group to a linear Hubble flow is not instantaneous and the gravitational pull of the Local Group also affects objects outside it.
+The first step in quantifying the properties of the Hubble flows around the Local Group analogues is to determine the basic shape of the flow. In this work, the radial velocity field is modelled to consist of two parts: at small distances when going outward from the Milky Way analogue, the radial velocity decreases or possibly stays nearly constant with possibly large scatter, and at larger radii a positive linear relationship between distance and radial velocity is expected. Naturally this is not an accurate description of the situation, as the transition from gravitational collapse within the Local Group to a linear Hubble flow is not instantaneous and the gravitational pull of the Local Group also affects objects outside it.
 
+Fitting a linear relation to the linear Hubble Flow observed around the Milky Way analogues is in principle simple to conduct as a for example ordinary least squares regression (see section \ref{sect:simple-linear}) can be used. Determining the distance starting at which the linear model can be applied on the other hand is less straightforward and multiple possible schemes exist. Possibly the simplest option would be to set an arbitrary distance threshold and exclude all haloes within this distance from the fitting procedure. For some simulations, this will likely exclude more data points than is necessary and for others it is possible that not enough points will be excluded. Even when the exclusion threshold is chosen carefully, a constant distance will always be suboptimal for some simulations, so a solution that is able to adapt to the properties of each simulation is desired.
 
-TODO: In this work, this is done using ordinary least squares regression (see section \ref{sect:simple-linear}) %TODO
+In this work, the number of nearest subhaloes to be ignored is chosen based on the sum of squares of the residuals. This is done by first calculating the ordinary least squares fit using all of the available data up to the first type 2 particle. The mean squared residual per data point used for this fit is then stored together with the fitting result. Then the fitting is repeated, but the subhalo closest to the origin is omitted from the fitting. The squared residuals of the two fits are compared, and the fit with smaller value per data point is stored. Next the two closest subhaloes are omitted, a line is fitted and the better fit stored. This is repeated until all haloes up to 2~Mpc are omitted, at which point the fit with the smallest residuals is chosen as the one that best describes the Hubble flow.
+
+\begin{figure}
+    \centering
+    %\def\svgwidth{\columnwidth}
+    \input{kuvat/tex/hubblefit.pdf_tex}
+    \caption{HF slope: 86.9929348817}\label{fig:hubblefit} %TODO caption
+\end{figure}
+
+The final result of this kind of fitting procedure is illustrated in Fig.~\ref{fig:hubblefit}, where all subhaloes are shown as dots, the excluded ones in grey and ones used in fitting in black. The best fit line is also shown. In this simulation the excluded range corresponds well to the distinction a human would likely make when asked to determine the distance at which the motions inside Local Group no longer are the dominant effect on the radial velocity.
+
+This approach is naturally not without weaknesses. If the innermost subhaloes within Local Group for example would have a very small radial velocity dispersion, no subhaloes might be excluded as data points with small dispersion reduce the mean squared residual. Similarly groups of data points with large scatter can get excluded even if they the Hubble Flow neatly. Luckily these problems are usually not severe as even when the maximum of 2 Mpc of the nearest region is excluded from fitting, most simulations still have more than 3~Mpc worth of data to use for fitting and thus small changes in including or excluding subhaloes in the innermost regions do not produce large effects.
+
+The fitting is also repeated multiple times for each simulation, making the fitting slow compared to e.g. the case with a constant exclusion threshold. Adaptive solutions with better time complexity also exist, as one might for example calculate the fit iteratively by always excluding the haloes that are closer than the distance at which the fitted radial velocity is zero. This is an appealing approach as instead of just the scatter around the fit it is based on the physical distance at which the Hubble flow can be said to start. Unfortunately the solution does not necessarily converge but can instead oscillate between two or more solutions and for example in situation shown in Fig.~\ref{fig:hubblefit} the range starting at the point where the fitted radial velocity is zero would likely contain a substantial number of subhaloes with large velocity dispersion that are likely to be bound to the Local Group. Thus the slower method comparing the mean squared residuals is used in throughout this work.
+
 
 
 
@@ -1177,12 +1192,7 @@ TODO: In this work, this is done using ordinary least squares regression (see se
 
 %Figure \ref{fig:hubblefit} shows haloes included and excluded in fitting, how is the process done
 
-\begin{figure}
-    \centering
-    %\def\svgwidth{\columnwidth}
-    \input{kuvat/tex/hubblefit.pdf_tex}
-    \caption{HF slope: 86.9929348817}\label{fig:hubblefit}
-\end{figure}
+
 
 %Figure \ref{fig:shelledH0} shows H0 at different radii. First bump is clear, latter ones not, H0>67.7 km/s, why. First ones have almost 200 samples, last ones only 11. Figure \ref{fig:zeros} has bigger bins and shows zero points. Think whether both should use samy plot type and which is better (line vs boxplot). At least explain what is what in plot.
 
