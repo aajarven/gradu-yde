@@ -39,7 +39,7 @@ if __name__ == "__main__":
 	inputfile = "../input/lgfound-fullpath.txt" 
 	savelocH0 = "../../kuvat/shelledH0.pdf"
 	savelocZero = "../../kuvat/zeros.pdf"
-	savelocCumulative = "../../kuvat/unused/overdensity+H0.pdf"
+	savelocCumulative = "../../kuvat/overdensity+H0.pdf"
 	lines =  sum(1 for line in open(inputfile))
 
 	limitsH0 = [[d, d+2.0] for d in np.arange(0.0, 8.0, 0.1)]
@@ -248,24 +248,26 @@ if __name__ == "__main__":
 	plt.clf()
 
 
-	## cumulative mass vs HF inside ##
+	## overdensity vs HF inside ##
 	fig, ax1 = plt.subplots()
-	ax1.plot(limitsCumulative, np.nanmedian(cumulativeDensity,
-										 axis=0)/critical_density, 'r')
-	ax1.tick_params('y', colors='r')
-	ax1.set_ylabel("Median overdensity within radius")
-	ax1.set_xlabel("Distance from the Milky Way")
-	ax1.set_xlim([min(limitsCumulative), max(limitsCumulative)])
-	ax1.set_xticks(np.arange(math.ceil(min(limitsCumulative)), max(limitsCumulative)+0.01,
+	
+	ax1.plot(limitsCumulative, np.nanmedian(cumulativeH0s, axis=0), 'b')
+	ax1.tick_params('y', colors='b')
+	ax1.set_ylabel("Median $H_0$ within radius (km/s/Mpc)")
+#	ax1.set_xlabel("Distance from the Milky Way (Mpc)")
+	
+	ax2 = ax1.twinx()
+	ax2.plot(limitsCumulative, np.nanmedian(cumulativeDensity,
+	   								 axis=0)/critical_density, 'r')
+	ax2.tick_params('y', colors='r')
+	ax2.set_ylabel("Median overdensity within radius")
+	ax2.set_xlabel("Distance from the Milky Way (Mpc)")
+	ax2.set_xlim([min(limitsCumulative), max(limitsCumulative)])
+	ax2.set_xticks(np.arange(math.ceil(min(limitsCumulative)), max(limitsCumulative)+0.01,
 						 1), minor=False)
 
-	ax2 = ax1.twinx()
-	ax2.plot(limitsCumulative, np.nanmedian(cumulativeH0s, axis=0), 'b')
-	ax2.tick_params('y', colors='b')
-	ax2.set_ylabel("Median $H_0$ measured within radius")
-	ax2.set_xlabel("Distance from the Milky Way (Mpc)")
 
-	fig.set_size_inches(4.5, 3.1)
+	fig.set_size_inches(4.5, 2.9)
 	plt.tight_layout()
 	plt.savefig(savelocCumulative)
 
