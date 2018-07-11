@@ -77,6 +77,7 @@ if __name__ == "__main__":
 	
 	(fit, flowstartdist) = transitiondistance.findBestHubbleflow(distances, radvel)
 	print("HF slope: " + str(fit[0]))
+	print("Fitting start distance: " + str(flowstartdist))
 
 	rc('font', **{'family':'serif','serif':['Palatino']})
 	rc('text', usetex=True)
