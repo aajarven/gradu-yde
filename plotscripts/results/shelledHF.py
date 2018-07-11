@@ -254,14 +254,15 @@ if __name__ == "__main__":
 	ax1.plot(limitsCumulative, np.nanmedian(cumulativeH0s, axis=0), 'b')
 	ax1.tick_params('y', colors='b')
 	ax1.set_ylabel("Median $H_0$ within radius (km/s/Mpc)")
-#	ax1.set_xlabel("Distance from the Milky Way (Mpc)")
+	ax1.set_xlabel("Distance from the Milky Way (Mpc)")
+	ax1.set_yticks(np.arange(-100, 101, 25), minor=False)
 	
 	ax2 = ax1.twinx()
 	ax2.plot(limitsCumulative, np.nanmedian(cumulativeDensity,
 	   								 axis=0)/critical_density, 'r')
 	ax2.tick_params('y', colors='r')
 	ax2.set_ylabel("Median overdensity within radius")
-	ax2.set_xlabel("Distance from the Milky Way (Mpc)")
+#	ax2.set_xlabel("Distance from the Milky Way (Mpc)")
 	ax2.set_xlim([min(limitsCumulative), max(limitsCumulative)])
 	ax2.set_xticks(np.arange(math.ceil(min(limitsCumulative)), max(limitsCumulative)+0.01,
 						 1), minor=False)
