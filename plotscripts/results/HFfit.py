@@ -100,7 +100,7 @@ if __name__ == "__main__":
 	ax.set_ylabel("Radial velocity (km/s)")
 
 
-	plt.tight_layout(rect=[0.05, 0.12, 1, 1])
+	plt.tight_layout(rect=[0.05, 0.0, 1, 1])
 	
 	fig.set_size_inches(4, 4)
 	
