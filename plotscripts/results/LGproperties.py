@@ -27,6 +27,7 @@ if __name__ == "__main__":
 	inputfile = "../input/lgfound-fullpath.txt" 
 	histogram_saveloc = "../../kuvat/LGproperties.pdf"
 	scatterplot_saveloc = "../../kuvat/LGmasses.pdf"
+	masshist_saveloc = "../../kuvat/masshistogram.pdf"
 
 	lines =  sum(1 for line in open(inputfile))
 	radvel = np.full(lines, np.nan)
@@ -34,7 +35,8 @@ if __name__ == "__main__":
 	distance = np.full(lines, np.nan)
 	totalmass = np.full(lines, np.nan)
 	massdifference = np.full(lines, np.nan)
-	massratio = np.full(lines, np.nan)
+	bighalomasses = np.full(lines, np.nan)
+	smallhalomasses = np.full(lines, np.nan)
 	overdensity2mpc = np.full(lines, np.nan)
 
 	f = open(inputfile, 'r')
@@ -91,8 +93,9 @@ if __name__ == "__main__":
 		distance[sim] = physUtils.distance(cop[LG[0]], cop[LG[1]])
 		totalmass[sim] = masses[LG[0]] + masses[LG[1]]
 		massdifference[sim] = math.fabs(masses[LG[0]] - masses[LG[1]])
-		massratio[sim] = masses[centreIndex] / (masses[LG[0]] + masses[LG[1]])
-		
+		bighalomasses[sim] = max(masses[LG[0]], masses[LG[1]])
+		smallhalomasses[sim] = min(masses[LG[0]], masses[LG[1]])
+
 		distances = np.array([physUtils.distance(centre, pos) for pos in cop])
 		mass2mpc = sum(masses[np.where(distances<=2)])
 		overdensity2mpc[sim] = (mass2mpc/(4.0/3.0*math.pi*(2**3)))/critical_density
@@ -145,7 +148,6 @@ if __name__ == "__main__":
 	ax.yaxis.set_major_formatter(formatter)
 	ax.xaxis.set_major_formatter(ticker.FormatStrFormatter('%.1f'))
 	
-	### mass plot ###
 	plt.tight_layout()
 	plt.subplots_adjust(hspace = 0.8)
 
@@ -156,6 +158,7 @@ if __name__ == "__main__":
 	plt.cla()
 	plt.clf()
 
+	### mass scatterplot ###
 	fig = plt.figure()
 	ax = fig.add_subplot(111,aspect='equal')
 
@@ -182,3 +185,27 @@ if __name__ == "__main__":
 	fig.set_size_inches(4.2, 3.0)
 	plt.tight_layout()
 	plt.savefig(scatterplot_saveloc)
+
+	plt.cla()
+	plt.clf()
+	
+	### mass histograms ###
+	fig = plt.figure()
+	normed = False
+	alpha=0.7
+	allhalomasses = np.concatenate((smallhalomasses, bighalomasses))
+	bins = np.concatenate(([], np.arange(1e12/3, 4e12 + 1e12/3 + 1, 1e12/3)))
+	plt.hist(smallhalomasses, bins=bins, histtype="step", 
+		  label="Smaller primary", normed=normed, alpha=alpha)
+	plt.hist(bighalomasses, bins=bins, histtype="step", label="Larger primary",
+		  normed=normed, alpha=alpha)
+	plt.hist(allhalomasses, bins=bins, histtype="step", label="All primaries",
+		  normed=normed, alpha=alpha)
+
+	plt.legend(loc=0)
+	plt.xlabel(r"Halo mass ($\mathrm{M}_{\astrosun}$)")
+	plt.ylabel("Haloes")
+
+	fig.set_size_inches(3.0, 2.6)
+	plt.tight_layout(rect=[0.0, -0.05, 1.0, 1.0])
+	plt.savefig(masshist_saveloc)
