@@ -1217,29 +1217,22 @@ As the point after which the measured median value for $H_0$ no longer changes i
     %\def\svgwidth{\columnwidth}
     \includegraphics{kuvat/shelledH0.pdf}
     %\input{kuvat/tex/shelledH0.pdf_tex}
-    \caption{Mean H0 in different 2 Mpc bins. The grey curves show the $1 \sigma$ region around the mean. Currently fitting to all particles up to the first type 2 particle in all simulations.}\label{fig:shelledH0} %TODO caption
+    \caption{Median $H_0$ when fitted in all subhaloes with distances from the Milky Way analogue in a 2~Mpc bin. The grey areas show ranges containing the middle 90~\%, 75~\% and 50~\% of the measurements.}\label{fig:shelledH0} %TODO caption: ei fittaa jos bin sisältää type 2, ranget yhdistyvät
 \end{figure}
 
-As the $H_0$ values shown in Fig.~\ref{fig:overdensity+H0} include all subhaloes up to a given distance, they  differ from values obtained as described in section~\ref{sect:hubblemeasurement}. The plot also does not give  any insight in whether the observed relation between distance and radial velocity in simulations is linear or not. In order to examine these effects, Fig.~\ref{fig:shelledH0} shows how the median $H_0$ changes as a function of distance when measured using all haloes in a moving 2~Mpc bin. The plot also shows the \nth{90}, \nth{75} and \nth{50} percentiles for $H_0$. The merging of different percentile ranges at large radii is due to the plot including in each bin only those simulations that do not have type~2 particles in that bin, so there are very few data points in the last bins.
+As the $H_0$ values shown in Fig.~\ref{fig:overdensity+H0} include all subhaloes up to a given distance, they  differ from values obtained as described in section~\ref{sect:hubblemeasurement}. The plot also does not give  any insight in whether the observed relation between distance and radial velocity in simulations is linear or not. In order to examine these effects, Fig.~\ref{fig:shelledH0} shows how the median $H_0$ changes as a function of distance when measured using all haloes in a moving 2~Mpc bin. The plot also shows the \nth{90}, \nth{75} and \nth{50} percentiles for $H_0$. The merging of different percentile ranges at large radii is due to the plot including in each bin only those simulations that do not have type~2 particles in that bin, so there are very few data points in the last bins. %TODO ei percentilejä
 
 Like Fig.~\ref{fig:uncontaminatedDistances}, this plot also shows how initially the values of $H_0$ grow when the bin moves away from the Milky Way analogue, but the curve reaches a significantly higher value of $H_0$ than the curve in Fig.~\ref{fig:overdensity+H0} as when the bin includes M31 and its satellites moving towards the Milky Way analogue and haloes outside the Local Group moving away, the measured $H_0$ is exaggerated. At larger distances the measurement no longer has haloes bound to the Local Group analogue in it and it stabilizes to a value near the one in Fig.~\ref{fig:overdensity+H0}.
 
-As the unbinned figure, Fig.~\ref{fig:shelledH0} also starts to show some variation in the value of $H_0$ near a distance of 7~Mpc for the bin centre. This is also likely at least partially related to the number of simulations from which the median is calculated getting smaller, but actual features in the data set such as massive haloes moving relative to the Milky Way and hosting their own satellite systems can also result in anomalous values of $H_0$ when the distance range used in the measurement is small. 
+As the unbinned figure, Fig.~\ref{fig:shelledH0} also starts to show some variation in the value of $H_0$ near a distance of 7~Mpc for the bin centre. This is also likely at least partially related to the number of simulations from which the median is calculated getting smaller, but actual features in the data set such as massive haloes moving relative to the Milky Way and hosting their own satellite systems can also result in anomalous values of $H_0$ when the distance range used in the measurement is small.
 
-%TODO : zero
-
-
-%HF, local $H_0$, $H_0$ within shells, zero-point, are previous consistent with what went into the simulation
-
-%Figure \ref{fig:hubblediagrams}: two different simulations, MW-centered, huom obs nb how different they are: scatter, number of haloes, changes in scatter (bound structures)
-
-
-
-%Figure \ref{fig:hubblefit} shows haloes included and excluded in fitting, how is the process done
-
-
-
-%Figure \ref{fig:shelledH0} shows H0 at different radii. First bump is clear, latter ones not, H0>67.7 km/s, why. First ones have almost 200 samples, last ones only 11. Figure \ref{fig:zeros} has bigger bins and shows zero points. Think whether both should use samy plot type and which is better (line vs boxplot). At least explain what is what in plot.
+\begin{figure}
+    \centering
+    %\def\svgwidth{\columnwidth}
+    \includegraphics{kuvat/zeros.pdf}
+    %\input{kuvat/tex/zeros.pdf_tex}
+    \caption{HF zero point in different 2 Mpc bins. TODO: 90 \% and 75 \% equal for last bins as there are as few as 6 simulations}\label{fig:shelledZeros}
+\end{figure}
 
 %Mpc	uncontaminated sims
 %0	199
@@ -1252,22 +1245,18 @@ As the unbinned figure, Fig.~\ref{fig:shelledH0} also starts to show some variat
 %7	27
 %8	11
 
-
-
-
-\begin{figure}
-    \centering
-    %\def\svgwidth{\columnwidth}
-    \includegraphics{kuvat/zeros.pdf}
-    %\input{kuvat/tex/zeros.pdf_tex}
-    \caption{HF zero point in different 2 Mpc bins. TODO: 90 \% and 75 \% equal for last bins as there are as few as 6 simulations}\label{fig:zeros}
-\end{figure}
 % # of data points in each bin:
 % [197 197 197 197 197 196 196 196 195 195 194 193 193 193 192 190 188 188
 % 184 176 171 167 162 159 153 150 144 143 137 134 129 126 115 108 107 103
 %  93  88  85  81  77  69  62  59  52  48  43  37  37  35  31  28  26  21
 %  20  20  18  17  16  15  14  13  13  12  11  11  11  10   9   8   7   7
 %   6   6   6   6   6   6   6   6]
+
+In addition to the measured value of $H_0$, also the zero point of the fitted Hubble flow can change if the mass range to which the fit is calculated changes. This is explored in Fig.~\ref{fig:shelledZeros} showing how the Hubble flow zero point changes if it is measured from a fit to all haloes with radial distances in a 2~Mpc bin and the bin centre is moved. Unlike the $H_0$, the zero point does not change drastically based on whether M31 analogue and its satellites are inside the bin limits. This is likely caused by the steepening of the fitted line getting cancelled out by the data to which the line is fitted being further from the origin.
+
+As with the $H_0$ plots, the zero point measurement results also vary more on larger distances. Especially when looking at the percentiles, it is clear that in the outermost bins the scatter is very large. Even on fairly close distances, ``negative distances'' to the zero point are also present, meaning that the fit would suggest that even the Local Group is expanding. This kind of results are possible when the data set used in fitting no longer contains subhaloes that are bound to the Local Group analogue and the slope of the fitted line is more gradual and closer to the global value of 67.77~km/s/Mpc, at which point the zero point can move close to the Milky Way analogue or if the $H_0$ is very small even to ``negative'' distances.
+
+
 
 
 \section{Anisotropy of Hubble flow}
