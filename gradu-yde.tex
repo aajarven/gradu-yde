@@ -1191,7 +1191,8 @@ This approach is naturally not without weaknesses. If the innermost subhaloes wi
 
 The fitting is also repeated multiple times for each simulation, making the fitting slow compared to e.g. the case with a constant exclusion threshold. Adaptive solutions with possibly better time complexity also exist, as one might for example calculate the fit iteratively by always excluding the haloes that are closer than the distance at which the fitted radial velocity is zero. This is an appealing approach as instead of just the scatter around the fit it is based on the physical distance at which the Hubble flow can be said to start. Unfortunately the solution does not necessarily converge but can instead oscillate between two or more solutions and for example in situation shown in Fig.~\ref{fig:hubblefit} the range starting at the point where the fitted radial velocity is zero would likely contain a substantial number of subhaloes with large velocity dispersion that are likely to be bound to the Local Group. Thus the slower method comparing the mean squared residuals is used in this work.
 
-%TODO tässä työssä mitataan H0 ja zero point, onko jo mukana?
+When the results of the fitting are expressed in this work, the Hubble flow fitting result is not expressed in the most common slope-intercept form of $y = kx + b$, giving the slope and the $y$ intercept. Instead the result is expressed in terms of the Hubble flow slope $H_0$ and the distance at which the fitted radial velocity is zero, corresponding to giving the $x$ intercept instead of $y$. This is done as the zero point indicates the distance at which subhaloes are no longer bound to the Local Group, which in turn can be used to probe the mass of the Local Group.
+
 
 \subsection{Dependence of the Hubble Flow Slope on Distance}
 The distance from the Milky Way analogue to the nearest type 2 particle varies from simulation to simulation as was seen in Fig.~\ref{fig:uncontaminatedDistances} in section~\ref{sect:zooms}. The range of closest to furthest distance to the nearest type 2 particle is also quite substantial as at nearest the closest particle can be closer than 2 Mpc away but some simulations contain only type 1 particles in a spherical volume with radius of more than 10~Mpc. Thus if the Hubble flow measurements were very sensitive to the distance up to which data is available, simulations might appear to have different Hubble flows just because they are measured up to different distances.
@@ -1214,13 +1215,12 @@ As the point after which the measured median value for $H_0$ no longer changes i
 
 \begin{figure}
     \centering
-    %\def\svgwidth{\columnwidth}
     \includegraphics{kuvat/shelledH0.pdf}
     %\input{kuvat/tex/shelledH0.pdf_tex}
-    \caption{Median $H_0$ when fitted in all subhaloes with distances from the Milky Way analogue in a 2~Mpc bin. The grey areas show ranges containing the middle 90~\%, 75~\% and 50~\% of the measurements.}\label{fig:shelledH0} %TODO caption: ei fittaa jos bin sisältää type 2, ranget yhdistyvät
+    \caption{Median $H_0$ when fitted in all subhaloes with distances from the Milky Way analogue in a 2~Mpc bin. The grey areas show ranges containing the middle 90\%, 75\% and 50\% of the measurements. The value of $H_0$ is calculated only for bins that do not containt any type 2 particles, which results in the total number of data ponints decreasing outwards. For approximately the last megaparsec, the small number of available data points causes the 90\% and 75\% limits merging.}\label{fig:shelledH0}
 \end{figure}
 
-As the $H_0$ values shown in Fig.~\ref{fig:overdensity+H0} include all subhaloes up to a given distance, they  differ from values obtained as described in section~\ref{sect:hubblemeasurement}. The plot also does not give  any insight in whether the observed relation between distance and radial velocity in simulations is linear or not. In order to examine these effects, Fig.~\ref{fig:shelledH0} shows how the median $H_0$ changes as a function of distance when measured using all haloes in a moving 2~Mpc bin. The plot also shows the \nth{90}, \nth{75} and \nth{50} percentiles for $H_0$. The merging of different percentile ranges at large radii is due to the plot including in each bin only those simulations that do not have type~2 particles in that bin, so there are very few data points in the last bins. %TODO ei percentilejä
+As the $H_0$ values shown in Fig.~\ref{fig:overdensity+H0} include all subhaloes up to a given distance, they  differ from values obtained as described in section~\ref{sect:hubblemeasurement}. The plot also does not give  any insight in whether the observed relation between distance and radial velocity in simulations is linear or not. In order to examine these effects, Fig.~\ref{fig:shelledH0} shows how the median $H_0$ changes as a function of distance when measured using all haloes in a moving 2~Mpc bin. The plot also shows the extents of the ranges containing 90\%, 75\% and 50\% of the $H_0$ values in each bin. The merging of different percentile ranges at large radii is due to the plot including in each bin only those simulations that do not have type~2 particles in that bin, so there are very few data points in the last bins.
 
 Like Fig.~\ref{fig:uncontaminatedDistances}, this plot also shows how initially the values of $H_0$ grow when the bin moves away from the Milky Way analogue, but the curve reaches a significantly higher value of $H_0$ than the curve in Fig.~\ref{fig:overdensity+H0} as when the bin includes M31 and its satellites moving towards the Milky Way analogue and haloes outside the Local Group moving away, the measured $H_0$ is exaggerated. At larger distances the measurement no longer has haloes bound to the Local Group analogue in it and it stabilizes to a value near the one in Fig.~\ref{fig:overdensity+H0}.
 
@@ -1228,10 +1228,9 @@ As the unbinned figure, Fig.~\ref{fig:shelledH0} also starts to show some variat
 
 \begin{figure}
     \centering
-    %\def\svgwidth{\columnwidth}
     \includegraphics{kuvat/zeros.pdf}
     %\input{kuvat/tex/zeros.pdf_tex}
-    \caption{HF zero point in different 2 Mpc bins. TODO: 90 \% and 75 \% equal for last bins as there are as few as 6 simulations}\label{fig:shelledZeros}
+    \caption{Median Hubble flow zero point distance from the Milky Way analogue, measured from a Hubble flow fitted to all subhaloes in a 2 Mpc bin in each simulation, accompanied with the ranges containing the middle 90\%, 75\% and 50\% of the measurements. As in Fig.~\ref{fig:shelledH0}, the zero point is calculated only in bins that do not contain type 2 particles and thus for large distances there are less measurements, resulting in the 90\% and 75\% ranges merging.}\label{fig:shelledZeros}
 \end{figure}
 
 %Mpc	uncontaminated sims
