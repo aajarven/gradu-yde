@@ -192,11 +192,11 @@ if __name__ == "__main__":
 	ax = plt.axes()
 
 	ax.fill_between(H0centers, H0min90, H0max90,
-				 color='0.9', label="90 \% range")
+				 color='0.8', label="90 \% range")
 	ax.fill_between(H0centers, H0min75, H0max75,
-				 color='0.8', label="75 \% range")
+				 color='0.7', label="75 \% range")
 	ax.fill_between(H0centers, H0min50, H0max50,
-				 color='0.7', label="50 \% range")
+				 color='0.6', label="50 \% range")
 	
 	ax.plot(H0centers, np.nanmedian(H0, axis=0), linewidth=2.0, color='k',
 		 label="median")
@@ -219,11 +219,11 @@ if __name__ == "__main__":
 	ax = plt.axes()
 
 	ax.fill_between(zeroCenters, zerosMin90, zerosMax90,
-				 color='0.9', label="90 \% range")
+				 color='0.8', label="90 \% range")
 	ax.fill_between(zeroCenters, zerosMin75, zerosMax75,
-				 color='0.8', label="75 \% range")
+				 color='0.7', label="75 \% range")
 	ax.fill_between(zeroCenters, zerosMin50, zerosMax50,
-				 color='0.7', label="50 \% range")
+				 color='0.6', label="50 \% range")
 
 	ax.plot(zeroCenters, np.nanmedian(zeros, axis=0), linewidth=2.0, color='k',
 		label="median")
