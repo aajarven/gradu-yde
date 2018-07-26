@@ -134,7 +134,7 @@ def readAndSave(simulationfiles, datafile, mindist=1.0, maxdist=5.0, eps=1.8,
 		zeropoints.append(-fit[1]/fit[0])
 		inClusterZeros.append(-inClusterFit[1]/inClusterFit[0])
 		outClusterZeros.append(-outClusterFit[1]/outClusterFit[0])
-		allDispersions.append(np.std(radvel))
+		allDispersions.append(np.std(radvel)) #TODO HF ei vähennetty tässä tai muissa
 		clusterDispersions.append(clusterAnalysis.dispersionOfClusters(clusteringDB,
 															  radvel))
 		unclusteredDispersions.append(clusterAnalysis.dispersionOfUnclustered(
