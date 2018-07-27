@@ -12,7 +12,7 @@ import LGfinder
 import physUtils
 from sklearn.utils import resample
 from sibeliusConstants import *
-from transitiondistance import simpleFit
+import transitiondistance
 import matplotlib.pyplot as plt
 from matplotlib import rc
 import numpy as np
@@ -102,12 +102,14 @@ if __name__ == "__main__":
 #	inputfile = "../input/hundred.txt"
 	outputdir = "../../kuvat/"
 
-	mindist = 1.0
+	mindist = 0.0
 	maxdist = 5.0
 	eps = 1.8
 	ms = 10
 
 	onAxisH0 = []
+	toM31H0 = []
+	awayFromM31H0 = []
 	offAxisH0 = []
 	plotBinLimits = np.linspace(0.0, np.pi, 10)
 	angles = []
@@ -166,9 +168,9 @@ if __name__ == "__main__":
 			andromedaIndex = LG[1]
 
 		MWcop = cop[MWindex]
-		massCentre = physUtils.massCentre(cop[MWindex], cop[andromedaIndex],
-									mass[MWindex], mass[andromedaIndex])
-		closestContDist = physUtils.findClosestDistance(massCentre,
+#		massCentre = physUtils.massCentre(cop[MWindex], cop[andromedaIndex],
+#									mass[MWindex], mass[andromedaIndex])
+		closestContDist = physUtils.findClosestDistance(MWcop,
 												  contaminatedPositions)
 		if closestContDist < maxdist:
 			excludedSims += 1
@@ -186,7 +188,7 @@ if __name__ == "__main__":
 		LGrelVelComponents = physUtils.velocityComponents(LGrelVel, cop[LG[1]]-cop[LG[0]])
 		LGdistance = physUtils.distance(cop[LG[0]], cop[LG[1]])
 
-		mask = np.array([d < maxdist and d > mindist for d in
+		mask = np.array([d < maxdist and d >= mindist for d in
 				   distances])
 		cop = cop[mask]
 		vel = vel[mask]
@@ -213,17 +215,30 @@ if __name__ == "__main__":
 				h0s[angleIndex].append(np.nan)
 				excludedBins += 1
 			else:
-				(H0, zero) = simpleFit(distances[angleMask], radvel[angleMask])
+				(fit, flowstartdist) = transitiondistance.findBestHubbleflow(distances[angleMask],
+										  radvel[angleMask])
+				H0 = fit[0]
+				zero = -fit[1]/fit[0] 
 				zeros[angleIndex].append(zero)
 				h0s[angleIndex].append(H0)
 
 		# on and off-axis measurements
-		onAxisMask = np.array([angle < np.pi/4.0 or angle > np.pi*3.0/4.0 for
-						 angle in directions])
-		onAxisH0.append(simpleFit(distances[onAxisMask], radvel[onAxisMask])[0])
+#		onAxisMask = np.array([angle < np.pi/4.0 or angle > np.pi*3.0/4.0 for
+#						 angle in directions])
+		toM31Mask = np.array([angle < np.pi/4.0 for angle in directions])
+		awayFromM31Mask = np.array([angle > np.pi*3.0/4.0 for angle in
+							 directions])
+		onAxisMask = np.logical_or(toM31Mask, awayFromM31Mask)
 		offAxisMask = np.logical_not(onAxisMask)
-		offAxisH0.append(simpleFit(distances[offAxisMask],
-							 radvel[offAxisMask])[0])
+
+		offAxisH0.append(transitiondistance.findBestHubbleflow(distances[offAxisMask],
+							 radvel[offAxisMask])[0][0])
+		toM31H0.append(transitiondistance.findBestHubbleflow(distances[toM31Mask],
+													   radvel[toM31Mask])[0][0])
+		awayFromM31H0.append(transitiondistance.findBestHubbleflow(distances[awayFromM31Mask],
+													   radvel[awayFromM31Mask])[0][0])
+		onAxisH0.append(transitiondistance.findBestHubbleflow(distances[onAxisMask],
+														radvel[onAxisMask])[0][0])
 
 	print("Total sims excluded: "+str(excludedSims))
 	print("Total bins excluded: "+str(excludedBins))
@@ -249,45 +264,35 @@ if __name__ == "__main__":
 	plt.rcParams.update(params)
 
 
+	### semicircle plots ###
 	fig = plt.figure()
-
 
 	H0locations = [0, 20, 40, 60, 80, 100, 120]
 	H0labels = ['0', '20', '40', '60', '80', '100', '120']
 	H0ticks = {loc : label for loc, label in zip(H0locations, H0labels)}
-	ax1 = fractional_polar_axes(fig, thlim=(0., 180.), rlim=(0, 120),
+	ax1 = fractional_polar_axes(fig, thlim=(0., 180.), rlim=(0, 125),
 							 step=(10.0, 20), rlabels=H0ticks, subplot=211,
 							 thlabel=r'$\phi$',	rlabel=r'$H_{0}$ (km/s/Mpc)')
-#	ax1.scatter(angles, meanH0s)
 	ax1.errorbar(angles, meanH0s, yerr=H0std, fmt='o', ecolor='k', capsize=0,
 			  color='k')
-#	ax1.plot(angles, meanH0s, linewidth=2.0, color='k')
-#	ax1.plot(angles, meanH0s+H0std, linewidth=2.0, color='0.5')
-#	ax1.plot(angles, meanH0s-H0std, linewidth=2.0, color='0.5')
-#	for h0row in h0s.T:
-#		ax1.scatter(angles, h0row)
 
 
 	zeroLocations = [0.0, 2.0, 4.0, 6.0, 8.0, 10.0, 12.0]
 	zeroLabels = ['-6', '-4', '-2', '0','2', '4', '6']
 	zeroTicks = {loc : label for loc, label in zip(zeroLocations, zeroLabels)}
-	ax2 = fractional_polar_axes(fig, thlim=(0., 180.), rlim=(0.0, 12.0),
+	ax2 = fractional_polar_axes(fig, thlim=(0., 180.), rlim=(0.0, 10.0),
 							 step=(10.0, 2.0), rlabels=zeroTicks, subplot=212,
 							 thlabel=r'$\phi$',
 							 rlabel=r'Hubble flow zero point distance (Mpc)')
-#	ax1.scatter(angles, meanZeros)
 	ax2.errorbar(angles, meanZeros+6.0, xerr=0, yerr=zerostd, fmt='o',
 			  ecolor='k', color='k', capsize=0)
-#	ax2.plot(angles, meanZeros+6.0, linewidth=2.0, color='k')
-#	ax2.plot(angles, meanZeros+zerostd+6.0, linewidth=2.0, color='0.5')
-#	ax2.plot(angles, meanZeros-zerostd+6.0, linewidth=2.0, color='0.5')
 
 	plt.tight_layout()
 	fig.set_size_inches(5.3, 6.5)
 
 	plt.savefig(outputdir+"directionalHF.pdf")
 
-	## off vs on axis
+	### off vs on axis ratio ###
 	plt.cla()
 	plt.clf()
 
@@ -319,3 +324,23 @@ if __name__ == "__main__":
 		str(np.percentile(bootstrapRatios, 5.0)))
 	print("95th percentile of bootstrapped median: " +
 	   str(np.percentile(bootstrapRatios, 95.0)))
+
+
+	### three direction histogram ###
+	plt.cla()
+	plt.clf()
+
+	fig = plt.figure()
+
+	alpha = 0.7
+	bins = np.arange(10, 130, 10)
+	plt.hist(toM31H0, histtype="step", bins=bins, label="Towards M31", alpha=alpha)
+	plt.hist(offAxisH0, histtype="step", bins=bins, label="Off axis", alpha=alpha)
+	plt.hist(awayFromM31H0, histtype="step", bins=bins, label="Away from M31", alpha=alpha)
+
+	plt.legend(loc=2)
+	plt.xlabel("$H_0$")
+	plt.ylabel("Simulations")
+	fig.set_size_inches(3.4, 2.6)
+	plt.tight_layout()
+	plt.savefig(outputdir + "threeDirectionH0.pdf")
