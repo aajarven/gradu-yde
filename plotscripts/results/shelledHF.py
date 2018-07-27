@@ -260,10 +260,12 @@ if __name__ == "__main__":
 	ax2 = ax1.twinx()
 	ax2.plot(limitsCumulative, np.nanmedian(cumulativeDensity,
 										 axis=0)/critical_density, 'tab:orange')
-	ax2.tick_params('y', colors='tab:orange')
 	ax2.set_ylabel("Median overdensity within radius")
 #	ax2.set_xlabel("Distance from the Milky Way (Mpc)")
 	ax2.set_xlim([min(limitsCumulative), max(limitsCumulative)])
+	ax2.set_ylim(bottom=-0.1)
+	ax2.set_yticks(range(0, int(math.ceil(max(ax2.get_ylim())))), minor=True)
+	ax2.tick_params(axis='y', which='both', colors='tab:orange')
 	ax2.set_xticks(np.arange(math.ceil(min(limitsCumulative)), max(limitsCumulative)+0.01,
 						 1), minor=False)
 
