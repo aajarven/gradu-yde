@@ -331,12 +331,16 @@ if __name__ == "__main__":
 	plt.clf()
 
 	fig = plt.figure()
+	ax = fig.add_subplot(111)
 
 	alpha = 0.7
 	bins = np.arange(10, 130, 10)
-	plt.hist(toM31H0, histtype="step", bins=bins, label="Towards M31", alpha=alpha)
-	plt.hist(offAxisH0, histtype="step", bins=bins, label="Off axis", alpha=alpha)
-	plt.hist(awayFromM31H0, histtype="step", bins=bins, label="Away from M31", alpha=alpha)
+	ax.hist(toM31H0, histtype="step", bins=bins, label="Towards M31", alpha=alpha)
+	ax.hist(offAxisH0, histtype="step", bins=bins, label="Off axis", alpha=alpha)
+	ax.hist(awayFromM31H0, histtype="step", bins=bins, label="Away from M31", alpha=alpha)
+	ax.set_xticks(range(20, 121, 20), minor=False)
+	ax.set_xticks(range(10, 120, 10), minor=True)
+
 
 	plt.legend(loc=2)
 	plt.xlabel("$H_0$")
