@@ -98,7 +98,7 @@ def fractional_polar_axes(f, thlim=(0, 180), rlim=(0, 1), step=(30, 0.25),
 
 
 if __name__ == "__main__":
-	inputfile = "../input/upTo5Mpc-fullpath.txt" 
+	inputfile = "../input/lgfound-fullpath.txt" 
 #	inputfile = "../input/hundred.txt"
 	outputdir = "../../kuvat/"
 
@@ -210,7 +210,7 @@ if __name__ == "__main__":
 			#			print("[" + str(plotBinLimits[angleIndex]) + ", " +
 			#		 str(plotBinLimits[angleIndex+1]) + "]:\t" + str(np.sum(angleMask)) )
 
-			if np.sum(angleMask) < 10:
+			if np.sum(angleMask) < 15:
 				zeros[angleIndex].append(np.nan)
 				h0s[angleIndex].append(np.nan)
 				excludedBins += 1
@@ -342,5 +342,5 @@ if __name__ == "__main__":
 	plt.xlabel("$H_0$")
 	plt.ylabel("Simulations")
 	fig.set_size_inches(3.4, 2.6)
-	plt.tight_layout()
+	plt.tight_layout(rect=[0, -0.05, 1, 1])
 	plt.savefig(outputdir + "threeDirectionH0.pdf")
