@@ -1252,21 +1252,31 @@ This plot also suggests that a volume with a relatively small radius of e.g. 5~M
 As with the $H_0$ plots, the zero point measurement results also vary more on larger distances. When looking at the plotted ranges, it is clear that in the outermost bins the scatter is very large. Even ``negative distances'' to the zero point are present, meaning that the fit would suggest that even the Local Group is expanding. These kinds of results are possible when the data set used in fitting no longer contains subhaloes that are bound to the Local Group analogue and the slope of the fitted line is more gradual and closer to the global value of 67.77~km/s/Mpc, at which point the zero point can move close to the Milky Way analogue or if the $H_0$ is very small even to ``negative'' distances. This means that the fit is no longer sensitive to the overdensity within the Local Group. Especially when only distant haloes are used, the negative radial velocities within the Local Group might not affect the fit significantly.
 
 
-
-
 \section{Anisotropy of Hubble flow}
-isotropy + randomness or anisotropy? esittele konsepti. plots: see notebook last pages
+Overall, the plots in the previous subsection suggest that the Hubble flows around the analysed Local Group analogues are dependent on the distance at which the value is measured up to about 3~Mpc distance, after which the measured parameters no longer change. The possibility of directional dependencies, on the other hand, is completely ignored up to now. In order to explore possible anisotropies in the Hubble flows too, this subsection explores the distribution of subhaloes and their radial velocities on the sky as seen from the Milky Way analogue in each simulation.
 
-%\reversemarginpar
-%\marginnote{\footnotesize{Simulaatio 97, esittele jo tässä näkyvät klöntit joissa paljon samaa väriä, näytä myös klusterointi ja vertaa löytöjä siihen}}
-Figure \ref{fig:mollweide-anisotropy} shows distribution of haloes around Milky Way analogue from one simulation with haloes closer than 1.5 Mpc away from center excluded to avoid cluttering the view with Andromeda counterpart and its satellites.
+The distribution of subhaloes at distances up to 5~Mpc are clearly anisotropic, as, like all matter in the Universe, the subhaloes tend to be arranged to filaments and walls instead of being evenly distributed. The velocities of these structures and the location of the Local Group relative to them affect the observed radial velocities. They can also be correlated with the mass of the Local Group and are thus interesting.
 
 \begin{figure}
     \centering
     %\def\svgwidth{\columnwidth}
     \input{kuvat/tex/mollweide-anisotropy.pdf_tex}
-    \caption{Projections of haloes around the less massive LG primary with distances ranging from 1.5 Mpc to 5.0 Mpc. TODO caption}\label{fig:mollweide-anisotropy} %TODO
+    \caption{Projections of subhaloes, marked with dots, around the less massive LG primary with distances ranging from 1.5 Mpc to 5.0 Mpc. The radial velocity of each subhalo relative to the Hubble flow fit is shown with colour: red subhaloes are moving away from the observer at smaller speeds than predicted by the Hubble flow fit and blue subhaloes at larger velocities.}\label{fig:mollweide-anisotropy}
 \end{figure}
+
+The locations and radial velocities in one simulation are illustrated in Fig.~\ref{fig:mollweide-anisotropy}, which clearly shows how the subhaloes form dense structures separated by voids with few to no subhaloes in them. In order to avoid obstructing the structures with the satellites of the Local Group primaries, the subhaloes are plotted starting at the distance of 1.5~Mpc. The orientation of the coordinate frame in the plot is arbitrary.
+
+The colours of the dots in the plot indicate how the subhaloes move relative to the Hubble flow fitted to the data: red points recede faster than the fitted Hubble flow would suggest and blue points recede slower. Visual inspection of the plot would suggest that the radial velocities might also be anisotropically distributed. For example approximately between -45\textdegree and -60\textdegree near the centerline of the plot there is a collection of subhaloes coloured almost uniformly blue and most of the reddest subhaloes with radial velocities exceeding that of the Hubble flow by more than 450~km/s are located near each other at the right edge of the plot.
+
+%TODO ehkä vain sattumaa?
+
+%isotropy + randomness or anisotropy? esittele konsepti. plots: see notebook last pages
+
+%\reversemarginpar
+%\marginnote{\footnotesize{Simulaatio 97, esittele jo tässä näkyvät klöntit joissa paljon samaa väriä, näytä myös klusterointi ja vertaa löytöjä siihen}}
+%Figure \ref{fig:mollweide-anisotropy} shows distribution of haloes around Milky Way analogue from one simulation with haloes closer than 1.5 Mpc away from center excluded to avoid cluttering the view with Andromeda counterpart and its satellites.
+
+
 
 %TODO bin excluded if less than 15 subhaloes in bin, sim excluded if not up to 5 Mpc
 \begin{figure}
