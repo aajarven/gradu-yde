@@ -267,11 +267,11 @@ if __name__ == "__main__":
 	### semicircle plots ###
 	fig = plt.figure()
 
-	H0locations = [0, 20, 40, 60, 80, 100, 120]
-	H0labels = ['0', '20', '40', '60', '80', '100', '120']
+	H0locations = [0, 25, 50, 75, 100, 125]
+	H0labels = ['0', '25', '50', '75', '100', '125']
 	H0ticks = {loc : label for loc, label in zip(H0locations, H0labels)}
 	ax1 = fractional_polar_axes(fig, thlim=(0., 180.), rlim=(0, 125),
-							 step=(10.0, 20), rlabels=H0ticks, subplot=211,
+							 step=(10.0, 25), rlabels=H0ticks, subplot=211,
 							 thlabel=r'$\phi$',	rlabel=r'$H_{0}$ (km/s/Mpc)')
 	ax1.errorbar(angles, meanH0s, yerr=H0std, fmt='o', ecolor='k', capsize=0,
 			  color='k')
