@@ -1272,18 +1272,36 @@ The colours of the dots in the plot indicate how the subhaloes move relative to 
 This kind of visual inspection, especially when done only to individual simulation outputs, can not be the sole means of determining whether the radial velocities are anisotropically distributed. In the following subsections two approaches to quantifying the possible anisotropy are introduced. First, in section \ref{sect:angular-dependencies}, the dependency between how the radial velocities depend on the angle between the observed subhalo and the M31 analogue in the simulation is applied. Later in section \ref{sect:clustering} another approach using clustering algorithm introduced in section \ref{sect:cluster-analysis} is used to study the structures surrounding the Local Group analogues.
 
 \subsection{Angular Dependencies}\label{sect:angular-dependencies}
-Many possible ways to orient the coordinate system around the Milky Way are not available in dark matter only simulations. For example the plane of the galaxy, let alone the orbit of anything analogous to the Sun, is not resolved. Thus in this work, a complete uniform coordinate system is not used across simulations.
+Many established ways to orient the coordinate system around the observer are not usable in dark matter only simulations. For example the plane of the galaxy, let alone the orbit of anything analogous to the Sun, is not resolved. Thus in this work, a complete uniform coordinate system is not used across simulations.
 
-Instead, subhaloes are classified based on how they relate to the vector from the Milky Way to M31 analogue in each simulation. This is chosen as, due to the asymmetrical shape of the Local Group that is dominated by the two primary galaxies, it is expected that near the Local Group analogues the Hubble flow is not isotropic. The Milky Way analogues moving relative to the centres of corresponding Local Group analogues also affects the observed velocities.
+Instead, when a directional binning is desired, subhaloes are classified based on how they relate to the vector from the less massive to more massive primary in each simulation. This is chosen as, due to the asymmetrical shape of the Local Group that is dominated by the two primary galaxies, it is expected that near the Local Group analogues the Hubble flow is not isotropic. The Milky Way analogues moving relative to the centres of corresponding Local Group analogues also affects the observed velocities.
 
-As another similarly justified coordinate axis that could be used with the line connecting the Milky Way and M31 analogues does not exist, when subhaloes are binned based on their observed location on the sky, the angle (marked with $\phi$) between the M31 and the subhalo is used as the only coordinate. Thus a subhalo located very near the M31 analogue on the sky would have a small value of $\phi$ and a subhalo that is located on the line connecting the Milky way and M31 analogues in the direction away from M31 as seen from the Milky Way would have $\phi = 180 \degree$. %TODO area eri asteiden välillä ei yhtä suuri ala
+As another similarly justified coordinate axis that could be used with the line connecting the Milky Way and M31 analogues does not exist, when subhaloes are binned based on their observed location on the sky, the angle (marked with $\phi$) between the M31 and the subhalo is used as the only coordinate. Thus a subhalo located very near the M31 analogue on the sky would have a small value of $\phi$ and a subhalo that is located on the line connecting the Milky way and M31 analogues in the direction away from M31 as seen from the Milky Way would have $\phi = 180 \degree$.
 
-%TODO bin excluded if less than 15 subhaloes in bin, sim excluded if not up to 5 Mpc
+This scheme will naturally result in bins with constant angular width being smaller in terms of the volume when located near the line connecting the primaries and larger with values of $\phi$ near $90 \degree$, and thus it is not suitable for e.g. comparing numbers of subhaloes in each bin without scaling the counts according to the volume within each bin. For calculating quantities like Hubble flow parameters this kind of binning works well though, as long as also the smallest bins are large enough to have a sufficient number of data points in them.
+
 \begin{figure}
     \centering
     \includegraphics{kuvat/directionalHF.pdf}
-    \caption{Hubble constants and Hubble flow zero points when measured in 20\textdegree\ bins in each simulation, the angle being measured as the angle between M31 and each subhalo as seen from the Milky Way. The dots mark the mean result and the whiskers show the standard deviation in each bin.}\label{fig:directionalHF}
+    \caption{Hubble constants and Hubble flow zero points when measured in 20\textdegree\ bins in each simulation, the angle being measured as the angle between M31 and each subhalo as seen from the Milky Way. The dots mark the mean result and the whiskers show the standard deviation in each bin. Note that in the zero point distance plot the distance axis does not start from zero but from $-6$~Mpc instead.}\label{fig:directionalHF}
 \end{figure}
+
+This kind of angular binning is used to produce Fig.~\ref{fig:directionalHF} that shows how $H_0$ and the zero point of the Hubble flow change as a function of $\phi$. For this plot, $20 \degree$ bins were used and the Hubble flows were fitted using subhaloes up to 5~Mpc away from the Milky Way analogue. Simulations that had their first type~2 particle at a distance of less than 5~Mpc were not used. Also if any bin in a simulation contained less than 15 subhaloes, this bin was excluded from the analysis. A separate Hubble flow fit was calculated for each bin in each simulation using the fitting procedure introduced in section~\ref{sect:hubblemeasurement}. The figure shows the means and standard deviations of the results in each bin.
+
+From the plots, it can be seen that at distances of less than 5~Mpc the Hubble flow around the simulated Milky Way analogues is not isotropic. This is clear when looking at the zero point distance plot, where the three bins closest to the direction towards the M31 analogue have the mean zero point at more than 2~Mpc away from the Milky way analogue whereas when looking away from the M31 analogues, it is common that the Hubble flow has not yet reached a radial velocity of 0~km/s when the Milky Way analogue is reached, resulting in negative values of the zero point distance.
+
+This is likely to a great extent caused by a combination of the observer being located at the Milky Way analogue instead of the centre of the Local Group and the Local Group selection criteria also requiring the observer to be moving toward the M31 analogue. This means that the effect the Local Group has on the surrounding Hubble flow will not be isotropic, as when looking in the direction of a large $\phi$, the observer is looking almost directly away from the Local Group whereas for small values of $\phi$ most of the Local Group is within the observed region. The movement of the Milky Way analogue also affects the results: if the mass center of the Local Group is assumed to be in rest relative to its surroundings, the movement of the Milky Way analogue towards it will add either a positive or negative radial velocity to all haloes within each bin. These effects cause the plot to appear like the measured values of zero point are offset to the right.
+
+The differences in the $H_0$ plot are more subtle, but these measurements are not independent of the direction either. Perhaps the most prominent effect in it is that when $H_0$ is measured near $\phi = 90\degree$, the obtained values tend to be smaller than when measured either towards or away from the M31 analogue. Differences between measurements done near the ends of the allowed range are difficult to discern from this plot, though it appears that the values of $H_0$ measured towards the M31 analogue might be slightly higher than when measured away from it.
+
+\begin{figure}
+    \centering
+    \includegraphics{kuvat/threeDirectionH0.pdf}
+    \caption{The distribution of $H_0$ measurement results when subhaloes with angle between them and M31 is less than 45\textdegree (blue histogram), more than 135\textdegree (green histogram) or in between (orange curve).}\label{fig:threeDirectionH0}
+\end{figure}
+
+In order to compare the values of $H_0$ when measured towards or away from the M31 analogue or in the perpendicular direction, Fig.~\ref{fig:threeDirectionH0} shows the histograms of $H_0$ fitting results in these three $45 \degree$ bins.
+
 
 %Fig.~\ref{fig:directionalHF} shows how the Hubble flow 
 
@@ -1296,11 +1314,7 @@ As another similarly justified coordinate axis that could be used with the line 
 
 
 
-\begin{figure}
-    \centering
-    \includegraphics{kuvat/threeDirectionH0.pdf}
-    \caption{The distribution of $H_0$ measurement results when subhaloes with angle between them and M31 is less than 45\textdegree (blue histogram), more than 135\textdegree (green histogram) or in between (orange curve).}\label{fig:threeDirectionH0}
-\end{figure}
+
 
 \begin{figure}
     \centering
