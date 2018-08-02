@@ -336,15 +336,22 @@ if __name__ == "__main__":
 	alpha = 0.7
 	bins = np.arange(10, 130, 10)
 	ax.hist(toM31H0, histtype="step", bins=bins, label="Towards M31", alpha=alpha)
-	ax.hist(offAxisH0, histtype="step", bins=bins, label="Off axis", alpha=alpha)
+	ax.hist(offAxisH0, histtype="step", bins=bins, label="Off-axis", alpha=alpha)
 	ax.hist(awayFromM31H0, histtype="step", bins=bins, label="Away from M31", alpha=alpha)
 	ax.set_xticks(range(20, 121, 20), minor=False)
 	ax.set_xticks(range(10, 120, 10), minor=True)
 
 
 	plt.legend(loc=2)
-	plt.xlabel("$H_0$")
+	plt.xlabel("$H_0$ (km/s/Mpc)")
 	plt.ylabel("Simulations")
 	fig.set_size_inches(3.4, 2.6)
 	plt.tight_layout(rect=[0, -0.05, 1, 1])
 	plt.savefig(outputdir + "threeDirectionH0.pdf")
+
+	print("towards mean: " + str(np.mean(toM31H0)))
+	print("off axis mean: " + str(np.mean(offAxisH0)))
+	print("away mean: " + str(np.mean(awayFromM31H0)))
+	print("towards median: " + str(np.median(toM31H0)))
+	print("off axis median: " + str(np.median(offAxisH0)))
+	print("away median: " + str(np.median(awayFromM31H0)))
