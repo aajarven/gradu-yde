@@ -1297,33 +1297,28 @@ The differences in the $H_0$ plot are more subtle, but these measurements are no
 \begin{figure}
     \centering
     \includegraphics{kuvat/threeDirectionH0.pdf}
-    \caption{The distribution of $H_0$ measurement results when subhaloes with angle between them and M31 is less than 45\textdegree (blue histogram), more than 135\textdegree (green histogram) or in between (orange curve).}\label{fig:threeDirectionH0}
+    \caption{The distribution of $H_0$ measurement results when subhaloes with angle between them and M31 is less than 45\textdegree (blue histogram), more than 135\textdegree (green histogram) or in between (orange histogram).}\label{fig:threeDirectionH0}
 \end{figure}
 
-In order to compare the values of $H_0$ when measured towards or away from the M31 analogue or in the perpendicular direction, Fig.~\ref{fig:threeDirectionH0} shows the histograms of $H_0$ fitting results in these three $45 \degree$ bins.
+In order to compare the values of $H_0$ when measured towards or away from the M31 analogue or in the perpendicular direction, Fig.~\ref{fig:threeDirectionH0} shows the histograms of $H_0$ fitting results in three bins with unequal sizes. This plot shows that the measurements done in either direction along the axis connecting the Milky Way and M31 analogues have the peak of the distribution at a higher value than the measurements in the off-axis direction. The highest measured values of $H_0$ are also more common in the two on-axis bins. The difference is especially clear between the measurements done in the $\phi < 45\degree$ and the off-axis bins, with the difference between the off-axis and $\phi > 135\degree$ bins being smaller.
 
-
-%Fig.~\ref{fig:directionalHF} shows how the Hubble flow 
-
+The same observation can be made by comparing medians of the $H_0$ measurements in each bin. The smallest median $H_0$ of 86.9~km/s/Mpc is measured in the off-axis bin with the $\phi > 135\degree$ having slightly higher median value of 89.9~km/s/Mpc. The highest value was measured in the bin with $\phi < 45\degree$ where the median $H_0$ was 94.2~km/s/Mpc. This agrees well with what is seen in Figs.~\ref{fig:directionalHF} and \ref{fig:threeDirectionH0}, hinting that the Hubble Flows around the Milky Way analogues are indeed anisotropic at the examined distances.
 
 %\reversemarginpar
 %\marginnote{\footnotesize{Simulaatio 97, esittele jo tässä näkyvät klöntit joissa paljon samaa väriä, näytä myös klusterointi ja vertaa löytöjä siihen}}
 %Figure \ref{fig:mollweide-anisotropy} shows distribution of haloes around Milky Way analogue from one simulation with haloes closer than 1.5 Mpc away from center excluded to avoid cluttering the view with Andromeda counterpart and its satellites.
 
-
-
-
-
-
-
-\begin{figure}
-    \centering
-    \includegraphics{kuvat/directionalHF-ratios.pdf}
-    \caption{Ratio of $H_0$ measurements from subhaloes near the line connecting the Milky Way and M31 analogues to ones far from that line. On axis haloes are defined as ones that form an angle of less than 45\textdegree\ with the line as seen from Milky Way analogue. TODO jääkö tämä?}\label{fig:directionalHF} %TODO jääkö tämä
-\end{figure}
+%\begin{figure}
+%    \centering
+%    \includegraphics{kuvat/directionalHF-ratios.pdf}
+%    \caption{Ratio of $H_0$ measurements from subhaloes near the line connecting the Milky Way and M31 analogues to ones far from that line. On axis haloes are defined as ones that form an angle of less than 45\textdegree\ with the line as seen from Milky Way analogue. TODO jääkö tämä?}\label{fig:directionalHF} %TODO jääkö tämä
+%\end{figure}
 
 \subsection{Clustering} \label{sect:clustering}
-Used DBSCAN introduced in [earlier chapter], angular distances of projections on sky as seen from MW.
+A more adaptable solution to studying the anisotropy of the Hubble flow is to apply a clustering algorithm to the data sets in order to discover groups of subhaloes located near each other on the sky as seen from the Milky Way analogues and then compare Hubble flow fits of these clusters. For this, the DBSCAN algorithm introduced in section~\ref{sect:cluster-analysis} is used. %TODO mitkä parametrit, miten valittu
+
+
+%Used DBSCAN introduced in [earlier chapter], angular distances of projections on sky as seen from MW.
 
 Figure \ref{fig:clusteringparameters} shows the effect of varying minsamples and $\varepsilon$ on number of clusters found in each simulation (1.5 Mpc < r < 5.0 Mpc again). Regions where there are ridiculously many clusters and ones where there are one or zero, relevant region in between, some areas have similar number of clusters but do the clusters look the same, see plots that don't exist yet
 
