@@ -1315,10 +1315,12 @@ The same observation can be made by comparing medians of the $H_0$ measurements 
 %\end{figure}
 
 \subsection{Clustering} \label{sect:clustering}
-A more adaptable solution to studying the anisotropy of the Hubble flow is to apply a clustering algorithm to the data sets in order to discover groups of subhaloes located near each other on the sky as seen from the Milky Way analogues and then compare Hubble flow fits of these clusters. For this, the DBSCAN algorithm introduced in section~\ref{sect:cluster-analysis} is used. %TODO mitkä parametrit, miten valittu
+One way of studying the anisotropies of the Hubble flow in more detail is to apply a clustering algorithm to the subhaloes in each simulation and then fit the Hubble flow separately to subsets of all haloes depending on their cluster memberships. In this work, clustering is used to find groups of subhaloes located near each other on the sky as seen from the Milky Way analogue. For this, the DBSCAN algorithm introduced in section~\ref{sect:cluster-analysis} is used.
 
 
 %Used DBSCAN introduced in [earlier chapter], angular distances of projections on sky as seen from MW.
+
+%TODO ei ota huomioon etäisyyttä ollenkaan
 
 Figure \ref{fig:clusteringparameters} shows the effect of varying minsamples and $\varepsilon$ on number of clusters found in each simulation (1.5 Mpc < r < 5.0 Mpc again). Regions where there are ridiculously many clusters and ones where there are one or zero, relevant region in between, some areas have similar number of clusters but do the clusters look the same, see plots that don't exist yet
 
