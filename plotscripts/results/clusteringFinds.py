@@ -154,7 +154,7 @@ if __name__ == "__main__":
 	ax.xaxis.set_minor_locator(FixedLocator(xminorticks))
 
 	ax.set_ylim(min(EPSvalues), max(EPSvalues))
-	ax.set_xlabel("Minsamples")
+	ax.set_xlabel("MinPts (subhaloes)")
 	ax.set_ylabel(r"$\varepsilon$ (radians)",
 			   multialignment='center')
 
@@ -188,7 +188,7 @@ if __name__ == "__main__":
 	ax.xaxis.set_minor_locator(FixedLocator(xminorticks))
 	ax.set_xlim(min(MSvalues), max(MSvalues))
 	ax.set_ylim(min(EPSvalues), max(EPSvalues))
-	ax.set_xlabel("Minsamples")
+	ax.set_xlabel("MinPts (subhaloes)")
 	ax.set_ylabel(r"$\varepsilon$ (radians)",
 			   multialignment='center')
 
