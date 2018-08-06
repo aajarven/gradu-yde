@@ -1315,8 +1315,39 @@ The same observation can be made by comparing medians of the $H_0$ measurements 
 %\end{figure}
 
 \subsection{Clustering} \label{sect:clustering}
-One way of studying the anisotropies of the Hubble flow in more detail is to apply a clustering algorithm to the subhaloes in each simulation and then fit the Hubble flow separately to subsets of all haloes depending on their cluster memberships. In this work, clustering is used to find groups of subhaloes located near each other on the sky as seen from the Milky Way analogue. For this, the DBSCAN algorithm introduced in section~\ref{sect:cluster-analysis} is used.
+One way of studying the anisotropies of the Hubble flow in more detail is to apply a clustering algorithm to the subhaloes in each simulation and then fit the Hubble flow separately to subsets of all haloes depending on their cluster memberships. In this work, clustering is used to find groups of subhaloes located near each other on the sky as seen from the Milky Way analogue. This is done with the DBSCAN algorithm introduced in section~\ref{sect:cluster-analysis}.
 
+\begin{figure}
+    \centering
+    \includegraphics{kuvat/clusteringParameters.pdf}
+    \caption{Mean number of clusters found in a simulation for all simulations in dataset with different DBSCAN parameters.}\label{fig:clusteringparameters}
+
+	\bigskip
+
+    \includegraphics{kuvat/clusterDiameter.pdf}
+    \caption{Mean diameter of clusters found for all simulations in dataset with different DBSCAN parameters, the diameter of a cluster being defined as the largest distance between a pair of points that are members of the cluster. The white area in the lower right corresponds to the area where no clusters were found. }\label{fig:clusterdiameter}
+\end{figure}
+
+%\reversemarginpar
+%\marginnote{\footnotesize{TODO: mieti laitatko samaan figureen, vertaile kuitenkin, selitä vasemmanpuolimmainen pikselisarake}}
+%Figure \ref{fig:clusterdiameter} shows the change in mean diameter (supremum of angular distance between haloes) in cluster when $\varepsilon$ and minsamples are varied. White areas where no clusters are found in any simulation.
+
+The algorithm has two free parameters, MinPts and $\varepsilon$, which have to be chosen before the clustering is performed. Effect of changing the parameters on the mean number and diameter of the found clusters is explored in Figs.~\ref{fig:clusteringparameters} and~\ref{fig:clusterdiameter}. As can be seen from Fig.~\ref{fig:clusteringparameters}, for small values of MinPts the clusters found per simulation tends to be very high as e.g. a single subhalo or a pair of subhaloes can form a cluster. Only when $\varepsilon$ is set to a very high value the number of found clusters gets smaller when the clusters merge, up to a point when nearly all subhaloes form one cluster.
+
+When MinPts is increased, the number of found clusters decreases as clusters with less dense central regions no longer qualify as clusters. The only exception to this is that at high values of $\varepsilon$, increasing the required MinPts can break large clusters with multiple dense regions into two or more smaller clusters that are no longer connected with core particles. These changes are also reflected in Fig.~\ref{fig:clusterdiameter}, where merging and separating of clusters affects the mean diameter. Only for small values of $\varepsilon$ increasing MinPts has only a small effect on the diameters, which is explained by clusters with small $\varepsilon$ being either small or non-existent with all values of MinPts.
+
+Figs.~\ref{fig:clusteringparameters} and~\ref{fig:clusterdiameter} aid in choosing the values of the parameters by revealing clearly bad combinations that lead to nearly all subhaloes belonging to one cluster or to a large number of small clusters with only a few members in each. Still determining the best values for $\varepsilon$ and MinPts requires using tools introduced in section~\ref{sect:cluster-analysis}. As the clustering is done based on the position of the subhaloes as seen on the sky, the data set is two-dimensional and thus the recommended value of MinPts is 4, which is used in the analysis.
+
+\begin{figure}
+    \centering
+    \input{kuvat/tex/4-distances.pdf_tex}
+    \caption{Sorted 4-dist graphs for subhaloes between $1.5$ and $5.0$ Mpc from the Local Group in each simulation that is uncontaminated at least up to 5 Mpc from the Local Group. Each line shows the sorted distances from each particle in one simulation to its \nth{4} nearest neighbour. The plotted distances are measured as the angular distance between the subhaloes as seen from the Milky Way analogue. %eps 0.17, ehkä alempikin, esim 0.15
+    }\label{fig:4-distances}
+\end{figure}
+
+The accompanying value of $\varepsilon$ is selected using a 4-distance graph seen in Fig.~\ref{fig:4-distances}. The lines representing different simulations are fairly tightly packed near the elbow of the plot, suggesting that using the same value of $\varepsilon$ for all simulations produces acceptable results. Due to the scatter of the lines, selecting the optimal value is challenging, though the elbow seems to be located near the value $\varepsilon = 0.16$.
+
+%TODO minsamples -> MinPts kaikissa ploteissa
 
 %Used DBSCAN introduced in [earlier chapter], angular distances of projections on sky as seen from MW.
 
@@ -1324,28 +1355,8 @@ One way of studying the anisotropies of the Hubble flow in more detail is to app
 
 Figure \ref{fig:clusteringparameters} shows the effect of varying minsamples and $\varepsilon$ on number of clusters found in each simulation (1.5 Mpc < r < 5.0 Mpc again). Regions where there are ridiculously many clusters and ones where there are one or zero, relevant region in between, some areas have similar number of clusters but do the clusters look the same, see plots that don't exist yet
 
-\begin{figure}
-    \centering
-    \includegraphics{kuvat/clusteringParameters.pdf}
-    \caption{Mean number of clusters found for all simulations in dataset with different DBSCAN parameters.}\label{fig:clusteringparameters}
-\end{figure}
 
-%\reversemarginpar
-%\marginnote{\footnotesize{TODO: mieti laitatko samaan figureen, vertaile kuitenkin, selitä vasemmanpuolimmainen pikselisarake}}
-Figure \ref{fig:clusterdiameter} shows the change in mean diameter (supremum of angular distance between haloes) in cluster when $\varepsilon$ and minsamples are varied. White areas where no clusters are found in any simulation.
 
-\begin{figure}
-    \centering
-    \includegraphics{kuvat/clusterDiameter.pdf}
-    \caption{Mean diameter of clusters found for all simulations in dataset with different DBSCAN parameters.}\label{fig:clusterdiameter}
-\end{figure}
-
-\begin{figure}
-    \centering
-    \input{kuvat/tex/4-distances.pdf_tex}
-    \caption{Sorted 4-dist graphs for subhaloes between $1.5$ and $5.0$ Mpc from the Local Group in each simulation that is uncontaminated at least up to 5 Mpc from the Local Group. The plotted distances are measured as the angular distance between the subhaloes as seen from the Milky Way analogue. %eps 0.17, ehkä alempikin, esim 0.15 %TODO
-    }\label{fig:4-distances}
-\end{figure}
 
 %\reversemarginpar
 %\marginnote{\footnotesize{Ehkä vähän vähemmän tilaa plottien välissä vaakasuunnassa? Keltaiset vähän turhan samanlaisia.}}
