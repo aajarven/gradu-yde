@@ -38,7 +38,7 @@ def loopClusterPlotting(fitdata, axes, clusteringParameters, colours):
 			ax.grid(b=True)
 			ax.set_xticklabels([])
 			ax.set_yticklabels([])
-			ax.set_title(r"$\varepsilon$={:.2f}".format(parameters[1]) + ", minsamples=" +
+			ax.set_title(r"$\varepsilon$={:.2f}".format(parameters[1]) + ", MinPts=" +
 				str(parameters[0]))
 
 if __name__ == "__main__":
