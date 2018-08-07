@@ -1315,7 +1315,7 @@ The same observation can be made by comparing medians of the $H_0$ measurements 
 %\end{figure}
 
 \subsection{Clustering} \label{sect:clustering}
-One way of studying the anisotropies of the Hubble flow in more detail is to apply a clustering algorithm to the subhaloes in each simulation and then fit the Hubble flow separately to subsets of all haloes depending on their cluster memberships. In this work, clustering is used to find groups of subhaloes located near each other on the sky as seen from the Milky Way analogue. This is done with the DBSCAN algorithm introduced in section~\ref{sect:cluster-analysis}.
+One way of studying the anisotropies of the Hubble flow in more detail is to apply a clustering algorithm to the subhaloes in each simulation and then fit the Hubble flow separately to subsets of all haloes depending on their cluster memberships. In this work, clustering is used to find groups of subhaloes located near each other on the sky as seen from the Milky Way analogue. This is done with the DBSCAN algorithm introduced in section~\ref{sect:cluster-analysis} using the angular distance between points as seen from the Milky Way analogue, measured in radians in this work, as the distance metric. Subhaloes located within 1.5~Mpc from the Milky Way analogues are excluded from the clustering in order to avoid structures within the Local Group obstructing more distant structures.
 
 \begin{figure}
     \centering
@@ -1336,7 +1336,15 @@ The algorithm has two free parameters, MinPts and $\varepsilon$, which have to b
 
 When MinPts is increased, the number of found clusters decreases as clusters with less dense central regions no longer qualify as clusters. The only exception to this is that at high values of $\varepsilon$, increasing the required MinPts can break large clusters with multiple dense regions into two or more smaller clusters that are no longer connected with core particles. These changes are also reflected in Fig.~\ref{fig:clusterdiameter}, where merging and separating of clusters affects the mean diameter. Only for small values of $\varepsilon$ increasing MinPts has only a small effect on the diameters, which is explained by clusters with small $\varepsilon$ being either small or non-existent with all values of MinPts.
 
-Figs.~\ref{fig:clusteringparameters} and~\ref{fig:clusterdiameter} aid in choosing the values of the parameters by revealing clearly bad combinations that lead to nearly all subhaloes belonging to one cluster or to a large number of small clusters with only a few members in each. Still determining the best values for $\varepsilon$ and MinPts requires using tools introduced in section~\ref{sect:cluster-analysis}. As the clustering is done based on the position of the subhaloes as seen on the sky, the data set is two-dimensional and thus the recommended value of MinPts is 4, which is used in the analysis.
+\begin{figure}
+    \centering
+    \includegraphics{kuvat/clusteringExamples.pdf}
+    \caption{Results of DBSCAN clustering run with different parameters on a single simulation. Subhaloes in each cluster are depicted with coloured dots and subhaloes that do not belong to any cluster are shown with small black dots. In the left column, $\varepsilon$ increases from top to bottom whereas MinPts stays constant and in the right column $\varepsilon$ is constant and MinPts changes.}\label{fig:clusteringExamples}
+\end{figure}
+
+These effects can also be seen when comparing clustering results when different clustering parameters are used in one simulation. Fig.~\ref{fig:clusteringExamples} shows six different clusterings for a simulation, which clearly illustrates the differences that arise when the value of either of the parameters is altered. When $\varepsilon$ grows in the left column, the most notable effect is that clusters get larger and can merge with other clusters. Some new clusters are also found, such as the violet cluster in the lower region of the middle plot that is not present in the top plot. On the right column, increasing the value of MinPts has an opposite effect: clusters get smaller and some clusters disappear altogether while others are divided into separate clusters.
+
+Figs.~\ref{fig:clusteringparameters}--\ref{fig:clusteringExamples} aid in choosing the values of the parameters by revealing clearly bad combinations that lead to nearly all subhaloes belonging to one cluster or to a large number of small clusters with only a few members in each. Still determining the best values for $\varepsilon$ and MinPts requires using tools introduced in section~\ref{sect:cluster-analysis}. As the clustering is done based on the position of the subhaloes as seen on the sky, the data set is two-dimensional and thus the recommended value of MinPts is 4, which is used in the analysis.
 
 \begin{figure}
     \centering
@@ -1347,40 +1355,23 @@ Figs.~\ref{fig:clusteringparameters} and~\ref{fig:clusterdiameter} aid in choosi
 
 The accompanying value of $\varepsilon$ is selected using a 4-distance graph seen in Fig.~\ref{fig:4-distances}. The lines representing different simulations are fairly tightly packed near the elbow of the plot, suggesting that using the same value of $\varepsilon$ for all simulations produces acceptable results. Due to the scatter of the lines, selecting the optimal value is challenging, though the elbow seems to be located near the value $\varepsilon = 0.16$.
 
-%TODO minsamples -> MinPts kaikissa ploteissa
+The resulting clustering with parameters $\varepsilon=0.16$ and $\mathrm{MinPts}=4$ appears to produce reasonable results in Fig.~\ref{fig:clusteringExamples}. In order to assess effects of small changes in the clustering parameters, Fig.~\ref{fig:clusteringvariations} shows the clustering in one simulation with $\varepsilon=0.16$ and $\mathrm{MinPts}=4$ together with clusterings that have smaller or larger values of $\varepsilon$ or MinPts. Differences that arise from changes in MinPts seem to be small and in this case manifest only in the smallest cluster disappearing when MinPts is increased to 5 subhaloes.
 
-%Used DBSCAN introduced in [earlier chapter], angular distances of projections on sky as seen from MW.
-
-%TODO ei ota huomioon etäisyyttä ollenkaan
-
-Figure \ref{fig:clusteringparameters} shows the effect of varying minsamples and $\varepsilon$ on number of clusters found in each simulation (1.5 Mpc < r < 5.0 Mpc again). Regions where there are ridiculously many clusters and ones where there are one or zero, relevant region in between, some areas have similar number of clusters but do the clusters look the same, see plots that don't exist yet
-
-
-
-
-%\reversemarginpar
-%\marginnote{\footnotesize{Ehkä vähän vähemmän tilaa plottien välissä vaakasuunnassa? Keltaiset vähän turhan samanlaisia.}}
-Figures \ref{fig:clusteringExamples} and \ref{fig:clusteringvariations} show how the clustering results vary when clustering parameters are varied.
-
-\begin{figure}
-    \centering
-    \includegraphics{kuvat/clusteringExamples.pdf}
-    \caption{Results of DBSCAN clustering on same simulation output with different clustering parameters. TODO: erittele parametrien muuttamisen vaikutukset}\label{fig:clusteringExamples}
-\end{figure}
+Changing the value of $\varepsilon$ on the other hand has a more significant effect as it causes clusters to merge or separate. In the plot with $\varepsilon = 0.14$, a very small cluster has separated from the light blue cluster near the centre of the plot and a couple of points are no longer within the clusters they used to belong to. Choosing a larger value for the $\varepsilon$ on the other hand causes the light blue cluster to absorb most of its neighbouring clusters. None of the changes in the clustering result produced by changing either of the clustering parameters seem to motivate changing the parameters from the suggested values, so throughout this work the DBSCAN clustering is done using $\varepsilon=0.16$ and $\mathrm{MinPts}=4$.
 
 \begin{figure}
     \centering
     \includegraphics{kuvat/smallClusteringVariations.pdf}
-    \caption{The effect of slightly variying the clustering parameters around the values $\varepsilon$=0.16 and minsamples=4 used when analysing clustered data. TODO: more sensitive to $\varepsilon$}\label{fig:clusteringvariations}
+    \caption{The effect of slightly variying the clustering parameters around the values $\varepsilon=0.16$ and $\mathrm{MinPts}=4$ chosen to be used with the DBSCAN algorithm. The changes affect both the number and size of the clusters, causing clusters to merge, separate, appear and disappear and making individual subhaloes near the edges of clusters to join to or detach from clusters.}\label{fig:clusteringvariations}
 \end{figure}
 
 \begin{figure}
     \centering
     \includegraphics{kuvat/mollweide+hubble.pdf}
-    \caption{TODO}\label{fig:mollweide+hubble}
+    \caption{TODO, onko edes samat parametrit?}\label{fig:mollweide+hubble}
 \end{figure}
 
-
+%TODO clusters in HF
 
 %\reversemarginpar
 %\marginnote{\footnotesize{Massakynnys? Kaksi eri kynnystä? Liian kapea ja epätasapainoinen, laita päällekkäin?}}
