@@ -1355,27 +1355,33 @@ Figs.~\ref{fig:clusteringparameters}--\ref{fig:clusteringExamples} aid in choosi
 
 The accompanying value of $\varepsilon$ is selected using a 4-distance graph seen in Fig.~\ref{fig:4-distances}. The lines representing different simulations are fairly tightly packed near the elbow of the plot, suggesting that using the same value of $\varepsilon$ for all simulations produces acceptable results. Due to the scatter of the lines, selecting the optimal value is challenging, though the elbow seems to be located near the value $\varepsilon = 0.16$.
 
-The resulting clustering with parameters $\varepsilon=0.16$ and $\mathrm{MinPts}=4$ appears to produce reasonable results in Fig.~\ref{fig:clusteringExamples}. In order to assess effects of small changes in the clustering parameters, Fig.~\ref{fig:clusteringvariations} shows the clustering in one simulation with $\varepsilon=0.16$ and $\mathrm{MinPts}=4$ together with clusterings that have smaller or larger values of $\varepsilon$ or MinPts. Differences that arise from changes in MinPts seem to be small and in this case manifest only in the smallest cluster disappearing when MinPts is increased to 5 subhaloes.
-
-Changing the value of $\varepsilon$ on the other hand has a more significant effect as it causes clusters to merge or separate. In the plot with $\varepsilon = 0.14$, a very small cluster has separated from the light blue cluster near the centre of the plot and a couple of points are no longer within the clusters they used to belong to. Choosing a larger value for the $\varepsilon$ on the other hand causes the light blue cluster to absorb most of its neighbouring clusters. None of the changes in the clustering result produced by changing either of the clustering parameters seem to motivate changing the parameters from the suggested values, so throughout this work the DBSCAN clustering is done using $\varepsilon=0.16$ and $\mathrm{MinPts}=4$.
-
 \begin{figure}
     \centering
     \includegraphics{kuvat/smallClusteringVariations.pdf}
     \caption{The effect of slightly variying the clustering parameters around the values $\varepsilon=0.16$ and $\mathrm{MinPts}=4$ chosen to be used with the DBSCAN algorithm. The changes affect both the number and size of the clusters, causing clusters to merge, separate, appear and disappear and making individual subhaloes near the edges of clusters to join to or detach from clusters.}\label{fig:clusteringvariations}
 \end{figure}
 
+The resulting clustering with parameters $\varepsilon=0.16$ and $\mathrm{MinPts}=4$ appears to produce reasonable results in Fig.~\ref{fig:clusteringExamples}. In order to assess effects of small changes in the clustering parameters, Fig.~\ref{fig:clusteringvariations} shows the clustering in one simulation with $\varepsilon=0.16$ and $\mathrm{MinPts}=4$ together with clusterings that have smaller or larger values of $\varepsilon$ or MinPts. Differences that arise from changes in MinPts seem to be small and in this case manifest only in the smallest cluster disappearing when MinPts is increased to 5 subhaloes.
+
+Changing the value of $\varepsilon$ on the other hand has a more significant effect as it causes clusters to merge or separate. In the plot with $\varepsilon = 0.14$, a very small cluster has separated from the light blue cluster near the centre of the plot and a couple of points are no longer within the clusters they used to belong to. Choosing a larger value for the $\varepsilon$ on the other hand causes the light blue cluster to absorb most of its neighbouring clusters. None of the changes in the clustering result produced by changing either of the clustering parameters seem to motivate changing the parameters from the suggested values, so throughout this work the DBSCAN clustering is done using $\varepsilon=0.16$ and $\mathrm{MinPts}=4$. The distance range of the subhaloes is also kept constant: only haloes that are 1.5--5.0~Mpc away from the Milky Way analogue are included in the clustering and further analysis done based on the clustering results.
+
 \begin{figure}
     \centering
     \includegraphics{kuvat/mollweide+hubble.pdf}
-    \caption{TODO, onko edes samat parametrit?}\label{fig:mollweide+hubble}
+    \caption{The clusters found in one simulation by DBSCAN shown both on the sky as seen from the Milky Way analogue (top panel) and as members of the Hubble flow (bottom panel), each cluster shown with its own colour and haloes that are not part of any cluster as black dots. The clusters that are separate from the bulk of the subhaloes in the Hubble flow plot, i.e. the orange cluster and its pink and brown neighbours, are also located near each other but clearly apart from the other clusters on the sky.}\label{fig:mollweide+hubble}
 \end{figure}
 
-%TODO clusters in HF
+When clustering of the subhaloes in a simulation has been done, the clustering result can be used to analyse the possible anisotropies of the Hubble flow. A visual inspection of Hubble flow plots for each simulation with cluster memberships of the haloes indicated with colours suggests that in many simulations the Hubble flow parameters are dependent on the viewing direction. This kind of plot for one simulation is shown in Fig.~\ref{fig:mollweide+hubble}, where the top panel shows the subhaloes on the sky as seen from the Milky Way analogue and the bottom panel shows a Hubble diagram for the haloes. The haloes in both panels are coloured so that each colour corresponds to one cluster identified by DBSCAN and subhaloes that do not belong to any cluster are shown as small black dots. 
+
+In Fig.~\ref{fig:mollweide+hubble}, the difference between different clusters is clearly visible. The orange cluster and the smaller pink and and brown clusters, for example, are located near each other on the sky and also clearly above the rest of the clusters in the Hubble flow plot. If these two branches of the Hubble Flow were each fitted separately, they would likely have fairly similar values of $H_0$, but whereas the lower branch reaches transitions from negative to positive radial velocity near 2~Mpc distance, the upper branch has its zero point at a much smaller distance.
+
+The scatters around the Hubble flow also seem to be different in different clusters. For example the haloes in the orange cluster seem to follow a linear relation between radial velocity and distance quite tightly whereas at large distances the darkest of the blue clusters shows some scatter at all distances but especially at distances larger than 4.5~Mpc the radial velocities differ by hundreds of km/s. The sudden increase in the scatter likely accompanies a large halo that has a satellite system of its own, resulting in large variation in radial velocities over a small distance range.
 
 %\reversemarginpar
 %\marginnote{\footnotesize{Massakynnys? Kaksi eri kynnystä? Liian kapea ja epätasapainoinen, laita päällekkäin?}}
-Figure \ref{fig:clusteredHFparameters} shows how derived values of slope and zero-point for the Hubble flow change when the Hubble flow fitting is carried out on partial data chosen based on the cluster membership of the haloes.
+%Figure \ref{fig:clusteredHFparameters} shows how derived values of slope and zero-point for the Hubble flow change when the Hubble flow fitting is carried out on partial data chosen based on the cluster membership of the haloes.
+
+In order to avoid deriving results from examining all simulations by eye, for further analysis of the Hubble flows the subhaloes were divided to two categories per simulation: ones that belong to any cluster and those that do not. 
 
 \begin{figure}
     \centering
