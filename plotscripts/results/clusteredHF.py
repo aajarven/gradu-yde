@@ -42,6 +42,10 @@ if __name__ == "__main__":
 	outClusterH0s = []
 	massCutH0s = []
 	massCutZeros = []
+	allDispersions = []
+	inClusterDispersions = []
+	outClusterDispersions = []
+	massCutDispersions = []
 
 	simIndex = 0
 	f = open(inputfile, 'r')
@@ -137,6 +141,16 @@ if __name__ == "__main__":
 		inClusterH0s.append(inClusterH0)
 		outClusterZeros.append(outClusterZero)
 		outClusterH0s.append(outClusterH0)
+	
+		radvelResiduals = np.empty(radvel.shape)
+		for i in range(len(radvel)):
+			radvelResiduals[i] = radvel[i] - (distances[i] - zero) * H0
+
+		allDispersions.append(np.std(radvelResiduals))
+		inClusterDispersions.append(clusterAnalysis.dispersionOfClusters(
+			clusteringDB, radvelResiduals))
+		outClusterDispersions.append(clusterAnalysis.dispersionOfUnclustered(
+			clusteringDB, radvelResiduals))
 
 		# mass exclusion
 		allowedClusterNumbers = []
@@ -153,7 +167,7 @@ if __name__ == "__main__":
 									 radvel[maxMassMask])
 		massCutH0s.append(maskedH0)
 		massCutZeros.append(maskedZero)
-
+		massCutDispersions.append(np.std(radvelResiduals[maxMassMask]))
 		
 
 	##### plotting #####
@@ -166,6 +180,9 @@ if __name__ == "__main__":
 	outClusterH0s = np.array(outClusterH0s)
 	massCutH0s = np.array(massCutH0s)
 	massCutZeros = np.array(massCutZeros)
+	allDispersions = np.array(allDispersions)
+	inClusterDispersions = np.array(inClusterDispersions)
+	outClusterDispersions = np.array(outClusterDispersions)
 
 	print(inClusterH0s[np.argsort(inClusterH0s)[:10]])
 	print(inClusterH0s[np.argsort(inClusterH0s)[-10:]])
@@ -226,3 +243,20 @@ if __name__ == "__main__":
 #	plt.xlim(xmin, xmax)
 	plt.savefig(outputdir+"clusteredHFparameters.pdf")
 
+
+	##### velocity dispersion #####
+	plt.cla()
+	plt.clf()
+	
+	fig, ax = plt.subplots()
+	bp = ax.boxplot([massCutDispersions, outClusterDispersions,
+				   inClusterDispersions, allDispersions], vert=False)
+	blackBoxplot(bp)
+	ax1.set_xlabel("Velocity dispersion around\nthe Hubble flow (km/s)")
+	ax.set_yticklabels(["Haloes in clusters with\nall members less\nmassive"
+					r"than $8^{11}~M_{\astrosun}", "Haloes in clusters",
+					"Haloes outside clusters", "All haloes"], ha='right',
+					multialignment='right')
+	plt.tight_layout(rect=[0.1, 0.05, 1.0, 1.0])
+	fig.set_size_inches(4.0, 2.6)
+	plt.savefig(outputdir + "clusteredHFdispersions.pdf")
