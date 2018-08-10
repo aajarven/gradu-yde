@@ -146,11 +146,17 @@ if __name__ == "__main__":
 		for i in range(len(radvel)):
 			radvelResiduals[i] = radvel[i] - (distances[i] - zero) * H0
 
-		allDispersions.append(np.std(radvelResiduals))
+
+		if len(np.where(clusteringDB.labels_ == -1)[0]) < 30:
+			print("few unclustered: "+ str(len(np.where(clusteringDB.labels_ == -1)[0])))
+		if len(np.where(clusteringDB.labels_ != -1)[0]) < 30:
+			print("few clustered: "+ str(len(np.where(clusteringDB.labels_ != -1)[0])))
+			
+		allDispersions.append(np.std(radvelResiduals, ddof=1))
 		inClusterDispersions.append(clusterAnalysis.dispersionOfClusters(
-			clusteringDB, radvelResiduals))
+			clusteringDB, radvelResiduals, ddof=1))
 		outClusterDispersions.append(clusterAnalysis.dispersionOfUnclustered(
-			clusteringDB, radvelResiduals))
+			clusteringDB, radvelResiduals, ddof=1))
 
 		# mass exclusion
 		allowedClusterNumbers = []
@@ -167,7 +173,9 @@ if __name__ == "__main__":
 									 radvel[maxMassMask])
 		massCutH0s.append(maskedH0)
 		massCutZeros.append(maskedZero)
-		massCutDispersions.append(np.std(radvelResiduals[maxMassMask]))
+		massCutDispersions.append(np.std(radvelResiduals[maxMassMask], ddof=1))
+		if np.sum(maxMassMask) < 30:
+			print("few mass cut points: " + str(np.sum(maxMassMask)))
 		
 
 	##### plotting #####
@@ -252,11 +260,12 @@ if __name__ == "__main__":
 	bp = ax.boxplot([massCutDispersions, outClusterDispersions,
 				   inClusterDispersions, allDispersions], vert=False)
 	blackBoxplot(bp)
-	ax1.set_xlabel("Velocity dispersion around\nthe Hubble flow (km/s)")
+	ax.set_xlabel("Velocity dispersion around\nthe Hubble flow (km/s)")
 	ax.set_yticklabels(["Haloes in clusters with\nall members less\nmassive"
 					r"than $8^{11}~M_{\astrosun}", "Haloes in clusters",
 					"Haloes outside clusters", "All haloes"], ha='right',
 					multialignment='right')
-	plt.tight_layout(rect=[0.1, 0.05, 1.0, 1.0])
+	ax.set_xticks(range(40, 200, 10), minor=True)
+	plt.tight_layout(rect=[0.15, 0.1, 1.0, 1.0])
 	fig.set_size_inches(4.0, 2.6)
 	plt.savefig(outputdir + "clusteredHFdispersions.pdf")
