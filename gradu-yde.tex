@@ -1363,7 +1363,9 @@ The accompanying value of $\varepsilon$ is selected using a 4-distance graph see
 
 The resulting clustering with parameters $\varepsilon=0.16$ and $\mathrm{MinPts}=4$ appears to produce reasonable results in Fig.~\ref{fig:clusteringExamples}. In order to assess effects of small changes in the clustering parameters, Fig.~\ref{fig:clusteringvariations} shows the clustering in one simulation with $\varepsilon=0.16$ and $\mathrm{MinPts}=4$ together with clusterings that have smaller or larger values of $\varepsilon$ or MinPts. Differences that arise from changes in MinPts seem to be small and in this case manifest only in the smallest cluster disappearing when MinPts is increased to 5 subhaloes.
 
-Changing the value of $\varepsilon$ on the other hand has a more significant effect as it causes clusters to merge or separate. In the plot with $\varepsilon = 0.14$, a very small cluster has separated from the light blue cluster near the centre of the plot and a couple of points are no longer within the clusters they used to belong to. Choosing a larger value for the $\varepsilon$ on the other hand causes the light blue cluster to absorb most of its neighbouring clusters. None of the changes in the clustering result produced by changing either of the clustering parameters seem to motivate changing the parameters from the suggested values, so throughout this work the DBSCAN clustering is done using $\varepsilon=0.16$ and $\mathrm{MinPts}=4$. The distance range of the subhaloes is also kept constant: only haloes that are 1.5--5.0~Mpc away from the Milky Way analogue are included in the clustering and further analysis done based on the clustering results.
+Changing the value of $\varepsilon$ on the other hand has a more significant effect as it causes clusters to merge or separate. In the plot with $\varepsilon = 0.14$, a very small cluster has separated from the light blue cluster near the centre of the plot and a couple of points are no longer within the clusters they used to belong to. Choosing a larger value for the $\varepsilon$ on the other hand causes the light blue cluster to absorb most of its neighbouring clusters.
+
+None of the changes in the clustering result produced by changing either of the clustering parameters seem to motivate changing the parameters from the suggested values, so throughout this work the DBSCAN clustering is done using $\varepsilon=0.16$ and $\mathrm{MinPts}=4$. The distance range of the subhaloes is also kept constant: only haloes that are 1.5--5.0~Mpc away from the Milky Way analogue are included in the clustering and further analysis done based on the clustering results. When Hubble flow fitting is done in conjunction with clustering, the Hubble flow fit is calculated using all data points inside the range as the data points within the Local Group are already excluded.
 
 \begin{figure}
     \centering
@@ -1377,19 +1379,25 @@ In Fig.~\ref{fig:mollweide+hubble}, the difference between different clusters is
 
 The scatters around the Hubble flow also seem to be different in different clusters. For example the haloes in the orange cluster seem to follow a linear relation between radial velocity and distance quite tightly whereas at large distances the darkest of the blue clusters shows some scatter at all distances but especially at distances larger than 4.5~Mpc the radial velocities differ by hundreds of km/s. The sudden increase in the scatter likely accompanies a large halo that has a satellite system of its own, resulting in large variation in radial velocities over a small distance range.
 
-%TODO HF fit to all data
-
 %\reversemarginpar
 %\marginnote{\footnotesize{Massakynnys? Kaksi eri kynnystä? Liian kapea ja epätasapainoinen, laita päällekkäin?}}
 %Figure \ref{fig:clusteredHFparameters} shows how derived values of slope and zero-point for the Hubble flow change when the Hubble flow fitting is carried out on partial data chosen based on the cluster membership of the haloes.
 
-In order to avoid deriving results from examining all simulations by eye, for further analysis of the Hubble flows the subhaloes were divided to two categories per simulation: ones that belong to any cluster and those that do not. 
-
 \begin{figure}
     \centering
     \includegraphics{kuvat/clusteredHFparameters.pdf}
-    \caption{Hubble constant and distance to the point at which velocity due to the fitted Hubble flow is zero calculated from different samples. HUOM OBS NB sim 299 excluded, }\label{fig:clusteredHFparameters}
+    \caption{Hubble constant and zero point results when the subhaloes used for filtered are based on their cluster membership status. The vertical line shows the median of the results from different simulations with the box covering the interquartile range of the data. The whiskers extend up to the extreme data points or a maximum of 1.5 times the interquartile range, whichever is smaller. If there are data points outside the whiskers, they are shown as black circles. There are also some outliers that fall outside the range of the plotted range in the zero point plot: three for subhaloes that do not belong to any cluster($-8.0$, $-4.7$ and $13.9$~Mpc) and two for clustered haloes with the mass criteria ($-6.7$ and $-5.9$~Mpc).}\label{fig:clusteredHFparameters}
 \end{figure}
+
+In order to avoid deriving results from examining all simulations by eye, for further analysis of the Hubble flows the subhaloes were divided to two categories per simulation: ones that belong to a cluster identified by DBSCAN and those that do not. For quick inspection, Fig.~\ref{fig:clusteredHFparameters} shows boxplots of the Hubble flow fitting results when haloes in each simulation are divided to these two categories. For comparison, the plots also include results when all haloes are used in fitting.
+
+The distribution of the zero point distances does not seem to change noticeably apart from changes in the outlier values. In $H_0$ some changes are visible as fitting to subhaloes that do not belong to any cluster yields the lowest result, i.e. the one closest to the global value for the simulation. This category has the largest scatter of the results too, though.
+
+%TODO excluded simulation
+
+%TODO the mass cut one
+
+
 %% Outliers without 299 (current case):
 %allZeros: []
 %inClusterZeros: []
@@ -1401,6 +1409,13 @@ In order to avoid deriving results from examining all simulations by eye, for fu
 %outClusterZeros: [-8.0111344090876742, 13.948152600724681, -4.6546938793249391]
 %massCutZeros: [-6.9895372252628576, -5.8619018046506826]
 
+% minimum of 19 unclustered
+
+\begin{figure}
+    \centering
+    \includegraphics{kuvat/clusteredHFdispersions.pdf}
+    \caption{asdf}\label{fig:clusteredHFdispersions}
+\end{figure}
 
 
 \section{Statistical Estimate of the Local Group Mass}\label{sect:statistical_estimate}
