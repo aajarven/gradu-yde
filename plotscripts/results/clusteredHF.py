@@ -261,8 +261,8 @@ if __name__ == "__main__":
 				   inClusterDispersions, allDispersions], vert=False)
 	blackBoxplot(bp)
 	ax.set_xlabel("Velocity dispersion around\nthe Hubble flow (km/s)")
-	ax.set_yticklabels(["Haloes in clusters with\nall members less\nmassive"
-					r"than $8^{11}~M_{\astrosun}", "Haloes in clusters",
+	ax.set_yticklabels(["Haloes in clusters with\nall members less\nmassive "
+					r"than $8^{11}~M_{\astrosun}$", "Haloes in clusters",
 					"Haloes outside clusters", "All haloes"], ha='right',
 					multialignment='right')
 	ax.set_xticks(range(40, 200, 10), minor=True)
