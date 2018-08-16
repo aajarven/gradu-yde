@@ -22,7 +22,7 @@ if __name__ == "__main__":
 
 	dirname = "/scratch/sawala/milkomedia_ii/milkomedia_97_DMO/groups_008_z000p000/"
 	saveloc = ("/home/aajarven/Z-drive/duuni/extragal/gradu-yde/kuvat/"
-			"mollweide-anisotropy.svg")
+			"mollweide-anisotropy.pdf")
 
 	LGdicts = LGfinder.readAndFind(dirname, output='haloes')
 	
@@ -58,6 +58,10 @@ if __name__ == "__main__":
 	for j in range(len(radvel)):
 		radvel[j] = radvel[j] - (fit[0]*distances[j] + fit[1])
 
+	rc('font', **{'family':'serif','serif':['Palatino']})
+	rc('text', usetex=True)
+	#matplotlib.rcParams['axes.unicode_minus'] = False
+	
 	plt.subplot(111, projection="mollweide")
 	plt.grid(True)
 	fig = plt.gcf()
@@ -66,20 +70,17 @@ if __name__ == "__main__":
 #	plt.title("Haloes around Milky Way analogue\nfrom 1.5 Mpc to 5.0 Mpc away",
 #		   y=1.08)
 
-	cmap = anisotropymap.shiftedColorMap(plt.cm.get_cmap('RdBu'),
+	cmap = anisotropymap.shiftedColorMap(plt.cm.get_cmap('RdBu_r'),
 						   midpoint=-min(radvel)/(max(radvel)-min(radvel)))
 
 	fig.set_size_inches(5.9, 2.9)
 
 	sc = plt.scatter(directions[:,0], directions[:,1], c=radvel, 
-					 cmap=cmap, s=18)
-	matplotlib.rcParams['axes.unicode_minus'] = False
+					 cmap=cmap, s=18, edgecolors='k')
 	cb = plt.colorbar(sc, fraction=0.046, pad=0.04)
 
 	cb.set_label("Deviation from Hubble flow fit (km/s)")
 	
-	rc('font', **{'family':'serif','serif':['Palatino']})
-	rc('text', usetex=True)
 
 	plt.tight_layout()
 
