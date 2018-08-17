@@ -225,8 +225,8 @@ if __name__ == "__main__":
 		# on and off-axis measurements
 #		onAxisMask = np.array([angle < np.pi/4.0 or angle > np.pi*3.0/4.0 for
 #						 angle in directions])
-		toM31Mask = np.array([angle < np.pi/4.0 for angle in directions])
-		awayFromM31Mask = np.array([angle > np.pi*3.0/4.0 for angle in
+		toM31Mask = np.array([angle <= np.pi/4.0 for angle in directions])
+		awayFromM31Mask = np.array([angle >= np.pi*3.0/4.0 for angle in
 							 directions])
 		onAxisMask = np.logical_or(toM31Mask, awayFromM31Mask)
 		offAxisMask = np.logical_not(onAxisMask)
