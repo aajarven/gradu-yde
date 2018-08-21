@@ -41,73 +41,74 @@ def biggestDifference(data1X, data2X, y):
 	
 	return (bigDiffX, bigDiffLowY, bigDiffHighY)
 
-np.random.seed(100)
+if __name__ == "__main__":
+	np.random.seed(100)
 
-N = 35
-normalNumbers = np.random.normal(16.0, 2.0, N)
-normalNumbersWide = np.random.normal(15.0, 4.0, N)
-normalNumbersWide2 = np.random.normal(15.0, 4.0, N)
+	N = 35
+	normalNumbers = np.random.normal(16.0, 2.0, N)
+	normalNumbersWide = np.random.normal(15.0, 4.0, N)
+	normalNumbersWide2 = np.random.normal(15.0, 4.0, N)
 
-(D1, pval1) = stats.ks_2samp(normalNumbers, normalNumbersWide)
-(D2, pval2) = stats.ks_2samp(normalNumbersWide, normalNumbersWide2)
-print("Normal vs Wide")
-print("D:\t"+str(D1))
-print("p:\t"+str(pval1))
-print("Wide vs wide2")
-print("D:\t"+str(D2))
-print("p:\t"+str(pval2))
+	(D1, pval1) = stats.ks_2samp(normalNumbers, normalNumbersWide)
+	(D2, pval2) = stats.ks_2samp(normalNumbersWide, normalNumbersWide2)
+	print("Normal vs Wide")
+	print("D:\t"+str(D1))
+	print("p:\t"+str(pval1))
+	print("Wide vs wide2")
+	print("D:\t"+str(D2))
+	print("p:\t"+str(pval2))
 
 
-normalNumbers.sort()
-normalNumbersWide.sort()
-normalNumbersWide2.sort()
+	normalNumbers.sort()
+	normalNumbersWide.sort()
+	normalNumbersWide2.sort()
 
-biggest = max(max(np.amax(normalNumbers), np.amax(normalNumbersWide)),
-			  np.amax(normalNumbersWide2))
+	biggest = max(max(np.amax(normalNumbers), np.amax(normalNumbersWide)),
+				  np.amax(normalNumbersWide2))
 
-percentage = np.arange(0, 100, 100.0/N)
+	percentage = np.arange(0, 100, 100.0/N)
 
-(ksNormalWideX, ksNormalWideYLow, ksNormalWideYHigh) = biggestDifference(
-	normalNumbers, normalNumbersWide, percentage)
-(ksWideWideX, ksWideWideYLow, ksWideWideYHigh) = biggestDifference(normalNumbersWide, normalNumbersWide2, percentage)
+	(ksNormalWideX, ksNormalWideYLow, ksNormalWideYHigh) = biggestDifference(
+		normalNumbers, normalNumbersWide, percentage)
+	(ksWideWideX, ksWideWideYLow, ksWideWideYHigh) = biggestDifference(normalNumbersWide, normalNumbersWide2, percentage)
 
-percentage = np.append(percentage, 100)
-percentage = np.repeat(percentage, 2)
-percentage = np.delete(percentage, 0)
+	percentage = np.append(percentage, 100)
+	percentage = np.repeat(percentage, 2)
+	percentage = np.delete(percentage, 0)
 
-normalNumbers = np.append(normalNumbers, biggest)
-normalNumbersWide = np.append(normalNumbersWide, biggest)
-normalNumbersWide2 = np.append(normalNumbersWide2, biggest)
+	normalNumbers = np.append(normalNumbers, biggest)
+	normalNumbersWide = np.append(normalNumbersWide, biggest)
+	normalNumbersWide2 = np.append(normalNumbersWide2, biggest)
 
-normalNumbers = CDFifyXData(normalNumbers)
-normalNumbersWide = CDFifyXData(normalNumbersWide)
-normalNumbersWide2 = CDFifyXData(normalNumbersWide2)
+	normalNumbers = CDFifyXData(normalNumbers)
+	normalNumbersWide = CDFifyXData(normalNumbersWide)
+	normalNumbersWide2 = CDFifyXData(normalNumbersWide2)
 
-plt.plot(normalNumbers, percentage, label='$\mu$=16.0, $\sigma$=2.0',
-		 linewidth=2.0, color='g')
-plt.plot(normalNumbersWide, percentage, label='$\mu$=15.0, $\sigma$=4.0',
-		 linewidth=2.0, color='b')
-plt.plot(normalNumbersWide2, percentage, label='$\mu$=15.0, $\sigma$=4.0',
-		 linewidth=2.0, color='c')
+	plt.plot(normalNumbers, percentage, label='$\mu$=16.0, $\sigma$=2.0',
+			 linewidth=2.0, color='g')
+	plt.plot(normalNumbersWide, percentage, label='$\mu$=15.0, $\sigma$=4.0',
+			 linewidth=2.0, color='b')
+	plt.plot(normalNumbersWide2, percentage, label='$\mu$=15.0, $\sigma$=4.0',
+			 linewidth=2.0, color='c')
 
-axes = plt.gca()
-yLimits = axes.get_ylim()
-plt.axvline(x=ksNormalWideX, ymin=ksNormalWideYLow/(yLimits[1]-yLimits[0]),
-			ymax=ksNormalWideYHigh/(yLimits[1]-yLimits[0]), color='m',
-			linewidth=2)
-plt.axvline(x=ksWideWideX, ymin=ksWideWideYLow/(yLimits[1]-yLimits[0]),
-			ymax=ksWideWideYHigh/(yLimits[1]-yLimits[0]), color='m',
-			linewidth=2)
+	axes = plt.gca()
+	yLimits = axes.get_ylim()
+	plt.axvline(x=ksNormalWideX, ymin=ksNormalWideYLow/(yLimits[1]-yLimits[0]),
+				ymax=ksNormalWideYHigh/(yLimits[1]-yLimits[0]), color='m',
+				linewidth=2)
+	plt.axvline(x=ksWideWideX, ymin=ksWideWideYLow/(yLimits[1]-yLimits[0]),
+				ymax=ksWideWideYHigh/(yLimits[1]-yLimits[0]), color='m',
+				linewidth=2)
 
-plt.xlabel('x')
-plt.ylabel('EDF \enspace (\%)')
-plt.legend(loc=0)
-plt.xlim([2, 28])
+	plt.xlabel('x')
+	plt.ylabel('EDF \enspace (\%)')
+	plt.legend(loc=0)
+	plt.xlim([2, 28])
 
-rc('font', **{'family':'serif','serif':['Palatino']})
-rc('text', usetex=True)
+	rc('font', **{'family':'serif','serif':['Palatino']})
+	rc('text', usetex=True)
 
-F = pylab.gcf()
-F.set_size_inches(5.9, 3.2)
+	F = pylab.gcf()
+	F.set_size_inches(5.9, 3.2)
 
-plt.savefig('../../kuvat/kstest.png', bbox_inches='tight')
+	plt.savefig('../../kuvat/kstest.png', bbox_inches='tight')
