@@ -3,10 +3,12 @@
 from __future__ import print_function
 import sys
 sys.path.insert(0, '/scratch/aajarven/plotscripts/')
+sys.path.insert(0, '/home/aajarven/Z-drive/duuni/extragal/gradu-yde/plotscripts/background/')
 
 import clustering
 import clusterAnalysis
 import filereader
+from kstest import biggestDifference, CDFifyXData 
 import LGfinder
 import physUtils
 from sibeliusConstants import *
@@ -21,6 +23,13 @@ def blackBoxplot(bp):
 	for element in ['boxes', 'whiskers', 'fliers', 'means', 'medians', 'caps']:
 		plt.setp(bp[element], color='k')
 
+def ksplot(ax, x1, x2, y, label1, label2, verticalX, verticalMinY, verticalMaxY):
+	ax.plot(x1, y, label=label1)
+	ax.plot(x2, y, label=label2)
+	ax.set_ylim(min(y), max(y))
+	yLimits = ax.get_ylim()
+	ax.axvline(x=verticalX, ymin=verticalMinY/(yLimits[1] - yLimits[0]),
+			 ymax=verticalMaxY/(yLimits[1] - yLimits[0]))
 
 if __name__ == "__main__":
 	inputfile = "../input/upTo5Mpc-no229-fullpath.txt" 
@@ -269,3 +278,59 @@ if __name__ == "__main__":
 	plt.tight_layout(rect=[0.15, 0.1, 1.0, 1.0])
 	fig.set_size_inches(4.0, 2.6)
 	plt.savefig(outputdir + "clusteredHFdispersions.pdf")
+
+	### ks-test ###
+	plt.cla()
+	plt.clf()
+
+	allH0s.sort()
+	inClusterH0s.sort()
+	allZeros.sort()
+	inClusterZeros.sort()
+	allDispersions.sort()
+	inClusterDispersions.sort()
+
+#	print(len(allH0s), len(inClusterZeros), len(allZeros), len(inClusterZeros),
+#	   len(allDispersions), len(inClusterDispersions))
+	n_datapoints = len(allH0s)
+
+	percentage = np.arange(0, 100, 100.0/len(allH0s))
+
+	(H0x, H0lowY, H0highY) = biggestDifference(allH0s, inClusterH0s, percentage)
+	(zeroX, zeroLowY, zeroHighY) = biggestDifference(allZeros, inClusterZeros,
+												  percentage)
+	(dispersionX, dispersionLowY, dispersionHighY) = biggestDifference(
+		allDispersions, inClusterDispersions, percentage)
+
+	percentage = np.append(percentage, 100)
+	percentage = np.repeat(percentage, 2)
+	percentage = np.delete(percentage, 0)
+	
+	maxH0 = max(allH0s[n_datapoints - 1], inClusterH0s[n_datapoints -1])
+	maxZero = max(allZeros[n_datapoints - 1], inClusterZeros[n_datapoints - 1])
+	maxDispersion = max(allDispersions[n_datapoints - 1],
+					 inClusterDispersions[n_datapoints - 1])
+	allH0s = np.append(allH0s, maxH0)
+	inClusterH0s = np.append(inClusterH0s, maxH0)
+	allZeros = np.append(allZeros, maxZero)
+	inClusterZeros = np.append(inClusterZeros, maxZero)
+	allDispersions = np.append(allDispersions, maxDispersion)
+	inClusterDispersions = np.append(inClusterDispersions, maxDispersion)
+
+	allH0s = CDFifyXData(allH0s)
+	inClusterH0s = CDFifyXData(inClusterH0s)
+	allZeros = CDFifyXData(allZeros)
+	inClusterZeros = CDFifyXData(inClusterZeros)
+	allDispersions = CDFifyXData(allDispersions)
+	inClusterDispersions = CDFifyXData(inClusterDispersions)
+
+
+	fig, axes = plt.subplots(2, 2)
+	ksplot(axes[0][0], allH0s, inClusterH0s, percentage, "All haloes", "Haloes in "
+		"clusters", H0x, H0lowY, H0highY)
+	ksplot(axes[0][1], allZeros, inClusterZeros, percentage, "All haloes",
+		"Haloes in clusters", zeroX, zeroLowY, zeroHighY)
+	ksplot(axes[1][0], allDispersions, inClusterDispersions, percentage, "All haloes",
+		"Haloes in clusters", dispersionX, dispersionLowY, dispersionHighY)
+
+	plt.savefig(outputdir + "ksresults.pdf")
