@@ -163,8 +163,10 @@ if __name__ == "__main__":
 			print("few clustered: "+ str(len(np.where(clusteringDB.labels_ != -1)[0])))
 			
 		allDispersions.append(np.std(radvelResiduals, ddof=1))
-		inClusterDispersions.append(clusterAnalysis.dispersionOfClusters(
-			clusteringDB, radvelResiduals, ddof=1))
+		inClusterDispersions.append(clustering.clusterMeanSTD(clusteringDB,
+														radvelResiduals,
+														minSize=10))
+		#clusterAnalysis.dispersionOfClusters(clusteringDB, radvelResiduals, ddof=1))
 		outClusterDispersions.append(clusterAnalysis.dispersionOfUnclustered(
 			clusteringDB, radvelResiduals, ddof=1))
 
@@ -267,8 +269,8 @@ if __name__ == "__main__":
 	plt.clf()
 	
 	fig, ax = plt.subplots()
-	bp = ax.boxplot([massCutDispersions, outClusterDispersions,
-				   inClusterDispersions, allDispersions], vert=False)
+	bp = ax.boxplot([massCutDispersions, inClusterDispersions, outClusterDispersions,
+				   allDispersions], vert=False)
 	blackBoxplot(bp)
 	ax.set_xlabel("Velocity dispersion around\nthe Hubble flow (km/s)")
 	ax.set_yticklabels(["Haloes in clusters with all\nmembers less massive\n"
