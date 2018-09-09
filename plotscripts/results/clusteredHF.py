@@ -32,10 +32,86 @@ def ksplot(ax, x1, x2, y, label1, label2, verticalX, verticalMinY, verticalMaxY)
 	ax.axvline(x=verticalX, ymin=verticalMinY/(yLimits[1] - yLimits[0]),
 			 ymax=verticalMaxY/(yLimits[1] - yLimits[0]))
 
+
+def inClusterFit(db, velocities, distances, minSize=10, massMask = []):
+	"""
+	Calculates the mean H_0, zero point and velocity dispersion of the Hubble flow when
+	it is fitted separately to each cluster with at least minSize members.
+	Returns a tuple (H_0, zeropoint, dispersion).
+
+	db : DBSCAN output
+		The clustering database used to determine the cluster memberships of
+		different subhaloes
+	velocities : numpy array
+		The radial velocities of the subhaloes
+	distances : numpy array
+		The distances to the subhaloes
+	minSize : integer
+		Minimum number of members in each cluster that is used in HF fitting.
+		Default value is a minimum of 10 subhaloes in a cluster.
+	massMask : boolean array
+        Array with the same shape as velocities, containing true for subhaloes
+        that have masses in allowed range and false for others. Only if all
+        subhaloes in a cluster have accepted masses is that cluster used in HF
+		fitting. Default is that all masses are accepted, represented by an empty array [].
+	"""
+	uniqueLabels = set(db.labels_)
+	if -1 in uniqueLabels:
+		uniqueLabels.remove(-1)
+	uniqueLabels = np.array(list(uniqueLabels))
+
+	H0s = np.full(len(uniqueLabels), np.nan)
+	zeros = np.full(len(uniqueLabels), np.nan)
+	deviations = np.full(len(uniqueLabels), np.nan)
+	
+	for i in range(len(uniqueLabels)):
+		clusterMask = (db.labels_ == uniqueLabels[i])
+		if np.sum(clusterMask) >= minSize:
+			if len(massMask) == 0 or np.all(massMask[clusterMask]):
+				(H0, zero) = simpleFit(distances[clusterMask],
+						   velocities[clusterMask])
+				H0s[i] = H0
+				zeros[i] = zero
+
+				velExcess = [radvel - (distance - zero) * H0 for radvel,
+				 distance in zip(velocities[clusterMask], distances[clusterMask])]
+				deviations[i] = np.std(velExcess, ddof=1)
+	
+	return (np.nanmean(H0s), np.nanmean(zeros), np.nanmean(deviations))
+
+def outClusterFit(db, velocities, distances, minHaloes=10):
+	"""
+	Calculates the H_0, zero point and velocity dispersion of the Hubble flow
+	when it is fitted using haloes that do not belong to any cluster. If there
+	are not enough data points, tuple of NaNs is returned.
+
+	db : DBSCAN output
+		The clustering database used to determine the cluster memberships of
+		different subhaloes
+	velocities : numpy array
+		The radial velocities of the subhaloes
+	distances : numpy array
+		The distances to the subhaloes
+	minHaloes : integer
+		Minimum number of subhaloes outside clusters in order for the HF to be
+		fitted.	Default value is a minimum of 10 subhaloes in a cluster.
+	"""
+	outClusterMask = (db.labels_ == -1)
+	if np.sum(outClusterMask) >= minHaloes:
+		(H0, zero) = simpleFit(distances[outClusterMask],
+							velocities[outClusterMask])
+		velExcess = [radvel - (distance - zero) * H0 for radvel,
+		 distance in zip(velocities[outClusterMask], distances[outClusterMask])]
+		deviation = np.std(velExcess, ddof=1)
+
+		return (H0, zero, deviation)
+
+
 if __name__ == "__main__":
 	inputfile = "../input/upTo5Mpc-no229-fullpath.txt" 
 #	inputfile = "../input/upTo5Mpc-fullpath.txt" 
 #	inputfile = "../input/hundred.txt"
+#	inputfile = "../input/ten-fullpath.txt"
 	outputdir = "../../kuvat/"
 
 	mindist = 1.0
@@ -131,30 +207,63 @@ if __name__ == "__main__":
 
 		##### extracting interesting data starts #####
 		#TLSfit(distances, radvel)
-		(H0, zero) = simpleFit(distances, radvel)
 		clusteringDB = clustering.runClustering(cop, centre, ms, eps,
 										  meansep=False)
 		labels = clusteringDB.labels_
 		uniqueLabels = set(labels)
 
 		clusterMemberMask = labels != -1 # True for in cluster
-		print(sum([not membership for membership in clusterMemberMask]))
-		(inClusterH0, inClusterZero) = simpleFit(distances[clusterMemberMask],
-										   radvel[clusterMemberMask])
-		(outClusterH0, outClusterZero) = simpleFit(
-			distances[clusterMemberMask == False],
-			radvel[clusterMemberMask == False])
+#		print(sum([not membership for membership in clusterMemberMask]))
+#		(inClusterH0, inClusterZero) = simpleFit(distances[clusterMemberMask],
+#										   radvel[clusterMemberMask])
+#		(outClusterH0, outClusterZero) = simpleFit(
+#			distances[clusterMemberMask == False],
+#			radvel[clusterMemberMask == False])
 
-		allZeros.append(zero)
-		allH0s.append(H0)
-		inClusterZeros.append(inClusterZero)
-		inClusterH0s.append(inClusterH0)
-		outClusterZeros.append(outClusterZero)
-		outClusterH0s.append(outClusterH0)
-	
+		# all haloes
+		(H0, zero) = simpleFit(distances, radvel)
 		radvelResiduals = np.empty(radvel.shape)
 		for i in range(len(radvel)):
 			radvelResiduals[i] = radvel[i] - (distances[i] - zero) * H0
+		allZeros.append(zero)
+		allH0s.append(H0)
+		allDispersions.append(np.std(radvelResiduals, ddof=1))
+
+		# outside clusters
+		(H0, zero, dispersion) = outClusterFit(clusteringDB, radvel, distances,
+										 minHaloes=10)
+		outClusterH0s.append(H0)
+		outClusterZeros.append(zero)
+		outClusterDispersions.append(dispersion)
+
+		# inside clusters
+		(H0, zero, dispersion) = inClusterFit(clusteringDB, radvel, distances,
+										minSize=10)
+		inClusterH0s.append(H0)
+		inClusterZeros.append(zero)
+		inClusterDispersions.append(dispersion)
+
+		# mass cut clusters
+		massMask = (mass <= massThreshold)
+		(H0, zero, dispersion) = inClusterFit(clusteringDB, radvel, distances,
+										minSize=10, massMask=massMask)
+		if math.isnan(H0) or math.isnan(zero) or math.isnan(dispersion):
+			print("No clusters with allowed minimum mass")
+		else:
+			massCutH0s.append(H0)
+			massCutZeros.append(zero)
+			massCutDispersions.append(dispersion)
+
+
+
+#		inClusterZeros.append(inClusterZero)
+#		inClusterH0s.append(inClusterH0)
+#		outClusterZeros.append(outClusterZero)
+#		outClusterH0s.append(outClusterH0)
+#	
+#		radvelResiduals = np.empty(radvel.shape)
+#		for i in range(len(radvel)):
+#			radvelResiduals[i] = radvel[i] - (distances[i] - zero) * H0
 
 
 		if len(np.where(clusteringDB.labels_ == -1)[0]) < 30:
@@ -162,35 +271,39 @@ if __name__ == "__main__":
 		if len(np.where(clusteringDB.labels_ != -1)[0]) < 30:
 			print("few clustered: "+ str(len(np.where(clusteringDB.labels_ != -1)[0])))
 			
-		allDispersions.append(np.std(radvelResiduals, ddof=1))
-		inClusterDispersions.append(clustering.clusterMeanSTD(clusteringDB,
-														radvelResiduals,
-														minSize=10))
-		#clusterAnalysis.dispersionOfClusters(clusteringDB, radvelResiduals, ddof=1))
-		outClusterDispersions.append(clusterAnalysis.dispersionOfUnclustered(
-			clusteringDB, radvelResiduals, ddof=1))
-
-		# mass exclusion
-		allowedClusterNumbers = []
-		for i in uniqueLabels:
-			if max(mass[labels==i]) < massThreshold:
-				allowedClusterNumbers.append(i)
-		clusterNumberModifier = (-1 if -1 in uniqueLabels else 0)
-		print(str(len(uniqueLabels) + clusterNumberModifier) + ", "
-		+ str(len(allowedClusterNumbers) + clusterNumberModifier))
-
-		maxMassMask = np.array([label in allowedClusterNumbers for label in
-						  labels])
-		(maskedH0, maskedZero) = simpleFit(distances[maxMassMask],
-									 radvel[maxMassMask])
-		massCutH0s.append(maskedH0)
-		massCutZeros.append(maskedZero)
-		massCutDispersions.append(np.std(radvelResiduals[maxMassMask], ddof=1))
-		if np.sum(maxMassMask) < 30:
-			print("few mass cut points: " + str(np.sum(maxMassMask)))
+#		allDispersions.append(np.std(radvelResiduals, ddof=1))
+#		inClusterDispersions.append(clustering.clusterMeanSTD(clusteringDB,
+#														radvelResiduals,
+#														minSize=10))
+#		#clusterAnalysis.dispersionOfClusters(clusteringDB, radvelResiduals, ddof=1))
+#		outClusterDispersions.append(clusterAnalysis.dispersionOfUnclustered(
+#			clusteringDB, radvelResiduals, ddof=1))
+#
+#		# mass exclusion
+#		allowedClusterNumbers = []
+#		for i in uniqueLabels:
+#			if max(mass[labels==i]) < massThreshold:
+#				allowedClusterNumbers.append(i)
+#		clusterNumberModifier = (-1 if -1 in uniqueLabels else 0)
+#		print(str(len(uniqueLabels) + clusterNumberModifier) + ", "
+#		+ str(len(allowedClusterNumbers) + clusterNumberModifier))
+#
+#		maxMassMask = np.array([label in allowedClusterNumbers for label in
+#						  labels])
+#		(maskedH0, maskedZero) = simpleFit(distances[maxMassMask],
+#									 radvel[maxMassMask])
+#		massCutH0s.append(maskedH0)
+#		massCutZeros.append(maskedZero)
+#		massCutDispersions.append(np.std(radvelResiduals[maxMassMask], ddof=1))
+#		if np.sum(maxMassMask) < 30:
+#			print("few mass cut points: " + str(np.sum(maxMassMask)))
 		
 
 	##### plotting #####
+
+	print(massCutDispersions)
+	print(massCutH0s)
+	print(massCutZeros)
 
 	allZeros = np.array(allZeros)
 	allH0s = np.array(allH0s)
@@ -204,17 +317,17 @@ if __name__ == "__main__":
 	inClusterDispersions = np.array(inClusterDispersions)
 	outClusterDispersions = np.array(outClusterDispersions)
 
-	print(inClusterH0s[np.argsort(inClusterH0s)[:10]])
-	print(inClusterH0s[np.argsort(inClusterH0s)[-10:]])
-	print(inClusterZeros[np.argsort(inClusterZeros)[:10]])
-	print(inClusterZeros[np.argsort(inClusterZeros)[-10:]])
-	print("")
-	minindex = np.argmin(inClusterH0s)
-	print(minindex)
-	print(inClusterH0s[minindex])
-	print(inClusterZeros[minindex])
-	print(allH0s[minindex])
-	print(allZeros[minindex])
+#	print(inClusterH0s[np.argsort(inClusterH0s)[:10]])
+#	print(inClusterH0s[np.argsort(inClusterH0s)[-10:]])
+#	print(inClusterZeros[np.argsort(inClusterZeros)[:10]])
+#	print(inClusterZeros[np.argsort(inClusterZeros)[-10:]])
+#	print("")
+#	minindex = np.argmin(inClusterH0s)
+#	print(minindex)
+#	print(inClusterH0s[minindex])
+#	print(inClusterZeros[minindex])
+#	print(allH0s[minindex])
+#	print(allZeros[minindex])
 
 	rc('font', **{'family':'serif','serif':['Palatino']})
 	rc('text', usetex=True)
@@ -222,8 +335,10 @@ if __name__ == "__main__":
 	plt.rcParams.update(params)
 
 	fig, (ax1, ax2) = plt.subplots(1, 2, sharey=True)
+	print("boxplotting 1:")
 	bp1 = ax1.boxplot([massCutH0s, inClusterH0s, outClusterH0s, allH0s], vert=False)
 	blackBoxplot(bp1)
+	print("2")
 	bp2 = ax2.boxplot([massCutZeros, inClusterZeros, outClusterZeros, allZeros], vert=False)
 	blackBoxplot(bp2)
 
@@ -283,31 +398,31 @@ if __name__ == "__main__":
 	plt.savefig(outputdir + "clusteredHFdispersions.pdf")
 
 	### ks-test ###
-	plt.cla()
-	plt.clf()
-
-	(DH0, pvalH0) = stats.ks_2samp(allH0s, inClusterH0s)
-	(Dzero, pvalZero) = stats.ks_2samp(allZeros, inClusterZeros)
-	(Ddispersion, pvalDispersion) = stats.ks_2samp(allDispersions, inClusterDispersions)
-	print("H0")
-	print("D:\t"+str(DH0))
-	print("p:\t"+str(pvalH0))
-	print("Zero")
-	print("D:\t"+str(Dzero))
-	print("p:\t"+str(pvalZero))
-	print("Dispersion")
-	print("D:\t"+str(Ddispersion))
-	print("p:\t"+str(pvalDispersion))
-	print("medians")
-	print(np.median(allDispersions))
-	print(np.median(inClusterH0s))
-	print("means")
-	print(np.mean(allDispersions))
-	print(np.mean(inClusterDispersions))
-	print("t-test")
-	print(stats.ttest_ind(allDispersions, inClusterDispersions, equal_var=False))
-	print(stats.ttest_ind(allDispersions, inClusterDispersions,
-					   equal_var=True))
+#	plt.cla()
+#	plt.clf()
+#
+#	(DH0, pvalH0) = stats.ks_2samp(allH0s, inClusterH0s)
+#	(Dzero, pvalZero) = stats.ks_2samp(allZeros, inClusterZeros)
+#	(Ddispersion, pvalDispersion) = stats.ks_2samp(allDispersions, inClusterDispersions)
+#	print("H0")
+#	print("D:\t"+str(DH0))
+#	print("p:\t"+str(pvalH0))
+#	print("Zero")
+#	print("D:\t"+str(Dzero))
+#	print("p:\t"+str(pvalZero))
+#	print("Dispersion")
+#	print("D:\t"+str(Ddispersion))
+#	print("p:\t"+str(pvalDispersion))
+#	print("medians")
+#	print(np.median(allDispersions))
+#	print(np.median(inClusterH0s))
+#	print("means")
+#	print(np.mean(allDispersions))
+#	print(np.mean(inClusterDispersions))
+#	print("t-test")
+#	print(stats.ttest_ind(allDispersions, inClusterDispersions, equal_var=False))
+#	print(stats.ttest_ind(allDispersions, inClusterDispersions,
+#					   equal_var=True))
 	
 #	allH0s.sort()
 #	inClusterH0s.sort()
