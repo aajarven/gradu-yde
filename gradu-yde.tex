@@ -1402,17 +1402,40 @@ In the $H_0$ panel of Fig.~\ref{fig:clusteredHFparameters}, some differences bet
 The distribution of the zero point distances does not seem to change noticeably between the categories, apart from changes in the outlier values. Some of the outliers, especially in zero points measured using haloes that do not belong to any cluster, also reside outside the plotted range (see the caption). Even as the medians are close to each other, there is variation in the zero points between the simulations. This offers a promising chance to explore correlations between the Hubble flow measurements and the mass of the Local Group.
 
 %% Outliers without 299 (current case):
+%allH0s: []
+%inClusterH0s: []
+%outClusterH0s: []
+%massCutH0s: []
 %allZeros: []
-%inClusterZeros: []
+%inClusterZeros: [-8.9767548409940083, -7.8088226386120771]
 %outClusterZeros: [-8.0111344090876742, 13.948152600724681, -4.6546938793249391]
-%massCutZeros: [-6.9895372252628576, -5.8619018046506826]
-%% Outliers with 299 (alternative):
-%allZeros: [-30.243003145562845]
-%inClusterZeros: [18.737324729385747]
-%outClusterZeros: [-8.0111344090876742, 13.948152600724681, -4.6546938793249391]
-%massCutZeros: [-6.9895372252628576, -5.8619018046506826]
+%massCutZeros: [-19.592030420767582, 3.8009152628627074, -17.236259847473118]
 
 % minimum of 19 unclustered
+% one simulation with no clusters with maximum subhalo mass less than 8e11
+
+%all vs out H0
+%Ks_2sampResult(statistic=0.23529411764705885, pvalue=0.0021843678266674133)
+%all vs in H0
+%Ks_2sampResult(statistic=0.20168067226890762, pvalue=0.013337790957546882)
+%all vs mass cut H0
+%Ks_2sampResult(statistic=0.13409770687936193, pvalue=0.22001875645197524)
+%in vs mass cut H0
+%
+%Ks_2sampResult(statistic=0.1217775245691497, pvalue=0.32294487474492201)
+%all vs out zeros
+%Ks_2sampResult(statistic=0.1428571428571429, pvalue=0.1618262031903146)
+%all vs in zeros
+%Ks_2sampResult(statistic=0.22689075630252103, pvalue=0.0035245070788159968)
+%all vs mass cut zeros
+%Ks_2sampResult(statistic=0.22261786070360351, pvalue=0.0045795500673263554)
+%
+%all vs out dispersion
+%Ks_2sampResult(statistic=0.42857142857142855, pvalue=2.9872668415791548e-10)
+%out vs in dispersion
+%Ks_2sampResult(statistic=0.69747899159663873, pvalue=1.8904500291770192e-26)
+%in vs mass cut dispersion
+%Ks_2sampResult(statistic=0.42671984047856432, pvalue=3.9839757899044583e-10)
 
 \begin{figure}
     \centering
