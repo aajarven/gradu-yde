@@ -206,7 +206,6 @@ if __name__ == "__main__":
 
 
 		##### extracting interesting data starts #####
-		#TLSfit(distances, radvel)
 		clusteringDB = clustering.runClustering(cop, centre, ms, eps,
 										  meansep=False)
 		labels = clusteringDB.labels_
@@ -254,57 +253,14 @@ if __name__ == "__main__":
 			massCutZeros.append(zero)
 			massCutDispersions.append(dispersion)
 
-
-
-#		inClusterZeros.append(inClusterZero)
-#		inClusterH0s.append(inClusterH0)
-#		outClusterZeros.append(outClusterZero)
-#		outClusterH0s.append(outClusterH0)
-#	
-#		radvelResiduals = np.empty(radvel.shape)
-#		for i in range(len(radvel)):
-#			radvelResiduals[i] = radvel[i] - (distances[i] - zero) * H0
-
-
 		if len(np.where(clusteringDB.labels_ == -1)[0]) < 30:
 			print("few unclustered: "+ str(len(np.where(clusteringDB.labels_ == -1)[0])))
 		if len(np.where(clusteringDB.labels_ != -1)[0]) < 30:
 			print("few clustered: "+ str(len(np.where(clusteringDB.labels_ != -1)[0])))
 			
-#		allDispersions.append(np.std(radvelResiduals, ddof=1))
-#		inClusterDispersions.append(clustering.clusterMeanSTD(clusteringDB,
-#														radvelResiduals,
-#														minSize=10))
-#		#clusterAnalysis.dispersionOfClusters(clusteringDB, radvelResiduals, ddof=1))
-#		outClusterDispersions.append(clusterAnalysis.dispersionOfUnclustered(
-#			clusteringDB, radvelResiduals, ddof=1))
-#
-#		# mass exclusion
-#		allowedClusterNumbers = []
-#		for i in uniqueLabels:
-#			if max(mass[labels==i]) < massThreshold:
-#				allowedClusterNumbers.append(i)
-#		clusterNumberModifier = (-1 if -1 in uniqueLabels else 0)
-#		print(str(len(uniqueLabels) + clusterNumberModifier) + ", "
-#		+ str(len(allowedClusterNumbers) + clusterNumberModifier))
-#
-#		maxMassMask = np.array([label in allowedClusterNumbers for label in
-#						  labels])
-#		(maskedH0, maskedZero) = simpleFit(distances[maxMassMask],
-#									 radvel[maxMassMask])
-#		massCutH0s.append(maskedH0)
-#		massCutZeros.append(maskedZero)
-#		massCutDispersions.append(np.std(radvelResiduals[maxMassMask], ddof=1))
-#		if np.sum(maxMassMask) < 30:
-#			print("few mass cut points: " + str(np.sum(maxMassMask)))
 		
 
 	##### plotting #####
-
-	print(massCutDispersions)
-	print(massCutH0s)
-	print(massCutZeros)
-
 	allZeros = np.array(allZeros)
 	allH0s = np.array(allH0s)
 	inClusterZeros = np.array(inClusterZeros)
@@ -335,10 +291,8 @@ if __name__ == "__main__":
 	plt.rcParams.update(params)
 
 	fig, (ax1, ax2) = plt.subplots(1, 2, sharey=True)
-	print("boxplotting 1:")
 	bp1 = ax1.boxplot([massCutH0s, inClusterH0s, outClusterH0s, allH0s], vert=False)
 	blackBoxplot(bp1)
-	print("2")
 	bp2 = ax2.boxplot([massCutZeros, inClusterZeros, outClusterZeros, allZeros], vert=False)
 	blackBoxplot(bp2)
 
@@ -360,6 +314,10 @@ if __name__ == "__main__":
 
 	print("")
 	print("Outliers:")
+	print("allH0s:", [H0 for H0 in allH0s if H0 < -10 or H0 > 140])
+	print("inClusterH0s:", [H0 for H0 in inClusterH0s if H0 < -10 or H0 > 140])
+	print("outClusterH0s:", [H0 for H0 in outClusterH0s if H0 < -10 or H0 > 140])
+	print("massCutH0s:", [H0 for H0 in massCutH0s if H0 < -10 or H0 > 140])
 	print("allZeros: " + str([zero for zero in allZeros if zero <
 								 -2.5 or zero > 3.0]))
 	print("inClusterZeros: " + str([zero for zero in inClusterZeros if zero <
@@ -392,15 +350,40 @@ if __name__ == "__main__":
 					r"than $8 \times 10^{11}~M_{\astrosun}$", "Haloes in clusters",
 					"Haloes outside clusters", "All haloes"], ha='right',
 					multialignment='right')
-	ax.set_xticks(range(40, 200, 10), minor=True)
+	ax.set_xticks(range(0, 201, 10), minor=True)
 	plt.tight_layout(rect=[0.15, 0.1, 1.0, 1.0])
 	fig.set_size_inches(4.0, 2.6)
 	plt.savefig(outputdir + "clusteredHFdispersions.pdf")
 
 	### ks-test ###
-#	plt.cla()
-#	plt.clf()
-#
+	plt.cla()
+	plt.clf()
+
+	print("")
+	print("all vs out H0")
+	print(stats.ks_2samp(allH0s, outClusterH0s))
+	print("all vs in H0")
+	print(stats.ks_2samp(allH0s, inClusterH0s))
+	print("all vs mass cut H0")
+	print(stats.ks_2samp(allH0s, massCutH0s))
+	print("in vs mass cut H0")
+	print("")
+	print(stats.ks_2samp(inClusterH0s, massCutH0s))
+	print("all vs out zeros")
+	print(stats.ks_2samp(allZeros, outClusterZeros))
+	print("all vs in zeros")
+	print(stats.ks_2samp(allZeros, inClusterZeros))
+	print("all vs mass cut zeros")
+	print(stats.ks_2samp(allZeros, massCutZeros))
+	print("")
+	print("all vs out dispersion")
+	print(stats.ks_2samp(allDispersions, outClusterDispersions))
+	print("out vs in dispersion")
+	print(stats.ks_2samp(outClusterDispersions, inClusterDispersions))
+	print("in vs mass cut dispersion")
+	print(stats.ks_2samp(inClusterDispersions, massCutDispersions))
+
+
 #	(DH0, pvalH0) = stats.ks_2samp(allH0s, inClusterH0s)
 #	(Dzero, pvalZero) = stats.ks_2samp(allZeros, inClusterZeros)
 #	(Ddispersion, pvalDispersion) = stats.ks_2samp(allDispersions, inClusterDispersions)
