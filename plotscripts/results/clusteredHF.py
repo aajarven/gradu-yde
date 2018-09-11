@@ -76,8 +76,12 @@ def inClusterFit(db, velocities, distances, minSize=10, massMask = []):
 				velExcess = [radvel - (distance - zero) * H0 for radvel,
 				 distance in zip(velocities[clusterMask], distances[clusterMask])]
 				deviations[i] = np.std(velExcess, ddof=1)
-	
+
+#	if len(massMask) == 0:
+#		print(np.count_nonzero(~np.isnan(zeros)))
+
 	return (np.nanmean(H0s), np.nanmean(zeros), np.nanmean(deviations))
+
 
 def outClusterFit(db, velocities, distances, minHaloes=10):
 	"""
@@ -306,7 +310,7 @@ if __name__ == "__main__":
 	xlims = ax2.get_xlim()
 	ax2.set_xticks(np.arange(math.ceil(xlims[0]), xlims[1], 0.5), minor=True)
 	ax2.set_xlim([-2.5, 3])
-	print([min(allZeros), max(allZeros)])
+#	print([min(allZeros), max(allZeros)])
 #	ax2.set_xticks(np.arange(-5, ylims[1], 5.0), minor=False)
 	ax2.set_xlabel("Distance to Hubble\nflow zero point (Mpc)")
 #	ax1.set_xlim([-25, 145])
@@ -367,8 +371,8 @@ if __name__ == "__main__":
 	print("all vs mass cut H0")
 	print(stats.ks_2samp(allH0s, massCutH0s))
 	print("in vs mass cut H0")
-	print("")
 	print(stats.ks_2samp(inClusterH0s, massCutH0s))
+	print("")
 	print("all vs out zeros")
 	print(stats.ks_2samp(allZeros, outClusterZeros))
 	print("all vs in zeros")
