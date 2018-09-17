@@ -908,7 +908,7 @@ Another straightforward method for choosing how many PCs to retain is to examine
 % bootstrapping + other methods
 
 
-\section{Comparing two samples drawn from unknown distributions}
+\section{Comparing two samples drawn from unknown distributions} \label{sect:statistical_tests}
 %\reversemarginpar
 %\marginnote{\footnotesize{TODO: oispa parempi otsikko. mieti, onko tämä muutenkaan hyvä nyt kun on siirretty yksi otsikkotaso ylöspäin}}[-3cm]
 A common question in multiple fields of science is whether two or more samples are drawn from the same distribution. The most relevant methods that can be used to address this problem are introduced here following \citet{bohm2010introduction} and \citet{feigelson2012modern} apart from introducing the $\chi^2$ test which is mostly based on the approach of \citet{corder2014nonparametric}.
@@ -978,7 +978,7 @@ According to \citet{corder2014nonparametric}, the degrees of freedom is $(R-1)(C
 Before performing the $\chi^2$ test on a dataset, it is important to confirm that the data meets the assumptions for $\chi^2$ test, given for example in \citep{bock2010stats} and \citep{htk}. First of all, the data has to consist of counts i.e.\ not for example percentages or fractions. These counts should be independent of each other and there has to be enough of them, generally $>50$ is sufficient. Bins should also be chosen such that all bins have at least five counts according to the null hypothesis. If the last condition is not met, one can can consider combining bins. 
 
 
-\subsection{Kolmogorov-Smirnov test}
+\subsection{Kolmogorov-Smirnov test} \label{sect:ks}
 For astronomers, one of the most well-known statistical test is the Kolmogorov-Smirnov test, also known as the KS test. It is computationally inexpensive to calculate, easy to understand and does not require binning of data. It is also a nonparametric test i.e.\ the data does not have to be drawn from a particular distribution.
 
 In the astrophysical context this is often important because astrophysical models usually do not fix a specific statistical distribution for observables and it is common to carry out calculations with logarithms of observables, after which the originally possibly normally distributed residuals  will no longer follow a normal distribution. When using the KS test, the values on the x-axis can be freely reparametrized: for example using $2x$ or $\log x$ on x-axis will result in same value of the test statistic as using just $x$ \citep{press2007numerical}.
@@ -1401,10 +1401,13 @@ One simulation is excluded from this analysis. In that simulation the Hubble flo
 
 Fig.~\ref{fig:clusteredHFparameters} shows that differences between the medians of both zero point distances and $H_0$ values vary fairly little between the different categories of subhaloes: all of the medians are within the interquartile ranges of the corresponding measurements done using all haloes. For $H_0$ measurements, only the values measured from subhaloes that are not members in any cluster have a slightly lower median than the rest of the measurements while the other three medians are very close to each other. For the zero point distances, both clustered categories have slightly lower medians than the other two categories.
 
-TODO: test?
+%TODO : test?
 
-%Even the lowest $H_0$ value of $84.8$~km/s/Mpc is higher than the global value in the simulation as the Local Group affects the results. This category also has the largest scatter of values around the median.
+The boxplots show some differences between the categories, but determining whether the differences arise from the characteristics of the samples or they are just effects of random sampling. A conclusion can be derived by applying the statistical testing methods introduced in section~\ref{sect:statistical_tests}. As assuming that the $H_0$ and zero point values are normally distributed is not justified, a test that can be used with two arbitrarily distributed data sets is an optimal choice. Thus the Kolmogorov--Smirnov test, described in section~\ref{sect:ks} is applied. The test is applied to pairs of categories, and a null hypothesis ``these two data sets are drawn from the same distribution'' is used with significance level $\alpha$ of 0.01. All other categories are tested against the results obtained using all haloes, in addition to which the two clustered categories with and without the mass criterion are tested against each other.
 
+For the $H_0$ measurements, only the fitting results obtained using haloes that do not belong to any cluster differs significantly from the results from all haloes at this significance level (p-value of 0.002), whereas the other pairs of measurements have p-values of more than 0.01. The zero point distances measured using either category of haloes in clusters, on the other hand, do differ significantly from the distances obtained using all haloes, whereas all other tested pairs show no statistically significant difference. Introducing the mass criterion to the clustered haloes did not produce a significant change in either Hubble flow parameter.
+
+TODO: pienet erot, siirry dispersioon %TODO
 
 
 %In the $H_0$ panel of Fig.~\ref{fig:clusteredHFparameters}, some differences between the different categories can be seen. Fitting to subhaloes that do not belong to any cluster yields the lowest result, i.e. the one closest to the global value for the simulation. This category has the largest scatter of the results too, though, which is reasonable as in a simulation there are usually much more subhaloes that do belong to a cluster than ones that do not. Differences between the other categories are small.
@@ -1440,6 +1443,8 @@ TODO: test?
 %Ks_2sampResult(statistic=0.22689075630252103, pvalue=0.0035245070788159968)
 %all vs mass cut zeros
 %Ks_2sampResult(statistic=0.22261786070360351, pvalue=0.0045795500673263554)
+%in vs mass cut H0
+%Ttest_indResult(statistic=0.47686982914277037, pvalue=0.63389795483113587) %TODO väärä testi
 %
 %all vs out dispersion
 %Ks_2sampResult(statistic=0.42857142857142855, pvalue=2.9872668415791548e-10)
