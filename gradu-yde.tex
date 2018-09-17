@@ -1401,13 +1401,15 @@ One simulation is excluded from this analysis. In that simulation the Hubble flo
 
 Fig.~\ref{fig:clusteredHFparameters} shows that differences between the medians of both zero point distances and $H_0$ values vary fairly little between the different categories of subhaloes: all of the medians are within the interquartile ranges of the corresponding measurements done using all haloes. For $H_0$ measurements, only the values measured from subhaloes that are not members in any cluster have a slightly lower median than the rest of the measurements while the other three medians are very close to each other. For the zero point distances, both clustered categories have slightly lower medians than the other two categories.
 
-%TODO : test?
 
 The boxplots show some differences between the categories, but determining whether the differences arise from the characteristics of the samples or they are just effects of random sampling. A conclusion can be derived by applying the statistical testing methods introduced in section~\ref{sect:statistical_tests}. As assuming that the $H_0$ and zero point values are normally distributed is not justified, a test that can be used with two arbitrarily distributed data sets is an optimal choice. Thus the Kolmogorov--Smirnov test, described in section~\ref{sect:ks} is applied. The test is applied to pairs of categories, and a null hypothesis ``these two data sets are drawn from the same distribution'' is used with significance level $\alpha$ of 0.01. All other categories are tested against the results obtained using all haloes, in addition to which the two clustered categories with and without the mass criterion are tested against each other.
 
 For the $H_0$ measurements, only the fitting results obtained using haloes that do not belong to any cluster differs significantly from the results from all haloes at this significance level (p-value of 0.002), whereas the other pairs of measurements have p-values of more than 0.01. The zero point distances measured using either category of haloes in clusters, on the other hand, do differ significantly from the distances obtained using all haloes, whereas all other tested pairs show no statistically significant difference. Introducing the mass criterion to the clustered haloes did not produce a significant change in either Hubble flow parameter.
 
-TODO: pienet erot, siirry dispersioon %TODO
+As expected, the differences between the categories in Fig.~\ref{fig:clusteredHFparameters}are small. %TODO onko expected pohjustettu aiemmin?
+In addition to $H_0$ and zero point, it is also interesting to determine how the velocity dispersion around the fitted Hubble flow depends on which haloes are used in each simulation. In this work, this was determined by subtracting the velocity predicted by the Hubble flow fit from velocities of all haloes used in fitting and then taking the sample standard deviation of the differences. For clustered categories, this is done separately for each cluster that exceeds the subhalo number threshold, and the velocity dispersion for the whole simulation is defined as the mean of the values for the individual clusters.
+
+%TODO kuvateksti, kaikki significant, päätelmät?
 
 
 %In the $H_0$ panel of Fig.~\ref{fig:clusteredHFparameters}, some differences between the different categories can be seen. Fitting to subhaloes that do not belong to any cluster yields the lowest result, i.e. the one closest to the global value for the simulation. This category has the largest scatter of the results too, though, which is reasonable as in a simulation there are usually much more subhaloes that do belong to a cluster than ones that do not. Differences between the other categories are small.
@@ -1444,7 +1446,7 @@ TODO: pienet erot, siirry dispersioon %TODO
 %all vs mass cut zeros
 %Ks_2sampResult(statistic=0.22261786070360351, pvalue=0.0045795500673263554)
 %in vs mass cut H0
-%Ttest_indResult(statistic=0.47686982914277037, pvalue=0.63389795483113587) %TODO väärä testi
+%Ks_2sampResult(statistic=0.08567155675829663, pvalue=0.75889326913208843)
 %
 %all vs out dispersion
 %Ks_2sampResult(statistic=0.42857142857142855, pvalue=2.9872668415791548e-10)
