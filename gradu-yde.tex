@@ -1387,6 +1387,8 @@ The scatters around the Hubble flow also seem to be different in different clust
 %\marginnote{\footnotesize{Massakynnys? Kaksi eri kynnystä? Liian kapea ja epätasapainoinen, laita päällekkäin?}}
 %Figure \ref{fig:clusteredHFparameters} shows how derived values of slope and zero-point for the Hubble flow change when the Hubble flow fitting is carried out on partial data chosen based on the cluster membership of the haloes.
 
+\subsection{Hubble Flow Measurements on Clusters}
+
 \begin{figure}
     \centering
     \includegraphics{kuvat/clusteredHFparameters.pdf}
@@ -1406,8 +1408,23 @@ The boxplots show some differences between the categories, but determining wheth
 
 For the $H_0$ measurements, only the fitting results obtained using haloes that do not belong to any cluster differs significantly from the results from all haloes at this significance level (p-value of 0.002), whereas the other pairs of measurements have p-values of more than 0.01. The zero point distances measured using either category of haloes in clusters, on the other hand, do differ significantly from the distances obtained using all haloes, whereas all other tested pairs show no statistically significant difference. Introducing the mass criterion to the clustered haloes did not produce a significant change in either Hubble flow parameter.
 
-As expected, the differences between the categories in Fig.~\ref{fig:clusteredHFparameters}are small. %TODO onko expected pohjustettu aiemmin?
+\begin{figure}
+    \centering
+    \includegraphics{kuvat/clusteredHFdispersions.pdf}
+    \caption{Velocity dispersions around the Hubble flows fitted to the same four categories of subhaloes as in Fig.~\ref{fig:clusteredHFparameters}. For the clustered categories, a Hubble flow is fitted and the velocity dispersion calculated separately to each cluster wth at least 10 subhaleos and the velocity disperison for the whole simulation is defined as the mean of the values for individual clusters.}\label{fig:clusteredHFdispersions}
+\end{figure}
+
+As expected, the differences between the categories in Fig.~\ref{fig:clusteredHFparameters} are small. %TODO onko expected pohjustettu aiemmin?
 In addition to $H_0$ and zero point, it is also interesting to determine how the velocity dispersion around the fitted Hubble flow depends on which haloes are used in each simulation. In this work, this was determined by subtracting the velocity predicted by the Hubble flow fit from velocities of all haloes used in fitting and then taking the sample standard deviation of the differences. For clustered categories, this is done separately for each cluster that exceeds the subhalo number threshold, and the velocity dispersion for the whole simulation is defined as the mean of the values for the individual clusters.
+
+A boxplot of these velocity dispersions for the same four categories is shown in Fig.~\ref{fig:clusteredHFdispersions}. From this plot, it is clear that the velocity dispersion is more sensitive to changes in the set of subhaloes used in fitting than the Hubble flow parameters are. In fact, when using the Kolmogorov--Smirnov test and the same criteria for statistical significance as with the Hubble flow parameters, all pairs of velocity dispersion distributions differ from each other significantly with p-values smaller than $10^{-9}$.
+
+For simulations resembling the one in Fig.~\ref{fig:mollweide+hubble}, where the velocity dispersion within each cluster is considerably smaller than between separate clusters, it is anticipated that the velocity dispersion in clustered categories is smaller than when it is calculated for all haloes in the simulation, and according to Fig.~\ref{fig:clusteredHFdispersions} this seems to be a common situation as both of the clustered categories show smaller velocity dispersions than the values obtained using all haloes in each simulation.
+
+When clusters with at least one member that has a mass of more than \mbox{$8 \times 10^{11}~\mathrm{M}_{\astrosun}$} are excluded, the velocity dispersions decrease further. This is likely caused by the most massive subhaloes often having their own satellite systems with a large velocity dispersion, so excluding them brings the velocity dispersion down. The subhaloes that do not belong to any cluster also produce somewhat smaller velocity dispersions compared to all haloes, suggesting that the outlier subhaloes tend to be on their own clusters with possibly small internal velocity dispersion.
+
+
+The fact that Figs.~\ref{fig:clusteredHFparameters} and \ref{fig:clusteredHFdispersions} show variation both within each category and between different categories suggests that they contain information about the surroundings of the Local Group analogues. Thus it is possible that they are also correlated to its mass and can be used to gauge the mass of the real Local Group by observing the galaxies around it.
 
 %TODO kuvateksti, kaikki significant, päätelmät?
 
@@ -1456,13 +1473,8 @@ In addition to $H_0$ and zero point, it is also interesting to determine how the
 %Ks_2sampResult(statistic=0.42671984047856432, pvalue=3.9839757899044583e-10)
 
 
-\begin{figure}
-    \centering
-    \includegraphics{kuvat/clusteredHFdispersions.pdf}
-    \caption{asdf}\label{fig:clusteredHFdispersions}
-\end{figure}
 
-In addition to $H_0$ and zero point of the Hubble flow, the velocity dispersion around the fitted flow also varies from simulation to simulation and can hold information about the mass of the Local Group. Boxplots of velocity dispersions around fitted Hubble flows in each simulation are shown in Fig.~\ref{fig:clusteredHFdispersions}, again separately for the same four categories of subhaloes used in Fig.~\ref{fig:clusteredHFparameters}. %The velocity dispersion is calculated by first finding the difference of the radial velocities predicted by the fitted Hubble flow and the observed velocities and then taking the sample standard deviation of these differences.
+%In addition to $H_0$ and zero point of the Hubble flow, the velocity dispersion around the fitted flow also varies from simulation to simulation and can hold information about the mass of the Local Group. Boxplots of velocity dispersions around fitted Hubble flows in each simulation are shown in Fig.~\ref{fig:clusteredHFdispersions}, again separately for the same four categories of subhaloes used in Fig.~\ref{fig:clusteredHFparameters}. %The velocity dispersion is calculated by first finding the difference of the radial velocities predicted by the fitted Hubble flow and the observed velocities and then taking the sample standard deviation of these differences.
 
 %Differences of the dispersions between all subhaloes and subhaloes that do not belong to any cluster are small. Haloes that are members in a cluster on the other hand, both with and without the mass limit, tend to have smaller velocity dispersions than the two other categories. This hints that clusters with low velocity dispersion, similar to e.g. the orange cluster in Fig.~\ref{fig:mollweide+hubble}, are common. Surprisingly excluding clusters with massive haloes brings the median velocity dispersion up, but this can be due to reduced number of subhaloes producing worse Hubble flow fits.
 
