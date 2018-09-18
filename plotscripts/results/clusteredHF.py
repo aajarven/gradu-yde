@@ -355,6 +355,7 @@ if __name__ == "__main__":
 					"Haloes outside clusters", "All haloes"], ha='right',
 					multialignment='right')
 	ax.set_xticks(range(0, 201, 10), minor=True)
+	ax.set_xlim([0, 200])
 	plt.tight_layout(rect=[0.15, 0.1, 1.0, 1.0])
 	fig.set_size_inches(4.0, 2.6)
 	plt.savefig(outputdir + "clusteredHFdispersions.pdf")
