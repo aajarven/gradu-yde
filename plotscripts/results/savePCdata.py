@@ -9,17 +9,18 @@ import clustering
 import clusterAnalysis
 import filereader
 import LGfinder
+from clusteredHF import outClusterFit, inClusterFit
 import physUtils
 from sibeliusConstants import *
 import timingargument
-from transitiondistance import findBestHubbleflow
+from transitiondistance import findBestHubbleflow, simpleFit
 import matplotlib.pyplot as plt
 import numpy as np
 
 
 # also returns the data
-def readAndSave(simulationfiles, datafile, mindist=1.0, maxdist=5.0, eps=1.8,
-				ms=10, scale_eps=False):
+def readAndSave(simulationfiles, datafile, mindist=1.5, maxdist=5.0, eps=1.6,
+				ms=4, scale_eps=False):
 	masses = []
 	H0s = []
 	zeropoints = []
@@ -115,30 +116,41 @@ def readAndSave(simulationfiles, datafile, mindist=1.0, maxdist=5.0, eps=1.8,
 				  for j in range(len(vel))])
 
 
-		##### extracting interesting data starts #####
+		##### extracting clustering data #####
 
-		(fit, flowstartdist) = findBestHubbleflow(distances, radvel)
 		clusteringDB = clustering.runClustering(cop, centre, ms, eps,
 										  meansep=scale_eps)
-		clusterMemberMask = clusteringDB.labels_ != -1 # True for in cluster
-		(inClusterFit, inClusterFlowstart) = findBestHubbleflow(
-			distances[clusterMemberMask], radvel[clusterMemberMask])
-		(outClusterFit, outClusterFlowstart) = findBestHubbleflow(
-			distances[clusterMemberMask == False], radvel[clusterMemberMask == False])
+		labels = clusteringDB.labels_
+		uniqueLabels = set(labels)
+		clusterMemberMask = labels != -1 # True for haloes in cluster
+
+		## all haloes ##
+		(H0, zero) = simpleFit(distances, radvel)
+		radvelResiduals = np.empty(radvel.shape)
+		for i in range(len(radvel)):
+			radvelResiduals[i] = radvel[i] - (distances[i] - zero) * H0
+		zeropoints.append(zero)
+		H0s.append(H0)
+		allDispersions.append(np.std(radvelResiduals, ddof=1))
+
+		## outside clusters ##
+		(H0, zero, dispersion) = outClusterFit(clusteringDB, radvel, distances,
+										 minHaloes=10)
+		#outClusterH0s.append(H0)
+		outClusterZeros.append(zero)
+		unclusteredDispersions.append(dispersion)
+
+		## inside clusters ##
+		(H0, zero, dispersion) = inClusterFit(clusteringDB, radvel, distances,
+										minSize=10)
+		#inClusterH0s.append(H0)
+		inClusterZeros.append(zero)
+		clusterDispersions.append(dispersion)
 
 		# LG mass from MW and andromeda
 		M_big2 = mass[LG[0]] + mass[LG[1]]
 
 		masses.append(M_big2)
-		H0s.append(fit[0])
-		zeropoints.append(-fit[1]/fit[0])
-		inClusterZeros.append(-inClusterFit[1]/inClusterFit[0])
-		outClusterZeros.append(-outClusterFit[1]/outClusterFit[0])
-		allDispersions.append(np.std(radvel)) #TODO HF ei vähennetty tässä tai muissa
-		clusterDispersions.append(clusterAnalysis.dispersionOfClusters(clusteringDB,
-															  radvel))
-		unclusteredDispersions.append(clusterAnalysis.dispersionOfUnclustered(
-			clusteringDB, radvel))
 		radialVelocities.append(LGrelVelComponents[0])
 		tangentialVelocities.append(LGrelVelComponents[1])
 		LGdistances.append(LGdistance)
@@ -167,6 +179,8 @@ def readAndSave(simulationfiles, datafile, mindist=1.0, maxdist=5.0, eps=1.8,
 			   outClusterZeros, allDispersions,  unclusteredDispersions,
 			   clusterDispersions, radialVelocities, tangentialVelocities,
 			   LGdistances]).T
+
+	print(data)
 
 	np.savetxt(datafile, data)
 
