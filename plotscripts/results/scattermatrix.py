@@ -24,7 +24,7 @@ if __name__ == "__main__":
 	(opts, args) = parser.parse_args()
 
 	simulationfiles = ("/home/aajarven/Z-drive/duuni/extragal/gradu-yde/"
-					"plotscripts/input/upTo5Mpc-fullpath.txt")
+					"plotscripts/input/upTo5Mpc-no229-fullpath.txt")
 	datafile = ("/home/aajarven/Z-drive/duuni/extragal/gradu-yde/plotscripts/"
 			 "output/massdata.txt")
 	outputdir = "/home/aajarven/Z-drive/duuni/extragal/gradu-yde/kuvat/PCA/"
