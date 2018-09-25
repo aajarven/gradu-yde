@@ -35,10 +35,11 @@ if __name__ == "__main__":
 	else:
 		data = np.loadtxt(datafile)
 
-	result = np.hsplit(data, 12)
-	(masses, timingArgumentMasses, H0s, zeropoints, inClusterZeros, outClusterZeros,
-   allDispersions, unclusteredDispersions, clusterDispersions,
-   radialVelocities, tangentialVelocities, LGdistances) = result
+	result = np.hsplit(data, 14)
+	(masses, timingArgumentMasses, H0s, inClusterH0s, outClusterH0s,
+  zeropoints, inClusterZeros, outClusterZeros, allDispersions,
+  unclusteredDispersions, clusterDispersions, radialVelocities,
+  tangentialVelocities, LGdistances) = result
 
 	if opts.outlierExclusion != "none" and opts.outlierExclusion != "loose" and	opts.outlierExclusion != "tight":
 		print("Unexpected value in outlierexclusion parameter. Allowed values"

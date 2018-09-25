@@ -23,6 +23,8 @@ def readAndSave(simulationfiles, datafile, mindist=1.5, maxdist=5.0, eps=1.6,
 				ms=4, scale_eps=False):
 	masses = []
 	H0s = []
+	inClusterH0s = []
+	outClusterH0s = []
 	zeropoints = []
 	inClusterZeros = []
 	outClusterZeros = []
@@ -136,14 +138,14 @@ def readAndSave(simulationfiles, datafile, mindist=1.5, maxdist=5.0, eps=1.6,
 		## outside clusters ##
 		(H0, zero, dispersion) = outClusterFit(clusteringDB, radvel, distances,
 										 minHaloes=10)
-		#outClusterH0s.append(H0)
+		outClusterH0s.append(H0)
 		outClusterZeros.append(zero)
 		unclusteredDispersions.append(dispersion)
 
 		## inside clusters ##
 		(H0, zero, dispersion) = inClusterFit(clusteringDB, radvel, distances,
 										minSize=10)
-		#inClusterH0s.append(H0)
+		inClusterH0s.append(H0)
 		inClusterZeros.append(zero)
 		clusterDispersions.append(dispersion)
 
@@ -164,6 +166,8 @@ def readAndSave(simulationfiles, datafile, mindist=1.5, maxdist=5.0, eps=1.6,
 
 	masses = np.array(masses)
 	H0s = np.array(H0s)
+	inClusterH0s = np.array(inClusterH0s)
+	outClusterH0s = np.array(outClusterH0s)
 	zeropoints = np.array(zeropoints)
 	inClusterZeros = np.array(inClusterZeros)
 	outClusterZeros = np.array(outClusterZeros)
@@ -175,12 +179,11 @@ def readAndSave(simulationfiles, datafile, mindist=1.5, maxdist=5.0, eps=1.6,
 	LGdistances = np.array(LGdistances)
 	timingArgumentMasses = np.array(timingArgumentMasses)
 
-	data = np.array([masses, timingArgumentMasses, H0s, zeropoints, inClusterZeros,
-			   outClusterZeros, allDispersions,  unclusteredDispersions,
-			   clusterDispersions, radialVelocities, tangentialVelocities,
-			   LGdistances]).T
+	data = np.array([masses, timingArgumentMasses, H0s, inClusterH0s,
+				  outClusterH0s, zeropoints, inClusterZeros, outClusterZeros,
+				  allDispersions,  unclusteredDispersions, clusterDispersions,
+				  radialVelocities, tangentialVelocities, LGdistances]).T
 
-	print(data)
 
 	np.savetxt(datafile, data)
 
