@@ -100,7 +100,6 @@ if __name__ == "__main__":
 			 (tangentialVelocities, 'tangential velocity\nof M31'),
 			 (LGdistances, 'distance to M31')]
 
-	# tarvitaanko tätä?
 	smallestMin = 0
 	biggestMax = 0
 	for i in range(len(plotdata)):
@@ -111,6 +110,11 @@ if __name__ == "__main__":
 			biggestMax = max(plotdata[i][0])
 
 	# making the scatter matrix
+	rc('font', **{'family':'serif','serif':['Palatino']})
+	rc('text', usetex=True)
+#	params = {'text.latex.preamble' : [r'\usepackage{wasysym}']}
+#	plt.rcParams.update(params)
+
 	fig, axes = plt.subplots(nrows=len(plotdata), ncols=len(plotdata),
 						  figsize=(5.7,5.7))
 	fig.subplots_adjust(hspace=0.08, wspace=0.08)
@@ -119,10 +123,7 @@ if __name__ == "__main__":
 	plt.gcf().subplots_adjust(right=0.99)
 	plt.gcf().subplots_adjust(top=0.99)
 
-#	rc('font', **{'family':'serif','serif':['Palatino']})
-#	rc('text', usetex=True)
-#	params = {'text.latex.preamble' : [r'\usepackage{wasysym}']}
-#	plt.rcParams.update(params)
+
 
 	for col in range(len(plotdata)):
 		for row in range(len(plotdata)):
