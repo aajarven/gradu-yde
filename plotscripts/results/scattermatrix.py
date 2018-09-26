@@ -118,12 +118,10 @@ if __name__ == "__main__":
 	fig, axes = plt.subplots(nrows=len(plotdata), ncols=len(plotdata),
 						  figsize=(5.7,5.7))
 	fig.subplots_adjust(hspace=0.08, wspace=0.08)
-	plt.gcf().subplots_adjust(bottom=0.25)
-	plt.gcf().subplots_adjust(left=0.25)
-	plt.gcf().subplots_adjust(right=0.99)
-	plt.gcf().subplots_adjust(top=0.99)
-
-
+	plt.gcf().subplots_adjust(bottom=0.23)
+	plt.gcf().subplots_adjust(left=0.23)
+	plt.gcf().subplots_adjust(right=0.999)
+	plt.gcf().subplots_adjust(top=0.999)
 
 	for col in range(len(plotdata)):
 		for row in range(len(plotdata)):
@@ -141,13 +139,13 @@ if __name__ == "__main__":
 				ax.yaxis.set_visible(True)
 				ax.yaxis.set_ticks_position('left')
 				ax.set_ylabel(plotdata[row][1], rotation='horizontal',
-				  size='x-small', horizontalalignment='right',
+				  size='small', horizontalalignment='right',
 				  verticalalignment="center")
 			if ax.is_last_row():
 				ax.xaxis.set_visible(True)
 				ax.xaxis.set_ticks_position('bottom')
 				ax.set_xlabel(plotdata[col][1], rotation='vertical',
-				  size='x-small')
+				  size='small')
 			
 			ax.scatter(plotdata[col][0], plotdata[row][0], marker='.', s=4,
 			  edgecolors='none', facecolors='k')
