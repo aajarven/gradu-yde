@@ -73,6 +73,8 @@ if __name__ == "__main__":
 		masses = masses[sanitymask]
 		timingArgumentMasses = timingArgumentMasses[sanitymask]
 		H0s = H0s[sanitymask]
+		inClusterH0s = inClusterH0s[sanitymask]
+		outClusterH0s = outClusterH0s[sanitymask]
 		zeropoints = zeropoints[sanitymask]
 		inClusterZeros = inClusterZeros[sanitymask]
 		outClusterZeros = outClusterZeros[sanitymask]
@@ -85,7 +87,10 @@ if __name__ == "__main__":
 
 
 	plotdata = [(masses*1e-12, 'LG mass'), (timingArgumentMasses*1e-12, 'mass from TA'),
-			 (H0s, 'HF slope'), (zeropoints, 'HF zero'),
+			 (H0s, r'$H_0$'),
+			 (inClusterH0s, r'$H_0$ for clusters'),
+			 (outClusterH0s, r'$H_0$ for non-clustered'),
+			 (zeropoints, 'HF zero'),
 			 (inClusterZeros, 'HF zero for\nclusters'),
 			 (outClusterZeros, 'HF zero for\nnon-clustered'),
 			 (allDispersions, 'HF velocity\ndispersion'),
