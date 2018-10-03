@@ -316,36 +316,50 @@ if __name__ == "__main__":
 
 
 	# split to train and test
-	kfold_seed = 8
+	n = len(data_pca)
+	kfold_seed = 1
 	n_folds = 10
-	n_repeats = 10
-	splitting_seed = 7
-	
-	fullData = np.concatenate((y.reshape(-1, 1), data), axis=1)
-	X_train, X_test, Y_train, Y_test, timing_train, timing_test = train_test_split(data, y,
-																				timingArgumentMasses,
-																				test_size=0.25,
-																				random_state=splitting_seed)
 
-
-	scaler = preprocessing.StandardScaler().fit(X_train)
-	X_train_scaled = scaler.transform(X_train)
-	X_test_scaled = scaler.transform(X_test)
-
-	pca2 = PCA()
-	X_train_reduced = pca2.fit_transform(X_train_scaled)
-	X_test_reduced = pca2.transform(X_train_scaled)
-
-	# MSE in training using k-fold cross validation
-	RMSEs = []
+	kfold = model_selectionction.KFold(n_splits = n_folds, shuffle=True,
+									random_state=kfold_seed)
 	regr = LinearRegression()
-	rkf = RepeatedKFold(n_splits=n_folds, n_repeats=n_repeats, random_state=kfold_seed)
-	for i in range(10):
-		score = cross_val_score(regr, X_train_reduced[:,:i+1],
-							  Y_train.ravel(),
-							  cv=rkf,
-							  scoring='neg_mean_squared_error').mean()
-		RMSEs.append(sqrt(-score))
+	mse = []
+
+	# ???
+	score0 = -1 * model_selection.cross_val_score(regr, np.ones((n, 1)), y,
+											   cv=kfold,
+											   scoring="neg_mean_squared_error").mean()
+	print(score0)
+	mse.append(score0)
+
+#	n_repeats = 10
+#	splitting_seed = 7
+#	
+#	fullData = np.concatenate((y.reshape(-1, 1), data), axis=1)
+#	X_train, X_test, Y_train, Y_test, timing_train, timing_test = train_test_split(data, y,
+#																				timingArgumentMasses,
+#																				test_size=0.25,
+#																				random_state=splitting_seed)
+#
+#
+#	scaler = preprocessing.StandardScaler().fit(X_train)
+#	X_train_scaled = scaler.transform(X_train)
+#	X_test_scaled = scaler.transform(X_test)
+#
+#	pca2 = PCA()
+#	X_train_reduced = pca2.fit_transform(X_train_scaled)
+#	X_test_reduced = pca2.transform(X_train_scaled)
+#
+#	# MSE in training using k-fold cross validation
+#	RMSEs = []
+#	regr = LinearRegression()
+#	rkf = RepeatedKFold(n_splits=n_folds, n_repeats=n_repeats, random_state=kfold_seed)
+#	for i in range(10):
+#		score = cross_val_score(regr, X_train_reduced[:,:i+1],
+#							  Y_train.ravel(),
+#							  cv=rkf,
+#							  scoring='neg_mean_squared_error').mean()
+#		RMSEs.append(sqrt(-score))
 	
 	# TA comparison
 	timing_mse = mean_squared_error(Y_train, timing_train)
