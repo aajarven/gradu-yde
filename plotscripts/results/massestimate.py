@@ -27,6 +27,8 @@ from sklearn.metrics import mean_squared_error
 from sklearn.model_selection import train_test_split
 from sklearn.model_selection import cross_val_score
 from sklearn.model_selection import RepeatedKFold
+
+from sklearn.preprocessing import scale
 	
 
 if __name__ == "__main__":
@@ -42,10 +44,11 @@ if __name__ == "__main__":
 	else:
 		data = np.loadtxt(datafile)
 	
-	result = np.hsplit(data, 12)
-	(masses, timingArgumentMasses, H0s, zeropoints, inClusterZeros, outClusterZeros,
-   allDispersions, unclusteredDispersions, clusterDispersions,
-   radialVelocities, tangentialVelocities, LGdistances) = result
+	result = np.hsplit(data, 14)
+	(masses, timingArgumentMasses, H0s, inClusterH0s, outClusterH0s,
+  zeropoints, inClusterZeros, outClusterZeros, allDispersions,
+  unclusteredDispersions, clusterDispersions,  radialVelocities,
+  tangentialVelocities, LGdistances) = result
 		
 	# masking zeropoints
 #	allHaloesSanitymask = np.array([zeropoint < 3.0 and zeropoint > -3.0 for zeropoint
@@ -67,6 +70,8 @@ if __name__ == "__main__":
 	masses = masses[sanitymask]
 	timingArgumentMasses = timingArgumentMasses[sanitymask]
 	H0s = H0s[sanitymask]
+	inClusterH0s = inClusterH0s[sanitymask]
+	outClusterH0s = outClusterH0s[sanitymask]
 	zeropoints = zeropoints[sanitymask]
 	inClusterZeros = inClusterZeros[sanitymask]
 	outClusterZeros = outClusterZeros[sanitymask]
@@ -79,9 +84,10 @@ if __name__ == "__main__":
 
 	y = masses
 
-	data = np.array([H0s, zeropoints, inClusterZeros, outClusterZeros,
-				  allDispersions, radialVelocities, unclusteredDispersions,
-				  radialVelocities, tangentialVelocities, LGdistances]).T
+	data = np.array([H0s, inClusterH0s, outClusterH0s, zeropoints,
+				  inClusterZeros, outClusterZeros,allDispersions,
+				  radialVelocities, unclusteredDispersions, radialVelocities,
+				  tangentialVelocities, LGdistances]).T
 
 	
 #	rc('font', **{'family':'serif','serif':['Palatino']})
@@ -265,11 +271,12 @@ if __name__ == "__main__":
 
 	# calculate and print components from whole dataset
 	pca = PCA()
-	data_pca =	pca.fit_transform(preprocessing.StandardScaler().fit(data).transform(data))
+	data_pca = pca.fit_transform(scale(data))
 	components = pca.components_
-	print("component\tH0s\tzeropoints\tinClusterZeros\toutClusterZeros\t" + 
-	   "allDispersions\tclusterDispersions\tunclusteredDispersions\t" + 
-	   "radialVelocities\ttangentialVelocities\tLGdistances")
+	
+	print("component\tH0s\tinClusterH0s\toutClusterH0s\tzeropoints\tinClusterZeros" +
+	   "\toutClusterZeros\tallDispersions\tclusterDispersions\t" + 
+	   "unclusteredDispersions\tradialVelocities\ttangentialVelocities\tLGdistances")
 	for i in range(len(components)):
 		print(str(i+1), end='\t')
 		for component in components[i]:
