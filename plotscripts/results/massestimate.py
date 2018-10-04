@@ -323,14 +323,19 @@ if __name__ == "__main__":
 	regr = LinearRegression()
 	mse = []
 
-	# ???
-	score0 = -1 * model_selection.cross_val_score(regr, np.ones((n, 1)), y,
+	for i in range(1, 20):
+		score = -1 * model_selection.cross_val_score(regr, data_pca[:, :i], y,
 											   cv=kfold,
-											   scoring="neg_mean_squared_error").mean()
-	print(score0)
-	mse.append(score0)
-	exit()
+											   scoring='neg_mean_squared_error').mean()
+		print(score)
+		mse.append(sqrt(score))
+
+	plt.plot(range(1, len(mse)+1), mse)
 	
+	plt.xlabel("Principal components in regresion")
+	plt.ylabel("Root mean squared error")
+	plt.savefig(outputdir + "mse.pdf")
+
 #	n_folds = 10
 #	splitting_seed = 7
 #	
@@ -359,23 +364,23 @@ if __name__ == "__main__":
 #							  cv=rkf,
 #							  scoring='neg_mean_squared_error').mean()
 #		RMSEs.append(sqrt(-score))
-	
-	# TA comparison
-	timing_mse = mean_squared_error(Y_train, timing_train)
-
-
-	plt.plot(np.arange(1, 11), RMSEs, '-o', color='k')
-	plt.plot([1, 10], [sqrt(timing_mse), sqrt(timing_mse)], color='r')
-
-	#plt.ylim(0, 1.3)
-	plt.xlabel("Number of PCs in regression")
-	lims = plt.xlim()
-	plt.xticks(np.arange(ceil(lims[0]), ceil(lims[1]), 1))
-	plt.ylabel(r"RMSE ($M_{\astrosun}$)")
-	plt.title("Training error using " + str(n_folds) + " folds and " +
-		   str(n_repeats) + " repeats")
-	plt.gca().set_ylim(bottom=0)
-#	plt.gca().set_ylim(top=1.3)
-	plt.savefig(outputdir + "training-RMSE.pdf")
-	plt.cla()
-	plt.clf()
+#	
+#	# TA comparison
+#	timing_mse = mean_squared_error(Y_train, timing_train)
+#
+#
+#	plt.plot(np.arange(1, 11), RMSEs, '-o', color='k')
+#	plt.plot([1, 10], [sqrt(timing_mse), sqrt(timing_mse)], color='r')
+#
+#	#plt.ylim(0, 1.3)
+#	plt.xlabel("Number of PCs in regression")
+#	lims = plt.xlim()
+#	plt.xticks(np.arange(ceil(lims[0]), ceil(lims[1]), 1))
+#	plt.ylabel(r"RMSE ($M_{\astrosun}$)")
+#	plt.title("Training error using " + str(n_folds) + " folds and " +
+#		   str(n_repeats) + " repeats")
+#	plt.gca().set_ylim(bottom=0)
+##	plt.gca().set_ylim(top=1.3)
+#	plt.savefig(outputdir + "training-RMSE.pdf")
+#	plt.cla()
+#	plt.clf()
