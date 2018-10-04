@@ -267,11 +267,15 @@ if __name__ == "__main__":
 	# PCA v 2.0
 	####
 
+	
 	# calculate and print components from whole dataset
 	pca = PCA()
 	data_pca = pca.fit_transform(scale(data))
 	components = pca.components_
 	
+	n = len(data_pca)
+	variables = data.shape[1]
+
 	print("component\tH0s\tinClusterH0s\toutClusterH0s\tzeropoints\tinClusterZeros" +
 	   "\toutClusterZeros\tallDispersions\tclusterDispersions\t" + 
 	   "unclusteredDispersions\tradialVelocities\ttangentialVelocities\tLGdistances")
@@ -295,15 +299,15 @@ if __name__ == "__main__":
 	plt.clf()
 
 	# Cumulative variance
-	cumVariances = np.zeros(len(components))
-	print("\nExplained variance (cumulative):")
-	for i in range(len(cumVariances)):
-		cumVariances[i] = np.sum(pca.explained_variance_ratio_[:i+1])
-		print(str(i+1) + ":\t" + str(cumVariances[i]))
+	cumVariances = np.cumsum(pca.explained_variance_ratio_)*100
+	print("Explained variance (cumulative):")
+	for variance, index in zip(cumVariances, range(len(cumVariances))):
+		print(str(index + 1) + ":\t" + str(variance))
 	print()
-	plt.plot(np.array(range(len(cumVariances)))+1,
-		  cumVariances*100, '-o', linewidth=2.0, color='k')
+
+	plt.plot(range(1, variables+1), cumVariances, '-o', color='k')
 	plt.ylim(0, 100)
+	plt.xlim(0.5, variables+0.5)
 	lims = plt.xlim()
 	plt.xticks(np.arange(ceil(lims[0]), ceil(lims[1]), 1))
 	plt.xlabel("Number of component")
@@ -313,8 +317,7 @@ if __name__ == "__main__":
 	plt.clf()
 
 
-	# split to train and test
-	n = len(data_pca)
+	# 10-fold CV to all data
 	kfold_seed = 1
 	n_folds = 10
 
@@ -323,18 +326,25 @@ if __name__ == "__main__":
 	regr = LinearRegression()
 	mse = []
 
-	for i in range(1, 20):
+	print("Root mean squared error when fitting to all data")
+	for i in range(1, variables + 1):
 		score = -1 * model_selection.cross_val_score(regr, data_pca[:, :i], y,
 											   cv=kfold,
 											   scoring='neg_mean_squared_error').mean()
 		print(score)
 		mse.append(sqrt(score))
 
-	plt.plot(range(1, len(mse)+1), mse)
+	plt.plot(range(1, len(mse)+1), mse, '-o', color='k')
 	
 	plt.xlabel("Principal components in regresion")
-	plt.ylabel("Root mean squared error")
-	plt.savefig(outputdir + "mse.pdf")
+	plt.ylabel(r"Root mean squared error ($\mathrm{M}_{\astrosun}$)")
+	plt.title("Effect of the number of used PCs on the mass fitting residual.\n"
+		   + "The errors are from 10-fold CV of all data.")
+	plt.xlim((0.5, variables+0.5))
+	plt.xticks(range(1, variables+1))
+	plt.gcf().set_size_inches(4.8, 3.5)
+	plt.tight_layout()
+	plt.savefig(outputdir + "rmse-alldata.pdf")
 
 #	n_folds = 10
 #	splitting_seed = 7
