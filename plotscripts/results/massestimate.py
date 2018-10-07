@@ -165,6 +165,7 @@ if __name__ == "__main__":
 											   scoring='neg_mean_squared_error').mean()
 		print(score)
 		mse.append(sqrt(score))
+	print()
 
 	plt.plot(range(1, len(mse)+1), mse, '-o', color='k')
 	
@@ -183,8 +184,9 @@ if __name__ == "__main__":
 	
 	### training and testing set ###
 	pca2 = PCA()
-	X_train, X_test, y_train, y_test = cross_validation.train_test_split(data,
+	X_train, X_test, y_train, y_test, timing_train, timing_test = cross_validation.train_test_split(data,
 																	  y,
+																	  timingArgumentMasses,
 																	  test_size=0.4,
 																	  random_state=kfold_seed)
 	X_train_reduced = pca2.fit_transform(scale(X_train))
@@ -202,16 +204,28 @@ if __name__ == "__main__":
 							  cv=kfold2,
 							  scoring='neg_mean_squared_error').mean()
 		RMSEs_train.append(sqrt(-score))
+	
+	shape = (-1, 1)
+	print("RMSE of timing argument on test set: " +
+	   str(sqrt(mean_squared_error(y_test, timing_test))))
 
-			
+	# test set performance using one PC
+	X_test_reduced = pca2.transform(scale(X_test))[:,1]
+	regr = LinearRegression()
+	regr.fit(np.reshape(X_train_reduced[:,1], shape), np.reshape(y_train, shape))
+	pred = regr.predict(np.reshape(X_test_reduced, shape))
+	mse = mean_squared_error(y_test, pred)
+	print("RMSE in test set with 1 PC: " + str(sqrt(mse)))
 
 	
 #	# TA comparison
-#	timing_mse = mean_squared_error(Y_train, timing_train)
-#
-#
+	timing_mse = mean_squared_error(y_train, timing_train)
+
+
 	plt.plot(range(1, variables+1), RMSEs_train, '-o', color='k')
-#	plt.plot([1, 10], [sqrt(timing_mse), sqrt(timing_mse)], color='r')
+	xlim = plt.xlim()
+	plt.plot(xlim, [sqrt(timing_mse), sqrt(timing_mse)], color='r')
+	plt.xlim(xlim)
 
 	#plt.ylim(0, 1.3)
 	plt.xlabel("Number of PCs in regression")
