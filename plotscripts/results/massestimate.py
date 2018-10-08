@@ -214,20 +214,7 @@ if __name__ == "__main__":
 									random_state=kfold_seed)
 	regr = LinearRegression()
 	mse = []
-	
-	shape = (-1, 1)
-	print("RMSE of timing argument on test set: " +
-	   str(sqrt(mean_squared_error(y_test, timing_test))))
 
-	# test set performance using one PC
-	X_test_reduced = pca2.transform(scale(X_test))[:,1]
-	regr = LinearRegression()
-	regr.fit(np.reshape(X_train_reduced[:,1], shape), np.reshape(y_train, shape))
-	pred = regr.predict(np.reshape(X_test_reduced, shape))
-	mse = mean_squared_error(y_test, pred)
-	print("RMSE in test set with 1 PC: " + str(sqrt(mse)))
-
-	
 #	# TA comparison
 	timing_mse = mean_squared_error(y_train, timing_train)
 
@@ -248,4 +235,25 @@ if __name__ == "__main__":
 	plt.savefig(outputdir + "training-RMSE.pdf")
 	plt.cla()
 	plt.clf()
+	
+
+	# test set performances	
+	shape = (-1, 1)
+	print("RMSE of timing argument on test set: " +
+	   str(sqrt(mean_squared_error(y_test, timing_test))))
+
+	# test set performance using one PC
+	X_test_reduced = pca2.transform(scale(X_test))[:,1]
+	regr = LinearRegression()
+	regr.fit(np.reshape(X_train_reduced[:,1], shape), np.reshape(y_train, shape))
+	pred = regr.predict(np.reshape(X_test_reduced, shape))
+	mse = mean_squared_error(y_test, pred)
+	print("RMSE in test set with 1 PC: " + str(sqrt(mse)))
+
+	# OLS comparison
+	regr = LinearRegression()
+	regr.fit(X_train, y_train)
+	pred = regr.predict(X_test)
+	print("OLS RMSE: " + str(sqrt(mean_squared_error(y_test, pred))))
+
 	
