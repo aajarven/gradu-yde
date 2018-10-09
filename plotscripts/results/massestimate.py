@@ -125,7 +125,7 @@ if __name__ == "__main__":
 	lims = plt.xlim()
 	plt.xticks(np.arange(ceil(lims[0]), ceil(lims[1]), 1))
 	plt.xlabel("Number of component")
-	plt.ylabel("Percentage of variance\nexplained by component")
+	plt.ylabel("Variance explained by each component\n(\% of total)")
 	plt.gcf().set_size_inches(4.0, 3.1)
 	plt.tight_layout()
 	plt.savefig(outputdir + "scree.pdf")
