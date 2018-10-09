@@ -125,7 +125,9 @@ if __name__ == "__main__":
 	lims = plt.xlim()
 	plt.xticks(np.arange(ceil(lims[0]), ceil(lims[1]), 1))
 	plt.xlabel("Number of component")
-	plt.ylabel("Percentage of variance explained by component")
+	plt.ylabel("Percentage of variance\nexplained by component")
+	plt.gcf().set_size_inches(4.0, 3.1)
+	plt.tight_layout()
 	plt.savefig(outputdir + "scree.pdf")
 	plt.cla()
 	plt.clf()
@@ -143,7 +145,9 @@ if __name__ == "__main__":
 	lims = plt.xlim()
 	plt.xticks(np.arange(ceil(lims[0]), ceil(lims[1]), 1))
 	plt.xlabel("Number of component")
-	plt.ylabel("Cumulative variance explained by first components (\% of total)")
+	plt.ylabel("Cumulative variance explained by first\nprincipal components (\% of total)")
+	plt.gcf().set_size_inches(4.0, 3.1)
+	plt.tight_layout()
 	plt.savefig(outputdir + "cumulative_variances.pdf")
 	plt.cla()
 	plt.clf()
@@ -171,11 +175,12 @@ if __name__ == "__main__":
 	
 	plt.xlabel("Principal components in regresion")
 	plt.ylabel(r"Root mean squared error ($\mathrm{M}_{\astrosun}$)")
-	plt.title("Effect of the number of used PCs on the mass fitting residual.\n"
-		   + "The errors are from 10-fold CV of all data.")
+#	plt.title("Effect of the number of used PCs on the mass fitting residual.\n"
+#		   + "The errors are from 10-fold CV of all data.")
 	plt.xlim((0.5, variables+0.5))
+	plt.ylim((plt.ylim()[0], 1.09e12))
 	plt.xticks(range(1, variables+1))
-	plt.gcf().set_size_inches(4.8, 3.5)
+	plt.gcf().set_size_inches(4.0, 3.1)
 	plt.tight_layout()
 	plt.savefig(outputdir + "rmse-alldata.pdf")
 	plt.cla()
@@ -229,9 +234,11 @@ if __name__ == "__main__":
 	lims = plt.xlim()
 	plt.xticks(np.arange(ceil(lims[0]), ceil(lims[1]), 1))
 	plt.ylabel(r"RMSE ($M_{\astrosun}$)")
-	plt.title("Training error using " + str(n_folds) + " folds")
+#	plt.title("Training error using " + str(n_folds) + " folds")
 	plt.gca().set_ylim(bottom=0)
-#	plt.gca().set_ylim(top=1.3)
+	plt.gca().set_ylim(top=1.3e12)
+	plt.gcf().set_size_inches(4.0, 3.1)
+	plt.tight_layout()
 	plt.savefig(outputdir + "training-RMSE.pdf")
 	plt.cla()
 	plt.clf()
@@ -247,6 +254,7 @@ if __name__ == "__main__":
 	regr = LinearRegression()
 	regr.fit(np.reshape(X_train_reduced[:,1], shape), np.reshape(y_train, shape))
 	pred = regr.predict(np.reshape(X_test_reduced, shape))
+	regression_coefficients = regr.coef_
 	mse = mean_squared_error(y_test, pred)
 	print("RMSE in test set with 1 PC: " + str(sqrt(mse)))
 
@@ -256,4 +264,6 @@ if __name__ == "__main__":
 	pred = regr.predict(X_test)
 	print("OLS RMSE: " + str(sqrt(mean_squared_error(y_test, pred))))
 
-	
+	print("")
+	print("Regression coefficient when fitted in training set using 1 PC: " +
+	   str(regression_coefficients[0]))
