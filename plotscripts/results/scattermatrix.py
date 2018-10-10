@@ -69,6 +69,10 @@ if __name__ == "__main__":
 			sanitymask = np.logical_and(allHaloesSanitymask,
 									 np.logical_and(inClusterSanitymask,
 							   outClusterSanitymask))
+
+		print("Excluded " + str(np.size(sanitymask) -
+					   np.count_nonzero(sanitymask)) + " outliers")
+
 		# apply mask
 		masses = masses[sanitymask]
 		timingArgumentMasses = timingArgumentMasses[sanitymask]
