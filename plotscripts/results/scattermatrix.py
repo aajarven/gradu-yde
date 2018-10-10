@@ -116,12 +116,12 @@ if __name__ == "__main__":
 #	plt.rcParams.update(params)
 
 	fig, axes = plt.subplots(nrows=len(plotdata), ncols=len(plotdata),
-						  figsize=(4.5,6.0))
+						  figsize=(5.9,7.3))
 	fig.subplots_adjust(hspace=0.08, wspace=0.08)
-	plt.gcf().subplots_adjust(bottom=0.001) #0.27
-	plt.gcf().subplots_adjust(left=0.08)
+	plt.gcf().subplots_adjust(bottom=0.001)
+	plt.gcf().subplots_adjust(left=0.05)
 	plt.gcf().subplots_adjust(right=0.999)
-	plt.gcf().subplots_adjust(top=0.7) #0.999
+	plt.gcf().subplots_adjust(top=0.759)
 	
 	rowIndex = 0
 	colIndex = 0
