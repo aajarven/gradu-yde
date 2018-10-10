@@ -49,11 +49,11 @@ if __name__ == "__main__":
 
 	if opts.outlierExclusion != "none":
 		if opts.outlierExclusion == "tight":
-			allHaloesSanitymask = np.array([zeropoint < 3.0 and zeropoint > -3.0 for zeropoint
+			allHaloesSanitymask = np.array([zeropoint < 4.0 and zeropoint > -2.0 for zeropoint
 							   in zeropoints])
-			inClusterSanitymask = np.array([zeropoint < 4.0 and zeropoint > -5.0 for zeropoint
+			inClusterSanitymask = np.array([zeropoint < 4.0 and zeropoint > -2.0 for zeropoint
 							   in inClusterZeros])
-			outClusterSanitymask = np.array([zeropoint < 4.0 and zeropoint > -1.0 for zeropoint
+			outClusterSanitymask = np.array([zeropoint < 4.0 and zeropoint > -2.0 for zeropoint
 							   in outClusterZeros])
 			sanitymask = np.logical_and(allHaloesSanitymask,
 									 np.logical_and(inClusterSanitymask,
@@ -72,6 +72,9 @@ if __name__ == "__main__":
 
 		print("Excluded " + str(np.size(sanitymask) -
 					   np.count_nonzero(sanitymask)) + " outliers")
+		print(zeropoints[np.logical_not(sanitymask)])
+		print(inClusterZeros[np.logical_not(sanitymask)])
+		print(outClusterZeros[np.logical_not(sanitymask)])
 
 		# apply mask
 		masses = masses[sanitymask]
