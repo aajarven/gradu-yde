@@ -86,19 +86,19 @@ if __name__ == "__main__":
 		LGdistances = LGdistances[sanitymask]
 
 
-	plotdata = [(masses*1e-12, 'LG mass'), (timingArgumentMasses*1e-12, 'mass from TA'),
+	plotdata = [(masses*1e-12, 'LG mass'), (timingArgumentMasses*1e-12, 'LG mass from TA'),
 			 (H0s, r'$H_0$'),
 			 (inClusterH0s, r'$H_0$ for clusters'),
 			 (outClusterH0s, r'$H_0$ for non-clustered'),
 			 (zeropoints, 'HF zero'),
-			 (inClusterZeros, 'HF zero for\nclusters'),
-			 (outClusterZeros, 'HF zero for\nnon-clustered'),
-			 (allDispersions, 'HF velocity\ndispersion'),
+			 (inClusterZeros, 'HF zero for clusters'),
+			 (outClusterZeros, 'HF zero fori non-\nclustered'),
+			 (allDispersions, 'HF velocity dispersion'),
 			 (clusterDispersions, 'HF velocity dispersion\nin clusters'),
 			 (unclusteredDispersions, 'HF velocity dispersion\noutside clusters'),
-			 (radialVelocities, 'radial velocity\nof M31'),
-			 (tangentialVelocities, 'tangential velocity\nof M31'),
-			 (LGdistances, 'distance to M31')]
+			 (radialVelocities, 'Radial velocity of M31'),
+			 (tangentialVelocities, 'Tangential velocity of\nM31'),
+			 (LGdistances, 'Distance to M31')]
 
 	smallestMin = 0
 	biggestMax = 0
@@ -116,15 +116,21 @@ if __name__ == "__main__":
 #	plt.rcParams.update(params)
 
 	fig, axes = plt.subplots(nrows=len(plotdata), ncols=len(plotdata),
-						  figsize=(5.7,5.7))
+						  figsize=(4.5,6.0))
 	fig.subplots_adjust(hspace=0.08, wspace=0.08)
-	plt.gcf().subplots_adjust(bottom=0.23)
-	plt.gcf().subplots_adjust(left=0.23)
+	plt.gcf().subplots_adjust(bottom=0.001) #0.27
+	plt.gcf().subplots_adjust(left=0.08)
 	plt.gcf().subplots_adjust(right=0.999)
-	plt.gcf().subplots_adjust(top=0.999)
+	plt.gcf().subplots_adjust(top=0.7) #0.999
+	
+	rowIndex = 0
+	colIndex = 0
 
 	for col in range(len(plotdata)):
+		colIndex += 1
 		for row in range(len(plotdata)):
+			rowIndex += 1
+
 			ax = axes[row, col]
 			ax.xaxis.set_visible(False)
 			ax.yaxis.set_visible(False)
@@ -138,14 +144,19 @@ if __name__ == "__main__":
 			if ax.is_first_col():
 				ax.yaxis.set_visible(True)
 				ax.yaxis.set_ticks_position('left')
-				ax.set_ylabel(plotdata[row][1], rotation='horizontal',
-				  size='small', horizontalalignment='right',
-				  verticalalignment="center")
-			if ax.is_last_row():
+				ax.set_ylabel(rowIndex, rotation='horizontal',
+				  horizontalalignment='right', verticalalignment='center')
+#				ax.set_ylabel(plotdata[row][1], rotation='horizontal',
+#				  size='small', horizontalalignment='right',
+#				  verticalalignment="center")
+			if ax.is_first_row():
 				ax.xaxis.set_visible(True)
-				ax.xaxis.set_ticks_position('bottom')
-				ax.set_xlabel(plotdata[col][1], rotation='vertical',
-				  size='small')
+				ax.xaxis.set_ticks_position('top')
+				ax.xaxis.set_label_position('top')
+				ax.set_xlabel(str(colIndex) + ": " + plotdata[col][1],
+				  rotation='vertical', horizontalalignment='center',
+				  verticalalignment='bottom', multialignment='left')#, size='small',
+#				  horizontalalignment='right', verticalalignment='center')
 			
 			ax.scatter(plotdata[col][0], plotdata[row][0], marker='.', s=4,
 			  edgecolors='none', facecolors='k')
