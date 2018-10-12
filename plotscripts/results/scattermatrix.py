@@ -13,9 +13,9 @@ from sklearn.preprocessing import scale
 from optparse import OptionParser
 import os
 from savePCdata import readAndSave
+from scipy.stats.stats import pearsonr
 
 if __name__ == "__main__":
-
 	parser = OptionParser(usage="usage: python scattermatrix.py [options]")
 	parser.add_option("--outlierexclusion", action="store", default="tight",
 				   help="exclude outliers, based on HF zero point distances. " +
@@ -106,6 +106,12 @@ if __name__ == "__main__":
 			 (radialVelocities, 'Radial velocity of M31'),
 			 (tangentialVelocities, 'Tangential velocity of\nM31'),
 			 (LGdistances, 'Distance to M31')]
+
+	print()
+	for data in plotdata[1:]:
+		print(data[1], end=":\t")
+		print(pearsonr(data[0], plotdata[0][0])[0])
+	print()
 
 	smallestMin = 0
 	biggestMax = 0
