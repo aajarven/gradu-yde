@@ -373,7 +373,7 @@ Regardless of the existence of the missing satellites problem, the most massive 
 
 Both of these possible problems are sensitive to the mass of the Local Group: a massive halo is expected to have more subhaloes than a less massive one has. Thus the mass of the Local Group and its members is an intriquing question not only for building up knowledge about our surroundings but also for testing cosmological models. Numerous studies have been conducted to find out its mass, and the following sections outline some of the methods that have been used.
 
-\subsection{Timing Argument}
+\subsection{Timing Argument}\label{sect:timing-argument}
 One possible way of estimating the lower end of the range of possible Local Group masses is to use the timing argument, first introduced by \citet{kahn1959intergalactic}. It is based on the mutual kinematics of the Milky Way and M31 galaxies and the assumption that they have formed close to each other and are now on orbiting their mutual mass centre, approaching each other for the first time. This corresponds to the structure formation model presented in section \ref{universe-structure}: initially the expansion of the Universe drives the pair further away from each other, but eventually the mass of the system is able to overcome the expansion and the galaxies start to approach each other.
 
 For a zero angular momentum system, \citeauthor{kahn1959intergalactic} obtain an estimate of minimum total mass of the system using Kepler's third law
@@ -1387,7 +1387,7 @@ The scatters around the Hubble flow also seem to vary from cluster to cluster. F
 %\marginnote{\footnotesize{Massakynnys? Kaksi eri kynnystä? Liian kapea ja epätasapainoinen, laita päällekkäin?}}
 %Figure \ref{fig:clusteredHFparameters} shows how derived values of slope and zero-point for the Hubble flow change when the Hubble flow fitting is carried out on partial data chosen based on the cluster membership of the haloes.
 
-\subsection{Hubble Flow Measurements on Clusters}
+\subsection{Hubble Flow Measurements on Clusters} \label{sect:clustermeasurements}
 
 \begin{figure}
     \centering
@@ -1479,13 +1479,25 @@ The fact that Figs.~\ref{fig:clusteredHFparameters} and \ref{fig:clusteredHFdisp
 
 
 \section{Statistical Estimate of the Local Group Mass}\label{sect:statistical_estimate}
-Numerous variables have been measured from the simulation sample in previous sections. In this section, these variables are used to estimate the mass of the Local Group. TODO: timing argumentin relevanssi%TODO
+Numerous variables have been measured from the simulation sample in previous sections. In this section, these variables are used to estimate the mass of the Local Group. The goal is to improve on the accuracy of the timing argument (see section~\ref{sect:timing-argument}) by allowing more variables to be used in the prediction. The analysis is carried out on the 119 haloes that contain a Local Group analogue and are free of type 2 and 3 particles up to 5~Mpc, with the exception of the simulation that was excluded due to the anomalous environment of the Local Group (see section \ref{sect:clustermeasurements} for details).
+
+Out of all the variables that can be determined from the available dark matter only simulations, twelve were chosen to be used in this analysis. Three of these are the distance together with the radial and tangential velocity components of the M31 analogue as seen from the Milky Way analogue. The remaining nine consist of the value of $H_0$, the distance to the Hubble flow zero point and the velocity dispersion around the Hubble flow, all of which are measured separately for all haloes, haloes that belong to a cluster and haloes that are not members in any cluster. All Hubble flow analysis was done using haloes between 1.5 and 5.0~Mpc from the Milky Way analogue.
+
+In order to quickly gain insight into the correlations of these variables with the Local Group mass, Fig.~\ref{fig:pca-scattermatrix} presents a scatterplot matrix containing the Local Group mass, the mass predicted using the timing argument and the twelve measured variables. In this work, the mass of the Local Group in a simulation is defined as the combined mass of the dark matter haloes corresponding to the Milky Way and M31 analogues. In order to avoid outliers compressing the rest of the points to unintelligible blob, the most extreme outliers have been excluded from the plot based on their Hubble flow zero point distances: if any of the three measured zero point distances is larger than 10~Mpc or smaller than $-2$~Mpc, the simulation is not shown in any panels. This resulted in four simulations not being shown in this plot. Each variable has also been normalized so that the its mean is zero and variance unity.
 
 \begin{figure}
     \centering
     \includegraphics{kuvat/PCA/scattermatrix-tightOutlierCriteria.pdf}
-    \caption{A matrix of scatterplots exploring correlations between the measured variables and the mass of the Local Group analogues. The mass predicted by the timing argument is also shown. The numbers on the row labels correspond to the numbered categories in the column labels and Hubble flow is abbreviated as HF. To emphasize the correlations between variables, four simulations with anomalous Hubble flow zero point distances are excluded from the plot.}\label{fig:pca-scattermatrix}
+    \caption{A matrix of scatterplots exploring correlations between the measured variables and the mass of the Local Group (LG) analogues. The mass predicted by the timing argument (TA) is also shown. The numbers on the row labels correspond to the numbered categories in the column labels and Hubble flow is abbreviated as HF. To emphasize the correlations between variables, four simulations with anomalous Hubble flow zero point distances are excluded from the plot.}\label{fig:pca-scattermatrix}
 \end{figure}
+
+From this plot, it is clear that no individual variable is strongly correlated with the Local Group mass, but weak correlations can still be observed. Especially the radial velocity of M31 and Hubble flow zero measurements, both for all haloes and ones in clusters, seem to be weakly correlated with the mass nearly as strongly as the timing argument estimate. This suggests that it is possible to improve upon it.
+
+Surprisingly the distance between the Milky Way and M31 analogues does not seem to be correlated to the Local Group mass practically at all, despite it being a key measurement when the timing argument is used. The lack of correlation between tangential velocity of M31 and the mass on the other hand is less surprising but also fortunate, as it is more difficult to measure than most of the other variables. For all Hubble flow measurements, the values measured outside clusters show weaker correlations with the mass than their counterparts measured using all or clustered haloes. Despite some of the variables not being directly correlated with the mass of the Local Group, all twelve were chosen to be used in the following analysis.
+
+The scatter matrix in Fig.~\ref{fig:pca-scattermatrix} also reveals that many of the measured variables are correlated with each other. For example $H_0$ and the Hubble flow zero point distance are correlated with each other, as are pairs of different Hubble flow velocity dispersion measurements with each other. %TODO multicollinearity, miksi pca?
+
+
 
 
 \begin{figure}
