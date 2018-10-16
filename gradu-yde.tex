@@ -876,7 +876,7 @@ For a data set with more than two dimensions, the second PC is chosen such that 
 This level of understanding is often enough to successfully apply PCA to a problem, because PCA has ready-made implementations for many programming languages such as \texttt{prcomp} in R \citep{james2013introduction} and \texttt{sklearn.decomposition.PCA} in the scikit-learn library  for Python \citep{scikit-learn}. If a more mathematical approach is desired, \citet{smith2002tutorial} explains PCA together with covariance matrices, eigenvectors and eigenvalues required to understand the process very clearly. \citet{jolliffe2002principal} also includes a very thorough description of PCA.
 
 
-\subsection{Excluding Less Interesting Principal Components}
+\subsection{Excluding Less Interesting Principal Components} \label{sect:pca-excluding}
 %\reversemarginpar
 %\marginnote{\footnotesize{maininta bootstrappingista (loppuun?) ja siitä, että maistuu koneoppiminen?}}
 Even though a data set has as many principal components as there are measured variables, one is often not interested in all of them as the last principal components might explain only a tiny fraction of the total variation in the data \citep{james2013introduction}. Reducing the dimensionality of the problem also greatly eases visualizing and interpreting the data. Thus one might want to retain only the first few PCs when PCA is used to, for example, compress, visualize or just interpret a data set \citep{james2013introduction, johnson2007applied}. Unfortunately, many of the rules and methods used to determine the number of PCs to retain are largely without a formal basis or require assuming a certain distribution which is often not justifiable with the data \citep{jolliffe2002principal}. With careful consideration these methods can nevertheless aid a researcher in making informed decisions and reasoned conclusions, so some rules are introduced in this section.
@@ -1501,23 +1501,28 @@ In order to avoid these problems, a new set of uncorrelated variables can be gen
 
 Often most of the variation in the data set is covered by the first few principal components, especially when the variables are correlated. In these cases, including all components in the regression analysis is not beneficial and can even reduce the accuracy of the model. To aid choosing the best number of principal components to retain, Figs.~\ref{fig:pca-cumulative-variance} and \ref{fig:scree} explore the amount of variation in the data explained by each principal component.
 
-
 \begin{figure}
     \centering
     \includegraphics{kuvat/PCA/cumulative_variances.pdf}
-    \caption{asdf}\label{fig:pca-cumulative-variance}
+    \caption{The cumulative variance explained by first principal components.}\label{fig:pca-cumulative-variance}
 \end{figure}
+
+As can be seen in Fig.~\ref{fig:pca-cumulative-variance}, the first few principal components only account for a fairly small amount of the total variation in the data set with even the first component explaining just slightly over 20~\% of it. Still, the cumulative amount increases steadily and after the \nth{7} component, more than 90~\% of the variance is explained. The last components contribute very little. This suggests that at least some number of components can be safely excluded when constructing the model for predicting the mass of the Local Group.
+
+As explained in section~\ref{sect:pca-excluding}, a scree plot showing the amount of variance explained by individual principal components can aid in choosing the number of components to be used in further analysis. A scree plot for this data set is presented in Fig.~\ref{fig:pca-scree}. Unfortunately it does not contain a distinctive elbow that would indicate a suitable number of principal components to be retained. Nonetheless, this plot also supports the claim that the last principal components are likely safe to be excluded as the last five principal components explain less than 5~\% of the total variance each.
 
 \begin{figure}
     \centering
     \includegraphics{kuvat/PCA/scree.pdf}
-    \caption{asdf}\label{fig:pca-scree}
+    \caption{A scree plot showing the amount of total variance explained by single principal components.}\label{fig:pca-scree}
 \end{figure}
+
+Even as the explained variances did not offer a clear choice for the number of principal components to be used in mass estimation, the accuracies of the mass estimates obtained using different numbers of principal components can be compared to find the best value.
 
 \begin{figure}
     \centering
     \includegraphics{kuvat/PCA/rmse-alldata.pdf}
-    \caption{Effect of the number of used PCs on the mass fitting residual. The errors are from 10-fold CV of all data. huom obs nb: y axis limits}\label{fig:pca-rmse-alldata}
+    \caption{Effect of the number of used PCs on the mass fitting residual. Note that in order to better discern the changes between different numbers of principal components, the y axis does not start from zero.}\label{fig:pca-rmse-alldata}
 \end{figure}
 
 \begin{figure}
