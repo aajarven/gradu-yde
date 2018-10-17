@@ -903,10 +903,8 @@ Another straightforward method for choosing how many PCs to retain is to examine
 
 \subsection{Principal Component Regression}
 
-\section{Error analysis}
-% sources of error
-% systematic error vs statistical uncertainty, only the second can be handled in this thesis
-% bootstrapping + other methods
+\section{Error analysis} \label{sect:cross-validation}
+% cross validation
 
 
 \section{Comparing two samples drawn from unknown distributions} \label{sect:statistical_tests}
@@ -1517,19 +1515,31 @@ As explained in section~\ref{sect:pca-excluding}, a scree plot showing the amoun
     \caption{A scree plot showing the amount of total variance explained by single principal components.}\label{fig:pca-scree}
 \end{figure}
 
-Even as the explained variances did not offer a clear choice for the number of principal components to be used in mass estimation, the accuracies of the mass estimates obtained using different numbers of principal components can be compared to find the best value.
+Even as the explained variances did not offer a clear choice for the number of principal components to be used in mass estimation, the accuracies of the mass estimates obtained using different numbers of principal components can be compared to find the best value. In order to avoid overfitting, the same data is not used for both fitting and calculating the error of the fit. Instead, 10-fold cross validation (see section~\ref{sect:cross-validation}) is performed for each number of principal components. The accuracy of a fit is assessed by calculating the root-mean-square (RMS) error of the model fitted using the 90~\% of the data when it is tested on the remaining 10~\%. The mean of these errors when different simulations are chosen to be used for testing the model are shown in Fig.~\ref{fig:pca-rmse-alldata}, separately for each possible number of principal components to use as predictor variables.
 
 \begin{figure}
     \centering
     \includegraphics{kuvat/PCA/rmse-alldata.pdf}
-    \caption{Effect of the number of used PCs on the mass fitting residual. Note that in order to better discern the changes between different numbers of principal components, the y axis does not start from zero.}\label{fig:pca-rmse-alldata}
+    \caption{Effect of the number of used PCs on the mass fitting residual. Note that in order to better discern the changes between different numbers of principal components, the y-axis does not start from zero.}\label{fig:pca-rmse-alldata}
 \end{figure}
+
+From Fig.~\ref{fig:pca-rmse-alldata} one can see that changing the number of principal components that are used to predict the mass has only a small effect on the root mean squared error of the predictions (note that the y-axis of the plot does not start from zero). Using only one principal component can be seen to produce the smallest error, with two and ten components results having only slightly higher errors. This suggests that no more than one principal component should likely be used in the analysis.
+
+When all available data is used to construct the model, it is still possible to overfit the model to perform well on the values in the test set but possibly poorly on other data sets. In order to avoid this, 40~\% of the data set was set aside to be used in evaluating the accuracy of the final model. A 10-fold cross validation is then performed with the remaining 60~\% of the data. The RMS errors (black dots) in this training phase are shown in Fig.~\ref{fig:pca-rmse-training}, together with the RMS error of timing argument mass estimates on the same data points (red line). %TODO miten skaalaus yms
 
 \begin{figure}
     \centering
     \includegraphics{kuvat/PCA/training-RMSE.pdf}
-    \caption{Training error using 10 folds}\label{fig:pca-rmse-training}
+    \caption{RMS error of Local Group mass estimates in the training set using 10-fold cross validation (black dots), together with the RMS error of the timing argument applied to the same simulations (red line).}\label{fig:pca-rmse-training}
 \end{figure}
+
+From this plot we can see that linear regression performed on any number of principal components performs better than the timing argument. However, now the smallest RMSE error is achieved when using 10 principal components. The differences between different numbers of principal components are again small, though, and thus the small increase in performance does not seem to justify including numerous principal components. This is why one principal component was chosen to be used in the mass estimation.
+
+When only the first principal component is used to predict the mass of the Local Group, the regression coefficient for it is approximately $-1.968 \times 10^{11}$. %TODO yksikkö, miten tästä lasketaan ennusteita muille
+
+%TODO :
+% varmista että kerrot oletukset:
+% - LG massa = MW + M31
 
 %RMSE of timing argument on test set: 1.41678228485e+12
 %RMSE in test set with 1 PC: 1.0844212456e+12
