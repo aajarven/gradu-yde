@@ -176,7 +176,7 @@ if __name__ == "__main__":
 	plt.plot(range(1, len(mse)+1), mse, '-o', color='k')
 	
 	plt.xlabel("Principal components in regresion")
-	plt.ylabel(r"Root-mean-squared-error ($\mathrm{M}_{\astrosun}$)")
+	plt.ylabel(r"Root-mean-squared error ($\mathrm{M}_{\astrosun}$)")
 #	plt.title("Effect of the number of used PCs on the mass fitting residual.\n"
 #		   + "The errors are from 10-fold CV of all data.")
 	plt.xlim((0.5, variables+0.5))
@@ -235,7 +235,7 @@ if __name__ == "__main__":
 	plt.xlabel("Number of PCs in regression")
 	lims = plt.xlim()
 	plt.xticks(np.arange(ceil(lims[0]), ceil(lims[1]), 1))
-	plt.ylabel(r"Root-meanmsquare error ($M_{\astrosun}$)")
+	plt.ylabel(r"Root-mean-square error ($M_{\astrosun}$)")
 #	plt.title("Training error using " + str(n_folds) + " folds")
 	plt.gca().set_ylim(bottom=0)
 	plt.gca().set_ylim(top=1.3e12)
