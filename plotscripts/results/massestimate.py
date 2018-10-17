@@ -212,16 +212,6 @@ if __name__ == "__main__":
 							  scoring='neg_mean_squared_error').mean()
 		RMSEs_train.append(sqrt(-score))
 	
-	# split to train and test
-	n = len(data_pca)
-	kfold_seed = 1
-	n_folds = 10
-
-	kfold = model_selection.KFold(n_splits = n_folds, shuffle=True,
-									random_state=kfold_seed)
-	regr = LinearRegression()
-	mse = []
-
 #	# TA comparison
 	timing_mse = mean_squared_error(y_train, timing_train)
 
