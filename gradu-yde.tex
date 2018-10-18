@@ -1495,7 +1495,8 @@ Surprisingly the distance between the Milky Way and M31 analogues does not seem 
 
 The scatter matrix in Fig.~\ref{fig:pca-scattermatrix} also reveals that many of the measured variables are correlated with each other. For example $H_0$ and the Hubble flow zero point distance are correlated with each other, as are pairs of different Hubble flow velocity dispersion measurements with each other. This can cause problems when a linear model is fitted to the data, as correlated predictors can both increase noise and produce wildly different results based on which predictors are included in the analysis. 
 
-In order to avoid these problems, a new set of uncorrelated variables can be generated from the original predictors. In this work, this is done by extracting the principal components as described in section~\ref{sect:pca}. The weights that define the resulting principal components are presented in table \ref{tab:PCs} in appendix~\ref{app:pcs}. As these principal components are guaranteed to be orthogonal, the problems that arise from the correlations among the original predictors are avoided.
+In order to avoid these problems, a new set of uncorrelated variables can be generated from the original predictors. In this work, this is done by extracting the principal components as described in section~\ref{sect:pca}: each variable is first standardized to have unit variance and zero mean and the principal components are then extracted using the \texttt{PCA} class provided in \texttt{decomposition} module of scikit-learn v0.17.0 \citep{scikit-learn}.% The weights that define the resulting principal components are presented in table \ref{tab:PCs} in appendix~\ref{app:pcs}. %TODO vaihda appendixin PCt
+As these principal components are guaranteed to be orthogonal, the problems that arise from the correlations among the original predictors are avoided.
 
 Often most of the variation in the data set is covered by the first few principal components, especially when the variables are correlated. In these cases, including all components in the regression analysis is not beneficial and can even reduce the accuracy of the model. To aid choosing the best number of principal components to retain, Figs.~\ref{fig:pca-cumulative-variance} and \ref{fig:scree} explore the amount of variation in the data explained by each principal component.
 
@@ -1525,7 +1526,9 @@ Even as the explained variances did not offer a clear choice for the number of p
 
 From Fig.~\ref{fig:pca-rmse-alldata} one can see that changing the number of principal components that are used to predict the mass has only a small effect on the root mean squared error of the predictions (note that the y-axis of the plot does not start from zero). Using only one principal component can be seen to produce the smallest error, with two and ten components results having only slightly higher errors. This suggests that no more than one principal component should likely be used in the analysis.
 
-When all available data is used to construct the model, it is still possible to overfit the model to perform well on the values in the test set but possibly poorly on other data sets. In order to avoid this, 40~\% of the data set was set aside to be used in evaluating the accuracy of the final model. A 10-fold cross validation is then performed with the remaining 60~\% of the data. The RMS errors (black dots) in this training phase are shown in Fig.~\ref{fig:pca-rmse-training}, together with the RMS error of timing argument mass estimates on the same data points (red line). %TODO miten skaalaus yms
+When all available data is used to construct the model, it is still possible to overfit the model to perform well on the values in the test set but possibly poorly on other data sets. In order to avoid this, 40~\% of the data set was set aside to be used in evaluating the accuracy of the final model. The training set, consisting of the remaining 60~\% of the data, was then standardized and the principal components extracted. The weights that define these principal components are presented in table~\ref{tab:PCs} in appendix~\ref{app:pcs}.
+
+A linear model with the mass of the Local Group as the response variable was then fitted to these principal components. To avoid overfitting, 10-fold cross validation was again used. The RMS errors (black dots) in this training phase are shown in Fig.~\ref{fig:pca-rmse-training}, together with the RMS error of timing argument mass estimates on the same data points (red line).
 
 \begin{figure}
     \centering
@@ -1578,28 +1581,28 @@ When only the first principal component is used to predict the mass of the Local
 \newpage
 \appendix
 \chapter{Principal Components} \label{app:pcs}
-\setlength\tabcolsep{0.3em}
+\setlength\tabcolsep{0.25em}
 \begin{table}
 	\centering
 	\rotatebox{90}{
 	\begin{tabular}{l | l l l | l l l | l l l | l l l}
       \thead{PC} & \thead{$H_0$} & \thead{$H_0$\\(clusted)} & \thead{$H_0$\\(not clustered)} & \thead{HF zero} & \thead{HF zero\\(clustered)} & \thead{HF zero\\(not clustered)} & \thead{$\sigma_{radvel}$} & \thead{$\sigma_{radvel}$\\(clustered)} & \thead{$\sigma_{radvel}$\\(not clustered)} & \thead{$v_{r, LG}$} & \thead{$v_{t, LG}$} & \thead{$r_LG$}\\
       \hline
-	\makecell{1} & \makecell{-0.353} & \makecell{-0.211} & \makecell{-0.097} & \makecell{-0.415} & \makecell{-0.236} & \makecell{-0.150} & \makecell{-0.228} & \makecell{-0.461} & \makecell{-0.293} & \makecell{-0.461} & \makecell{0.005} & \makecell{0.084} \\ 
-	\makecell{2} & \makecell{-0.360} & \makecell{-0.372} & \makecell{-0.407} & \makecell{-0.191} & \makecell{-0.097} & \makecell{-0.178} & \makecell{0.407} & \makecell{0.163} & \makecell{0.334} & \makecell{0.163} & \makecell{0.001} & \makecell{-0.398} \\ 
-	\makecell{3} & \makecell{0.231} & \makecell{0.378} & \makecell{-0.465} & \makecell{0.210} & \makecell{0.096} & \makecell{-0.559} & \makecell{0.166} & \makecell{-0.218} & \makecell{0.098} & \makecell{-0.218} & \makecell{-0.280} & \makecell{0.112} \\ 
-	\makecell{4} & \makecell{-0.021} & \makecell{-0.136} & \makecell{0.198} & \makecell{0.310} & \makecell{-0.076} & \makecell{0.384} & \makecell{0.419} & \makecell{-0.396} & \makecell{0.436} & \makecell{-0.396} & \makecell{-0.024} & \makecell{0.114} \\ 
-	\makecell{5} & \makecell{0.202} & \makecell{-0.091} & \makecell{0.189} & \makecell{-0.006} & \makecell{-0.660} & \makecell{-0.025} & \makecell{-0.082} & \makecell{0.094} & \makecell{0.043} & \makecell{0.094} & \makecell{-0.667} & \makecell{-0.088} \\ 
-	\makecell{6} & \makecell{0.236} & \makecell{0.041} & \makecell{-0.010} & \makecell{0.075} & \makecell{-0.598} & \makecell{-0.256} & \makecell{-0.051} & \makecell{0.026} & \makecell{0.200} & \makecell{0.026} & \makecell{0.675} & \makecell{0.121} \\ 
-	\makecell{7} & \makecell{0.227} & \makecell{0.077} & \makecell{0.127} & \makecell{0.160} & \makecell{0.040} & \makecell{-0.030} & \makecell{-0.133} & \makecell{-0.205} & \makecell{-0.113} & \makecell{-0.205} & \makecell{0.121} & \makecell{-0.877} \\ 
-	\makecell{8} & \makecell{0.168} & \makecell{-0.717} & \makecell{-0.103} & \makecell{0.524} & \makecell{0.084} & \makecell{-0.179} & \makecell{-0.035} & \makecell{0.012} & \makecell{-0.344} & \makecell{0.012} & \makecell{0.009} & \makecell{0.116} \\ 
-	\makecell{9} & \makecell{0.058} & \makecell{0.032} & \makecell{0.513} & \makecell{-0.200} & \makecell{0.024} & \makecell{-0.354} & \makecell{0.655} & \makecell{0.015} & \makecell{-0.366} & \makecell{0.015} & \makecell{0.048} & \makecell{0.016} \\ 
-	\makecell{10} & \makecell{-0.372} & \makecell{0.339} & \makecell{-0.278} & \makecell{0.382} & \makecell{-0.341} & \makecell{0.299} & \makecell{0.242} & \makecell{0.055} & \makecell{-0.498} & \makecell{0.055} & \makecell{0.046} & \makecell{-0.055} \\ 
-	\makecell{11} & \makecell{-0.612} & \makecell{0.103} & \makecell{0.408} & \makecell{0.399} & \makecell{0.032} & \makecell{-0.416} & \makecell{-0.251} & \makecell{0.039} & \makecell{0.218} & \makecell{0.039} & \makecell{-0.045} & \makecell{-0.016} \\ 
-	\makecell{12} & \makecell{0.000} & \makecell{-0.000} & \makecell{0.000} & \makecell{-0.000} & \makecell{0.000} & \makecell{-0.000} & \makecell{0.000} & \makecell{0.707} & \makecell{-0.000} & \makecell{-0.707} & \makecell{0.000} & \makecell{0.000}
+\makecell{1} & \makecell{0.015} & \makecell{-0.087} & \makecell{-0.318} & \makecell{0.129} & \makecell{0.087} & \makecell{-0.157} & \makecell{0.404} & \makecell{0.439} & \makecell{0.407} & \makecell{0.439} & \makecell{-0.058} & \makecell{-0.354}\\
+	\makecell{2} & \makecell{-0.500} & \makecell{-0.379} & \makecell{-0.320} & \makecell{-0.493} & \makecell{-0.191} & \makecell{-0.327} & \makecell{-0.054} & \makecell{-0.130} & \makecell{-0.115} & \makecell{-0.130} & \makecell{0.073} & \makecell{-0.251}\\
+	\makecell{3} & \makecell{0.081} & \makecell{0.344} & \makecell{-0.373} & \makecell{0.221} & \makecell{0.072} & \makecell{-0.395} & \makecell{0.320} & \makecell{-0.429} & \makecell{0.199} & \makecell{-0.429} & \makecell{-0.106} & \makecell{0.076}\\
+	\makecell{4} & \makecell{-0.367} & \makecell{-0.223} & \makecell{0.001} & \makecell{0.092} & \makecell{0.577} & \makecell{0.340} & \makecell{0.243} & \makecell{-0.125} & \makecell{0.165} & \makecell{-0.125} & \makecell{0.470} & \makecell{0.141}\\
+	\makecell{5} & \makecell{-0.139} & \makecell{-0.270} & \makecell{0.285} & \makecell{0.049} & \makecell{-0.312} & \makecell{0.410} & \makecell{0.304} & \makecell{-0.219} & \makecell{0.311} & \makecell{-0.219} & \makecell{-0.485} & \makecell{-0.195}\\
+	\makecell{6} & \makecell{0.242} & \makecell{-0.091} & \makecell{0.019} & \makecell{0.001} & \makecell{-0.608} & \makecell{0.021} & \makecell{0.093} & \makecell{-0.041} & \makecell{0.326} & \makecell{-0.041} & \makecell{0.654} & \makecell{0.129}\\
+	\makecell{7} & \makecell{0.166} & \makecell{-0.700} & \makecell{-0.127} & \makecell{0.515} & \makecell{-0.036} & \makecell{-0.208} & \makecell{0.011} & \makecell{-0.006} & \makecell{-0.268} & \makecell{-0.006} & \makecell{-0.104} & \makecell{0.272}\\
+	\makecell{8} & \makecell{-0.235} & \makecell{0.053} & \makecell{-0.158} & \makecell{-0.269} & \makecell{-0.119} & \makecell{0.026} & \makecell{0.126} & \makecell{0.171} & \makecell{0.189} & \makecell{0.171} & \makecell{-0.261} & \makecell{0.807}\\
+	\makecell{9} & \makecell{0.108} & \makecell{-0.002} & \makecell{0.472} & \makecell{-0.254} & \makecell{0.041} & \makecell{-0.292} & \makecell{0.678} & \makecell{0.037} & \makecell{-0.376} & \makecell{0.037} & \makecell{0.081} & \makecell{0.047}\\
+	\makecell{10} & \makecell{-0.368} & \makecell{0.299} & \makecell{-0.288} & \makecell{0.341} & \makecell{-0.350} & \makecell{0.327} & \makecell{0.252} & \makecell{0.078} & \makecell{-0.509} & \makecell{0.078} & \makecell{0.089} & \makecell{-0.057}\\
+	\makecell{11} & \makecell{-0.548} & \makecell{0.135} & \makecell{0.478} & \makecell{0.403} & \makecell{-0.105} & \makecell{-0.438} & \makecell{-0.177} & \makecell{0.069} & \makecell{0.206} & \makecell{0.069} & \makecell{0.050} & \makecell{0.024}\\
+	\makecell{12} & \makecell{0.000} & \makecell{0.000} & \makecell{-0.000} & \makecell{-0.000} & \makecell{0.000} & \makecell{0.000} & \makecell{-0.000} & \makecell{-0.707} & \makecell{0.000} & \makecell{0.707} & \makecell{0.000} & \makecell{-0.000}
 	\end{tabular}
 	}
-	\caption{Principal components of the twelve predictor variables measured from the simulations for the mass estimation.}\label{tab:PCs}
+	\caption{Principal components of the twelve predictor variables measured from the simulations. These principal components have been extracted from the training set, containint 60~\% of the simulations in the full data set.}\label{tab:PCs}
 \end{table}
 
 \end{document}
