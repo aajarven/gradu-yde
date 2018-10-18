@@ -108,6 +108,7 @@ if __name__ == "__main__":
 	n = len(data_pca)
 	variables = data.shape[1]
 
+	print("PCs for all data:")
 	print("component\tH0s\tinClusterH0s\toutClusterH0s\tzeropoints\tinClusterZeros" +
 	   "\toutClusterZeros\tallDispersions\tclusterDispersions\t" + 
 	   "unclusteredDispersions\tradialVelocities\ttangentialVelocities\tLGdistances")
@@ -200,6 +201,18 @@ if __name__ == "__main__":
 	n = len(X_train_reduced)
 	kfold2 = cross_validation.KFold(n, n_folds=n_folds, shuffle=True,
 								 random_state=kfold_seed)
+
+	components = pca2.components_
+	print("PCs from training:")
+	print("component\tH0s\tinClusterH0s\toutClusterH0s\tzeropoints\tinClusterZeros" +
+	   "\toutClusterZeros\tallDispersions\tclusterDispersions\t" + 
+	   "unclusteredDispersions\tradialVelocities\ttangentialVelocities\tLGdistances")
+	for i in range(len(components)):
+		print(str(i+1), end='\t')
+		for component in components[i]:
+			print("{:.3f}".format(component), end='\t')
+		print()
+	print()
 
 	# RMSE in training using k-fold cross validation
 	RMSEs_train = []
