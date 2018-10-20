@@ -27,6 +27,7 @@ from sklearn.metrics import mean_squared_error
 from sklearn import model_selection  
 
 from sklearn.preprocessing import scale
+from sklearn.preprocessing import StandardScaler
 	
 
 if __name__ == "__main__":
@@ -197,7 +198,16 @@ if __name__ == "__main__":
 																	  timingArgumentMasses,
 																	  test_size=0.4,
 																	  random_state=kfold_seed)
-	X_train_reduced = pca2.fit_transform(scale(X_train))
+	scaler = StandardScaler().fit(X_train) 
+	print("scaling:")
+	print("variable\tmean\tstd")
+	for i in range(len(scaler.mean_)):
+		print(i, end="\t")
+		print("{:.4f}".format(scaler.mean_[i]), end="\t")
+		print("{:.4f}".format(scaler.scale_[i]))
+	print()
+
+	X_train_reduced = pca2.fit_transform(scaler.transform(X_train))
 	n = len(X_train_reduced)
 	kfold2 = cross_validation.KFold(n, n_folds=n_folds, shuffle=True,
 								 random_state=kfold_seed)
@@ -255,7 +265,7 @@ if __name__ == "__main__":
 	   str(sqrt(mean_squared_error(y_test, timing_test))))
 
 	# test set performance using one PC
-	X_test_reduced = pca2.transform(scale(X_test))[:,1]
+	X_test_reduced = pca2.transform(scaler.transform(X_test))[:,1]
 	regr = LinearRegression()
 	regr.fit(np.reshape(X_train_reduced[:,1], shape), np.reshape(y_train, shape))
 	pred = regr.predict(np.reshape(X_test_reduced, shape))
