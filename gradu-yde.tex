@@ -1479,7 +1479,7 @@ The fact that Figs.~\ref{fig:clusteredHFparameters} and \ref{fig:clusteredHFdisp
 \section{Statistical Estimate of the Local Group Mass}\label{sect:statistical_estimate}
 Numerous variables have been measured from the simulation sample in previous sections. In this section, these variables are used to estimate the mass of the Local Group. The goal is to improve on the accuracy of the timing argument (see section~\ref{sect:timing-argument}) by allowing more variables to be used in the prediction. The analysis is carried out on the 119 haloes that contain a Local Group analogue and are free of type 2 and 3 particles up to 5~Mpc, with the exception of the simulation that was excluded due to the anomalous environment of the Local Group (see section \ref{sect:clustermeasurements} for details).
 
-Out of all the variables that can be determined from the available dark matter only simulations, twelve were chosen to be used in this analysis. Three of these are the distance together with the radial and tangential velocity components of the M31 analogue as seen from the Milky Way analogue. The remaining nine consist of the value of $H_0$, the distance to the Hubble flow zero point and the velocity dispersion around the Hubble flow, all of which are measured separately for all haloes, haloes that belong to a cluster and haloes that are not members in any cluster. All Hubble flow analysis was done using haloes between 1.5 and 5.0~Mpc from the Milky Way analogue.
+Out of all the variables that can be determined from the available dark matter only simulations, twelve were chosen to be used in this analysis. Three of these are the distance together with the radial and tangential velocity components of the M31 analogue as seen from the Milky Way analogue. The remaining nine consist of the value of $H_0$, the distance to the Hubble flow zero point and the velocity dispersion around the Hubble flow, all of which are measured separately for all haloes, haloes that belong to a cluster and haloes that are not members in any cluster. All Hubble flow analysis was done using haloes between 1.5 and 5.0~Mpc from the Milky Way analogue. %TODO velocity dispersion määritelmä? entä muiden?
 
 In order to quickly gain insight into the correlations of these variables with the Local Group mass, Fig.~\ref{fig:pca-scattermatrix} presents a scatterplot matrix containing the Local Group mass, the mass predicted using the timing argument and the twelve measured variables. In this work, the mass of the Local Group in a simulation is defined as the combined mass of the dark matter haloes corresponding to the Milky Way and M31 analogues. In order to avoid outliers compressing the rest of the points to unintelligible blob, the most extreme outliers have been excluded from the plot based on their Hubble flow zero point distances: if any of the three measured zero point distances is larger than 10~Mpc or smaller than $-2$~Mpc, the simulation is not shown in any panels. This resulted in four simulations not being shown in this plot. Each variable has also been normalized so that the its mean is zero and variance unity.
 
@@ -1526,7 +1526,7 @@ Even as the explained variances did not offer a clear choice for the number of p
 
 From Fig.~\ref{fig:pca-rmse-alldata} one can see that changing the number of principal components that are used to predict the mass has only a small effect on the root mean squared error of the predictions (note that the y-axis of the plot does not start from zero). Using only one principal component can be seen to produce the smallest error, with two and ten components results having only slightly higher errors. This suggests that no more than one principal component should likely be used in the analysis.
 
-When all available data is used to construct the model, it is still possible to overfit the model to perform well on the values in the test set but possibly poorly on other data sets. In order to avoid this, 40~\% of the data set was set aside to be used in evaluating the accuracy of the final model. The training set, consisting of the remaining 60~\% of the data, was then standardized and the principal components extracted. The weights that define these principal components are presented in table~\ref{tab:PCs} in appendix~\ref{app:pcs}.
+When all available data is used to construct the model, it is still possible to overfit the model to perform well on the values in the test set but possibly poorly on other data sets. In order to avoid this, 40~\% of the data set was set aside to be used in evaluating the accuracy of the final model. The training set, consisting of the remaining 60~\% of the data, was then standardized and the principal components extracted. The means and standard deviations for repeating the standardizing for other data sets are presented in table~\ref{tab:standardizing} and the weights that define these principal components in table~\ref{tab:PCs} in appendix~\ref{app:parameters}.
 
 A linear model with the mass of the Local Group as the response variable was then fitted to these principal components. To avoid overfitting, 10-fold cross validation was again used. The RMS errors (black dots) in this training phase are shown in Fig.~\ref{fig:pca-rmse-training}, together with the RMS error of timing argument mass estimates on the same data points (red line).
 
@@ -1538,7 +1538,7 @@ A linear model with the mass of the Local Group as the response variable was the
 
 From this plot we can see that linear regression performed on any number of principal components performs better than the timing argument. However, now the smallest RMSE error is achieved when using 10 principal components. The differences between different numbers of principal components are again small, though, and thus the small increase in performance does not seem to justify including numerous principal components. This is why one principal component was chosen to be used in the mass estimation.
 
-When only the first principal component is used to predict the mass of the Local Group, the regression coefficient for it is approximately $-1.968 \times 10^{11}$. %TODO yksikkö, miten tästä lasketaan ennusteita muille
+When only the first principal component is used to predict the mass of the Local Group, the regression coefficient for it is approximately $-1.968 \times 10^{11}$ when the mass is expressed in units of $\mathrm{M}_{\astrosun}$. This model can be used to predict the mass of any Local Group analogue for which the 12 variables are measured by first scaling the data set at hand using the scaling parameters learned from the training set (table~\ref{tab:standardizing}), projecting the scaled data points to the first principal component (table~\ref{tab:PCs}) and then multiplying by the previously obtained regression coefficient. %TODO tehty tämä test setin datalle
 
 %TODO :
 % varmista että kerrot oletukset:
@@ -1580,13 +1580,34 @@ When only the first principal component is used to predict the mass of the Local
 
 \newpage
 \appendix
-\chapter{Principal Components} \label{app:pcs}
+\chapter{Model Parameters} \label{app:parameters}
+\begin{table}[ht]
+	\centering
+	\begin{tabular}{ r c c c }
+	    	Variable & Mean & Standard deviation & Unit \\
+	    	\hline
+			$H_0$ & 91.7489 & 13.3984 & km/s/Mpc \\
+			$H_0$ (clusted) & 90.2513 & 9.1087 & km/s/Mpc \\
+			$H_0$ (not clusted) & 83.4606 & 18.8621 & km/s/Mpc \\
+			HF zero & 1.4031 & 0.4303 & Mpc \\
+			HF zero (clustered) & 1.2594 & 0.4870 & Mpc \\
+			HF zero (not clustered) & 1.2855 & 0.6214 & Mpc \\
+			$\sigma_{radvel}$ & 107.0503 & 27.7604 & km/s \\
+			$\sigma_{radvel}$ (clustered) & 99.2486 & 23.4161 & km/s \\
+			$\sigma_{radvel}$ (not clustered) & 83.6529 & 25.8087 & km/s \\
+			$v_{r, LG}$ & 99.2486 & 23.4161 & km/s \\
+			$v_{t, LG}$ & 26.6303 & 10.7823 & km/s \\
+			$r_{LG}$ & 0.8538 & 0.0753 & Mpc \\
+	\end{tabular}
+	\caption{Standardization parameters learned from the training set, containing 60~\% of the full data set, for the twelve variables used to construct the principal components. The names and abbreviations are same as used in Fig.~\ref{fig:pca-scattermatrix} and the surrounding text.} \label{tab:standardizing}
+\end{table}
+
 \setlength\tabcolsep{0.25em}
 \begin{table}
 	\centering
 	\rotatebox{90}{
 	\begin{tabular}{l | l l l | l l l | l l l | l l l}
-      \thead{PC} & \thead{$H_0$} & \thead{$H_0$\\(clusted)} & \thead{$H_0$\\(not clustered)} & \thead{HF zero} & \thead{HF zero\\(clustered)} & \thead{HF zero\\(not clustered)} & \thead{$\sigma_{radvel}$} & \thead{$\sigma_{radvel}$\\(clustered)} & \thead{$\sigma_{radvel}$\\(not clustered)} & \thead{$v_{r, LG}$} & \thead{$v_{t, LG}$} & \thead{$r_LG$}\\
+      \thead{PC} & \thead{$H_0$} & \thead{$H_0$\\(clusted)} & \thead{$H_0$\\(not clustered)} & \thead{HF zero} & \thead{HF zero\\(clustered)} & \thead{HF zero\\(not clustered)} & \thead{$\sigma_{radvel}$} & \thead{$\sigma_{radvel}$\\(clustered)} & \thead{$\sigma_{radvel}$\\(not clustered)} & \thead{$v_{r, LG}$} & \thead{$v_{t, LG}$} & \thead{$r_{LG}$}\\
       \hline
 \makecell{1} & \makecell{0.015} & \makecell{-0.087} & \makecell{-0.318} & \makecell{0.129} & \makecell{0.087} & \makecell{-0.157} & \makecell{0.404} & \makecell{0.439} & \makecell{0.407} & \makecell{0.439} & \makecell{-0.058} & \makecell{-0.354}\\
 	\makecell{2} & \makecell{-0.500} & \makecell{-0.379} & \makecell{-0.320} & \makecell{-0.493} & \makecell{-0.191} & \makecell{-0.327} & \makecell{-0.054} & \makecell{-0.130} & \makecell{-0.115} & \makecell{-0.130} & \makecell{0.073} & \makecell{-0.251}\\
@@ -1602,7 +1623,7 @@ When only the first principal component is used to predict the mass of the Local
 	\makecell{12} & \makecell{0.000} & \makecell{0.000} & \makecell{-0.000} & \makecell{-0.000} & \makecell{0.000} & \makecell{0.000} & \makecell{-0.000} & \makecell{-0.707} & \makecell{0.000} & \makecell{0.707} & \makecell{0.000} & \makecell{-0.000}
 	\end{tabular}
 	}
-	\caption{Principal components of the twelve predictor variables measured from the simulations. These principal components have been extracted from the training set, containint 60~\% of the simulations in the full data set.}\label{tab:PCs}
+	\caption{Principal components of the twelve predictor variables measured from the simulations. These principal components have been extracted from the training set.}\label{tab:PCs}
 \end{table}
 
 \end{document}
