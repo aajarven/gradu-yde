@@ -223,6 +223,7 @@ if __name__ == "__main__":
 			print("{:.3f}".format(component), end='\t')
 		print()
 	print()
+	
 
 	# RMSE in training using k-fold cross validation
 	RMSEs_train = []
@@ -234,6 +235,11 @@ if __name__ == "__main__":
 							  cv=kfold2,
 							  scoring='neg_mean_squared_error').mean()
 		RMSEs_train.append(sqrt(-score))
+
+	print("RMSE in training")
+	for rmse in RMSEs_train:
+		print(rmse)
+	print()
 	
 #	# TA comparison
 	timing_mse = mean_squared_error(y_train, timing_train)
@@ -260,14 +266,16 @@ if __name__ == "__main__":
 	
 
 	# test set performances	
-	shape = (-1, 1)
+	n_pc = 2
+	shape = (-1, n_pc)
 	print("RMSE of timing argument on test set: " +
 	   str(sqrt(mean_squared_error(y_test, timing_test))))
 
 	# test set performance using one PC
-	X_test_reduced = pca2.transform(scaler.transform(X_test))[:,1]
+	X_test_reduced = pca2.transform(scaler.transform(X_test))[:, :n_pc]
 	regr = LinearRegression()
-	regr.fit(np.reshape(X_train_reduced[:,1], shape), np.reshape(y_train, shape))
+	regr.fit(np.reshape(X_train_reduced[:, :n_pc], shape), np.reshape(y_train,
+															   (-1, 1)))
 	pred = regr.predict(np.reshape(X_test_reduced, shape))
 	regression_coefficients = regr.coef_
 	mse = mean_squared_error(y_test, pred)
