@@ -279,7 +279,7 @@ if __name__ == "__main__":
 	pred = regr.predict(np.reshape(X_test_reduced, shape))
 	regression_coefficients = regr.coef_
 	mse = mean_squared_error(y_test, pred)
-	print("RMSE in test set with 1 PC: " + str(sqrt(mse)))
+	print("RMSE in test set with " + str(n_pc) + " PCs: " + str(sqrt(mse)))
 
 	# OLS comparison
 	regr = LinearRegression()
