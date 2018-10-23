@@ -1529,22 +1529,22 @@ In order to avoid overfitting in the training set, the same data is not used for
 
 From this plot we can see that linear regression performed on any number of principal components performs better than the timing argument. However, now the smallest RMS error is achieved when using 10 principal components. The differences between different numbers of principal components are again small, though, and thus the small increase in performance does not seem to justify including numerous principal components. The second best value is obtained when two principal components is used, and thus the final model is chosen to be fitted using two components.
 
-When the first two principal components are used to predict the mass of the Local Group, the regression coefficients for them are approximately $\beta_1 = 2.392 \times 10^{11}$ and $\beta_2 -1.968 \times 10^{11}$ such that $\beta_1$ corresponds to the first principal component $x_1$ and $\beta_2$ to the second component $x_2$. With these coefficients, the estimated Local Group mass can be expressed as
+When the first two principal components are used to predict the mass of the Local Group, the regression coefficients for them are approximately $\beta_1 = 2.392 \times 10^{11}$ and $\beta_2 = -1.968 \times 10^{11}$ such that $\beta_1$ corresponds to the first principal component $x_1$ and $\beta_2$ to the second component $x_2$. With these coefficients, the estimated Local Group mass can be expressed as
 \begin{equation} \label{equ:pcr}
 	M_{LG} = \beta_1 x_{1} + \beta_2 x_{2}
-\end{equation} %TODO nätimmäksi?
-which yields an estimate of the mass in units of $\mathrm{M}_{\astrosun}$. 
+\end{equation}
+in units of $\mathrm{M}_{\astrosun}$. 
 
 This model can be used to predict the mass of any Local Group analogue for which the 12 variables are measured. This requires first scaling the data set using the scaling parameters learned from the training set (table~\ref{tab:standardizing}) and projecting the scaled data points to the plane defined by the first two principal components (table~\ref{tab:PCs}). Then the regression model given in equation \ref{equ:pcr} can be applied to the data to obtain an estimate of the Local Group mass.
 
 This was done to the remaining 40~\% of the data that was set aside to be used as a testing set. As the real masses for these simulated systems are known, the errors of the estimates can be calculated, producing a RMS error of $1.056 \times 10^{12}\ \mathrm{M}_{\astrosun}$. For comparison, timing argument had a RMS error of $1.417 \times 10^{12}\ \mathrm{M}_{\astrosun}$ in the same data set. %and ordinary least squares estimate on the 12 original variables without extracting principal components $1.121 \times 10^{12}\ \mathrm{M}_{\astrosun}$.
 This corresponds to a 25~\% improvement over the timing argument performance in the test set, though as the difference between the two methods was clearly smaller in the training phase, it is possible that the difference is exaggerated by e.g. the test set containing many simulations where timing argument performs exceptionally poorly.
 
-Nonetheless, is clear that, at the expense of measuring more variables, it is possible to use tools of statistics and machine learning to obtain better estimates of the mass of the Local Group. %TODO haastavaa toistaa IRL Unfortunately, currently repeating the analysis 
+Nonetheless, is clear that, at the expense of measuring more variables, it is possible to use tools of statistics and machine learning to obtain better estimates of the mass of the Local Group in a cosmological simulation. Unfortunately, applying the same method to observations is more complicated. First of all, all analysis in this thesis is based on dark matter haloes, only a fraction of which host a galaxy and are thus observable with current technology. This means that at least the clustering parameters need to be adjusted and even then the number of spatially reasonably sized DBSCAN clusters with at least ten members would be reduced. Furthermore, not all galaxies within the distance range of 1.5 to 5.0~Mpc used in this thesis are known and the probability of a galaxy being observed is not uniform across the sky [citation needed]. %TODO cite
+
+Given that radial velocities and distances of sufficiently many galaxies over a sufficiently large fraction of the sky are available, together with the velocity vector and distance of M31, preforming the analysis steps presented in this thesis is straightforward. Further study could also improve the accuracy of the model if e.g. possible non-linear relationships between variables are considered. It is also possible that some variables could be excluded from the model without much loss of accuracy or that including new variables would improve the predictions.
 
 
-
-%TODO : test set performance ei muuttunut vaikka skaalaus muuttui
 
 %TODO :
 % varmista että kerrot oletukset:
@@ -1601,11 +1601,11 @@ Nonetheless, is clear that, at the expense of measuring more variables, it is po
 			$\sigma_{radvel}$ & 107.0503 & 27.7604 & km/s \\
 			$\sigma_{radvel}$ (clustered) & 99.2486 & 23.4161 & km/s \\
 			$\sigma_{radvel}$ (not clustered) & 83.6529 & 25.8087 & km/s \\
-			$v_{r, LG}$ & 99.2486 & 23.4161 & km/s \\
-			$v_{t, LG}$ & 26.6303 & 10.7823 & km/s \\
-			$r_{LG}$ & 0.8538 & 0.0753 & Mpc \\
+			$v_{r, M31}$ & 99.2486 & 23.4161 & km/s \\
+			$v_{t, M31}$ & 26.6303 & 10.7823 & km/s \\
+			$r_{M31}$ & 0.8538 & 0.0753 & Mpc \\
 	\end{tabular}
-	\caption{Standardization parameters learned from the training set, containing 60~\% of the full data set, for the twelve variables used to construct the principal components. The names and abbreviations are same as used in Fig.~\ref{fig:pca-scattermatrix} and the surrounding text.} \label{tab:standardizing}
+	\caption{Standardization parameters learned from the training set containing 60~\% of the full data set, for the twelve variables used to construct the principal components. The names and abbreviations are same as used in Fig.~\ref{fig:pca-scattermatrix} and the surrounding text.} \label{tab:standardizing}
 \end{table}
 
 \setlength\tabcolsep{0.25em}
