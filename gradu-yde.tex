@@ -666,9 +666,7 @@ The criteria were chosen so that the systems resemble the Local Group but the al
 
 Even with the loose criteria, the sample size was reduced from the number of unique simulations as some resimulations did not contain a pair of haloes fulfilling the Local Group criteria. This can happen as the zooms are not identical to the parent simulation and especially Local Group analogues with some value near the edge of the allowed range can end up no longer meeting all criteria after resimulation. Some of the simulations also contained more than one Local Group analogue, in which case the pair with largest distance to the nearest type 2 or 3 particle was chosen for analysis.
 
-As the analysis conducted for this thesis uses not only the properties of a Local Group analogue but also its surroundings, the extent of high resolution regions is important. As can be seen in Fig.\ \ref{fig:uncontaminatedDistances}, most of the simulations contain only type 1 particles up to 4~Mpc from the Local Group analogue. For larger distances, the number of simulations uncontaminated by type 2 or 3 particles decreases until after 8~Mpc only few simulations have only type 1 particles. TODO: sum up the fact that some analysis required excluding some simulations based on contamination %TODO
-%To ensure maximum accuracy, all of the Local Group analogues used in the analysis were required not to have any type 2 or 3 particles within \_ Mpc of the mass centre of the halo pair. %TODO distance
-%This resulted in a final sample of \_ subhalo catalogues. %TODO number
+As the analysis conducted for this thesis uses not only the properties of a Local Group analogue but also its surroundings, the extent of high resolution regions is important. As can be seen in Fig.\ \ref{fig:uncontaminatedDistances}, most of the simulations contain only type 1 particles up to 4~Mpc from the Local Group analogue. For larger distances, the number of simulations uncontaminated by type 2 or 3 particles decreases until after 8~Mpc only few simulations have only type 1 particles. To ensure sufficient accuracy of the Hubble flow analysis, all of the Local Group analogues used in the analysis were required not to have any type 2 or 3 particles within 5~Mpc of the mass centre of the halo pair.This resulted in a final sample of 120 subhalo catalogues.
 
 
 \begin{figure}
@@ -701,7 +699,7 @@ the significance level $\alpha$ which corresponds to the probability of rejectin
 
 %\reversemarginpar
 %\marginnote{\footnotesize{kerro mikä $\alpha$ ja N käytössä myöhemmin kunhan tiedät}}
-There is no one optimal way of choosing $\alpha$, but instead one should try to find a balance between false rejections of the null hypothesis and not being able to reject the null hypothesis based on the dataset even if it is false. When sample size (often denoted $N$) is large, smaller values of $\alpha$ can often be used as decisions get more accurate when $N$ grows. For example tässä työssä $\alpha$ oli jokin ja $N$ jotain muuta. TODO! %TODO
+There is no one optimal way of choosing $\alpha$, but instead one should try to find a balance between false rejections of the null hypothesis and not being able to reject the null hypothesis based on the dataset even if it is false. When sample size (often denoted $N$) is large, smaller values of $\alpha$ can often be used as decisions get more accurate when $N$ grows. For example in all hypothesis testing done in this thesis the value of $\alpha$ was 0.01 and $N=119$.
 
 It is crucial not to look at the test results before choosing $\alpha$ in order to avoid intentional or unintentional fiddling with the data or changing the criterion of acceptance or rejectance to give desired results. Only after these steps should the test statistic be calculated. If the test statistic falls within the critical region, $H_0$ should be rejected and otherwise stated that $H_0$ cannot be rejected at this significance level. The critical values for different test statistics are widely found in statistical textbooks and collections of statistical tables or they can be calculated using statistical or scientific libraries available for many programming languages.
 
@@ -1546,6 +1544,7 @@ Nonetheless, it is clear that, at the expense of measuring more variables, it is
 
 Given that radial velocities and distances of sufficiently many galaxies over a sufficiently large fraction of the sky are available, together with the velocity vector and distance of M31, preforming the analysis steps presented in this thesis is straightforward. Further study could also improve the accuracy of the model if e.g. possible non-linear relationships between variables are considered. It is also possible that some variables, e.g. the tangential velocity of the M31 analogues, could be excluded from the model without much loss of accuracy or that including new variables would improve the predictions.
 
+%TODO mass criterion for clusters not used in mass estimation (maybe would help, not easy to observe though)
 
 \chapter{Conclusions}
 
