@@ -43,11 +43,11 @@ normalNumbersWide = np.append(normalNumbersWide, biggest)
 uniform = np.append(uniform, biggest)
 
 ax1.plot(normalNumbers, percentage, label='$\mu$=16.0, $\sigma$=2.0',
-		 linewidth=2.0, color='g')
+		 linewidth=2.0, color='C0')
 ax1.plot(normalNumbersWide, percentage, label='$\mu$=15.0, $\sigma$=4.0',
-		 linewidth=2.0, color='b')
+		 linewidth=2.0, color='C1')
 ax1.plot(uniform, percentage, label='uniform',
-		 linewidth=2.0, color='r')
+		 linewidth=2.0, color='C2')
 ax1.set_ylabel('CDF \enspace (\%)')
 ax1.set_ylim([0, 100])
 
@@ -57,10 +57,10 @@ uniform = np.insert(uniform, len(uniform)-1, 25)
 uniform = np.insert(uniform, 0, 5)
 pdf3 = uniformPDF(uniform, 5, 25)
 ax2.plot(normalNumbers, pdf1, linewidth=2.0, label='$\mu$=16.0, $\sigma$=2.0',
-		color='g')
+		color='C0')
 ax2.plot(normalNumbersWide, pdf2, linewidth=2.0, label='$\mu$=15.0, $\sigma$=4.0',
-		 color='b')
-ax2.plot(uniform, pdf3, linewidth=2.0, label='uniform', color='r')
+		 color='C1')
+ax2.plot(uniform, pdf3, linewidth=2.0, label='uniform', color='C2')
 ax2.set_ylabel('PDF')
 ax2.set_ylim([0, .22])
 

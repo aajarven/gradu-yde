@@ -48,13 +48,13 @@ uniform = CDFifyXData(uniform)
 normalNumbersWide2 = CDFifyXData(normalNumbersWide2)
 
 plt.plot(normalNumbers, percentage, label='$\mu$=16.0, $\sigma$=2.0',
-		 linewidth=2.0, color='g')
+		 linewidth=2.0, color='C0')
 plt.plot(normalNumbersWide, percentage, label='$\mu$=15.0, $\sigma$=4.0',
-		 linewidth=2.0, color='b')
+		 linewidth=2.0, color='C1')
 plt.plot(normalNumbersWide2, percentage, label='$\mu$=15.0, $\sigma$=4.0',
-		 linewidth=2.0, color='c')
+		 linewidth=2.0, color='C4')
 plt.plot(uniform, percentage, label='uniform',
-		 linewidth=2.0, color='r')
+		 linewidth=2.0, color='C2')
 
 plt.xlabel('x')
 plt.ylabel('EDF \enspace (\%)')

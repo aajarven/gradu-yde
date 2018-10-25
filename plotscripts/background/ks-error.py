@@ -76,15 +76,15 @@ normalNumbers = CDFifyXData(normalNumbers)
 normalNumbersWide = CDFifyXData(normalNumbersWide)
 
 plt.plot(normalNumbers, percentage, label='$\mu$=16.0, $\sigma$=2.0',
-		 linewidth=2.0, color='g')
+		 linewidth=2.0, color='C0')
 plt.plot(normalNumbersWide, percentage, label='$\mu$=15.0, $\sigma$=4.0',
-		 linewidth=2.0, color='b')
+		 linewidth=2.0, color='C1')
 
 axes = plt.gca()
 yLimits = [0, 100]
 axes.set_ylim(yLimits)
 plt.axvline(x=ksNormalWideX, ymin=ksNormalWideYLow/(yLimits[1]-yLimits[0]),
-			ymax=ksNormalWideYHigh/(yLimits[1]-yLimits[0]), color='m',
+			ymax=ksNormalWideYHigh/(yLimits[1]-yLimits[0]), color='C5',
 			linewidth=2)
 
 plt.xlabel('x')

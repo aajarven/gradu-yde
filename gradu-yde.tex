@@ -741,12 +741,12 @@ where $I$ is the indicator function, value of which is 1 if the condition in bra
 
 %\reversemarginpar
 %\marginnote{\footnotesize{harkitse laittavasi jämpti arvo N:lle kun muut osat valmiita}}
-Due to the EDF being a result of random sampling, it may deviate from the underlying CDF considerably as can be seen by comparing CDFs in Fig.\ \ref{fig:cdf} and corresponding EDFs in Fig.\ \ref{fig:edf}. This example is somewhat exaggerated with its $N$=35 as the actual dataset used in this thesis has $N$>100, but reducing the sample size makes seeing the effects of random sampling easier. The latter figure also has EDFs corresponding to two random samples drawn from the distribution of the green curve in the first figure to further illustrate the differences that can arise from random sampling. This randomness also makes determining whether two samples are drawn from the same distribution difficult.
+Due to the EDF being a result of random sampling, it may deviate from the underlying CDF considerably as can be seen by comparing CDFs in Fig.\ \ref{fig:cdf} and corresponding EDFs in Fig.\ \ref{fig:edf}. This example is somewhat exaggerated with its $N$=35 as the actual dataset used in this thesis has $N$>100, but reducing the sample size makes seeing the effects of random sampling easier. The latter figure also has EDFs corresponding to two random samples drawn from the distribution of the green curve in the first figure to further illustrate the differences that can arise from orange sampling. This randomness also makes determining whether two samples are drawn from the same distribution difficult.
 
 \begin{figure}
    \centering
    \includegraphics[width=0.9\textwidth]{kuvat/edf.pdf}
-   \caption{Empirical distribution function for four random samples ($N$=35) drawn from the same distributions as in Fig.\ \ref{fig:cdf}. Note that both the blue and the cyan data are drawn from the same distribution.}
+   \caption{Empirical distribution function for four random samples ($N$=35) drawn from the same distributions as in Fig.\ \ref{fig:cdf}. Note that both the orange and the violet data are drawn from the same distribution.}
    \label{fig:edf}
 \end{figure}
 
@@ -989,26 +989,26 @@ uses the maximum vertical distance of the EDFs. This test statistic is then used
 \begin{figure}
    \centering
    \includegraphics[width=0.9\textwidth]{kuvat/kstest.pdf}
-   \caption{KS test parameter values (magenta vertical lines) shown graphically for three samples from Fig.\ \ref{fig:edf}.}
+   \caption{KS test parameter values (brown vertical lines) shown graphically for three samples from Fig.\ \ref{fig:edf}.}
    \label{fig:ks} 
 \end{figure}
 
-As an example, let us consider two pairs of samples from Fig.\ \ref{fig:edf}: green and blue (two samples drawn from different normal distributions) and blue and cyan (two samples drawn from the same normal distribution). We can formulate the test and null hypotheses for both pairs as $H_0$=``the two samples are drawn from the same distribution'' and $H_1$=``the two samples are not drawn from the same distribution'' and choose a significance level of for example $\alpha=0.05$ or $\alpha=0.01$.
+As an example, let us consider two pairs of samples from Fig.\ \ref{fig:edf}: orange and blue (two samples drawn from different normal distributions) and orange and violet (two samples drawn from the same normal distribution). We can formulate the test and null hypotheses for both pairs as $H_0$=``the two samples are drawn from the same distribution'' and $H_1$=``the two samples are not drawn from the same distribution'' and choose a significance level of for example $\alpha=0.05$ or $\alpha=0.01$.
 
 %\reversemarginpar
 %\marginnote{\footnotesize{mistä p-value saadaan, kerro taas aiemmin (tai täällä)}}
-The test statistic is then calculated and for these samples we get $D=0.51$ for the green-blue pair and $D=0.20$ for the blue-cyan pair. Test statistics are illustrated in Fig.\ \ref{fig:ks} where the test statistics $D$ are shown as vertical magenta lines. According to Python function \texttt{scipy.stats.ks\_2samp}, these values of $D$ correspond to p-values $9.9\times 10^{-5}$ and $0.44$ respectively, which means that the null hypothesis ``green and blue samples are drawn from the same distribution'' is rejected at both 0.05 and 0.01 significance levels but the null hypothesis ``blue and cyan samples are drawn from the same distribution'' cannot be rejected.
+The test statistic is then calculated and for these samples we get $D=0.51$ for the orange-blue pair and $D=0.20$ for the orange-violet pair. Test statistics are illustrated in Fig.\ \ref{fig:ks} where the test statistics $D$ are shown as vertical magenta lines. According to Python function \texttt{scipy.stats.ks\_2samp}, these values of $D$ correspond to p-values $9.9\times 10^{-5}$ and $0.44$ respectively, which means that the null hypothesis ``orange and blue samples are drawn from the same distribution'' is rejected at both 0.05 and 0.01 significance levels but the null hypothesis ``orange and violet samples are drawn from the same distribution'' cannot be rejected.
 
 \begin{figure}
    \centering
    \includegraphics[width=0.9\textwidth]{kuvat/kstest-error.pdf}
-   \caption{KS test ran on another pair of samples drawn from blue and green distributions in Fig.\ \ref{fig:cdf}.}
+   \caption{A graphical representation of the KS test ran on another pair of samples drawn from orange and blue distributions in Fig.\ \ref{fig:cdf}.}
    \label{fig:ks-error} 
 \end{figure}
 
 In this case the KS test produced result that matches the actual distributions from which the samples were drawn. Using a different random realization might have resulted in a different conclusion, for example the one shown in Fig.\ \ref{fig:ks-error} results in $D=0.17$ that corresponds to a p-value of $0.64$ i.e.\ null hypothesis could not have been rejected using the $\alpha$ specified earlier. In a similar manner there can be cases where two samples from one distribution are erroneously determined not to come from the same distribution if the samples differ from each other enough due to random effects.
 
-The latter example case also illustrates one major shortcoming of the KS test: it is not very sensitive to small-scale differences near the tails of the distribution. For example in Fig.\ \ref{fig:ks-error} the blue sample goes much further left, but because EDF is always zero at the lowest allowed value and one at the highest one the vertical distances near the tails are small and the test is most sensitive to differences near the median value of the distribution. On the other hand, the test performs quite well when the samples differ globally or have different means. \citep{feigelson2012modern}
+The latter example case also illustrates one major shortcoming of the KS test: it is not very sensitive to small-scale differences near the tails of the distribution. For example in Fig.\ \ref{fig:ks-error} the orange sample goes much further left, but because EDF is always zero at the lowest allowed value and one at the highest one the vertical distances near the tails are small and the test is most sensitive to differences near the median value of the distribution. On the other hand, the test performs quite well when the samples differ globally or have different means. \citep{feigelson2012modern}
 
 %\reversemarginpar
 %\marginnote{\footnotesize{"explain better"}}[1.8cm]
