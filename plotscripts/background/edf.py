@@ -15,6 +15,9 @@ def CDFifyXData(array):
 
 np.random.seed(100)
 
+rc('font', **{'family':'serif','serif':['Palatino']})
+rc('text', usetex=True)
+
 N = 35
 normalNumbers = np.random.normal(16.0, 2.0, N)
 normalNumbersWide = np.random.normal(15.0, 4.0, N)
@@ -57,12 +60,10 @@ plt.xlabel('x')
 plt.ylabel('EDF \enspace (\%)')
 plt.legend(loc=0)
 plt.xlim([2, 28])
-
-rc('font', **{'family':'serif','serif':['Palatino']})
-rc('text', usetex=True)
+plt.ylim([0, 100])
 
 F = pylab.gcf()
 F.set_size_inches(5.9, 3.2)
 
 #plt.show()
-plt.savefig('../../kuvat/edf.png', bbox_inches='tight')
+plt.savefig('../../kuvat/edf.pdf', bbox_inches='tight')

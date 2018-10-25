@@ -17,6 +17,9 @@ def uniformPDF(x, minX, maxX):
 
 np.random.seed(715517)
 
+rc('font', **{'family':'serif','serif':['Palatino']})
+rc('text', usetex=True)
+
 N = 100000
 normalNumbers = np.random.normal(16.0, 2.0, N)
 normalNumbersWide = np.random.normal(15.0, 4.0, N)
@@ -46,6 +49,7 @@ ax1.plot(normalNumbersWide, percentage, label='$\mu$=15.0, $\sigma$=4.0',
 ax1.plot(uniform, percentage, label='uniform',
 		 linewidth=2.0, color='r')
 ax1.set_ylabel('CDF \enspace (\%)')
+ax1.set_ylim([0, 100])
 
 pdf1 = normPDF(normalNumbers, 16, 2)
 pdf2 = normPDF(normalNumbersWide, 15, 4)
@@ -70,11 +74,8 @@ plt.xlabel('x')
 ax1.legend(loc=0)
 plt.xlim([2, 28])
 
-rc('font', **{'family':'serif','serif':['Palatino']})
-rc('text', usetex=True)
-
 F = pylab.gcf()
 F.set_size_inches(5.9, 5)
 
 #plt.show()
-plt.savefig('../../kuvat/cdf.png', bbox_inches='tight')
+plt.savefig('../../kuvat/cdf.pdf', bbox_inches='tight')
