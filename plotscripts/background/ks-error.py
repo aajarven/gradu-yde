@@ -43,6 +43,9 @@ def biggestDifference(data1X, data2X, y):
 
 np.random.seed(25)
 
+rc('font', **{'family':'serif','serif':['Palatino']})
+rc('text', usetex=True)
+
 N = 35
 normalNumbers = np.random.normal(16.0, 2.0, N)
 normalNumbersWide = np.random.normal(15.0, 4.0, N)
@@ -78,20 +81,19 @@ plt.plot(normalNumbersWide, percentage, label='$\mu$=15.0, $\sigma$=4.0',
 		 linewidth=2.0, color='b')
 
 axes = plt.gca()
-yLimits = axes.get_ylim()
+yLimits = [0, 100]
+axes.set_ylim(yLimits)
 plt.axvline(x=ksNormalWideX, ymin=ksNormalWideYLow/(yLimits[1]-yLimits[0]),
 			ymax=ksNormalWideYHigh/(yLimits[1]-yLimits[0]), color='m',
 			linewidth=2)
 
 plt.xlabel('x')
-plt.ylabel('EDF \enspace (\%)')
+plt.ylabel(r'EDF \enspace (\%)')
 plt.legend(loc=0)
 plt.xlim([2, 28])
 
-rc('font', **{'family':'serif','serif':['Palatino']})
-rc('text', usetex=True)
 
 F = pylab.gcf()
 F.set_size_inches(5.9, 3.2)
 
-plt.savefig('../../kuvat/kstest-error.png', bbox_inches='tight')
+plt.savefig('../../kuvat/kstest-error.pdf', bbox_inches='tight')
