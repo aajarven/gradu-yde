@@ -676,9 +676,10 @@ As the analysis conducted for this thesis uses not only the properties of a Loca
 \end{figure}
 
 \chapter{Mathematical and statistical methods}
-täällä tarvittavat esitiedot ja önnönnöö, listaa mm. mitä aiot kertoa kunhan tiedät itsekään
+The analysis presented in chapter~\ref{chapt:results} relies strongly on many tools of mathematics and statistics. This chapter covers the background needed to understand and motivate the use of these methods, starting from the basic concepts of statistics in section~\ref{sect:statistical-background}. Sections~\ref{sect:regression} and \ref{sect:pca} introduce linear regression and principal component analysis used in constructing a model for predicting the Local Group mass. Then, in sections~\ref{sect:cross-validation} and \ref{sect:statistical_tests}, tools used for evaluating the accuracy and significance of results are introduced. Finally, section~\ref{sect:cluster-analysis} covers the clustering algorithm used to find the subhaloes located near each other on the sky.
 
-\section{Statistical Background}
+
+\section{Statistical Background} \label{sect:statistical-background}
 %\reversemarginpar
 %\marginnote{\footnotesize{vähän parempi tässä kuin aiemman otsikon alla}}
 %Precision of the used equipment limits accuracy of all data gathered from physical experiments, simulations or observations. Therefore the results are affected by the measurement process and the results have to be presented as estimates with some error, magnitude of which is affected by both number of data points and accuracy of the measurement equipment \citep{bohm2010introduction}.
@@ -751,8 +752,8 @@ Due to the EDF being a result of random sampling, it may deviate from the underl
 \end{figure}
 
 
-\section{Linear Regression}
-Regression analysis is a set of statistical analysis processes that are used to estimate functional relationships between a response variable (denoted with $y$) and one or more predictor variables (denoted with $x$ in case of single predictor or $x_1 \dots x_i$ if there are multiple predictor variables) \citep{feigelson2012modern}. In this section, we will cover both simple regression, where there is only one response variable, and multiple linear regression, where there are more than one predictor variables. The models also contain an $\varepsilon$ term that represents the scatter of measured points around the fit. One of the models used is the linear regression model, which can be used to fit any relationship where the response variable is a linear function of the model parameters \citep{montgomery2012introduction}. In addition to the widely known and used models where the relationship is a straight line, such as $y = \beta_0 x + \varepsilon$, 
+\section{Linear Regression} \label{sect:regression}
+Regression analysis is a set of statistical analysis processes that are used to estimate functional relationships between a response variable (denoted with $y$) and one or more predictor variables (denoted with $x$ in case of single predictor or $x_1 \dots x_i$ if there are multiple predictor variables) \citep{feigelson2012modern}. In this section, both simple regression, where there is only one response variable, and multiple linear regression, where there are more than one predictor variables, are introduced briefly. The models also contain an $\varepsilon$ term that represents the scatter of measured points around the fit. One of the models used is the linear regression model, which can be used to fit any relationship where the response variable is a linear function of the model parameters \citep{montgomery2012introduction}. In addition to the widely known and used models where the relationship is a straight line, such as $y = \beta_0 x + \varepsilon$, 
 %\begin{equation}
 %	y = \beta_0 x + \varepsilon
 %\end{equation}
@@ -772,10 +773,6 @@ On the other hand, all models where the relationship is not linear, for example 
 %\end{equation}
 are nonlinear.
 
-
-\subsection{Simple linear regression}\label{sect:simple-linear}
-%\reversemarginpar
-%\marginnote{\footnotesize{onko otsikko järkevä kun }}
 Simple linear regression is a model with a single predictor variable and a single response variable with a straight line relationship, i.e.
 \begin{equation}
 	y = \beta_0 + \beta_1 x + \varepsilon
@@ -806,7 +803,7 @@ where $x_1$ and $y_i$ are single values of the measured quantities \citep{feigel
 
 %\reversemarginpar
 %\marginnote{\footnotesize{HF: OLS/TLS? Sido PCA:han}}
-When dividing the variables to the independent variable with no error and a response variable with possible measurement error is not a justifiable choice, OLS should not be used. For example when fitting the Hubble flow to observations, both observed distances and radial velocities are likely to contain some uncertainty and thus OLS is not an optimal choice. One alternative for OLS is total least squares (TLS, also known as orthogonal least squares in some sources such as \citet{feigelson2012modern}) regression can be used instead of OLS \citep{markovsky2007overview}.  The major difference between OLS and TLS is that instead of vertical distance, the minimized squared distance is measured between a point and its projection to the fitted line, thus providing minimum of the sum of the squared orthogonal distances from the line \citep{feigelson2012modern}. These minimized distances are shown in Fig.\ \ref{fig:TLS}.
+When dividing the variables to the independent variable with no error and a response variable with possible measurement error is not a justifiable choice, OLS should not be used. For example when fitting the Hubble flow to observations, both observed distances and radial velocities are likely to contain some uncertainty and thus OLS is not an optimal choice. One alternative for OLS is total least squares (TLS, also known as orthogonal least squares in some sources such as \citet{feigelson2012modern}) \citep{markovsky2007overview}.  The major difference between OLS and TLS is that instead of vertical distance, the minimized squared distance is measured between a point and its projection to the fitted line, thus providing minimum of the sum of the squared orthogonal distances from the line \citep{feigelson2012modern}. These minimized distances are shown in Fig.\ \ref{fig:TLS}.
 
 \begin{figure}
     \centering
@@ -815,34 +812,21 @@ When dividing the variables to the independent variable with no error and a resp
     \caption{Total least squares minimizes the sum of squares of orthogonal distances of the data points from the fitted line. Distances between the data points (black circles) and the fitted line (black line) are shown in grey.}\label{fig:TLS}
 \end{figure}
 
+Multiple linear regression is analogous to simply linear regression in other ways, but more than one predictor variables are used \citep{xin2009linear}. Thus the relationship of the response and predictor variables can be expressed as
+\begin{equation}
+	y = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \dots + \beta_n x_n + \varepsilon
+\end{equation}
+where each of the predictor variables $x_n$ has its own regression coefficient $\beta_n$, the value of which is chosen to best model the data. Each of these parameters describes how the response value changes if the corresponding predictor changes while all other predictors remain constant \citep{montgomery2012introduction}.
 
+Least squares estimation and many other methods that can be used with single predictor are also applicable for multiple linear regression, but the properties of the predictor variable set can greatly affect the accuracy of the predictions \citep{montgomery2012introduction}. For example if some of the predictor variables are correlated with each other, known as multicollinearity \citep{montgomery2012introduction}. In this case, the values of the regression coefficients tend to be have abnormally large absolute variables and they can be very sensitive to small changes of the values in the predictor variables \citep{montgomery2012introduction}.
 
-\subsection{Multiple linear regression}
-%\reversemarginpar
-%\marginnote{\footnotesize{gradun sovellus: onko PCR relevantti?}}
-%ongelman kuvailu, esim OLS:lle yleistys, jälleen liittyy PCA
-
-
-%\begin{equation}
-%	\matr{y} = \matr{X}\matr{\beta} + \matr{\ varepsilon}
-%\end{equation}
-%where $y$ is the response variable, $x_i$ are the predictor variables
-
-%Linear Regression Analysis : Theory and Computing
-%Introduction to Linear Regression Analysis
-
-
-
-
-%\subsection{Ordinary Least Squares}
-
-%\subsection{
+Ideally the predictor variables are all orthogonal, but this is not always the case. If the correlations between pairs of variables are small, the quality of the prediction usually does not suffer excessively, but strong correlations usually require utilizing some approach to lessen the effects of multicollinearity \citep{montgomery2012introduction}. Depending on what is causing the multicollinearity, this can mean e.g. discarding some variables from the analysis or collecting more data \citep{montgomery2012introduction}. However, often increasing the size of the data set is not possible, and in many cases discarding variables does not produce the best possible results. One way of alleviating the effects of multicollinearity while retaining all variables is to first transform the data set into a new set of variables that are orthogonal, known as the principal components of the data set, and then constructing the regression model using these principal components as predictor variables \citep{montgomery2012introduction}. The extraction process and the properties of the principal components of a data set are described in the following section.
 
 
 \section{Principal Component Analysis} \label{sect:pca}
 %\reversemarginpar
 %\marginnote{\footnotesize{orthogonal vs uncorrelated}}
-Principal component analysis (PCA) is a statistical procedure first introdueced by \citet{pearson1901lines} to aid physical, statistical and biological investigations where fitting a line or a plane to n-dimensional dataset is desired. When performing PCA, one transforms a data set to a new set of uncorrelated variables i.e.\ ones represented by orthogonal basis vectors. These variables are called principal components (PCs) \citep{jolliffe2002principal}. This approach also solves the problem of sometimes arbitrary choice of division of the data into dependent and independent variables introduced in section \ref{sect:simple-linear} \citep{pearson1901lines}. 
+Principal component analysis (PCA) is a statistical procedure first introdueced by \citet{pearson1901lines} to aid physical, statistical and biological investigations where fitting a line or a plane to n-dimensional dataset is desired. When performing PCA, one transforms a data set to a new set of uncorrelated variables i.e.\ ones represented by orthogonal basis vectors. These variables are called principal components (PCs) \citep{jolliffe2002principal}. In addition to eliminating multicollinearity in the data set, this approach can also be used to solve the problem of sometimes arbitrary choice of division of the data into dependent and independent variables introduced in the previous section \citep{pearson1901lines}. 
 
 %\reversemarginpar
 %\marginnote{\footnotesize{not sure if kannattaa kuvaille proseduuria erityisen tarkkaan, selityksestä tulee pitkällinen jos aikoo aloittaa keskimääräisen tähtitieteilijän lähtötasolta, ehkä vain ohjaa lähteeseen}}
@@ -898,10 +882,7 @@ Unfortunately, as Cattell also acknowledges in his paper, all cases are not as e
 Another straightforward method for choosing how many PCs to retain is to examine how much of the total variation in data is explained by first PCs and including components only up to a point where pre-defined percentage of the total variance is explained \citep{jolliffe2002principal}. Whereas the previous method posed a challenge in determining which PC best matches the exclusion criteria, when using this approach the problem arises from choosing the threshold for including PCs. \citet{jolliffe2002principal} suggests that a value between 70~\% and 90~\% of the total variation is often a reasonable choice, but admits that the properties of the data set may justify values outside this range. Unfortunately, the suggested range is quite wide, so it may contain multiple PCs and therefore it is up to the researcher to determine the best number of PCs, while the criterion again acts only as an aid in the process. 
 
 
-
-\subsection{Principal Component Regression}
-
-\section{Error analysis} \label{sect:cross-validation}
+\section{Cross-Validation} \label{sect:cross-validation}
 % cross validation
 
 
@@ -1101,7 +1082,7 @@ According to \citet{ester1996density}, $\varepsilon$ can be set after choosing t
 \end{figure}
 
 
-\chapter{Findings from Halo Catalogue Analysis}
+\chapter{Findings from Halo Catalogue Analysis} \label{chapt:results}
 TODO intro %TODO
 
 %Being able to identify structures such as other galaxy groups and clusters can help improve the Hubble flow measurements and the distribution of the radial velocities can reveal correlations with the mass of the Local Group.
