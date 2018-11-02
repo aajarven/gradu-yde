@@ -893,73 +893,9 @@ When the used model has been chosen, the final model should be constructed using
 
 
 \section{Comparing two samples drawn from unknown distributions} \label{sect:statistical_tests}
-%\reversemarginpar
-%\marginnote{\footnotesize{TODO: oispa parempi otsikko. mieti, onko tämä muutenkaan hyvä nyt kun on siirretty yksi otsikkotaso ylöspäin}}[-3cm]
-A common question in multiple fields of science is whether two or more samples are drawn from the same distribution. The most relevant methods that can be used to address this problem are introduced here following \citet{bohm2010introduction} and \citet{feigelson2012modern} apart from introducing the $\chi^2$ test which is mostly based on the approach of \citet{corder2014nonparametric}.
+A common question in multiple fields of science is whether two or more samples are drawn from the same distribution. Such questions can emerge for example when comparing effectiveness of two procedures, determining if the instrument has changed over time or whether observed data is compatible with simulations. There are multiple two-sample tests that can address this kind of questions, e.g. Kolmogorov-Smirnov, Cram\'er-von Mises and Anderson-Darling tests.
 
-Questions related to comparing samples can emerge for example when comparing effectiveness of two procedures, determining if the instrument has changed over time or whether observed data is compatible with simulations. There are multiple two-sample tests that can address this kind of questions, e.g. $\chi^2$, Kolmogorov-Smirnov, Cram\'er-von Mises and Anderson-Darling tests. 
-
-In addition to comparing two samples, these tests can be used as one-sample tests to determine whether it is expected that the sample is from a particular distribution. However, some restrictions apply when using the one-sample variants. Some of these tests use categorical data, i.e. data where variables fall in pre-defined categories, and compares numbers of samples in different categories, whereas the others are applied to numerical data and compare empirical distribution functions (EDF) of the datasets. Examples of such categories might be for example ``galaxies that are active'' or ``data points between values 1.5 and 1.6''.
-
-
-\subsection{$\chi^2$ test}
-%\reversemarginpar
-%\marginnote{\footnotesize{keksi paremmat esimerkit koko kappaleeseen, jotain relevanttia myöhempää tutkimusta ajatellen. katso kommentit paperista sen jälkeen, kaikkia ei täällä vielä}}
-Astronomical data often involves classifying objects into categories such as ``stars with exoplanets'' and ``stars without exoplanets'' or the spectral classes of stars  \citep{feigelson2012modern}. One tool for analysing such categorical data is $\chi^2$ test, which can be used both to determine whether a sample can be drawn from a certain distribution and to test whether two samples can originate from a single distribution. 
-
-The method described here is sometimes referred to as Pearson's $\chi^2$ test due to existence of other tests where $\chi^2$ distribution is used. In some cases, such as with small $2 \times 2$ contingency tables and when expected cell counts are small, other variants of $\chi^2$ test should be used. For example the Yates's $\chi^2$ test or the Fisher exact test work better in these cases than the $\chi^2$ test.
-
-For one-sample test, the $\chi^2$ test uses the number of measurements in each bin together with a theoretical estimate calculated from the null hypothesis. For example one might have observed exoplanets and tabulated the number of planet-hosting stars of different spectral class as is shown in Table \ref{tab:exoplanets} and now wants 
-to test the observations against null hypothesis ``Distribution of stellar classes for observed exoplanet-hosting stars is equal to that of main sequence stars in solar neighbourhood as given by \citet{ledrew2001real}'' using significance level $\alpha=0.01$. The data is categorical, so now $\chi^2$ test is a justified choice.
-
-\begin{table}
-	\centering
-	\begin{tabular}{p{2cm}|p{4cm}}
-		Stellar class & Number of observed planetary systems \\ \hline
-		A & 6 \\
-		F & 38 \\
-		G & 39 \\
-		K & 134
-	\end{tabular}
-	\caption{Example of categorical data.}
-	\label{tab:exoplanets}
-\end{table}
-
-\begin{table}
-	\centering
-	\begin{tabular}{ l | l | l }
-		Stellar class & Observations ($f_o$)& Theory ($f_e$) \\ \hline
-		A & 6 & 6 \\
-		F & 38 & 28 \\
-		G & 39 & 71 \\
-		K & 134 & 112 \\ \hline
-		total & 217 & 217
-	\end{tabular}
-	\caption{Data of Table \ref{tab:exoplanets} together with expected values if null hypothesis was true.}
-	\label{tab:exoplanets-null}
-\end{table}
-
-In this case the first step would be to calculate the expected observation counts for each bin according to the null hypothesis. Table \ref{tab:exoplanets-null} contains these expected counts ($f_e$) together with the observations ($f_o$). These observed and expected values are then used to calculate the $\chi^2$ test statistic, defined as
-\begin{equation}
-	\chi^2 = \sum_i \frac{(f_o - f_e)^2}{f_e}.
-\end{equation}
-With the data given above this results in $\chi^2 \approx 23.6$. The data has four bins, so the degree of freedom is $4-1=3$. Next one can compare the calculated $\chi^2$ value to a tabulated critical value for our significance level $\alpha=0.01$. These tabulated values can be widely found in statistics textbooks and books specifically dedicated to statistical tables.
-
-In this case according to \citet{corder2014nonparametric} the critical value is 11.34, which means that as $23.6>11.34$ one can reject the null hypothesis and conclude that at 1\% significance level the distribution of stellar classes for observed exoplanet-hosting stars is not equal to that of main sequence stars in solar neighbourhood. This of course can either be due to exoplanets being more numerous around some stellar classes than others or arise from some observational effect such as the observer observing more of the later type stars and thus arbitrarily skewing the distribution of the exoplanet finds.
-
-The $\chi^2$ test can also be used to test for independence of two or more samples. The data is again tabulated and now the $\chi^2$ test statistic is calculated as
-\begin{equation}
-	\chi^2 = \sum_i \sum_j \frac{(f_{oij}-f_{eij})^2}{f_{eij}}
-\end{equation}
-where $f_{oij}$ denotes the observed frequency in cell $(i, j)$ and $f_{eij}$ is the expected frequency for that cell. The expected frequency can be calculated using the following formula
-\begin{equation}
-	f_{eij} = \frac{R_i C_i}{N}
-\end{equation}
-where $R_i$ is the number of samples in row $i$, $C_j$ is the number of samples in column $j$ and $N$ is the total sample size.
-
-According to \citet{corder2014nonparametric}, the degrees of freedom is $(R-1)(C-1)$ where R is the number of rows and C is the number of columns in tabulated data. This is true in many if not most cases, but the way of collecting data can affect the degrees of freedom in both one-sample and multi-sample cases, as \cite{press2007numerical} explains. For example, if the one-sample model is not renormalized to fit the total number of observed events or, in two-sample case, the sample sizes differ, the degrees of freedom equal to number of bins $N_b$ instead of $N_b-1$.
-
-Before performing the $\chi^2$ test on a dataset, it is important to confirm that the data meets the assumptions for $\chi^2$ test, given for example in \citep{bock2010stats} and \citep{htk}. First of all, the data has to consist of counts i.e.\ not for example percentages or fractions. These counts should be independent of each other and there has to be enough of them, generally $>50$ is sufficient. Bins should also be chosen such that all bins have at least five counts according to the null hypothesis. If the last condition is not met, one can can consider combining bins. 
+All of the tests introduced in this section have been designed to be applied to numerical data and compare empirical distribution functions (EDF) of the datasets. In addition to comparing two samples, these tests can be used as one-sample tests to determine whether it is expected that the sample is from a particular distribution. However, some restrictions apply when using the one-sample variants. In this work, comparing samples is done using the Kolmogorov-Smirnov test. It is introduced in section~\ref{sect:ks}, mostly following \citet{bohm2010introduction} and \citet{feigelson2012modern}. Other similar tests are also shortly described in section~\ref{sect:edf-tests} in order to help motivate the choice.
 
 
 \subsection{Kolmogorov-Smirnov test} \label{sect:ks}
@@ -984,7 +920,7 @@ As an example, let us consider two pairs of samples from Fig.\ \ref{fig:edf}: or
 
 %\reversemarginpar
 %\marginnote{\footnotesize{mistä p-value saadaan, kerro taas aiemmin (tai täällä)}}
-The test statistic is then calculated and for these samples we get $D=0.51$ for the orange-blue pair and $D=0.20$ for the orange-violet pair. Test statistics are illustrated in Fig.\ \ref{fig:ks} where the test statistics $D$ are shown as vertical magenta lines. According to Python function \texttt{scipy.stats.ks\_2samp}, these values of $D$ correspond to p-values $9.9\times 10^{-5}$ and $0.44$ respectively, which means that the null hypothesis ``orange and blue samples are drawn from the same distribution'' is rejected at both 0.05 and 0.01 significance levels but the null hypothesis ``orange and violet samples are drawn from the same distribution'' cannot be rejected.
+The test statistic is then calculated. For these samples, we get $D=0.51$ for the orange-blue pair and $D=0.20$ for the orange-violet pair. Test statistics are illustrated in Fig.\ \ref{fig:ks} where the test statistics $D$ are shown as vertical magenta lines. According to Python function \texttt{scipy.stats.ks\_2samp}, these values of $D$ correspond to p-values $9.9\times 10^{-5}$ and $0.44$ respectively, which means that the null hypothesis ``orange and blue samples are drawn from the same distribution'' is rejected at both 0.05 and 0.01 significance levels but the null hypothesis ``orange and violet samples are drawn from the same distribution'' cannot be rejected.
 
 \begin{figure}
    \centering
@@ -1001,15 +937,13 @@ The example in Fig.~\ref{fig:ks-error} also illustrates one major shortcoming of
 %\marginnote{\footnotesize{"explain better"}}[1.8cm]
 The KS test is also subject to some limitations and it is important to be aware of them in order to avoid misusing it. First of all, the KS test is not distribution free if the model parameters, e.g. mean and standard deviation for normal distribution, are estimated from the dataset that is tested. Thus the tabulated critical values can be used only if model parameters are determined from some other source such as a simulation, theoretical model or another dataset.
 
-Another severe limitation of KS test is that it is only applicable to one-dimensional data. If the dataset has two or more dimensions, there is no unique way of ordering the points to plot EDF and therefore if KS test is used, it is no longer distribution free. Some variants that can handle two or more dimensions have been invented, such as ones by \citet{peacock1983twodimensional} and \citet{fasano1987multidimensional}, but the authors do not provide formal proof of validity of these tests. Despite this, the authors claim that Monte Carlo simulations suggest that the methods work adequately well for most applications.
-
-% mutlidimensionaaleista http://articles.adsabs.harvard.edu/cgi-bin/nph-iarticle_query?1987MNRAS.225..155F&defaultprint=YES&filetype=.pdf ja http://articles.adsabs.harvard.edu/cgi-bin/nph-iarticle_query?1983MNRAS.202..615P&defaultprint=YES&filetype=.pdf
+Another severe limitation of KS test is that it is only applicable to one-dimensional data. If the dataset has two or more dimensions, there is no unique way of ordering the points to plot EDF and therefore if KS test is used, it is no longer distribution free. Some variants that can handle two or more dimensions have been invented, such as ones by \citet{peacock1983twodimensional} and \citet{fasano1987multidimensional}, but the authors do not provide formal proof of validity of these tests.
 
 
-\subsection{Other tests based on EDFs}
+\subsection{Other tests based on EDFs} \label{sect:edf-tests}
 %\reversemarginpar
 %\marginnote{\footnotesize{ehkä vähän lyhyenpuoleisia kappaleita}}
-Unsatisfactory sensitivity of the KS test motivates the use of other more complex tests. Such tests are for example the Cram\'er-von Mises test (CvM) and Anderson-Darling (AD) test, both of which have their strengths. Similar to KS test, both of these can be used as one-sample or two-sample variants.  
+Unsatisfactory sensitivity of the KS test can motivate the use of other more complex tests on some data sets. Such tests are for example the Cram\'er-von Mises test (CvM) and Anderson-Darling (AD) test, both of which have their strengths. Similar to KS test, both of these can be used as one-sample or two-sample variants.  
 
 First of these tests integrates over the squared difference between the EDF of the sample and CDF from the model or two EDFs in case of two-sample test. The test statistic $W^2$ for one-sample case can be expressed formally as
 \begin{equation}
