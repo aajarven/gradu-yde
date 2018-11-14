@@ -138,8 +138,8 @@
 \pagestyle{fancy}    
 \fancyhf{} % delete current header and footer 
 \fancyhead[LE,RO]{\bfseries\thepage} 
-\fancyhead[LO]{\bfseries\rightmark} 
-\fancyhead[RE]{\bfseries\leftmark}
+\fancyhead[LO]{\nouppercase{\bfseries\rightmark}}
+\fancyhead[RE]{\nouppercase{\bfseries\leftmark}}
 }
 \newcounter{appendix}
 \newcommand{\appendices}{%
