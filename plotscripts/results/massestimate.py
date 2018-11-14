@@ -128,7 +128,7 @@ if __name__ == "__main__":
 	plt.xticks(np.arange(ceil(lims[0]), ceil(lims[1]), 1))
 	lims = plt.ylim()
 	plt.ylim(0, lims[1])
-	plt.xlabel("Number of component")
+	plt.xlabel("Index of component")
 	plt.ylabel("Explained variance (\% of total)")
 	plt.gcf().set_size_inches(4.0, 3.1)
 	plt.tight_layout()
