@@ -9,6 +9,7 @@ from filereader import readTextTable
 import anisotropymap
 import LGfinder
 from matplotlib import rc
+import matplotlib.colors as colors
 import matplotlib.pyplot as plt
 import matplotlib.backends.backend_agg
 import numpy as np
@@ -16,6 +17,7 @@ import os
 import physUtils
 import sys
 from transitiondistance import findBestHubbleflow
+
 
 
 if __name__ == "__main__":
@@ -70,13 +72,24 @@ if __name__ == "__main__":
 #	plt.title("Haloes around Milky Way analogue\nfrom 1.5 Mpc to 5.0 Mpc away",
 #		   y=1.08)
 
-	cmap = anisotropymap.shiftedColorMap(plt.cm.get_cmap('RdBu_r'),
+	cmap_centered = anisotropymap.shiftedColorMap(plt.cm.get_cmap('RdBu_r'),
 						   midpoint=-min(radvel)/(max(radvel)-min(radvel)))
+	cmap_min = -600.0
+	cmap_max = 400.0
+	cmap_range = cmap_max - cmap_min
+	cmap_bluerange = colors.LinearSegmentedColormap.from_list('velocitymap',
+												 plt.cm.get_cmap('RdBu_r')(np.linspace(0,
+												  cmap_range/(-2*cmap_min))))
+	cmap_redrange = colors.LinearSegmentedColormap.from_list('velocitymap',
+												 plt.cm.get_cmap('RdBu_r')(np.linspace(-0.25,
+												  1.0)))
+
 
 	fig.set_size_inches(5.9, 2.9)
 
+	# colormap options: cmap_centered, cmap_bluerange and cmap_redrange
 	sc = plt.scatter(directions[:,0], directions[:,1], c=radvel, 
-					 cmap=cmap, s=18, edgecolors='k')
+					 cmap=cmap_centered, s=18, edgecolors='k')
 	cb = plt.colorbar(sc, fraction=0.046, pad=0.04)
 
 	cb.set_label("Deviation from Hubble flow fit (km/s)")
