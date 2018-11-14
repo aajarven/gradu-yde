@@ -47,50 +47,51 @@ if __name__ == "__main__":
 		+ " allowed) and tight (custom criteria creating visually satisfying"
 		+ "result.")
 
-	if opts.outlierExclusion != "none":
-		if opts.outlierExclusion == "tight":
-			allHaloesSanitymask = np.array([zeropoint < 10.0 and zeropoint > -2.0 for zeropoint
-							   in zeropoints])
-			inClusterSanitymask = np.array([zeropoint < 10.0 and zeropoint > -2.0 for zeropoint
-							   in inClusterZeros])
-			outClusterSanitymask = np.array([zeropoint < 10.0 and zeropoint > -2.0 for zeropoint
-							   in outClusterZeros])
-			sanitymask = np.logical_and(allHaloesSanitymask,
-									 np.logical_and(inClusterSanitymask,
-							   outClusterSanitymask))
-		
-		elif opts.outlierExclusion == "loose":
-			allHaloesSanitymask = np.array([zeropoint < 5.0 and zeropoint > -5.0 for zeropoint
-							   in zeropoints])
-			inClusterSanitymask = np.array([zeropoint < 5.0 and zeropoint > -5.0 for zeropoint
-							   in inClusterZeros])
-			outClusterSanitymask = np.array([zeropoint < 5.0 and zeropoint > -5.0 for zeropoint
-							   in outClusterZeros])
-			sanitymask = np.logical_and(allHaloesSanitymask,
-									 np.logical_and(inClusterSanitymask,
-							   outClusterSanitymask))
+	if opts.outlierExclusion == "none":
+		sanitymask = np.ones((len(masses), 1), dtype=bool)
+	elif opts.outlierExclusion == "tight":
+		allHaloesSanitymask = np.array([zeropoint < 10.0 and zeropoint > -2.0 for zeropoint
+						   in zeropoints])
+		inClusterSanitymask = np.array([zeropoint < 10.0 and zeropoint > -2.0 for zeropoint
+						   in inClusterZeros])
+		outClusterSanitymask = np.array([zeropoint < 10.0 and zeropoint > -2.0 for zeropoint
+						   in outClusterZeros])
+		sanitymask = np.logical_and(allHaloesSanitymask,
+								 np.logical_and(inClusterSanitymask,
+						   outClusterSanitymask))
+	
+	elif opts.outlierExclusion == "loose":
+		allHaloesSanitymask = np.array([zeropoint < 5.0 and zeropoint > -5.0 for zeropoint
+						   in zeropoints])
+		inClusterSanitymask = np.array([zeropoint < 5.0 and zeropoint > -5.0 for zeropoint
+						   in inClusterZeros])
+		outClusterSanitymask = np.array([zeropoint < 5.0 and zeropoint > -5.0 for zeropoint
+						   in outClusterZeros])
+		sanitymask = np.logical_and(allHaloesSanitymask,
+								 np.logical_and(inClusterSanitymask,
+						   outClusterSanitymask))
 
-		print("Excluded " + str(np.size(sanitymask) -
-					   np.count_nonzero(sanitymask)) + " outliers")
-		print(zeropoints[np.logical_not(sanitymask)])
-		print(inClusterZeros[np.logical_not(sanitymask)])
-		print(outClusterZeros[np.logical_not(sanitymask)])
-
-		# apply mask
-		masses = masses[sanitymask]
-		timingArgumentMasses = timingArgumentMasses[sanitymask]
-		H0s = H0s[sanitymask]
-		inClusterH0s = inClusterH0s[sanitymask]
-		outClusterH0s = outClusterH0s[sanitymask]
-		zeropoints = zeropoints[sanitymask]
-		inClusterZeros = inClusterZeros[sanitymask]
-		outClusterZeros = outClusterZeros[sanitymask]
-		allDispersions = allDispersions[sanitymask]
-		clusterDispersions = clusterDispersions[sanitymask]
-		unclusteredDispersions = unclusteredDispersions[sanitymask]
-		radialVelocities = radialVelocities[sanitymask]
-		tangentialVelocities = tangentialVelocities[sanitymask]
-		LGdistances = LGdistances[sanitymask]
+	print("Excluded " + str(np.size(sanitymask) -
+				   np.count_nonzero(sanitymask)) + " outliers")
+	print(zeropoints[np.logical_not(sanitymask)])
+	print(inClusterZeros[np.logical_not(sanitymask)])
+	print(outClusterZeros[np.logical_not(sanitymask)])
+	
+	# apply mask
+	masses = masses[sanitymask]
+	timingArgumentMasses = timingArgumentMasses[sanitymask]
+	H0s = H0s[sanitymask]
+	inClusterH0s = inClusterH0s[sanitymask]
+	outClusterH0s = outClusterH0s[sanitymask]
+	zeropoints = zeropoints[sanitymask]
+	inClusterZeros = inClusterZeros[sanitymask]
+	outClusterZeros = outClusterZeros[sanitymask]
+	allDispersions = allDispersions[sanitymask]
+	clusterDispersions = clusterDispersions[sanitymask]
+	unclusteredDispersions = unclusteredDispersions[sanitymask]
+	radialVelocities = radialVelocities[sanitymask]
+	tangentialVelocities = tangentialVelocities[sanitymask]
+	LGdistances = LGdistances[sanitymask]
 
 
 	plotdata = [(masses*1e-12, 'LG mass'), (timingArgumentMasses*1e-12, 'LG mass from TA'),
@@ -141,6 +142,7 @@ if __name__ == "__main__":
 
 	for col in range(len(plotdata)):
 		colIndex += 1
+		rowIndex = 0
 		for row in range(len(plotdata)):
 			rowIndex += 1
 
@@ -153,10 +155,11 @@ if __name__ == "__main__":
 			   math.ceil(max(plotdata[row][0])))
 			ax.xaxis.set_ticklabels([])
 			ax.yaxis.set_ticklabels([])
+			ax.xaxis.set_ticks([])
+			ax.yaxis.set_ticks([])
 
 			if ax.is_first_col():
 				ax.yaxis.set_visible(True)
-				ax.yaxis.set_ticks_position('left')
 				ax.set_ylabel(rowIndex, rotation='horizontal',
 				  horizontalalignment='right', verticalalignment='center')
 #				ax.set_ylabel(plotdata[row][1], rotation='horizontal',
@@ -164,15 +167,22 @@ if __name__ == "__main__":
 #				  verticalalignment="center")
 			if ax.is_first_row():
 				ax.xaxis.set_visible(True)
-				ax.xaxis.set_ticks_position('top')
 				ax.xaxis.set_label_position('top')
 				ax.set_xlabel(str(colIndex) + ": " + plotdata[col][1],
 				  rotation='vertical', horizontalalignment='center',
 				  verticalalignment='bottom', multialignment='left')#, size='small',
 #				  horizontalalignment='right', verticalalignment='center')
-			
-			ax.scatter(plotdata[col][0], plotdata[row][0], marker='.', s=4,
-			  edgecolors='none', facecolors='k')
+		
+			if colIndex >= rowIndex:
+				ax.scatter(plotdata[col][0], plotdata[row][0], marker='.', s=4,
+				  edgecolors='none', facecolors='k')
+			else:
+				centerX = np.mean(ax.get_xlim())
+				centerY = np.mean(ax.get_ylim())
+				corr = pearsonr(plotdata[col][0], plotdata[row][0])
+				ax.text(centerX, centerY, "{:3.2f}".format(corr[0]), horizontalalignment='center',
+		   verticalalignment='center')
+
 	if opts.outlierExclusion == "none":
 		plt.savefig(outputdir + "scattermatrix-all.pdf")
 	elif opts.outlierExclusion == "loose":
