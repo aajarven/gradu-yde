@@ -136,7 +136,9 @@ if __name__ == "__main__":
 	plt.gcf().subplots_adjust(left=0.05)
 	plt.gcf().subplots_adjust(right=0.999)
 	plt.gcf().subplots_adjust(top=0.759)
-	
+
+	cmap = plt.get_cmap('Oranges')
+
 	rowIndex = 0
 	colIndex = 0
 
@@ -182,6 +184,7 @@ if __name__ == "__main__":
 				corr = pearsonr(plotdata[col][0], plotdata[row][0])
 				ax.text(centerX, centerY, "{:3.2f}".format(corr[0]), horizontalalignment='center',
 		   verticalalignment='center')
+				ax.set_facecolor(cmap(abs(corr[0])*0.85))
 
 	if opts.outlierExclusion == "none":
 		plt.savefig(outputdir + "scattermatrix-all.pdf")
