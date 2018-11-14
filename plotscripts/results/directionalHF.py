@@ -334,10 +334,14 @@ if __name__ == "__main__":
 	ax = fig.add_subplot(111)
 
 	alpha = 0.7
+	linewidth = 1.75
 	bins = np.arange(10, 130, 10)
-	ax.hist(toM31H0, histtype="step", bins=bins, label="Towards M31", alpha=alpha)
-	ax.hist(offAxisH0, histtype="step", bins=bins, label="Off-axis", alpha=alpha)
-	ax.hist(awayFromM31H0, histtype="step", bins=bins, label="Away from M31", alpha=alpha)
+	ax.hist(toM31H0, histtype="step", bins=bins, label="Towards M31",
+		 alpha=alpha, linewidth=linewidth)
+	ax.hist(offAxisH0, histtype="step", bins=bins, label="Off-axis",
+		 alpha=alpha, linewidth=linewidth)
+	ax.hist(awayFromM31H0, histtype="step", bins=bins, label="Away from M31",
+		 alpha=alpha, linewidth = linewidth)
 	ax.set_xticks(range(20, 121, 20), minor=False)
 	ax.set_xticks(range(10, 120, 10), minor=True)
 
@@ -345,7 +349,7 @@ if __name__ == "__main__":
 	plt.legend(loc=2)
 	plt.xlabel("$H_0$ (km/s/Mpc)")
 	plt.ylabel("Simulations")
-	fig.set_size_inches(3.4, 2.6)
+	fig.set_size_inches(3.9, 3.0)
 	plt.tight_layout(rect=[0, -0.05, 1, 1])
 	plt.savefig(outputdir + "threeDirectionH0.pdf")
 
