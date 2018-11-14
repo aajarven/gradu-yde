@@ -123,7 +123,7 @@ Abstract goes here.
 
 % set line spacing to the publication-ready single spacing:
 %\singlespacing
-%\onehalfspacing
+\onehalfspacing
 
 % -----------------------------------------------------------------------------------
 % STEP 4: Write the thesis.
@@ -162,19 +162,19 @@ Still, not all questions about even the most massive members of the Local Group 
 
 Knowing their positions and velocities and the age of the Universe, the mass can be approximated by fitting a Keplerian orbit to them. \citeauthor{kahn1959intergalactic} obtained a minimum of $1.8 \times 10^{12}\ \mathrm{M}_{\astrosun}$ for the mass, notably being of the same magnitude as modern estimates though a bit on the low side. Applying the same method with modern values for the input variables produces a mass of approximately $4.2 \times 10^{12}\ \mathrm{M}_{\astrosun}$.
 
-The assumption of isolated point masses is of course intrinsically wrong, so refining the model is useful. Cosmological simulations offer an attractive tool for this, as it is possible to generate a multitude of systems resembling the Local Group and calibrating the model based on the observed effects of the environment on the pair of the extended haloes. The first ones to calibrate the timing argument in this way were \citet{kroeker1991accuracy}, with more recent similar studies including e.g. that of \citet{li2008masses}.
+The assumption of isolated point masses is of course intrinsically wrong, so refining the model is useful. Cosmological simulations offer an attractive tool for this, as it is possible to generate a multitude of systems resembling the Local Group and calibrating the model based on the observed effects of the environment on the pair of the extended haloes. The first ones to calibrate the timing argument in this way were \citet{kroeker1991accuracy}, with more recent similar studies including e.g. that of \citet{li2008masses}. A more detailed description of the timing argument and other mass estimation methods is presented in section \ref{sect:lg_and_mass}.
 
-
-
-%TODO :
-% - TA massan määrityksessä, muita ideoita lyhyesti?
-% - simulaatiot melko moderni juttu varsinkaan tilastotieteellisissä määrin
+%TODO fattahi?
 
 \section{Aim of This Thesis}
-Whatever the main results end up being, presented in somewhat coherent manner and hopefully sugar-coated enough to sound Important and Exciting.
+This thesis focuses on producing a method for estimating the mass of the Local Group besting the accuracy of timing argument. This is done by applying tools of statistics and machine learning to analyse a sample of 119 Local Group analogues found in cosmological simulations. The performances are compared only on simulated Local Groups, and applying the method to observations is left for future work.
+
+First, in chapter \ref{chapt:theoretical_background}, the basic cosmological context for the evolution of Local Group is covered, together with what is currently known about the Local Group and its mass. Then, in chapter \ref{chapt:simulations}, the simulation techniques used to run the analysed simulations are described, followed by descriptions of the simulation runs. Chapter \ref{chapt:mathematical_and_statistical} describes the analysis methods used for creating and testing the model, after which all building blocks required for creating the model are covered.
+
+The actual data analysis is carried out in chapter \ref{chapt:results}. TODO: mitä kaikkea tehty
 
 
-\chapter{Theoretical Background}
+\chapter{Theoretical Background} \label{chapt:theoretical_background}
 %Think whether LG or LCDM first
 %theorythingies from Fattahi paper introduction
 
@@ -380,7 +380,7 @@ For example the mass of possible warm dark matter particle can be greatly restri
 
 %??? -> wave equation -> perturbations may be either oscillatory or growing -> Jeans
 
-\section{The Local Group and Its Mass}
+\section{The Local Group and Its Mass} \label{sect:lg_and_mass}
 Galaxy groups are systems of galaxies defined by the number of galaxies within a volume. Exact definitions vary, but typically they are required to have at least three galaxies and a volume with numerical overdensity of the order of 20 \citep{mo2010galaxy}. The upper limit of the size of a galaxy group is set by the least massive galaxy clusters: again, the different definitions exist but typically if a group would have over 50 members with apparent magnitudes $m < m_3 +2$, $m_3$ denoting the magnitude of the third brightest member, it is classified as a galaxy cluster instead \citep{mo2010galaxy}.
 
 The Local Group, the galaxy group containing the Milky Way, is the best-known of these galaxy groups as it offers great opportunity for precise observations: much fainter dwarf galaxies can be observed in it than in any other galaxy group and objects subtend large areas on the sky allowing smaller details to be observed than in more distant galaxy groups \citep{mo2010galaxy, mcconnachie2012observed}. This makes it an appealing target for testing astrophysical and cosmological models \citep{bullock2017small}. The Local Group has two main members: the Milky Way and the Andromeda Galaxy (M31). In total more than hundred galaxies are known to exist within 3~Mpc of the Sun, more than half of these being satellites for either of the primaries \citep{mcconnachie2012observed}. As the distance range is quite wide, some of the more distant galaxies are likely not bound to the Local Group, but on the other hand there are likely numerous faint dwarf galaxies that remain unseen \citep{mcconnachie2012observed}. The number of these unknown galaxies within the Local Group could be as high as several hundred \citep{tollerud2008hundreds}.
@@ -476,7 +476,7 @@ The other mass estimates also have considerable scatter, sometimes even within t
 
 
 
-\chapter{Simulations and Simulation Codes}
+\chapter{Simulations and Simulation Codes} \label{chapt:simulations}
 
 Numerical simulations are a valuable tool in astrophysical research as they bypass many major restrictions characteristic to observational astronomy. For example the dark matter content of the Universe cannot be directly observed and following the evolution of a single object is impossible, with the exception of the most rapid events such as supernovae. Much can also be done using analytical models, but they are often valid only for a simplified problem or suffer from other limitations. For example the Zel'dovich approximation can be used to calculate the non-linear evolution of density perturbations in the Universe up to shell crossing, but after the structures have collapsed to sheets along one of their axes, the model ceases to be valid \citep{mo2010galaxy}.
 
@@ -695,7 +695,7 @@ As the analysis conducted for this thesis uses not only the properties of a Loca
     \caption{Number of simulations that have only high resolution type 1 particles at least up to a given distance as a function of distance.}\label{fig:uncontaminatedDistances}
 \end{figure}
 
-\chapter{Mathematical and statistical methods}
+\chapter{Mathematical and statistical methods} \label{chapt:mathematical_and_statistical}
 The analysis presented in chapter~\ref{chapt:results} relies strongly on many tools of mathematics and statistics. This chapter covers the background needed to understand and motivate the use of these methods, starting from the basic concepts of statistics in section~\ref{sect:statistical-background}. Sections~\ref{sect:regression} and \ref{sect:pca} introduce linear regression and principal component analysis used in constructing a model for predicting the Local Group mass. Then, in sections~\ref{sect:cross-validation} and \ref{sect:statistical_tests}, tools used for evaluating the accuracy and significance of results are introduced. Finally, section~\ref{sect:cluster-analysis} covers the clustering algorithm used to find the subhaloes located near each other on the sky.
 
 
