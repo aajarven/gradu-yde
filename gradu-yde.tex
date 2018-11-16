@@ -123,16 +123,16 @@ Abstract goes here.
 % Place ToC
 \mytableofcontents
 
-% set line spacing to the publication-ready single spacing:
+% set line spacing to the publication-ready spacing:
 %\singlespacing
-%\onehalfspacing
+\onehalfspacing
 
 % -----------------------------------------------------------------------------------
 % STEP 4: Write the thesis.
 % Your actual text starts here. You shouldn't mess with the code above the line except
 % to change the parameters. Removing the abstract and ToC commands will mess up stuff.
 \chapter{Introduction}
-TODO %TODO
+This thesis explores the properties of the Local Group and its surroundings with the aim of constructing a model for predicting its mass. The following sections shortly introduce the topic and the early history of the field together with a brief review of the aim and structure of the thesis.
 
 \section{Galaxies and Galaxy Groups}
 Galaxies are the smallest meaningful components of the Universe on cosmological scales. They probe the underlying distribution of dark matter, making visible the enormous filaments and walls stretching over tens of Mpc separated by vast voids of very low density. The environment of a galaxy also affects the properties of the galaxy strongly with e.g. large ellptical galaxies being more common in dense environments with many other galaxies whereas spirals are more often found in more isolated settings.
@@ -173,7 +173,9 @@ This thesis focuses on producing a method for estimating the mass of the Local G
 
 First, in chapter \ref{chapt:theoretical_background}, the basic cosmological context for the evolution of Local Group is covered, together with what is currently known about the Local Group and its mass. Then, in chapter \ref{chapt:simulations}, the simulation techniques used to run the analysed simulations are described, followed by descriptions of the simulation runs. Chapter \ref{chapt:mathematical_and_statistical} describes the analysis methods used for creating and testing the model, after which all building blocks required for creating the model are covered.
 
-The actual data analysis is carried out in chapter \ref{chapt:results}. TODO: mitä kaikkea tehty
+The actual data analysis is carried out in chapter \ref{chapt:results}. It starts with an overview of the properties of the found Local Group analogues in section~\ref{sect:hf}, after which the methods and results of analysing the surrounding Hubble flows are presented in section~\ref{sect:hf-anisotropy}. These are followed by a review of the directional dependence of the Hubble flow, investigating both the possible cylindrical symmetry around the binary distribution of the mass in the Local Group and the effect of other structures present in the 5~Mpc region of the Local Group. These structures are identified by finding clusters of subhaloes near each other on the sky as seen from the Milky Way analogue.
+
+Finally, in section~\ref{sect:statistical_estimate}, a statistical model for predicting the mass of the Local Group based on the measurements conducted in the previous sections is presented. This is done by first extracting the principal components of the full data set and then fitting a linear model on the first components. 60~\% of the full data set is used as a test set, used to choose the number of the principal components to be retained using $k$\=/fold cross validation and to fit the model. Its performance relative to the timing argument is evaluated by determining the root-mean-square errors of the models on the remaining 40~\% of the data.
 
 
 \chapter{Theoretical Background} \label{chapt:theoretical_background}
