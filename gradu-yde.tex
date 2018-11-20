@@ -449,7 +449,7 @@ The assumption of the galaxies being on their first approach is likely to be val
 The assumption of radial orbit is likely fairly good as the estimated tangential velocities are small. For example \citet{vandermarel2012m31} give a tangential velocity of 17~km/s for M31 with $v_{t} < 34$~km/s at 1~$\sigma$ confidence, which is small compared to their radial velocity of $-109.3 \pm 4.4$~km/s. It is also possible to carry out the calculations above for elliptical orbits as is done by \citet{einasto1982mass}. A non-zero tangential velocity increases the resulting mass: for example \citet{vandermarel2012m31} give a mass of $4.27 \pm 0.53 \times 10^{12}~\mathrm{M_{\astrosun}}$ when the tangential velocity is included. Even if external forces felt by the galaxies do not result in significant tangential velocities for the galaxies, they can affect the system in other ways. Large-scale structure surrounding the Local Group can apply forces and torques and smaller members of the Local Group interact with the primary members as was noted by \citet{kahn1959intergalactic}.
 
 
-\subsection{Other Mass Estimation Methods}
+\subsection{Other Mass Estimation Methods} \label{sect:other_mass_estimation}
 
 Other structures can also be used to infer the masses of Milky Way and M31 galaxies. For example \citet{zaritsky1989velocities} use Leo I, a Milky Way satellite with high galactocentric velocity, to estimate the mass of the Milky Way by a calculation similar to the timing argument. This is done by assuming that the satellite is bound to the Milky Way which is the only body gravitationally influencing it and that the satellite is on a radial orbit, having passed its periapsis once and now moving away from the Milky Way and towards the apoapsis. This yielded a lower limit of $1.3 \times 10^{12}~\mathrm{M_{\astrosun}}$ for the mass of the Milky Way \citep{zaritsky1989velocities}.
 
@@ -587,10 +587,9 @@ Unfortunately, now some particles are assigned to multiple substructure candidat
 After the iterative pruning stage some substructure candidates can vanish completely or be left with very few members. These substructure candidates with less than some minimum number of bound particles can be discarded \citep{springel2001populating}. The structure candidates surviving the pruning can then be considered to represent physical structures and are labelled as subhaloes \citep{springel2001populating}. In this thesis, all of the analysis is based on catalogues containing such subhaloes. 
 
 \section{Simulation Runs} \label{sect:simruns}
-[insert some form of attribution for the simulations, e.g. citation if available]. %TODO
-The simulations used in this thesis are cosmological zoom-in simulations, meaning that a higher resolution was used in regions of interest than in the rest of the simulation box. For these simulations, this was done by identifying regions relevant for the study from an output of a low-resolution simulation at $z=0$, after which the resolution of these volumes was increased and the new simulations were run. In this case, the interesting regions were defined as the surroundings of a pair of dark matter haloes resembling ones of the Milky Way and Andromeda galaxies, the two main galaxies of the Local Group.
+All results presented in this thesis are based on cosmological simulations run by Till Sawala. They are cosmological zoom-in simulations, meaning that a higher resolution was used in regions of interest than in the rest of the simulation box. For these simulations, this was done by identifying regions relevant for the study from an output of a low-resolution simulation at $z=0$, after which the resolution of these volumes was increased and the new simulations were run. In this case, the interesting regions were defined as the surroundings of a pair of dark matter haloes resembling ones of the Milky Way and Andromeda galaxies, the two main galaxies of the Local Group.
 
-The simulations were dark matter only simulations, meaning that gravity is the only modeled interaction and all matter behaves as dark matter. For my analysis only the dark matter halo information was needed, so instead of using the full simulation output, the analysis was conducted on subhalo catalogues. The subhalo information was extracted as described in section \ref{sect:halofinding}. The resulting data set consists of subhalo catalogues from 448 zoom simulations, each centered on one region resembling the Local Group in the low-resolution simulation. The following sections shortly introduce the code used to run the simulation and the parameters of the simulations used for both stages of the zoom-in simulations.
+The simulations were dark matter only simulations, meaning that gravity is the only modeled interaction and all matter behaves as dark matter. For my analysis only the dark matter halo information was needed, so instead of using the full simulation output, the analysis was conducted on subhalo catalogues. The subhalo information was extracted by Till Sawala as described in section \ref{sect:halofinding}. The resulting data set consists of subhalo catalogues from 448 zoom simulations, each centered on one region resembling the Local Group in the low-resolution simulation. The following sections shortly introduce the code used to run the simulation and the parameters of the simulations used for both stages of the zoom-in simulations.
 
 %Volume, number of particles, compare to other simulations, where better and where maybe worse
 
@@ -1488,17 +1487,33 @@ Nonetheless, given that radial velocities and distances of sufficiently many gal
 
 
 \chapter{Conclusions}
+In this thesis, a sample of 448 subhalo catalogues from cosmological simulations were analysed and unique Local Group analogues within them identified. The properties of the resulting 199 subhalo pairs resembling the Local Group were then analysed, revealing that they offer a good coverage of the parameter space allowed by the Local Group identification criteria. The Hubble flows surrounding the systems were also analysed for the 120 simulations which were free of type 2 and 3 particles in a sphere with 5~Mpc radius surrounding the Local Group analogue. For Hubble flow analysis, a procedure for choosing the best range of subhaloes within or near the Local Group to be excluded from fitting was also developed.
+
+The dependence of the Hubble flow slope and zero point on the distance and direction was also investigated. As expected, the fitting results remained nearly constant at distances larger than 3~Mpc from the Milky Way analogues, where the Local Group no longer has a significant effect on its surroundings, but the directional results were more interesting. As seen from the Milky Way analogues, the Hubble flow zero points fitted to subhaloes located near the M31 analogues tend to be much closer compared to fits calculated using subhaloes in other directions. This is related to the location and movement of the Milky Way analogues within the Local Group analogues. The values of $H_0$ also showed signs of anisotropy with values measured both towards and away from the M31 analogues tending to be larger than ones fitted using subhaloes in the intermediate region.
+
+For further analysis of the anisotropy of the Hubble flow, the DBSCAN clustering algorithm was used to identify subhaloes located near each other on the sky. After determining the best clustering parameters for this data set, the clustering was performed for subhaloes with distances between 1.5 and 5.0~Mpc from the Milky Way analogue in each suitable subhalo catalogue. Then separate Hubble flows were fitted using either haloes that did not belong to any cluster, haloes in each individual cluster and haloes in each individual cluster with all members less massive than $8 \times 10^{11}\ \mathrm{M}_{\astrosun}$. The velocity dispersion around the fitted Hubble flows was measured in addition to the $H_0$ and zero points of the flow.
+
+The Kolmogorov-Smirnov test was then used to compare measurements done using all haloes to all other categories, and the clustered categories with and without the mass criterion to each other. Significance level $\alpha = 0.01$ was used to test the null hypotheses that the studied pairs of measurement samples are drawn from the same distribution. With $H_0$ measurements it was possible to reject the null hypothesis that the values obtained using haloes outside clusters come from the same distribution as values for all haloes, whereas for the Hubble flow zero point measurements using both clustered categories differed from the ones obtained using all haloes. The velocity dispersions showed most variation between categories with all tested pairs resulting in rejection of the null hypothesis.
+
+Finally, the variables measured previously were used to construct a model for predicting the combined mass of the pair of primary subhaloes in Local Group analogues based on the properties of the pair and the Hubble flow surrounding them. This was done by extracting the principal components of the variables and fitting a linear regression model to the first two. When tested on a portion of the data set not used in fitting, this model produced a root-mean-square error of $1.056 \times 10^{12}\ \mathrm{M}_{\astrosun}$, a clear improvement over the timing argument, which had a root-mean-square error of $1.417 \times 10^{12}\ \mathrm{M}_{\astrosun}$ on the same data set. This is also comparable to many other methods of estimating the mass of the Local Group and its members introduced in section~\ref{sect:other_mass_estimation}, and it should be noted that some of the estimates with much smaller standard deviations tend to be inconsistent with each other, suggesting that some of the errors might be underestimated.
+
+This acts as a clear demonstration that the tools of statistics and machine learning can serve as a valuable aid for estimating the mass of the Local Group, despite the constructed model being very limited. For example refining the list of included parameters and using domain knowledge to improve the model was left for future work. This could mean e.g. the impact of leaving some of the measured variables out of the model and modelling non-linear relationships. Due to the dark matter-only nature of the simulations, no variables related to baryonic processes are included in the model even though they both could offer valuable information about the system and affect the haloes hosting the baryons. Repeating the analysis on a larger data set could also aid in determining whether an optimal number of principal components was chosen to be retained and possibly yield more exact results and more accurate estimate of the error, as dividing the sample of 119 simulations into training and test sets results in both sets being quite small.
+
+Applying the model to the real Local Group also requires further work. The clustering parameters are currently optimized for the dark matter only -simulations they were used with in this thesis, containing subhaloes that would likely not contain an observable galaxy, and thus the parameters need to be tweaked before applying the clustering to any observational data. In addition to this, observational coverage of the 5~Mpc region surrounding the Local Group is not as complete as the subhalo catalogues from a simulation are, as determining distances and masses of distant objects accurately is challenging and even the velocity vector of M31 is uncertain. 
+
+%TODO joku positiivinen loppukaneetti?
+
 
 %TODO : 
-% [ ] The research questions have been answered.
-%   [ ] LG-like analogues identified, span the range of allowed values
-%   [ ] HF fitting schemea adapting to the variable size of LG
-%   [ ] HF vs distance or direction
-%   [ ] clustering parameters chosen and used
-% [ ] The main question or problem statement has been answered.
-%   [ ] better mass estimate
-% [ ] The hypotheses have been confirmed or refused.
-%   [ ] HF in clusters different
+% [x] The research questions have been answered.
+%   [x] LG-like analogues identified, span the range of allowed values
+%   [x] HF fitting schemea adapting to the variable size of LG
+%   [x] HF vs distance or direction
+%   [x] clustering parameters chosen and used
+% [x] The main question or problem statement has been answered.
+%   [x] better mass estimate
+% [x] The hypotheses have been confirmed or refused.
+%   [x] HF in clusters different
 % [ ] The right verb tense has been used.
 % [ ] No issues are interpreted.
 % [ ] No new information has been given.
