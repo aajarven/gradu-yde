@@ -93,7 +93,7 @@
 \level{Master's thesis}
 \faculty{Faculty of Science}
 \department{Department of Physics}
-\address{PL 64 (Gustaf Hällströmin katu 2a)\\00014 University of Helsinki}
+\address{PL 64 (Gustaf Hällströmin katu 2)\\00014 University of Helsinki}
 \subject{Astronomy}
 \prof{Dr. Till Sawala}{Professor Peter Johansson}
 \censors{prof. Smith}{doc. Smythe}{}
@@ -116,16 +116,22 @@
 % but you should also then redefine some of the above parameters in the proper
 % language as well, in between the abstract definitions.
 
-\begin{abstract}
-Abstract goes here.
-\end{abstract}
-
-% Place ToC
-\mytableofcontents
-
 % set line spacing to the publication-ready spacing:
 %\singlespacing
 \onehalfspacing
+
+\begin{abstract}
+During the over 80~years the approximate structure of the Local Group has been known, many methods for estimating the masses both individual galaxies within it and the group as a whole have been designed. Still, the masses elude researchers with estimates from different credible sources varying by a factor of 2--3. In this master's thesis I construct a model for estimating the combined mass of the Milky Way and Andromeda galaxies based on the kinematics of the pair and properties of the Hubble flow surrounding them.
+
+The model is based on a sample of subhalo catalogues from cosmological dark matter-only simulations containing a system resembling the Local Group. From these catalogues, I identified the Local Group analogues and excluded ones with environments contaminated by type 2 or 3 simulation particles.
+
+%TODO HF analysis, mass estimate, packages used, scipy cite tuloksiin?
+
+\end{abstract}
+
+
+% Place ToC
+\mytableofcontents
 
 % -----------------------------------------------------------------------------------
 % STEP 4: Write the thesis.
@@ -153,7 +159,7 @@ The Andromeda galaxy and both Large and Small Magellanic Clouds are visible to t
 
 At that time, and for centuries to come, they were known only as nebulous objects with no information about their distance or physical nature as galaxies analogous to the Milky Way. This is reflected for example in the fact that the Andromeda Galaxy was included in the Messier Catalogue, compiled during the years 1771--1784 to help comet hunters filter out known nebulous objects of no interest \citep{longair2006cosmic}. Despite numerous other lists of nebulous objects having been compiled since, including ones for more relevant intended uses, the Messier Catalogue still has a strong footing especially in amateur astronomy. For example the Andromeda Galaxy is still often called M31, its designation in the catalogue, both in scientific and popular publications.
 
-Still in the beginning of the \nth{20} century the nature of these objects now known to be extragalactic was unknown, as was the nature of the Milky Way itself and whether it is everything there is in the Universe \citep{longair2006cosmic}. Only after Henrietta Leavitt published her paper on the period-luminosity relation in 1912, could extragalactic distances be measured reasonably accurately. In 1913, Ejnar Hertzsprung calibrated the relation and determined the distance to the Small Magellanic Cloud to be 10 kpc, a gross underestimate of the true distance but still well outside the range of previously measured distances for any object \citep{longair2006cosmic}. Still, more than ten years of uncertainty about whether these nebulae are a part of the Milky Way ensued, up to 1925 when Edwin Hubble used the cepheids in Andromeda and Triangulum galaxies to confirming both of them to be their own galaxies outside the Milky Way.
+Still in the beginning of the \nth{20} century the nature of these objects now known to be extragalactic was unknown, as was the nature of the Milky Way itself and whether it is everything there is in the Universe \citep{longair2006cosmic}. Only after Henrietta Leavitt published her paper on the period-luminosity relation in 1912, could extragalactic distances be measured reasonably accurately. In 1913, Ejnar Hertzsprung calibrated the relation and determined the distance to the Small Magellanic Cloud to be 10 kpc, a gross underestimate of the true distance but still well outside the range of previously measured distances for any object \citep{longair2006cosmic}. Still, more than ten years of uncertainty about whether these nebulae are a part of the Milky Way ensued, up to 1925 when Edwin Hubble used the cepheids in Andromeda and Triangulum galaxies to confirming both of them to be their own galaxies outside the Milky Way. Hubble was also the first to use the name \textit{Local Group} when he introduced it in his book \textit{The Realm of the Nebulae} \citep{hubble1936realm}.
 
 The progressively improving estimates of the positions and kinematics of the nearby galaxies have confirmed these objects to be part of the Local Group, together with numerous smaller galaxies. The number of known Local Group members has also increased over time, starting from just the most luminous members and growing to 41 by \citeyear{mateo1998dwarf}, only to be more than doubled to 75 known members by \citeyear{mcconnachie2012observed} \citep{mateo1998dwarf, mcconnachie2012observed}. Although the list of known Local Group members is substantial, it is likely that unseen dwarf galaxies still lie within the Local Group.
 
@@ -940,7 +946,7 @@ As an example, let us consider two pairs of samples from Fig.\ \ref{fig:edf}: or
 
 %\reversemarginpar
 %\marginnote{\footnotesize{mistä p-value saadaan, kerro taas aiemmin (tai täällä)}}
-The test statistic is then calculated. For these samples, we get $D=0.51$ for the orange-blue pair and $D=0.20$ for the orange-violet pair. Test statistics are illustrated in Fig.\ \ref{fig:ks} where the test statistics $D$ are shown as vertical magenta lines. According to Python function \texttt{scipy.stats.ks\_2samp}, these values of $D$ correspond to p-values $9.9\times 10^{-5}$ and $0.44$ respectively, which means that the null hypothesis ``orange and blue samples are drawn from the same distribution'' is rejected at both 0.05 and 0.01 significance levels but the null hypothesis ``orange and violet samples are drawn from the same distribution'' cannot be rejected.
+The test statistic is then calculated. For these samples, we get $D=0.51$ for the orange-blue pair and $D=0.20$ for the orange-violet pair. Test statistics are illustrated in Fig.\ \ref{fig:ks} where the test statistics $D$ are shown as vertical magenta lines. According to Python function \texttt{stats.ks\_2samp} from \texttt{SciPy} package \citep{scipy}, these values of $D$ correspond to p-values $9.9\times 10^{-5}$ and $0.44$ respectively, which means that the null hypothesis ``orange and blue samples are drawn from the same distribution'' is rejected at both 0.05 and 0.01 significance levels but the null hypothesis ``orange and violet samples are drawn from the same distribution'' cannot be rejected.
 
 \begin{figure}
    \centering
