@@ -946,7 +946,7 @@ As an example, let us consider two pairs of samples from Fig.\ \ref{fig:edf}: or
 
 %\reversemarginpar
 %\marginnote{\footnotesize{mistä p-value saadaan, kerro taas aiemmin (tai täällä)}}
-The test statistic is then calculated. For these samples, we get $D=0.51$ for the orange-blue pair and $D=0.20$ for the orange-violet pair. Test statistics are illustrated in Fig.\ \ref{fig:ks} where the test statistics $D$ are shown as vertical magenta lines. According to Python function \texttt{stats.ks\_2samp} from \texttt{SciPy} package \citep{scipy}, these values of $D$ correspond to p-values $9.9\times 10^{-5}$ and $0.44$ respectively, which means that the null hypothesis ``orange and blue samples are drawn from the same distribution'' is rejected at both 0.05 and 0.01 significance levels but the null hypothesis ``orange and violet samples are drawn from the same distribution'' cannot be rejected.
+The test statistic is then calculated. For these samples, we get $D=0.51$ for the orange-blue pair and $D=0.20$ for the orange-violet pair. Test statistics are illustrated in Fig.\ \ref{fig:ks} where the test statistics $D$ are shown as vertical magenta lines. According to Python function \texttt{stats.ks\_2samp} from \texttt{SciPy} library \citep{scipy}, these values of $D$ correspond to p-values $9.9\times 10^{-5}$ and $0.44$ respectively, which means that the null hypothesis ``orange and blue samples are drawn from the same distribution'' is rejected at both 0.05 and 0.01 significance levels but the null hypothesis ``orange and violet samples are drawn from the same distribution'' cannot be rejected.
 
 \begin{figure}
    \centering
