@@ -132,6 +132,8 @@
 }
 \newcommand{\mytableofcontents}{%
 \pagestyle{empty}
+\pagestyle{fancy}    
+\fancyhf{} % delete current header and footer 
 \tableofcontents
 \cleardoublepage
 \pagenumbering{arabic}
@@ -333,7 +335,7 @@ Censors: & \@censor\\
 
 % Quotation page
 \pagebreak
-\pagenumbering{roman}
+\pagenumbering{gobble}
 \thispagestyle{empty}
 \parbox{1cm}{}
 \vfill
@@ -434,7 +436,7 @@ Censors: & \@censor\\
 UNIVERSITET --- UNIVERSITY OF HELSINKI}}
 \end{picture}
 
-%\clearpage
+\clearpage
 }
 
 
