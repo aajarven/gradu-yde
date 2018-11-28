@@ -304,7 +304,7 @@
 
 \def\reallyempty{}
 \begin{tabular}{l l}
-Tutor: & \@prof\\
+Tutors: & \@prof\\
 &\\
 \ifx\@censor\reallyempty
 &\\
