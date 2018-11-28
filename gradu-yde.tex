@@ -2,7 +2,8 @@
 \documentclass[english, twoside]{HYgradu}
 
 \usepackage[utf8]{inputenc} % For UTF8 support. Use UTF8 when saving your file.
-\usepackage{lmodern} % Font package
+%\usepackage{lmodern} % Font package
+\usepackage[T1]{fontenc} % better font package
 \usepackage{textcomp}
 \usepackage[pdftex]{color, graphicx} % For pdf output and jpg/png graphics
 \usepackage[pdftex, plainpages=false]{hyperref} % For hyperlinks and pdf metadata
@@ -26,8 +27,6 @@
 \usepackage[super]{nth}
 \usepackage{gensymb}
 \usepackage{layouts}
-
-\usepackage[T1]{fontenc}
 
 
 % titlesec and fix for no numbering on titlesec 2.10.2
@@ -398,7 +397,7 @@ The number of galaxies is not the only uncertainty regarding the Local Group: al
 
 Two of the possible discrepancies between observations and $\Lambda$CDM predictions are the missing satellites problem and the too-big-to-fail problem. The first arises from the fact that both analytical calculations and cosmological simulations produce more low-mass satellites in systems similar to the Milky Way or M31 than can be observed \citep{klypin1999missing}. To some extent the number of luminous galaxies and dark matter haloes can be expected to differ as stars do not form in all haloes due to reionization and feedback processes such as supernova feedback \citep{efstathiou1992suppressing, larson1974effects}. The problem is also somewhat alleviated by the high estimated number of satellite galaxies that are luminous but faint and yet unseen. It is still uncertain whether the missing satellites problem actually exists as many modern simulations such as those by \citet{sawala2016apostle} agree well with the observed number of faint satellite galaxies.
 
-Regardless of the existence of the missing satellites problem, the most massive dark matter haloes in dark matter only simulations also seem to be more numerous than observed galaxies in the the Local Group are. This is known as the too-big-to-fail problem. For example the Milky Way has only three satellite galaxies with central densities high enough to allow maximum circular velocities of more than 30~km/s, but dark matter only simulations tend to produce double or even triple this number of similar mass dark matter haloes \citep{sawala2016apostle}. In this case the galaxies should be massive enough to form stars regardless of reionization, but central masses of the satellites can still be reduced as a result of satellites interacting with the primary and e.g. tidal stripping and ram pressure stripping lowering the central densities \citep{bullock2017small}. As with the missing satellites problem, the difference between the simulations and observations decreases as baryons and baryonic effects are included in the simulations \citep{sawala2016apostle}.
+Regardless of the existence of the missing satellites problem, the most massive dark matter haloes in dark matter only simulations also seem to be more numerous than observed galaxies in the Local Group are. This is known as the too-big-to-fail problem. For example the Milky Way has only three satellite galaxies with central densities high enough to allow maximum circular velocities of more than 30~km/s, but dark matter only simulations tend to produce double or even triple this number of similar mass dark matter haloes \citep{sawala2016apostle}. In this case the galaxies should be massive enough to form stars regardless of reionization, but central masses of the satellites can still be reduced as a result of satellites interacting with the primary and e.g. tidal stripping and ram pressure stripping lowering the central densities \citep{bullock2017small}. As with the missing satellites problem, the difference between the simulations and observations decreases as baryons and baryonic effects are included in the simulations \citep{sawala2016apostle}.
 
 Both of these possible problems are sensitive to the mass of the Local Group: a massive halo is expected to have more subhaloes than a less massive one has. Thus the mass of the Local Group and its members is an intriquing question not only for building up knowledge about our surroundings but also for testing cosmological models. Numerous studies have been conducted to find out its mass, and the following sections outline some of the methods that have been used.
 
@@ -607,8 +606,7 @@ The simulations were dark matter only simulations, meaning that gravity is the o
 %Zooms can use multiple meshes, only one is used here
 %gravitational softening
 
-
-\subsection[Modified \textsc{gadget-3}]{Modified GADGET-3} \label{sect:gadget}
+\subsection{Modified \textsc{gadget-3}} \label{sect:gadget}
 This master's thesis is based on data obtained from simulations run using a simulation code called \textsc{gadget-3}, an update to the \textsc{gadget-2} which is described by \citet{springel2005cosmological}. The code is the same as used in the \textsc{eagle} project, so detailed descriptions of the changes between the versions can be found in \citet{schaye2015eagle}. However, the changes mostly affect the handling of baryonic matter so understanding the basic \textsc{gadget-2} gives a good basis for understanding the simulations \citep{schaye2015eagle}.
 
 \textsc{gadget} uses a TreePM algorithm to compute forces, meaning that short-range forces are calculated using a tree method as described in section \ref{sect:tree} and a particle mesh is employed for long-range forces \citep{springel2005cosmological}. As the code is parallel, the normal tree-construction algorithm is problematic in regard to splitting the nodes of the octree between tasks \citep{springel2005cosmological}. To ensure a balanced workload amongst all processors, the particles are split between tasks by constructing a space-filling fractal curve known as Peano-Hilbert curve, and splitting it into segments with approximately equal number of particles on each segment \citep{springel2005cosmological}. The properties of the curve ensure that particles close to each other in space are usually also near each other along the curve, which means that close-range forces can frequently be calculated without the need to access memory belonging to other processors \citep{springel2005cosmological}. In regions where an octree constructed from particles belonging to a processor should contain particles assigned to other processors, a pseudoparticle resembling in principle the pseudoparticles used when calculating forces for cells where $l/D < \theta$ is inserted, instead of the full particle information \citep{springel2005cosmological}.
@@ -1311,7 +1309,7 @@ None of the changes in the clustering result produced by adjusting either of the
 
 When clustering of the subhaloes in a simulation has been done, the clustering result can be used to analyse the possible anisotropies of the Hubble flow. A visual inspection of Hubble flow plots for each simulation with cluster memberships of the subhaloes indicated with colours suggests that in many simulations the Hubble flow parameters are dependent on the viewing direction. This kind of plot for one simulation is shown in Fig.~\ref{fig:mollweide+hubble}, where the top panel shows the subhaloes on the sky as seen from the Milky Way analogue and the bottom panel shows a Hubble diagram for the subhaloes. The subhaloes in both panels are coloured so that each colour corresponds to one cluster identified by DBSCAN and subhaloes that do not belong to any cluster are shown as small black dots. 
 
-In Fig.~\ref{fig:mollweide+hubble}, the difference between different clusters is clearly visible. For example, the orange cluster and the smaller pink and and brown clusters are located near each other on the sky and they are also clearly above the rest of the clusters in the Hubble flow plot. If these two branches of the Hubble flow were each fitted separately, they would likely have fairly similar values of $H_0$, but whereas the lower branch transitions from negative to positive radial velocity near 2~Mpc distance, the upper branch has its zero point at a much smaller distance.
+In Fig.~\ref{fig:mollweide+hubble}, the difference between different clusters is clearly visible. For example, the orange cluster and the smaller pink and brown clusters are located near each other on the sky and they are also clearly above the rest of the clusters in the Hubble flow plot. If these two branches of the Hubble flow were each fitted separately, they would likely have fairly similar values of $H_0$, but whereas the lower branch transitions from negative to positive radial velocity near 2~Mpc distance, the upper branch has its zero point at a much smaller distance.
 
 The scatters around the Hubble flow also seem to vary from cluster to cluster. For example the subhaloes in the orange cluster seem to follow a linear relation between radial velocity and distance quite tightly whereas at large distances the darkest of the blue clusters shows some scatter at all distances, but especially at distances larger than 4.5~Mpc the radial velocities differ by hundreds of km/s. The sudden increase in the scatter likely accompanies a massive subhalo that has a satellite system of its own, resulting in large variation in radial velocities over a small distance range.
 
