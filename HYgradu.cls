@@ -132,8 +132,6 @@
 }
 \newcommand{\mytableofcontents}{%
 \pagestyle{empty}
-\pagestyle{fancy}    
-\fancyhf{} % delete current header and footer 
 \tableofcontents
 \cleardoublepage
 \pagenumbering{arabic}
@@ -418,7 +416,7 @@ Censors: & \@censor\\
 \put(361,676.58){\line(0,1){22.76}}
 \put(58,809){\makebox(150,6)[l]{
 \tiny Tiedekunta --- Fakultet --- Faculty}}
-\put(289,809){\makebox(100,6)[l]{\abst@tiny Osasto --- Institution --- Department}}
+\put(289,809){\makebox(100,6)[l]{\abst@tiny Osasto --- Avdelning --- Department}}
 \put(58,773){\makebox(100,5)[l]{\abst@tiny Tekij\"a --- F\"orfattare --- Author}}
 \put(58,750){\makebox(100,5)[l]{\abst@tiny Ty\"on nimi --- Arbetets titel --- Title}}
 \put(58,716){\makebox(100,5)[l]{\abst@tiny Oppiaine --- L\"aro\"amne --- Subject}}
