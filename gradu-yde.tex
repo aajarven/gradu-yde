@@ -64,26 +64,26 @@
 
 % OPTIONAL STEP: Set up properties and metadata for the pdf file that pdfLaTeX makes.
 % But you don't really need to do this unless you want to.
-%\hypersetup{
-%    bookmarks=true,         % show bookmarks bar first?
-%    unicode=true,           % to show non-Latin characters in Acrobat’s bookmarks
-%    pdftoolbar=true,        % show Acrobat’s toolbar?
-%    pdfmenubar=true,        % show Acrobat’s menu?
-%    pdffitwindow=false,     % window fit to page when opened
-%    pdfstartview={FitH},    % fits the width of the page to the window
-%    pdftitle={},            % title
-%    pdfauthor={},           % author
+\hypersetup{
+    bookmarks=true,         % show bookmarks bar first?
+    unicode=true,           % to show non-Latin characters in Acrobat’s bookmarks
+    pdftoolbar=true,        % show Acrobat’s toolbar?
+    pdfmenubar=true,        % show Acrobat’s menu?
+    pdffitwindow=false,     % window fit to page when opened
+    pdfstartview={FitH},    % fits the width of the page to the window
+    pdftitle={Statistical Estimation of the Local Group Mass},            % title
+    pdfauthor={Anni Järvenpää},           % author
 %    pdfsubject={},          % subject of the document
 %    pdfcreator={},          % creator of the document
-%    pdfproducer={pdfLaTeX}, % producer of the document
+    pdfproducer={pdfLaTeX}, % producer of the document
 %    pdfkeywords={something} {something else}, % list of keywords for
 %    pdfnewwindow=true,      % links in new window
-%    colorlinks=true,        % false: boxed links; true: colored links
-%    linkcolor=black,        % color of internal links
-%    citecolor=black,        % color of links to bibliography
-%    filecolor=magenta,      % color of file links
-%    urlcolor=cyan           % color of external links
-%}
+    colorlinks=true,        % false: boxed links; true: colored links
+    linkcolor=black,        % color of internal links
+    citecolor=black,        % color of links to bibliography
+    filecolor=black,      % color of file links
+    urlcolor=black           % color of external links
+}
 
 % STEP 2:
 % Set up all the information for the title page and the abstract form.
@@ -538,17 +538,6 @@ A number of different integrators suitable for astronomical and astrophysical ap
 
 When a fixed time step is used, the leapfrog integrator conserves the energy of the system and is time-reversible \citep{binney2008galactic}. While a variable time step is possible and often used, it requires some modifications to the algorithm, presented in e.g. \citet{springel2005cosmological} and implemented in the \textsc{gadget-3} simulation code among others. Other benefits of the integrator are its second order accuracy and the fact that it does not require excessive amounts of memory per particle as only the current state of the system is needed in calculating the next step \citep{binney2008galactic}. It is also second-order accurate and symplectic \citep{binney2008galactic}. Due to symplecticity of the integrator, numerical dissipation of energy does not happen and thus the integrator rivals some integrators with higher-order accuracy such as the fourth order Runge-Kutta when the number of simulated time steps is large \citep{binney2008galactic}.
 
-%With its second order accuracy paired with symplecticity, numerical dissipation of energy does not happen and thus it rivals some integrators with higher-order accuracy such as the fourth order Runge-Kutta when used for long simulation runs \citep{binney2008galactic}.
-
-
-% won't work for an unknown reason
-%\begin{figure}
-%    \centering
-%    %\def\svgwidth{\columnwidth}
-%    \input{kuvat/tex/leapfrog.pdf_tex}
-%    \caption{adsf}\label{fig:leapfrog}
-%\end{figure}
-
 \begin{figure}
 \centering
 \includegraphics{kuvat/tex/leapfrog.pdf}
@@ -578,7 +567,7 @@ In contrast to groups found by \textsc{fof}, the \textsc{subfind} algorithm has 
 
 Unlike \textsc{fof}, \textsc{subfind} uses a local density estimate instead of individual particle pairs. It labels all locally overdense regions enclosed by an isodensity contour traversing a saddle point as substructure candidates \citep{springel2001populating}. This is done by lowering an imaginary density threshold through the range of the density field: particles surrounding a common local density maximum are assigned to a common substructure candidate until two separate substructure regions join in a saddle point of the potential \citep{springel2001populating}. When a saddle point is reached, the two substructure candidates it connects are both stored individually to be processed further and the saddle point particle is added to a new substructure candidate containing the particles from both of the smaller candidates \citep{springel2001populating}. Thus the algorithm is able to identify a hierarchy of substructures within each other \citep{springel2001populating}.
 
-A two-dimensional example of this substructure candidate identification is shown in Fig.\ \ref{fig:subfind}. The algorithm starts from the particle in the most dense area of the simulation. At that point, the particle has no neighbours that would be at a higher density than the particle itself, and thus it becomes the first particle of a substructure candidate. All of the particles belonging to this substructure candidate are marked with striping in the figure. The algorithm iterates through the particles in order of decreasing density, always finding that the next particle has one neighbouring particle in higher density area than the particle itself and thus adding it to the same dashed group, until the second local density maximum is reached. At that point, a new substructure candidate, marked with a checkerboard pattern, is created. The following particles are assigned to their respective substructure candidates based on their single higher potential neighbour until a saddle point between the two is reached, at which point the state of the substructure candidates is shown in Fig.\ \ref{fig:subfind}. Then the current substructure candidates are complete and will be saved. Next the particles belonging to the two structures can be joined by the saddle point particle to form a new bigger substructure candidate.
+A two-dimensional example of this substructure candidate identification is shown in Fig.\ \ref{fig:subfind}. The algorithm starts from the particle in the most dense area of the simulation. At that point, the particle has no neighbours that would be at a higher density than the particle itself, and thus it becomes the first particle of a substructure candidate. All of the particles belonging to this substructure candidate are marked with striping in the figure. The algorithm iterates through the particles in order of decreasing density, always finding that the next particle has one neighbouring particle in higher density area than the particle itself and thus adding it to the same dashed group, until the second local density maximum is reached. At that point, a new substructure candidate, marked with a chequerboard pattern, is created. The following particles are assigned to their respective substructure candidates based on their single higher potential neighbour until a saddle point between the two is reached, at which point the state of the substructure candidates is shown in Fig.\ \ref{fig:subfind}. Then the current substructure candidates are complete and will be saved. Next the particles belonging to the two structures can be joined by the saddle point particle to form a new bigger substructure candidate.
 
 \begin{figure}
     \centering
@@ -594,7 +583,7 @@ After the iterative pruning stage some substructure candidates can vanish comple
 \section{Simulation Runs} \label{sect:simruns}
 All results presented in this thesis are based on cosmological simulations run by Till Sawala. They are cosmological zoom-in simulations, meaning that a higher resolution was used in regions of interest than in the rest of the simulation box. For these simulations, this was done by identifying regions relevant for the study from an output of a low-resolution simulation at $z=0$, after which the resolution of these volumes was increased and the new simulations were run. In this case, the interesting regions were defined as the surroundings of a pair of dark matter haloes resembling ones of the Milky Way and Andromeda galaxies, the two main galaxies of the Local Group.
 
-The simulations were dark matter only simulations, meaning that gravity is the only modelled interaction and all matter behaves as dark matter. For my analysis only the dark matter halo information was needed, so instead of using the full simulation output, the analysis was conducted on subhalo catalogues. The subhalo information was extracted by Till Sawala as described in section \ref{sect:halofinding}. The resulting data set consists of subhalo catalogues from 448 zoom simulations, each centered on one region resembling the Local Group in the low-resolution simulation. The following sections shortly introduce the code used to run the simulation and the parameters of the simulations used for both stages of the zoom-in simulations.
+The simulations were dark matter only simulations, meaning that gravity is the only modelled interaction and all matter behaves as dark matter. For my analysis only the dark matter halo information was needed, so instead of using the full simulation output, the analysis was conducted on subhalo catalogues. The subhalo information was extracted by Till Sawala as described in section \ref{sect:halofinding}. The resulting data set consists of subhalo catalogues from 448 zoom simulations, each centred on one region resembling the Local Group in the low-resolution simulation. The following sections shortly introduce the code used to run the simulation and the parameters of the simulations used for both stages of the zoom-in simulations.
 
 %Volume, number of particles, compare to other simulations, where better and where maybe worse
 
@@ -729,7 +718,7 @@ the significance level $\alpha$ which corresponds to the probability of rejectin
 %\marginnote{\footnotesize{kerro mikä $\alpha$ ja N käytössä myöhemmin kunhan tiedät}}
 There is no one optimal way of choosing $\alpha$, but one should try to find a balance between false rejections of the null hypothesis and not being able to reject the null hypothesis based on the dataset even if it is false. When sample size (often denoted $N$) is large, smaller values of $\alpha$ can often be used as decisions get more accurate when $N$ grows. For example in all hypothesis testing done in this thesis the value of $\alpha$ is 0.01 and $N=119$.
 
-It is crucial not to look at the test results before choosing $\alpha$ in order to avoid intentional or unintentional fiddling with the data or changing the criterion of acceptance or rejectance to give desired results. Only after these steps should the test statistic be calculated. If the test statistic falls within the critical region, $H_0$ should be rejected and otherwise stated that $H_0$ cannot be rejected at this significance level. The critical values for different test statistics are widely found in statistical textbooks and collections of statistical tables or they can be calculated using statistical or scientific libraries available for many programming languages.
+It is crucial not to look at the test results before choosing $\alpha$ in order to avoid intentional or unintentional fiddling with the data or changing the criterion of acceptance or refusal of the null hypothesis in order to produce desired results. Only after these steps should the test statistic be calculated. If the test statistic falls within the critical region, $H_0$ should be rejected and otherwise stated that $H_0$ cannot be rejected at this significance level. The critical values for different test statistics are widely found in statistical textbooks and collections of statistical tables or they can be calculated using statistical or scientific libraries available for many programming languages.
 
 Despite statistical tests having a binary outcome ``$H_0$ rejected'' or ``$H_0$ not rejected'', a continuous output is often desired. This is what p-values are used for. The name p-value hints towards probability, but despite its name p-value is not equal to the probability that the null hypothesis is true. These p-values are functions of a test statistic and the p-value for a certain value $t_{obs}$ of a test statistic gives the probability that under the condition that $H_0$ is true, the value of a test statistic for a randomly drawn sample is at least as extreme as $t_{obs}$. Therefore, if the p-value is smaller than $\alpha$, $H_0$ is to be rejected.
 
@@ -809,7 +798,7 @@ The best-known method of minimizing the sum of squared error is the ordinary lea
 \begin{equation}
 	\sum_{i=1}^n (y_i - \beta_0 - \beta_1 x_i)
 \end{equation}
-where $x_1$ and $y_i$ are single values of the measured quantities \citep{feigelson2012modern}. This approach requires that the values of the predictor variable are known exactly without error and all uncertainty is in the values of the response variable \citep{feigelson2012modern}. In situations where this assumption is not valid, results acquired using OLS may be counterintuitive. This can be seen for example in Fig.\ \ref{fig:OLSproblem} where OLS is used to calculate two linear fits: one where $x$ is used and predictor variable and $y$ as response variable and another where $y$ is the predictor and $x$ the response. As the minimized distance is different, the fitted lines also differ.
+where $x_1$ and $y_i$ are single values of the measured quantities \citep{feigelson2012modern}. This approach requires that the values of the predictor variable are known exactly without error and all uncertainty is in the values of the response variable \citep{feigelson2012modern}. In situations where this assumption is not valid, results acquired using OLS may be counter-intuitive. This can be seen for example in Fig.\ \ref{fig:OLSproblem} where OLS is used to calculate two linear fits: one where $x$ is used and predictor variable and $y$ as response variable and another where $y$ is the predictor and $x$ the response. As the minimized distance is different, the fitted lines also differ.
 
 \begin{figure}
     \centering
@@ -869,7 +858,7 @@ If this scaling is not performed, the choice of units can arbitrarily skew the p
 
 Now the first PC can be located by finding the line that passes through the origin and has the maximum variance of the projected data points \citep{jolliffe2002principal}, shown with a black line in the middle panel of Fig.\ \ref{fig:pca-illustrated} for our data set. PCs are always orthogonal and intersect at the origin, so in the two-dimensional example case the second and final PC is fully determined. The data set can now be represented using the PCs as is shown in the bottom panel of the Fig.\ \ref{fig:pca-illustrated}.
 
-For a data set with more than two dimensions, the second PC is chosen such that it and the first PC are orthogonal and that variance along the new PC is again maximised \citep{jolliffe2002principal}. This can be repeated for each dimension of the data set or, if dimensionality reduction is desired, only for a smaller number of dimensions.
+For a data set with more than two dimensions, the second PC is chosen such that it and the first PC are orthogonal and that variance along the new PC is again maximized \citep{jolliffe2002principal}. This can be repeated for each dimension of the data set or, if dimensionality reduction is desired, only for a smaller number of dimensions.
 
 %\reversemarginpar
 %\marginnote{\footnotesize{mieti mitä monospeissillä ja ole konsistentti}}
@@ -1116,7 +1105,7 @@ Fitting a linear relation to the linear Hubble flow observed around the Milky Wa
 
 When not otherwise stated, in this work the number of nearest subhaloes to be ignored is chosen to minimize the sum of squares of the residuals from the fit. This is done by finding the number of innermost subhaloes up to 2~Mpc away from the Milky Way analogue to be ignored in order to get the smallest mean squared residual for the ordinary least squares fit. The final result of this kind of fitting procedure is illustrated in Fig.~\ref{fig:hubblefit}, where all subhaloes are shown as dots: the excluded ones in grey and ones used in fitting in black. The best fit line is also shown. In this simulation the excluded range corresponds well to the distinction a human would likely make when asked to determine the distance at which the motions inside Local Group are no longer the dominant effect on the radial velocity.
 
-This approach is naturally not without weaknesses. For example if the innermost subhaloes within Local Group have a very small radial velocity dispersion, no subhaloes might be excluded as a large number of data points with small dispersion can reduce the mean squared residual even if they skew the result. Similarly groups of data points with large scatter can get excluded even if they otherwise follow the Hubble Flow neatly. Luckily these problems are usually not severe as even when the maximum of 2 Mpc of the nearest region is excluded from fitting, most simulations still have more than 3~Mpc worth of data to use for fitting and thus small changes in including or excluding subhaloes in the innermost regions do not produce large effects. This is also confirmed in the following subsection where the dependence of Hubble flow parameters on the distance are explored.
+This approach is naturally not without weaknesses. For example if the innermost subhaloes within Local Group have a very small radial velocity dispersion, no subhaloes might be excluded as a large number of data points with small dispersion can reduce the mean squared residual even if they skew the result. Similarly groups of data points with large scatter can get excluded even if they otherwise follow the Hubble flow neatly. Luckily these problems are usually not severe as even when the maximum of 2 Mpc of the nearest region is excluded from fitting, most simulations still have more than 3~Mpc worth of data to use for fitting and thus small changes in including or excluding subhaloes in the innermost regions do not produce large effects. This is also confirmed in the following subsection where the dependence of Hubble flow parameters on the distance are explored.
 
 %The fitting is also repeated multiple times for each simulation, making the procedure slow compared to e.g. the case with a constant exclusion threshold. Adaptive solutions with possibly better time complexities also exist, as one might for example calculate the fit iteratively by always excluding the haloes that are closer than the distance at which the fitted radial velocity is zero. This is an appealing approach as instead of just the scatter around the fit the result is based on the physical distance at which the Hubble flow can be said to start. Unfortunately the solution does not necessarily converge but can instead oscillate between two or more solutions. Also the range starting at the point where the fitted radial velocity is zero can in some simulations contain a substantial number of subhaloes with large velocity dispersion that are likely to be bound to the Local Group. Due to the disadvantages of the faster methods and the fact that the slower method is fast enough to be used with the data set at hand, the slower method comparing the mean squared residuals was chosen for this work.
 
@@ -1190,7 +1179,7 @@ As with the $H_0$ plots, the zero point measurement results also vary more on la
 \section{Anisotropy of the Hubble Flow} \label{sect:hf-anisotropy}
 Overall, the plots in the previous subsection suggest that the Hubble flows around the analysed Local Group analogues are dependent on the distance at which the value is measured, up to about 3~Mpc, after which the measured parameters no longer change. The possibility of directional dependencies, on the other hand, has been completely ignored up to now. In order to also investigate possible anisotropies in the Hubble flows, this subsection explores the distribution of subhaloes and their radial velocities on the sky as seen from the Milky Way analogue in each simulation.
 
-In order to obtain comparable results from as many simulations as possible, the anisotropies are studied within a sphere with a radius of 5~Mpc centered at the Milky Way analogue. This offers a balance between having a sufficiently large volume to study without compromising the size of the available sample too much when simulations where type 2 particles are present in this volume are excluded from the analysis. The distribution of subhaloes at these scales is anisotropic: the subhaloes tend to be arranged in filaments and walls instead of being uniformly distributed. The velocities of these structures and the location of the Local Group relative to them can affect the observed radial velocities. The aim of this section is to find out whether the radial velocities of these subhaloes are also anisotropic.
+In order to obtain comparable results from as many simulations as possible, the anisotropies are studied within a sphere with a radius of 5~Mpc centred at the Milky Way analogue. This offers a balance between having a sufficiently large volume to study without compromising the size of the available sample too much when simulations where type 2 particles are present in this volume are excluded from the analysis. The distribution of subhaloes at these scales is anisotropic: the subhaloes tend to be arranged in filaments and walls instead of being uniformly distributed. The velocities of these structures and the location of the Local Group relative to them can affect the observed radial velocities. The aim of this section is to find out whether the radial velocities of these subhaloes are also anisotropic.
 
 \begin{figure}
     \centering
@@ -1200,7 +1189,7 @@ In order to obtain comparable results from as many simulations as possible, the 
 
 An example of a distribution of radial velocities is shown in Fig.~\ref{fig:mollweide-anisotropy}, where the positions of surrounding subhaloes in one simulation are shown as seen from the Milky Way analogue. This plot illustrates how the subhaloes form dense structures separated by voids with few to no subhaloes in them. In order to avoid obstructing the structures with the satellites of the Local Group primaries, the subhaloes are plotted starting at the distance of 1.5~Mpc. The colours of the dots in the plot indicate how the subhaloes move relative to the Hubble flow fitted to the data.
 
-Visual inspection of the plot would suggest that the radial velocities might also be anisotropically distributed. For example, approximately between -45\textdegree\ and -60\textdegree\, near the vertical centerline of the plot, there is a collection of subhaloes coloured almost uniformly red, whereas most of the bluest subhaloes moving towards the observer at velocities of 450~km/s or more relative to the Hubble flow are located near each other at the right edge of the plot.
+Visual inspection of the plot would suggest that the radial velocities might also be anisotropically distributed. For example, approximately between -45\textdegree\ and -60\textdegree\, near the vertical centreline of the plot, there is a collection of subhaloes coloured almost uniformly red, whereas most of the bluest subhaloes moving towards the observer at velocities of 450~km/s or more relative to the Hubble flow are located near each other at the right edge of the plot.
 
 This kind of visual inspection, especially when done only to individual simulation outputs, cannot be the sole means of determining whether the radial velocities are anisotropically distributed. In the following subsections, two approaches to quantifying the possible anisotropy are introduced. First, in section \ref{sect:angular-dependencies}, the relationship between the radial velocities and the angle between the observed subhalo and the M31 analogue in the simulation is studied. Later, in section \ref{sect:clustering}, another approach using the clustering algorithm introduced in section \ref{sect:cluster-analysis} is used to study the structures surrounding the Local Group analogues.
 
@@ -1223,7 +1212,7 @@ This kind of angular binning was used to produce Fig.~\ref{fig:directionalHF} th
 
 From the plots, it can be seen that at distances of less than 5~Mpc the Hubble flow around the simulated Milky Way analogues is not isotropic. This is clear from looking at the zero point distance plot, where the three bins closest to the direction towards the M31 analogue have the mean zero point at more than 2~Mpc away from the Milky way analogue whereas when looking away from the M31 analogues, the mean value is negative, i.e. the radial velocity of the Hubble flow has not yet decreased to 0~km/s when the Milky Way analogue is reached, resulting in negative values of the zero point distance.
 
-This is likely caused, to a great extent, by a combination of the observer being located at the Milky Way analogue instead of the centre of the Local Group and the Local Group selection criteria requiring the observer to be moving toward the M31 analogue. In the previous section, it was demonstrated that the Local Group clearly has an effect on the radial velocities of the surrounding subhaloes. The effect is likely centered approximately on the mass centre of the Local Group, with possibly some asymmetry caused by the Local Group being dominated by the two most massive galaxies. This means that even if the Hubble flow is isotropic as seen from the centre of the Local Group, the observer located in a Milky Way analogue sees an anisotropic velocity field.
+This is likely caused, to a great extent, by a combination of the observer being located at the Milky Way analogue instead of the centre of the Local Group and the Local Group selection criteria requiring the observer to be moving toward the M31 analogue. In the previous section, it was demonstrated that the Local Group clearly has an effect on the radial velocities of the surrounding subhaloes. The effect is likely centred approximately on the mass centre of the Local Group, with possibly some asymmetry caused by the Local Group being dominated by the two most massive galaxies. This means that even if the Hubble flow is isotropic as seen from the centre of the Local Group, the observer located in a Milky Way analogue sees an anisotropic velocity field.
 %the effect the Local Group has on the surrounding Hubble flow will not be isotropic, as when looking in the direction of a large $\phi$, the observer is looking almost directly away from the Local Group whereas for small values of $\phi$ most of the Local Group is within the observed region. 
 The movement of the Milky Way analogue further affects the results: if the mass center of the Local Group is assumed to be at rest relative to its surroundings, the movement of the Milky Way analogue towards it will add either a positive or negative radial velocity to all subhaloes within each bin. These effects cause the plot to appear like the measured values of zero point are offset to the right.
 
@@ -1237,7 +1226,7 @@ The differences in the $H_0$ plot are more subtle, but these measurements are no
 
 In order to compare the values of $H_0$ when measured towards or away from the M31 analogue against each other or results obtained in the perpendicular direction, Fig.~\ref{fig:threeDirectionH0} shows the histograms of $H_0$ fitting results in three bins: $\phi \leq 45 \degree$, $45 \degree < \phi < 135 \degree$ and $\phi \geq 135 \degree$. This plot shows that the measurements done in either direction along the axis connecting the Milky Way and M31 analogues have the peak of the distribution at a higher value than the measurements in the off-axis direction. The highest measured values of $H_0$ are also more common in the two on-axis bins. The difference is especially clear between the measurements done in the $\phi < 45\degree$ and the off-axis bins, with the difference between the off-axis and $\phi > 135\degree$ bins being smaller.
 
-The same observation can be made by comparing the medians of the $H_0$ measurements in each bin. The smallest median $H_0$ of 86.9~km/s/Mpc is measured in the off-axis bin, with the $\phi > 135\degree$ bin having a slightly higher median value of 89.9~km/s/Mpc. The highest value was measured in the bin with $\phi < 45\degree$ where the median $H_0$ was 94.2~km/s/Mpc. This agrees well with what is seen in Figs.~\ref{fig:directionalHF} and \ref{fig:threeDirectionH0}, hinting that the Hubble Flows around the Milky Way analogues are indeed anisotropic at the examined distance scales.
+The same observation can be made by comparing the medians of the $H_0$ measurements in each bin. The smallest median $H_0$ of 86.9~km/s/Mpc is measured in the off-axis bin, with the $\phi > 135\degree$ bin having a slightly higher median value of 89.9~km/s/Mpc. The highest value was measured in the bin with $\phi < 45\degree$ where the median $H_0$ was 94.2~km/s/Mpc. This agrees well with what is seen in Figs.~\ref{fig:directionalHF} and \ref{fig:threeDirectionH0}, hinting that the Hubble flows around the Milky Way analogues are indeed anisotropic at the examined distance scales.
 
 %\reversemarginpar
 %\marginnote{\footnotesize{Simulaatio 97, esittele jo tässä näkyvät klöntit joissa paljon samaa väriä, näytä myös klusterointi ja vertaa löytöjä siihen}}
